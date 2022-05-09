@@ -1,7 +1,5 @@
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 import '../pages/dashboard_page.dart';
 import '../pages/notifications.dart';
@@ -40,31 +38,32 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         title: Text(AppConstants.appName),
       ),
       body: screens[selectedIndex],
-      bottomNavigationBar: FFNavigationBar(
-        theme: FFNavigationBarTheme(
-          barBackgroundColor: Colors.white,
-          selectedItemBackgroundColor: AppConstants.secondaryColor,
-          selectedItemIconColor: Colors.white,
-          unselectedItemIconColor: AppConstants.secondaryColor,
-          showSelectedItemShadow: true,
-          barHeight: 50,
+      bottomNavigationBar: SizedBox(
+        height: 65,
+        child: WaterDropNavBar(
+          barItems: [
+            BarItem(filledIcon: Icons.home, outlinedIcon: Icons.home),
+            BarItem(
+                filledIcon: Icons.notifications_active,
+                outlinedIcon: Icons.notifications_active),
+            BarItem(filledIcon: Icons.settings, outlinedIcon: Icons.settings)
+          ],
+          onItemSelected: onTapBar,
+          backgroundColor: Colors.white,
+          waterDropColor: AppConstants.secondaryColor,
+          bottomPadding: 10,
+
+          inactiveIconColor: AppConstants.primaryColor,
+          // theme: FFNavigationBarTheme(
+          //   barBackgroundColor: Colors.white,
+          //   selectedItemBackgroundColor: AppConstants.secondaryColor,
+          //   selectedItemIconColor: Colors.white,
+          //   unselectedItemIconColor: AppConstants.secondaryColor,
+          //   showSelectedItemShadow: true,
+          //   barHeight: 50,
+          // ),
+          selectedIndex: selectedIndex,
         ),
-        selectedIndex: selectedIndex,
-        onSelectTab: onTapBar,
-        items: [
-          FFNavigationBarItem(
-            iconData: Icons.home,
-            label: "",
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.notifications_active,
-            label: "",
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.settings,
-            label: "",
-          ),
-        ],
       ),
     );
   }

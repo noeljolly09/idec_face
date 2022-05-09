@@ -15,10 +15,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Fort",
-        // colorScheme: ColorScheme.fromSwatch(
-        //   primarySwatch: Colors.teal,
-        // ).copyWith(secondary: Colors.red),
-        // textTheme: const TextTheme(bodyText2: TextStyle(color: Colors.black)),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal),
+        textTheme: const TextTheme(bodyText2: TextStyle(color: Colors.black)),
       ),
       onGenerateRoute: routes.controller,
       initialRoute: routes.loginpage,

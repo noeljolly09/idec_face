@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:idec_face/route/route.dart' as routes;
 
-
 import '../customWidgets/registration/page1.dart';
 import '../customWidgets/registration/page2.dart';
 import '../customWidgets/registration/page3.dart';
@@ -58,7 +57,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height80 = MediaQuery.of(context).size.height / 10.25714285714286;
+    double height78 = MediaQuery.of(context).size.height / 9.95714285714286;
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -94,7 +93,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
           bottomSheet: Container(
             color: AppConstants.inColor,
-            height: height80,
+            height: height78,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
