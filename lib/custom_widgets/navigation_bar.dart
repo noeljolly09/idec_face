@@ -1,8 +1,8 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import '../screens/dashboard_page.dart';
-import '../screens/notifications.dart';
-import '../screens/settings_page.dart';
+import '../screens/dashboar_screen.dart';
+import '../screens/notifications_screen.dart';
+import '../screens/settings_screen.dart';
 import '../utils/constants.dart';
 import 'drawer/drawer.dart';
 

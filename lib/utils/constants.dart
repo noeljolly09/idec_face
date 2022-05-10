@@ -42,7 +42,7 @@ class AppConstants {
 
   static double formbuttontextsize = 19;
 
-  static double formtextbuttonsize = 14;
+  // static double formtextbuttonsize = 14;
 
   static double formtextsize = 16;
 
@@ -51,7 +51,5 @@ class AppConstants {
   static double modaltextsize = 16;
 
   static double listitemtextsize = 16;
-
-  //version
-  static const version = Text("V0.0.1");
 }
+

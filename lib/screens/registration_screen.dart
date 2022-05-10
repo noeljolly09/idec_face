@@ -133,7 +133,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      style: raisedButtonStyle,
                       onPressed: _domainController.text.isNotEmpty ||
                               isPageChanged != 0
                           ? () {
@@ -173,7 +172,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width / 9.567),
                     ElevatedButton(
-                      style: raisedButtonStyle,
                       onPressed: _domainController.text.isNotEmpty &&
                               _fnameController.text.isNotEmpty &&
                               _lnameController.text.isNotEmpty &&
@@ -196,12 +194,3 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 }
-
-final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  onPrimary: AppConstants.primaryColor,
-  primary: Colors.white,
-  padding: const EdgeInsets.symmetric(horizontal: 16),
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(5)),
-  ),
-);
