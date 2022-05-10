@@ -6,15 +6,16 @@ import '../../utils/constants.dart';
 
 class DomainPageRegistration extends StatelessWidget {
   final TextEditingController domainController;
+  final Key? domainkey;
 
   const DomainPageRegistration({
     Key? key,
     required this.domainController,
+    this.domainkey,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
     double height10 = MediaQuery.of(context).size.height / 82.051;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height30 = MediaQuery.of(context).size.height / 27.352;
@@ -23,7 +24,7 @@ class DomainPageRegistration extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Form(
-          key: formGlobalKey,
+          key: domainkey,
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: double.infinity,
@@ -68,8 +69,13 @@ class DomainPageRegistration extends StatelessWidget {
                               children: [
                                 CustomTextField(
                                   isSvg: true,
-                                  validator: (value) =>
-                                      value!.isEmpty ? "No Value Found" : null,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Domain name required';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                   svgasset: "assets/svg/domain.svg",
                                   controller: domainController,
                                   capital: TextCapitalization.characters,

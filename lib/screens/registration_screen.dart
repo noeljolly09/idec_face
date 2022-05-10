@@ -6,7 +6,6 @@ import 'package:idec_face/screens/registration/gender_data.dart';
 import 'package:idec_face/screens/registration/name_data.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../custom_widgets/text.dart';
-import '../custom_widgets/textfields/previewtext.dart';
 import '../utils/constants.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -19,6 +18,11 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  GlobalKey<FormState> _formdomainkey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formusernamekey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formgenderkey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formcontactkey = GlobalKey<FormState>();
+
   bool isPreviewButtonActive = false;
   bool isSubmitButtonActive = false;
   int isPageChanged = 0;
@@ -70,20 +74,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
             },
             children: [
               DomainPageRegistration(
+                domainkey: _formdomainkey,
                 domainController: _domainController,
               ),
               NamePageRegistration(
+                usernamekey: _formusernamekey,
                 firstnameController: _fnameController,
                 middlenameController: _mnameController,
                 lastnameController: _lnameController,
                 employeeIdController: _idController,
               ),
               GenderPageRegistration(
+                  genderkey: _formgenderkey,
                   dateinput: _dateinput,
                   nationalityvalue: _nationalityController,
                   bloodvalue: _bloodController,
                   gendervalue: _genderController),
               ContactPageRegistrtion(
+                contactkey: _formcontactkey,
                 emailController: _emailController,
                 codeController: _codeController,
                 phoneController: _phoneController,
@@ -172,18 +180,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width / 9.567),
                     ElevatedButton(
-                      onPressed: _domainController.text.isNotEmpty &&
-                              _fnameController.text.isNotEmpty &&
-                              _lnameController.text.isNotEmpty &&
-                              _codeController.text.isNotEmpty &&
-                              _phoneController.text.isNotEmpty &&
-                              _emailController.text.isNotEmpty
-                          ? () {
-                              setState(() {
-                                isSubmitButtonActive = true;
-                              });
-                            }
-                          : null,
+                      onPressed: () {
+                        if (_domainController.text.isNotEmpty &&
+                            _fnameController.text.isNotEmpty &&
+                            _lnameController.text.isNotEmpty &&
+                            _codeController.text.isNotEmpty &&
+                            _phoneController.text.isNotEmpty &&
+                            _emailController.text.isNotEmpty) {
+                          setState(() {
+                            isSubmitButtonActive = true;
+                          });
+                        }
+                        if (_formdomainkey.currentState!.validate() &&
+                            _formusernamekey.currentState!.validate() &&
+                            _formcontactkey.currentState!.validate()) {
+                          Navigator.pushNamed(context, "navigation_bar");
+                        }
+                      },
                       child: const Text('Register'),
                     )
                   ],
