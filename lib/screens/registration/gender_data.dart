@@ -1,20 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
+import '../../custom_widgets/custom_selection.dart';
+import '../../custom_widgets/text.dart';
 import '../../utils/constants.dart';
-import '../custom_selection.dart';
-import '../text.dart';
 
-class PageThree extends StatefulWidget {
+class GenderPageRegistration extends StatefulWidget {
   final TextEditingController dateinput;
   final TextEditingController gendervalue;
   final TextEditingController nationalityvalue;
   final TextEditingController bloodvalue;
-  const PageThree({
+  const GenderPageRegistration({
     Key? key,
     required this.dateinput,
     required this.gendervalue,
@@ -23,10 +22,10 @@ class PageThree extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PageThree> createState() => _PageThreeState();
+  State<GenderPageRegistration> createState() => _GenderPageRegistrationState();
 }
 
-class _PageThreeState extends State<PageThree> {
+class _GenderPageRegistrationState extends State<GenderPageRegistration> {
   final List<SelectedListItem> _listOfgender = [
     SelectedListItem(false, "Male"),
     SelectedListItem(false, "Female"),
@@ -61,7 +60,7 @@ class _PageThreeState extends State<PageThree> {
     return Scaffold(
       backgroundColor: AppConstants.inColor,
       body: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -69,28 +68,28 @@ class _PageThreeState extends State<PageThree> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: AppConstants.abovecoldtruthheight),
+                Container(height: AppConstants.abovecoldtruthheight),
                 CustomTextWidget(
                   color: AppConstants.primaryColor,
                   size: 40,
                   text: AppConstants.appName,
                 ),
-                SizedBox(height: height25),
+                Container(height: height25),
                 CustomTextWidget(
                   color: AppConstants.customblack,
                   size: AppConstants.authtitlesize,
                   text: 'Registration',
                   fontWeight: FontWeight.normal,
                 ),
-                SizedBox(height: height10),
+                Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: SizedBox(
+                  child: Container(
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width / 1.111971924,
                     child: Column(
                       children: [
-                        SizedBox(height: height30),
+                        Container(height: height30),
                         const CustomTextWidget(
                           color: AppConstants.customblack,
                           size: 18,
@@ -98,7 +97,7 @@ class _PageThreeState extends State<PageThree> {
                           fontWeight: FontWeight.w600,
                           letterspacing: 1,
                         ),
-                        SizedBox(height: height30),
+                        Container(height: height30),
                         Container(
                           padding: const EdgeInsets.only(left: 10),
                           width: MediaQuery.of(context).size.width / 1.2,
@@ -146,7 +145,7 @@ class _PageThreeState extends State<PageThree> {
                             },
                           ),
                         ),
-                        SizedBox(height: height20),
+                        Container(height: height20),
                         // gender
                         Container(
                           padding: const EdgeInsets.only(left: 10),
@@ -164,7 +163,7 @@ class _PageThreeState extends State<PageThree> {
                             searchController: _searchcontroller,
                           ),
                         ),
-                        SizedBox(height: height20),
+                        Container(height: height20),
                         // nationality
                         Container(
                           padding: const EdgeInsets.only(left: 10),
@@ -182,7 +181,7 @@ class _PageThreeState extends State<PageThree> {
                             searchController: _searchcontroller,
                           ),
                         ),
-                        SizedBox(height: height20),
+                        Container(height: height20),
                         //bloodgroup
                         Container(
                           padding: const EdgeInsets.only(left: 10),

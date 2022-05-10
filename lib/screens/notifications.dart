@@ -12,9 +12,9 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppConstants.inColor,
-      body: Center(child: Text("Notifcations Page")),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: const Center(child: Text("Notifcations Page")),
     );
   }
 }

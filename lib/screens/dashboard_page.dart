@@ -13,9 +13,9 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppConstants.inColor,
-      body: Center(child: Text("Dashboard Page")),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: const Center(child: Text("Dashboard Page")),
     );
   }
 }

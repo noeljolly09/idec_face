@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:idec_face/screens/registration/contact_data.dart';
+import 'package:idec_face/screens/registration/dialog_box.dart';
+import 'package:idec_face/screens/registration/domain_data.dart';
+import 'package:idec_face/screens/registration/gender_data.dart';
+import 'package:idec_face/screens/registration/name_data.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:idec_face/route/route.dart' as routes;
-
-import '../customWidgets/registration/page1.dart';
-import '../customWidgets/registration/page2.dart';
-import '../customWidgets/registration/page3.dart';
-import '../customWidgets/registration/page4.dart';
-import '../customWidgets/text.dart';
-import '../customWidgets/textfields/previewtext.dart';
+import '../custom_widgets/text.dart';
+import '../custom_widgets/textfields/previewtext.dart';
 import '../utils/constants.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -61,7 +60,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: AppConstants.inColor,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: PageView(
             controller: controller,
             onPageChanged: (index) {
@@ -70,21 +69,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
               });
             },
             children: [
-              PageOne(
+              DomainPageRegistration(
                 domainController: _domainController,
               ),
-              PageTwo(
+              NamePageRegistration(
                 firstnameController: _fnameController,
                 middlenameController: _mnameController,
                 lastnameController: _lnameController,
                 employeeIdController: _idController,
               ),
-              PageThree(
+              GenderPageRegistration(
                   dateinput: _dateinput,
                   nationalityvalue: _nationalityController,
                   bloodvalue: _bloodController,
                   gendervalue: _genderController),
-              PageFour(
+              ContactPageRegistrtion(
                 emailController: _emailController,
                 codeController: _codeController,
                 phoneController: _phoneController,
@@ -92,7 +91,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ],
           ),
           bottomSheet: Container(
-            color: AppConstants.inColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             height: height78,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -111,14 +110,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, routes.loginpage);
+                          Navigator.pushNamed(context, 'login');
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         hoverColor: AppConstants.secondaryColor,
                         child: Ink(
-                          child: const CustomTextWidget(
-                            color: AppConstants.primaryColor,
+                          child: CustomTextWidget(
+                            color: Theme.of(context).primaryColor,
                             size: 15,
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.w400,
@@ -135,7 +134,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     ElevatedButton(
                       style: raisedButtonStyle,
-                      onPressed: isPageChanged == 3
+                      onPressed: _domainController.text.isNotEmpty ||
+                              isPageChanged != 0
                           ? () {
                               setState(() {
                                 isPreviewButtonActive = true;
@@ -158,22 +158,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           : null,
                       child: const Text('Preview'),
                     ),
-                    // IconButton(
-                    //   onPressed: () => controller.previousPage(
-                    //       duration: const Duration(milliseconds: 500),
-                    //       curve: Curves.easeIn),
-                    //   icon: const Icon(Icons.arrow_back_ios),
-                    // ),
                     SizedBox(width: MediaQuery.of(context).size.width / 10.285),
                     Center(
                       child: SmoothPageIndicator(
                         controller: controller,
                         count: 4,
                         axisDirection: Axis.horizontal,
-                        effect: const WormEffect(
+                        effect: WormEffect(
                           dotWidth: 10,
                           dotHeight: 10,
-                          activeDotColor: AppConstants.primaryColor,
+                          activeDotColor: Theme.of(context).primaryColor,
                         ),
                       ),
                     ),
@@ -194,12 +188,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           : null,
                       child: const Text('Register'),
                     )
-                    // IconButton(
-                    //   onPressed: () => controller.nextPage(
-                    //       duration: const Duration(milliseconds: 500),
-                    //       curve: Curves.easeOut),
-                    //   icon: const Icon(Icons.arrow_forward_ios),
-                    // )
                   ],
                 ),
               ],
@@ -217,124 +205,3 @@ final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     borderRadius: BorderRadius.all(Radius.circular(5)),
   ),
 );
-
-openshowDialog(
-    BuildContext context,
-    TextEditingController domain,
-    TextEditingController firstname,
-    TextEditingController middlename,
-    TextEditingController lastname,
-    TextEditingController employeeId,
-    TextEditingController date,
-    TextEditingController gender,
-    TextEditingController nationality,
-    TextEditingController blood,
-    TextEditingController countryCode,
-    TextEditingController phone,
-    TextEditingController email) {
-  showDialog(
-      context: context,
-      builder: (_) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Align(
-            alignment: const Alignment(0, 1),
-            child: Container(
-              height: 700,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
-                  color: AppConstants.inColor),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Preview Details",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: AppConstants.customblack,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          height: 35,
-                          width: 60,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: AppConstants.primaryColor),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              "Done",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    PreviewText(
-                        titletext: "Domain",
-                        controllertext: domain.text,
-                        assetName: "assets/svg/domain.svg"),
-                    PreviewText(
-                        titletext: "Name",
-                        controllertext: firstname.text +
-                            "  " +
-                            middlename.text +
-                            "  " +
-                            lastname.text,
-                        assetName: "assets/svg/user.svg"),
-                    PreviewText(
-                      assetName: "assets/svg/user.svg",
-                      titletext: "Employee ID",
-                      controllertext: employeeId.text,
-                    ),
-                    PreviewText(
-                      assetName: "assets/svg/calendar.svg",
-                      titletext: "DOB",
-                      controllertext: date.text,
-                    ),
-                    PreviewText(
-                      assetName: "assets/svg/gender.svg",
-                      titletext: "Gender",
-                      controllertext: gender.text,
-                    ),
-                    PreviewText(
-                      assetName: "assets/svg/nationality.svg",
-                      titletext: "Nationality",
-                      controllertext: nationality.text,
-                    ),
-                    PreviewText(
-                      assetName: "assets/svg/blood.svg",
-                      titletext: "Blood Group",
-                      controllertext: blood.text,
-                    ),
-                    PreviewText(
-                      assetName: "assets/svg/phone.svg",
-                      titletext: "Phone Number",
-                      controllertext: countryCode.text + " " + phone.text,
-                    ),
-                    PreviewText(
-                      assetName: "assets/svg/email.svg",
-                      titletext: "Email",
-                      controllertext: email.text,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      });
-}

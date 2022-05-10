@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:idec_face/customWidgets/drawer/profilephoto.dart';
+import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
 import '../../utils/constants.dart';
 import 'drawer_item.dart';
 
@@ -25,23 +25,23 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           drawerItem(
-            svg: "assets/svg/logout.svg",
+            svg: "assets/svg/home.svg",
             text: "Home",
             onTap: () {},
           ),
           drawerItem(
-            svg: "assets/svg/logout.svg",
+            svg: "assets/svg/device.svg",
             text: "Devices",
             onTap: () {},
           ),
           drawerItem(
-            svg: "assets/svg/logout.svg",
+            svg: "assets/svg/support.svg",
             text: "Support Request",
             onTap: () {},
           ),
           const Divider(color: AppConstants.customblack),
           drawerItem(
-            svg: "assets/svg/logout.svg",
+            svg: "assets/svg/settings.svg",
             text: "Settings",
             onTap: () {},
           ),

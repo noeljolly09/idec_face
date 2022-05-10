@@ -10,7 +10,7 @@ class ProfilePhotoDrawer extends StatefulWidget {
 class _ProfilePhotoDrawerState extends State<ProfilePhotoDrawer> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 115,
       width: 115,
       child: Stack(

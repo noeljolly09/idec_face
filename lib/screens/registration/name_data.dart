@@ -1,18 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
+import '../../custom_widgets/text.dart';
+import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../utils/constants.dart';
-import '../text.dart';
-import '../textfields/custom_textfield.dart';
 
-class PageTwo extends StatelessWidget {
+class NamePageRegistration extends StatelessWidget {
   final TextEditingController firstnameController;
   final TextEditingController middlenameController;
   final TextEditingController lastnameController;
   final TextEditingController employeeIdController;
 
-  const PageTwo({
+  const NamePageRegistration({
     Key? key,
     required this.firstnameController,
     required this.middlenameController,
@@ -27,9 +26,9 @@ class PageTwo extends StatelessWidget {
     double height30 = MediaQuery.of(context).size.height / 27.352;
     double height25 = MediaQuery.of(context).size.height / 32.822;
     return Scaffold(
-      backgroundColor: AppConstants.inColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -37,28 +36,28 @@ class PageTwo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: AppConstants.abovecoldtruthheight),
+                Container(height: AppConstants.abovecoldtruthheight),
                 CustomTextWidget(
                   color: AppConstants.primaryColor,
                   size: 40,
                   text: AppConstants.appName,
                 ),
-                SizedBox(height: height25),
+                Container(height: height25),
                 CustomTextWidget(
                   color: AppConstants.customblack,
                   size: AppConstants.authtitlesize,
                   text: 'Registration',
                   fontWeight: FontWeight.normal,
                 ),
-                SizedBox(height: height10),
+                Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: SizedBox(
+                  child: Container(
                     height: MediaQuery.of(context).size.height / 1.5,
                     width: MediaQuery.of(context).size.width / 1.111971924,
                     child: Column(
                       children: [
-                        SizedBox(height: height30),
+                        Container(height: height30),
                         const CustomTextWidget(
                           color: AppConstants.customblack,
                           size: 18,
@@ -66,8 +65,8 @@ class PageTwo extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           letterspacing: 1,
                         ),
-                        SizedBox(height: height30),
-                        SizedBox(
+                        Container(height: height30),
+                        Container(
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               children: [
@@ -95,7 +94,7 @@ class PageTwo extends StatelessWidget {
                                             const CircleAvatar(
                                               radius: 60.0,
                                               child: Icon(
-                                                FlutterIcons.user_faw5s,
+                                                Icons.person,
                                                 size: 50,
                                                 color:
                                                     AppConstants.primaryColor,
@@ -126,12 +125,12 @@ class PageTwo extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: height10),
+                                Container(height: height10),
                                 Card(
                                   margin: EdgeInsets.only(top: height10),
                                   child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: AppConstants.customgrey,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).backgroundColor,
                                     ),
                                     padding: const EdgeInsets.all(10),
                                     height: MediaQuery.of(context).size.height /
@@ -139,9 +138,9 @@ class PageTwo extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width,
                                     child: Column(
                                       children: [
-                                        SizedBox(height: height10),
+                                        Container(height: height10),
                                         Flexible(
-                                          child: SizedBox(
+                                          child: Container(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -150,17 +149,19 @@ class PageTwo extends StatelessWidget {
                                               isSvg: true,
                                               svgasset: "assets/svg/user.svg",
                                               controller: firstnameController,
-                                              icon: FlutterIcons
-                                                  .person_outline_mdi,
                                               hint: "First Name *",
+                                              validator: (value) =>
+                                                  value!.isEmpty
+                                                      ? "No Value Found"
+                                                      : null,
                                               input: TextInputType.name,
                                               textAction: TextInputAction.next,
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: height20),
+                                        Container(height: height20),
                                         Flexible(
-                                          child: SizedBox(
+                                          child: Container(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -174,9 +175,9 @@ class PageTwo extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: height20),
+                                        Container(height: height20),
                                         Flexible(
-                                          child: SizedBox(
+                                          child: Container(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -185,6 +186,10 @@ class PageTwo extends StatelessWidget {
                                               svgasset: "",
                                               controller: lastnameController,
                                               hint: "Last Name *",
+                                              validator: (value) =>
+                                                  value!.isEmpty
+                                                      ? "No Value Found"
+                                                      : null,
                                               input: TextInputType.name,
                                               textAction: TextInputAction.next,
                                             ),
@@ -194,15 +199,14 @@ class PageTwo extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: height10),
-                                SizedBox(
+                                Container(height: height10),
+                                Container(
                                   width:
                                       MediaQuery.of(context).size.width / 1.2,
                                   child: CustomTextField(
                                     isSvg: true,
                                     svgasset: "assets/svg/useriD.svg",
                                     controller: employeeIdController,
-                                    icon: FlutterIcons.id_badge_faw,
                                     hint: "Employee Id ",
                                     input: TextInputType.name,
                                     textAction: TextInputAction.next,

@@ -23,12 +23,12 @@ class PreviewText extends StatelessWidget {
     double width20 = MediaQuery.of(context).size.width / 20.571;
     return Row(
       children: [
-        SizedBox(width: width10),
+        Container(width: width10),
         SvgPicture.asset(
           assetName,
           height: 25,
         ),
-        SizedBox(width: width10),
+        Container(width: width10),
         Container(
           width: MediaQuery.of(context).size.width / 1.25,
           padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -50,14 +50,14 @@ class PreviewText extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(width: width10),
+              Container(width: width10),
               const Text(
                 ":",
                 style: TextStyle(
                     color: AppConstants.customblack,
                     fontWeight: FontWeight.w600),
               ),
-              SizedBox(width: width20),
+              Container(width: width20),
               Text(
                 controllertext,
                 style: TextStyle(

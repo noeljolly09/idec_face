@@ -1,17 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
+import '../../custom_widgets/text.dart';
+import '../../custom_widgets/textfields/custom_textfield.dart';
+import '../../custom_widgets/textfields/text_icon_only_textfield.dart';
 import '../../utils/constants.dart';
-import '../text.dart';
-import '../textfields/custom_textfield.dart';
-import '../textfields/simple_textfield.dart';
 
-class PageFour extends StatelessWidget {
+class ContactPageRegistrtion extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController codeController;
   final TextEditingController phoneController;
-  const PageFour({
+  const ContactPageRegistrtion({
     Key? key,
     required this.emailController,
     required this.codeController,
@@ -27,7 +26,7 @@ class PageFour extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppConstants.inColor,
       body: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -35,55 +34,58 @@ class PageFour extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: AppConstants.abovecoldtruthheight),
+                Container(height: AppConstants.abovecoldtruthheight),
                 CustomTextWidget(
                   color: AppConstants.primaryColor,
                   size: 40,
                   text: AppConstants.appName,
                 ),
-                SizedBox(height: height25),
+                Container(height: height25),
                 CustomTextWidget(
                   color: AppConstants.customblack,
                   size: AppConstants.authtitlesize,
                   text: 'Registration',
                   fontWeight: FontWeight.normal,
                 ),
-                SizedBox(height: height10),
+                Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: SizedBox(
+                  child: Container(
                     height: MediaQuery.of(context).size.height / 2.5,
                     width: MediaQuery.of(context).size.width - 41.4285,
                     child: Column(
                       children: [
-                        SizedBox(height: height30),
+                        Container(height: height30),
                         const CustomTextWidget(
                           color: AppConstants.customblack,
                           size: 18,
                           text: 'Contact Details',
                           fontWeight: FontWeight.w600,
                         ),
-                        SizedBox(height: height30),
-                        SizedBox(
+                        Container(height: height30),
+                        Container(
                           width: MediaQuery.of(context).size.width / 1.2,
                           child: Row(
                             children: [
-                              SizedBox(
+                              Container(
                                 width: MediaQuery.of(context).size.width / 3.1,
                                 child: CustomTextField(
                                   isSvg: true,
                                   svgasset: "assets/svg/phone.svg",
                                   controller: codeController,
-                                  icon: FlutterIcons.phone_outline_mco,
                                   hint: "+91 *",
                                   input: TextInputType.number,
+                                  validator: (value) =>
+                                      value!.isEmpty ? "No Value Found" : null,
                                   textAction: TextInputAction.next,
                                 ),
                               ),
-                              const SizedBox(width: 5),
+                              Container(width: 5),
                               SimpleTextField(
                                 hint: "Phone Number *",
                                 controller: phoneController,
+                                validator: (value) =>
+                                    value!.isEmpty ? "No Value Found" : null,
                                 textAction: TextInputAction.next,
                                 input: TextInputType.number,
                                 textorflex: false,
@@ -91,8 +93,8 @@ class PageFour extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: height20),
-                        SizedBox(
+                        Container(height: height20),
+                        Container(
                           width: MediaQuery.of(context).size.width / 1.2,
                           child: Column(
                             children: [
@@ -100,8 +102,9 @@ class PageFour extends StatelessWidget {
                                 isSvg: true,
                                 svgasset: "assets/svg/email.svg",
                                 controller: emailController,
-                                icon: FlutterIcons.email_outline_mco,
                                 hint: "Email *",
+                                validator: (value) =>
+                                    value!.isEmpty ? "No Value Found" : null,
                                 input: TextInputType.emailAddress,
                                 textAction: TextInputAction.done,
                               ),

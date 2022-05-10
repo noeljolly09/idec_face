@@ -1,15 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
+import '../../custom_widgets/text.dart';
+import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../utils/constants.dart';
-import '../text.dart';
-import '../textfields/custom_textfield.dart';
 
-class PageOne extends StatelessWidget {
+class DomainPageRegistration extends StatelessWidget {
   final TextEditingController domainController;
 
-  const PageOne({
+  const DomainPageRegistration({
     Key? key,
     required this.domainController,
   }) : super(key: key);
@@ -21,9 +19,9 @@ class PageOne extends StatelessWidget {
     double height30 = MediaQuery.of(context).size.height / 27.352;
 
     return Scaffold(
-      backgroundColor: AppConstants.inColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -31,28 +29,28 @@ class PageOne extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: AppConstants.abovecoldtruthheight),
+                Container(height: AppConstants.abovecoldtruthheight),
                 CustomTextWidget(
                   color: AppConstants.primaryColor,
                   size: 40,
                   text: AppConstants.appName,
                 ),
-                SizedBox(height: height20),
+                Container(height: height20),
                 CustomTextWidget(
                   color: AppConstants.customblack,
                   size: AppConstants.authtitlesize,
                   text: 'Registration',
                   fontWeight: FontWeight.normal,
                 ),
-                SizedBox(height: height10),
+                Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: SizedBox(
+                  child: Container(
                     height: MediaQuery.of(context).size.height / 3.3,
                     width: MediaQuery.of(context).size.width - 41.4285,
                     child: Column(
                       children: [
-                        SizedBox(height: height30),
+                        Container(height: height30),
                         const CustomTextWidget(
                           color: AppConstants.customblack,
                           size: 18,
@@ -60,16 +58,17 @@ class PageOne extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           letterspacing: 1,
                         ),
-                        SizedBox(height: height30),
-                        SizedBox(
+                        Container(height: height30),
+                        Container(
                           width: MediaQuery.of(context).size.width / 1.2,
                           child: Column(
                             children: [
                               CustomTextField(
                                 isSvg: true,
+                                validator: (value) =>
+                                    value!.isEmpty ? "No Value Found" : null,
                                 svgasset: "assets/svg/domain.svg",
                                 controller: domainController,
-                                icon: FlutterIcons.globe_asia_faw5s,
                                 capital: TextCapitalization.characters,
                                 hint: "Domain *",
                                 input: TextInputType.name,

@@ -37,9 +37,10 @@ dependencies:
   intl: ^0.17.0
   drop_down_list: ^0.0.2
   smooth_page_indicator: ^1.0.0+2
-  flutter_icons: ^1.1.0
   flutter_svg: ^1.0.3
-  water_drop_nav_bar: ^2.1.0+9
+  fancy_bottom_navigation: ^0.3.3
+  package_info_plus: ^1.4.2
+  flutter_riverpod: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -82,12 +83,12 @@ flutter:
   fonts:
     - family: Fort
       fonts:
-        - asset: assets/fonts/Fort-Bold.otf
+        - asset: fonts/Fort-Bold.otf
           weight: 600
-        - asset: assets/fonts/Fort-Book.otf
-        - asset: assets/fonts/Fort-ExtraBold.otf
+        - asset: fonts/Fort-Book.otf
+        - asset: fonts/Fort-ExtraBold.otf
           weight: 700
-        - asset: assets/fonts/Fort-Light.otf
+        - asset: fonts/Fort-Light.otf
           weight: 300
   #
   # For details regarding fonts from package dependencies,

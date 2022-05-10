@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,7 +13,7 @@ Widget drawerItem(
       children: <Widget>[
         SvgPicture.asset(
           svg,
-          height: 25,
+          height: 30,
           color: AppConstants.primaryColor,
         ),
         Padding(

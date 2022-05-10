@@ -53,5 +53,5 @@ class AppConstants {
   static double listitemtextsize = 16;
 
   //version
-  static const version = Text("V0.0.0");
+  static const version = Text("V0.0.1");
 }

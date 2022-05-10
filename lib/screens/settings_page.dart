@@ -12,8 +12,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppConstants.inColor,
+    return  Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(child: Text("Settings Page")),
     );
   }
