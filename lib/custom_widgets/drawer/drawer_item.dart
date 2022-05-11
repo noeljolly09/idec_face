@@ -14,7 +14,7 @@ Widget drawerItem(
         SvgPicture.asset(
           svg,
           height: 30,
-          color: AppConstants.primaryColor,
+          color: AppConstants.customblack,
         ),
         Padding(
           padding: const EdgeInsets.all(20),

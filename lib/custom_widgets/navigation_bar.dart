@@ -47,13 +47,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           ],
           onTabChangedListener: onTapBar,
           barBackgroundColor: Colors.white,
-          inactiveIconColor: AppConstants.primaryColor,
+          inactiveIconColor: AppConstants.customblack,
           activeIconColor: Colors.white,
-          circleColor: AppConstants.secondaryColor,
+          circleColor: AppConstants.primaryColor,
           initialSelection: selectedIndex,
         ),
       ),
     );
   }
-
 }
