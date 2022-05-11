@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../custom_widgets/text.dart';
@@ -49,7 +48,7 @@ class DomainPageRegistration extends StatelessWidget {
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
                   child: Container(
-                    height: MediaQuery.of(context).size.height / 3.3,
+                    height: MediaQuery.of(context).size.height / 3,
                     width: MediaQuery.of(context).size.width - 41.4285,
                     child: Column(
                       children: [

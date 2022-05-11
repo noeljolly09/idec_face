@@ -12,7 +12,7 @@ class AppConstants {
 
   static const Color secondaryColor = Color(0xFF2A4150);
 
-  static const Color customblack = Color.fromRGBO(28, 36, 44, 1);
+  static const Color customblack = Color.fromARGB(255, 28, 36, 44);
 
   static const Color customgrey = Color(0xfff2f7f8);
 
