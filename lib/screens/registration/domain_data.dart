@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../custom_widgets/text.dart';
 import '../../custom_widgets/textfields/custom_textfield.dart';
+import '../../utils/app_info.dart';
 import '../../utils/constants.dart';
 
 class DomainPageRegistration extends StatelessWidget {
@@ -32,10 +33,14 @@ class DomainPageRegistration extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(height: AppConstants.abovecoldtruthheight),
-                CustomTextWidget(
-                  color: AppConstants.primaryColor,
-                  size: 40,
-                  text: AppConstants.appName,
+                FutureBuilder(
+                  future: getAppName(),
+                  builder: (context, snapshot) {
+                    return CustomTextWidget(
+                        color: Theme.of(context).primaryColor,
+                        size: 40,
+                        text: '${snapshot.data}');
+                  },
                 ),
                 Container(height: height20),
                 CustomTextWidget(

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../custom_widgets/custom_selection.dart';
 import '../../custom_widgets/text.dart';
+import '../../utils/app_info.dart';
 import '../../utils/constants.dart';
 
 class GenderPageRegistration extends StatefulWidget {
@@ -72,10 +73,14 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(height: AppConstants.abovecoldtruthheight),
-                CustomTextWidget(
-                  color: AppConstants.primaryColor,
-                  size: 40,
-                  text: AppConstants.appName,
+                FutureBuilder(
+                  future: getAppName(),
+                  builder: (context, snapshot) {
+                    return CustomTextWidget(
+                        color: Theme.of(context).primaryColor,
+                        size: 40,
+                        text: '${snapshot.data}');
+                  },
                 ),
                 Container(height: height25),
                 CustomTextWidget(

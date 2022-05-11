@@ -4,20 +4,21 @@ import 'package:flutter/material.dart';
 import '../../custom_widgets/text.dart';
 import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../custom_widgets/textfields/text_icon_only_textfield.dart';
+import '../../utils/app_info.dart';
 import '../../utils/constants.dart';
 
 class ContactPageRegistrtion extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController codeController;
   final TextEditingController phoneController;
-   final String? Function(String?)? onValidate;
+  final String? Function(String?)? onValidate;
 
-   
   const ContactPageRegistrtion({
     Key? key,
     required this.emailController,
     required this.codeController,
-    required this.phoneController, this.onValidate,
+    required this.phoneController,
+    this.onValidate,
   }) : super(key: key);
 
   @override
@@ -38,10 +39,14 @@ class ContactPageRegistrtion extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(height: AppConstants.abovecoldtruthheight),
-                CustomTextWidget(
-                  color: AppConstants.primaryColor,
-                  size: 40,
-                  text: AppConstants.appName,
+                FutureBuilder(
+                  future: getAppName(),
+                  builder: (context, snapshot) {
+                    return CustomTextWidget(
+                        color: Theme.of(context).primaryColor,
+                        size: 40,
+                        text: '${snapshot.data}');
+                  },
                 ),
                 Container(height: height25),
                 CustomTextWidget(
@@ -71,8 +76,7 @@ class ContactPageRegistrtion extends StatelessWidget {
                           child: Row(
                             children: [
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 3.1,
+                                width: MediaQuery.of(context).size.width / 3.1,
                                 child: CustomTextField(
                                   isSvg: true,
                                   svgasset: "assets/svg/phone.svg",

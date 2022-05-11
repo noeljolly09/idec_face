@@ -1,5 +1,7 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:idec_face/utils/app_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/notifications_screen.dart';
 import '../screens/settings_screen.dart';
@@ -30,29 +32,33 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const MyDrawer(),
-      appBar: AppBar(
-        backgroundColor: AppConstants.primaryColor,
-        title: Text(AppConstants.appName),
-      ),
-      body: screens[selectedIndex],
-      bottomNavigationBar: Container(
-        height: 65,
-        child: FancyBottomNavigation(
-          tabs: [
-            TabData(iconData: Icons.home, title: ""),
-            TabData(title: "", iconData: Icons.notifications_active),
-            TabData(iconData: Icons.settings, title: "")
-          ],
-          onTabChangedListener: onTapBar,
-          barBackgroundColor: Colors.white,
-          inactiveIconColor: AppConstants.customblack,
-          activeIconColor: Colors.white,
-          circleColor: AppConstants.primaryColor,
-          initialSelection: selectedIndex,
-        ),
-      ),
-    );
+    return FutureBuilder(
+        future: getAppName(),
+        builder: (context, snapshot) {
+          return Scaffold(
+            drawer: const MyDrawer(),
+            appBar: AppBar(
+              backgroundColor: AppConstants.primaryColor,
+              title: Text("${snapshot.data}"),
+            ),
+            body: screens[selectedIndex],
+            bottomNavigationBar: Container(
+              height: 60,
+              child: FancyBottomNavigation(
+                tabs: [
+                  TabData(iconData: Icons.home, title: ""),
+                  TabData(title: "", iconData: Icons.notifications_active),
+                  TabData(iconData: Icons.settings, title: "")
+                ],
+                onTabChangedListener: onTapBar,
+                barBackgroundColor: Colors.white,
+                inactiveIconColor: AppConstants.customblack,
+                activeIconColor: Colors.white,
+                circleColor: AppConstants.primaryColor,
+                initialSelection: selectedIndex,
+              ),
+            ),
+          );
+        });
   }
 }
