@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF006e74), //custom teal
         primarySwatch: Colors.teal, // material teal
         backgroundColor: const Color(0xfff2f7f8), //custom grey
-        
+        scaffoldBackgroundColor:
+            const Color(0xFFEEEEEE), //custom white bg color
+
 //
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -44,17 +46,21 @@ class MyApp extends StatelessWidget {
         ),
 //
 
-        scaffoldBackgroundColor:
-            const Color(0xFFEEEEEE), //custom white bg color
 //
         textTheme: const TextTheme(
-          bodyText2: TextStyle(fontSize: 16), // body text
+          bodyText2: TextStyle(
+            fontSize: 16,
+            color: Color.fromRGBO(28, 36, 44, 1),
+          ), // body text
           bodyText1: TextStyle(fontSize: 14), // form text
-          headline1: TextStyle(fontSize: 25), // Auth title
+          headline1: TextStyle(
+            fontSize: 25,
+            color: Color.fromRGBO(28, 36, 44, 1),
+          ), // Auth title
           headline2: TextStyle(fontSize: 20), // title
-          headline5: TextStyle(fontSize: 16), // modeal text
+          headline5: TextStyle(fontSize: 16), // modal text
           headline6: TextStyle(fontSize: 19), // button text
-          button: TextStyle(fontSize: 14), //button size
+          button: TextStyle(fontSize: 14), // button size
         ),
       ),
 

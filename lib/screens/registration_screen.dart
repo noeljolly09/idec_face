@@ -186,16 +186,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           width: MediaQuery.of(context).size.width / 9.567),
                       ElevatedButton(
                         onPressed: () {
-                          if (_domainController.text.isNotEmpty &&
-                              _fnameController.text.isNotEmpty &&
-                              _lnameController.text.isNotEmpty &&
-                              _codeController.text.isNotEmpty &&
-                              _phoneController.text.isNotEmpty &&
-                              _emailController.text.isNotEmpty) {
-                            setState(() {
-                              isSubmitButtonActive = true;
-                            });
-                          }
                           if (_formkey.currentState!.validate()) {
                             print("registered");
                           }
