@@ -3,7 +3,9 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../utils/constants.dart';
+import '../constants.dart';
+
+
 
 
 class CustomSelectionBar extends StatefulWidget {

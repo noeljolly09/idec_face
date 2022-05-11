@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../custom_widgets/custom_selection.dart';
-import '../../custom_widgets/text.dart';
-import '../../utils/constants.dart';
+import '../../../constants.dart';
+import '../../../custom_widgets/custom_selection.dart';
+import '../../../custom_widgets/text.dart';
+
+
 
 class GenderPageRegistration extends StatefulWidget {
   final TextEditingController dateinput;
@@ -63,7 +65,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
     return Scaffold(
       backgroundColor: AppConstants.inColor,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -87,7 +89,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
                 Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: Container(
+                  child: SizedBox(
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width / 1.111971924,
                     child: Column(

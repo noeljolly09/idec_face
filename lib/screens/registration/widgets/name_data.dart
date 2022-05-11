@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../custom_widgets/text.dart';
-import '../../custom_widgets/textfields/custom_textfield.dart';
-import '../../utils/constants.dart';
+import '../../../constants.dart';
+import '../../../custom_widgets/text.dart';
+import '../../../custom_widgets/textfields/custom_textfield.dart';
+
+
 
 class NamePageRegistration extends StatelessWidget {
   final TextEditingController firstnameController;
@@ -30,7 +32,7 @@ class NamePageRegistration extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -54,7 +56,7 @@ class NamePageRegistration extends StatelessWidget {
                 Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: Container(
+                  child: SizedBox(
                     height: MediaQuery.of(context).size.height / 1.4,
                     width: MediaQuery.of(context).size.width / 1.111971924,
                     child: Column(
@@ -68,7 +70,7 @@ class NamePageRegistration extends StatelessWidget {
                           letterspacing: 1,
                         ),
                         Container(height: height30),
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               children: [
@@ -142,7 +144,7 @@ class NamePageRegistration extends StatelessWidget {
                                       children: [
                                         Container(height: height10),
                                         Flexible(
-                                          child: Container(
+                                          child: SizedBox(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -160,7 +162,7 @@ class NamePageRegistration extends StatelessWidget {
                                         ),
                                         Container(height: height10),
                                         Flexible(
-                                          child: Container(
+                                          child: SizedBox(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -176,7 +178,7 @@ class NamePageRegistration extends StatelessWidget {
                                         ),
                                         Container(height: height20),
                                         Flexible(
-                                          child: Container(
+                                          child: SizedBox(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -196,7 +198,7 @@ class NamePageRegistration extends StatelessWidget {
                                   ),
                                 ),
                                 Container(height: height10),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width / 1.2,
                                   child: CustomTextField(

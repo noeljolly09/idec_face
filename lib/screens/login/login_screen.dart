@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:idec_face/utils/app_info.dart';
-import '../custom_widgets/button.dart';
-import '../custom_widgets/text.dart';
-import '../custom_widgets/textfields/custom_textfield.dart';
-import '../utils/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../constants.dart';
+import '../../custom_widgets/button.dart';
+import '../../custom_widgets/text.dart';
+import '../../custom_widgets/textfields/custom_textfield.dart';
+import '../../utility/app_info.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
 
   final TextEditingController _domainController = TextEditingController();
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                               function: () {
                                 if (formGlobalKey.currentState!.validate()) {
                                   Navigator.pushNamed(
-                                      context, "navigation_bar");
+                                      context, "/navigation_bar");
                                 }
                               },
                               width: MediaQuery.of(context).size.width / 1.7,
@@ -159,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const SizedBox(width: 5),
                                   InkWell(
                                     onTap: () {
-                                      Navigator.pushNamed(context, 'register');
+                                      Navigator.pushNamed(context, '/register');
                                     },
                                     splashColor: Colors.transparent,
                                     highlightColor: Colors.transparent,

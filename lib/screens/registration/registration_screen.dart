@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:idec_face/screens/registration/contact_data.dart';
-import 'package:idec_face/screens/registration/dialog_box.dart';
-import 'package:idec_face/screens/registration/domain_data.dart';
-import 'package:idec_face/screens/registration/gender_data.dart';
-import 'package:idec_face/screens/registration/name_data.dart';
+import 'package:idec_face/screens/registration/widgets/dialog_box.dart';
+import 'package:idec_face/screens/registration/widgets/domain_data.dart';
+import 'package:idec_face/screens/registration/widgets/name_data.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../custom_widgets/text.dart';
-import '../utils/constants.dart';
+import '../../constants.dart';
+import '../../custom_widgets/text.dart';
+import 'widgets/contact_data.dart';
+import 'widgets/gender_data.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({
@@ -121,7 +122,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         const SizedBox(width: 5),
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, 'login');
+                            Navigator.pushNamed(context, '/');
                           },
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,

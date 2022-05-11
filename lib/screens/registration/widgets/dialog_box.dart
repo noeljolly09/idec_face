@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../custom_widgets/textfields/previewtext.dart';
-import '../../utils/constants.dart';
+import '../../../constants.dart';
+import '../../../custom_widgets/textfields/previewtext.dart';
+
+
+
 
 openshowDialog(
     BuildContext context,

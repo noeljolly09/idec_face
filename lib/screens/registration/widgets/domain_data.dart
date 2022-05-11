@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../../custom_widgets/text.dart';
-import '../../custom_widgets/textfields/custom_textfield.dart';
-import '../../utils/constants.dart';
+import '../../../constants.dart';
+import '../../../custom_widgets/text.dart';
+import '../../../custom_widgets/textfields/custom_textfield.dart';
 
 class DomainPageRegistration extends StatelessWidget {
   final TextEditingController domainController;
@@ -24,7 +24,7 @@ class DomainPageRegistration extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -48,7 +48,7 @@ class DomainPageRegistration extends StatelessWidget {
                 Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: Container(
+                  child: SizedBox(
                     height: MediaQuery.of(context).size.height / 3.3,
                     width: MediaQuery.of(context).size.width - 41.4285,
                     child: Column(
@@ -62,7 +62,7 @@ class DomainPageRegistration extends StatelessWidget {
                           letterspacing: 1,
                         ),
                         Container(height: height30),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width / 1.2,
                           child: Column(
                             children: [

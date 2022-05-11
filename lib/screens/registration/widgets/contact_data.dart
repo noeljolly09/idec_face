@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../custom_widgets/text.dart';
-import '../../custom_widgets/textfields/custom_textfield.dart';
-import '../../custom_widgets/textfields/text_icon_only_textfield.dart';
-import '../../utils/constants.dart';
+import '../../../constants.dart';
+import '../../../custom_widgets/text.dart';
+import '../../../custom_widgets/textfields/custom_textfield.dart';
+import '../../../custom_widgets/textfields/text_icon_only_textfield.dart';
+
+
 
 class ContactPageRegistrtion extends StatelessWidget {
   final TextEditingController emailController;
@@ -29,7 +31,7 @@ class ContactPageRegistrtion extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppConstants.inColor,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Center(
@@ -53,7 +55,7 @@ class ContactPageRegistrtion extends StatelessWidget {
                 Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: Container(
+                  child: SizedBox(
                     height: MediaQuery.of(context).size.height / 2.5,
                     width: MediaQuery.of(context).size.width - 41.4285,
                     child: Column(
@@ -66,11 +68,11 @@ class ContactPageRegistrtion extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                         Container(height: height30),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width / 1.2,
                           child: Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width / 3.1,
                                 child: CustomTextField(
@@ -96,7 +98,7 @@ class ContactPageRegistrtion extends StatelessWidget {
                           ),
                         ),
                         Container(height: height20),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width / 1.2,
                           child: Column(
                             children: [

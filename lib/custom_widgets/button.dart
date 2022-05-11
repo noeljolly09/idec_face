@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../utils/constants.dart';
+import '../constants.dart';
+
+
 
 class CustomButton extends StatelessWidget {
   final double? height;
@@ -29,7 +31,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: height,
       width: width,
       child: InkWell(

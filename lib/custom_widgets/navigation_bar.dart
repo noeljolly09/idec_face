@@ -1,9 +1,9 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import '../screens/dashboard_screen.dart';
-import '../screens/notifications_screen.dart';
+import '../constants.dart';
+import '../screens/dashboard/dashboard_screen.dart';
+import '../screens/notification_screens/notifications_screen.dart';
 import '../screens/settings_screen.dart';
-import '../utils/constants.dart';
 import 'drawer/drawer.dart';
 
 class CustomNavigationBar extends StatefulWidget {
@@ -37,7 +37,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         title: Text(AppConstants.appName),
       ),
       body: screens[selectedIndex],
-      bottomNavigationBar: Container(
+      bottomNavigationBar: SizedBox(
         height: 65,
         child: FancyBottomNavigation(
           tabs: [

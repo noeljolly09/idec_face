@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
-import '../../utils/constants.dart';
+
+import '../../constants.dart';
 import 'drawer_item.dart';
 
 class MyDrawer extends StatelessWidget {

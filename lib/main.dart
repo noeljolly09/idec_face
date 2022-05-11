@@ -1,11 +1,11 @@
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:idec_face/screens/dashboard_screen.dart';
-import 'package:idec_face/screens/login_screen.dart';
-import 'package:idec_face/screens/notifications_screen.dart';
-import 'package:idec_face/screens/registration_screen.dart';
+import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
+import 'package:idec_face/screens/login/login_screen.dart';
+import 'package:idec_face/screens/notification_screens/notifications_screen.dart';
+import 'package:idec_face/screens/registration/registration_screen.dart';
 import 'package:idec_face/screens/settings_screen.dart';
-import 'package:idec_face/utils/constants.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
@@ -69,11 +69,11 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         '/': (context) => const LoginPage(),
-        'register': (context) => const RegistrationPage(),
-        'dashboard': (context) => const DashboardPage(),
-        'navigation_bar': (context) => const CustomNavigationBar(),
-        'notifications': (context) => const NotificationsPage(),
-        'settings': (context) => const SettingsPage(),
+        '/register': (context) => const RegistrationPage(),
+        '/dashboard': (context) => const DashboardPage(),
+        '/navigation_bar': (context) => const CustomNavigationBar(),
+        '/notifications': (context) => const NotificationsPage(),
+        '/settings': (context) => const SettingsPage(),
       },
     );
   }

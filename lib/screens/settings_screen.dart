@@ -12,7 +12,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Center(child: Text("Settings Page")),
+      body: const Center(child: Text("Settings Page")),
     );
   }
 }
