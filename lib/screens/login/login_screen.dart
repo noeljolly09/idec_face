@@ -41,10 +41,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: AppConstants.abovecoldtruthheight),
-                    CustomTextWidget(
-                      color: Theme.of(context).primaryColor,
-                      size: 40,
-                      text: AppConstants.appName,
+                    FutureBuilder(
+                      future: getAppName(),
+                      builder: (context, snapshot) {
+                        return CustomTextWidget(
+                            color: Theme.of(context).primaryColor,
+                            size: 40,
+                            text: '${snapshot.data}');
+                      },
                     ),
                     SizedBox(height: height25),
                     CustomTextWidget(

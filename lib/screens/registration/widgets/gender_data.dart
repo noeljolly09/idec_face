@@ -2,6 +2,7 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/utility/app_info.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
@@ -74,10 +75,14 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(height: AppConstants.abovecoldtruthheight),
-                CustomTextWidget(
-                  color: AppConstants.primaryColor,
-                  size: 40,
-                  text: AppConstants.appName,
+                FutureBuilder(
+                  future: getAppName(),
+                  builder: (context, snapshot) {
+                    return CustomTextWidget(
+                        color: Theme.of(context).primaryColor,
+                        size: 40,
+                        text: '${snapshot.data}');
+                  },
                 ),
                 Container(height: height25),
                 CustomTextWidget(
