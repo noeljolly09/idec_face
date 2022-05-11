@@ -18,7 +18,10 @@ class MyDrawer extends StatelessWidget {
             currentAccountPicture: ProfilePhotoDrawer(),
             accountName: Text(
               'Name',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
             accountEmail: Text(
               'Domain',
