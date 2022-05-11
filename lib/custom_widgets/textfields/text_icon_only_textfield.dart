@@ -10,7 +10,7 @@ class SimpleTextField extends StatelessWidget {
   final bool textorflex;
   final TextInputType? input;
   final TextInputAction? textAction;
-    final String? Function(String?)? validator;
+  final String? Function(String?)? validator;
 
   const SimpleTextField({
     Key? key,
@@ -49,7 +49,8 @@ class SimpleTextField extends StatelessWidget {
       );
     } else {
       return Flexible(
-        child: TextField(
+        child: TextFormField(
+          validator: validator,
           controller: controller,
           decoration: InputDecoration(
               enabledBorder: const UnderlineInputBorder(

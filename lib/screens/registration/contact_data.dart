@@ -8,15 +8,16 @@ import '../../utils/constants.dart';
 
 class ContactPageRegistrtion extends StatelessWidget {
   final TextEditingController emailController;
-  final Key? contactkey;
   final TextEditingController codeController;
   final TextEditingController phoneController;
+   final String? Function(String?)? onValidate;
+
+   
   const ContactPageRegistrtion({
     Key? key,
     required this.emailController,
     required this.codeController,
-    required this.phoneController,
-    this.contactkey,
+    required this.phoneController, this.onValidate,
   }) : super(key: key);
 
   @override
@@ -28,115 +29,94 @@ class ContactPageRegistrtion extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppConstants.inColor,
       body: SingleChildScrollView(
-        child: Form(
-          key: contactkey,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: double.infinity,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(height: AppConstants.abovecoldtruthheight),
-                  CustomTextWidget(
-                    color: AppConstants.primaryColor,
-                    size: 40,
-                    text: AppConstants.appName,
-                  ),
-                  Container(height: height25),
-                  CustomTextWidget(
-                    color: AppConstants.customblack,
-                    size: AppConstants.authtitlesize,
-                    text: 'Registration',
-                    fontWeight: FontWeight.normal,
-                  ),
-                  Container(height: height10),
-                  Card(
-                    margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 2.5,
-                      width: MediaQuery.of(context).size.width - 41.4285,
-                      child: Column(
-                        children: [
-                          Container(height: height30),
-                          const CustomTextWidget(
-                            color: AppConstants.customblack,
-                            size: 18,
-                            text: 'Contact Details',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          Container(height: height30),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 1.2,
-                            child: Row(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 3.1,
-                                  child: CustomTextField(
-                                    isSvg: true,
-                                    svgasset: "assets/svg/phone.svg",
-                                    controller: codeController,
-                                    hint: "+91 *",
-                                    input: TextInputType.number,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Country Code required';
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    textAction: TextInputAction.next,
-                                  ),
-                                ),
-                                Container(width: 5),
-                                SimpleTextField(
-                                  hint: "Phone Number *",
-                                  controller: phoneController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Phone required';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  textAction: TextInputAction.next,
-                                  input: TextInputType.number,
-                                  textorflex: false,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(height: height20),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 1.2,
-                            child: Column(
-                              children: [
-                                CustomTextField(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: double.infinity,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(height: AppConstants.abovecoldtruthheight),
+                CustomTextWidget(
+                  color: AppConstants.primaryColor,
+                  size: 40,
+                  text: AppConstants.appName,
+                ),
+                Container(height: height25),
+                CustomTextWidget(
+                  color: AppConstants.customblack,
+                  size: AppConstants.authtitlesize,
+                  text: 'Registration',
+                  fontWeight: FontWeight.normal,
+                ),
+                Container(height: height10),
+                Card(
+                  margin: EdgeInsets.only(top: AppConstants.abovecardheight),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    width: MediaQuery.of(context).size.width - 41.4285,
+                    child: Column(
+                      children: [
+                        Container(height: height30),
+                        const CustomTextWidget(
+                          color: AppConstants.customblack,
+                          size: 18,
+                          text: 'Contact Details',
+                          fontWeight: FontWeight.w600,
+                        ),
+                        Container(height: height30),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          child: Row(
+                            children: [
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 3.1,
+                                child: CustomTextField(
                                   isSvg: true,
-                                  svgasset: "assets/svg/email.svg",
-                                  controller: emailController,
-                                  hint: "Email *",
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Email required';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  input: TextInputType.emailAddress,
-                                  textAction: TextInputAction.done,
+                                  svgasset: "assets/svg/phone.svg",
+                                  controller: codeController,
+                                  hint: "+91 *",
+                                  input: TextInputType.number,
+                                  validator: onValidate,
+                                  textAction: TextInputAction.next,
                                 ),
-                              ],
-                            ),
+                              ),
+                              Container(width: 5),
+                              SimpleTextField(
+                                hint: "Phone Number *",
+                                controller: phoneController,
+                                validator: onValidate,
+                                textAction: TextInputAction.next,
+                                input: TextInputType.number,
+                                textorflex: false,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(height: height20),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          child: Column(
+                            children: [
+                              CustomTextField(
+                                isSvg: true,
+                                svgasset: "assets/svg/email.svg",
+                                controller: emailController,
+                                hint: "Email *",
+                                validator: onValidate,
+                                input: TextInputType.emailAddress,
+                                textAction: TextInputAction.done,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
