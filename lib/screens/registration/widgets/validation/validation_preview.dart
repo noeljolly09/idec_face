@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../constants.dart';
+import '../../../../constants.dart';
 
-class PreviewText extends StatelessWidget {
+class ValidationPreviewText extends StatelessWidget {
   final String titletext;
   final String controllertext;
   final String assetName;
 
-  const PreviewText({
+  const ValidationPreviewText({
     Key? key,
     required this.titletext,
     required this.controllertext,
@@ -42,11 +42,17 @@ class PreviewText extends StatelessWidget {
           child: Row(
             children: [
               Text(titletext,
-                  style: TextStyle(
-                    fontSize: AppConstants.modaltextsize,
-                    color: AppConstants.customblack,
-                    fontWeight: FontWeight.w600,
-                  )),
+                  style: controllertext.isEmpty
+                      ? TextStyle(
+                          fontSize: AppConstants.modaltextsize,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600,
+                        )
+                      : TextStyle(
+                          fontSize: AppConstants.modaltextsize,
+                          color: AppConstants.customblack,
+                          fontWeight: FontWeight.w600,
+                        )),
               Container(width: width10),
               const Text(
                 ":",

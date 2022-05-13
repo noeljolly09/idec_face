@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idec_face/screens/registration/widgets/dialog_box.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
+import 'package:idec_face/screens/registration/widgets/validation/validation_dialog.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
@@ -186,11 +187,35 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       SizedBox(
                           width: MediaQuery.of(context).size.width / 9.567),
                       ElevatedButton(
-                        onPressed: () {
-                          if (_formkey.currentState!.validate()) {
-                            print("registered");
-                          }
-                        },
+                        onPressed: isPageChanged == 3
+                            ? () {
+                                if (_domainController.text.isEmpty &&
+                                    _fnameController.text.isEmpty &&
+                                    _lnameController.text.isEmpty &&
+                                    _codeController.text.isEmpty &&
+                                    _phoneController.text.isEmpty &&
+                                    _emailController.text.isEmpty) {
+                                  print('registered');
+                                  openValidationshowDialog(
+                                      context,
+                                      _domainController,
+                                      _fnameController,
+                                      _mnameController,
+                                      _lnameController,
+                                      _idController,
+                                      _dateinput,
+                                      _genderController,
+                                      _nationalityController,
+                                      _bloodController,
+                                      _codeController,
+                                      _phoneController,
+                                      _emailController);
+                                }
+                                // if (_formkey.currentState!.validate()) {
+                                //   print("registered");
+                                // }
+                              }
+                            : null,
                         child: const Text('Register'),
                       )
                     ],
