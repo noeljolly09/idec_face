@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 import '../../../custom_widgets/textfields/previewtext.dart';
 
-
-
-
 openshowDialog(
     BuildContext context,
     TextEditingController domain,
@@ -111,7 +108,7 @@ openshowDialog(
                     PreviewText(
                       assetName: "assets/svg/phone.svg",
                       titletext: "Phone Number",
-                      controllertext: countryCode.text + " " + phone.text,
+                      controllertext: "+" + countryCode.text + " " + phone.text,
                     ),
                     PreviewText(
                       assetName: "assets/svg/email.svg",

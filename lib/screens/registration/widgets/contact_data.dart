@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../constants.dart';
 import '../../../custom_widgets/text.dart';
 import '../../../custom_widgets/textfields/custom_textfield.dart';
 import '../../../custom_widgets/textfields/text_icon_only_textfield.dart';
-import '../../../utility/app_info.dart';
 
 class ContactPageRegistrtion extends StatelessWidget {
   final TextEditingController emailController;
@@ -23,9 +23,9 @@ class ContactPageRegistrtion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height10 = MediaQuery.of(context).size.height / 82.051;
+    
     double height20 = MediaQuery.of(context).size.height / 42.02;
-    double height25 = MediaQuery.of(context).size.height / 32.822;
+   
     double height30 = MediaQuery.of(context).size.height / 27.352;
     return Scaffold(
       backgroundColor: AppConstants.inColor,
@@ -38,24 +38,6 @@ class ContactPageRegistrtion extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(height: AppConstants.abovecoldtruthheight),
-                FutureBuilder(
-                  future: getAppName(),
-                  builder: (context, snapshot) {
-                    return CustomTextWidget(
-                        color: Theme.of(context).primaryColor,
-                        size: 40,
-                        text: '${snapshot.data}');
-                  },
-                ),
-                Container(height: height25),
-                CustomTextWidget(
-                  color: AppConstants.customblack,
-                  size: AppConstants.authtitlesize,
-                  text: 'Registration',
-                  fontWeight: FontWeight.normal,
-                ),
-                Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
                   child: SizedBox(

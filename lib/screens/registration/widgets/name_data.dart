@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 import '../../../custom_widgets/text.dart';
 import '../../../custom_widgets/textfields/custom_textfield.dart';
-import '../../../utility/app_info.dart';
-
-
 
 class NamePageRegistration extends StatelessWidget {
   final TextEditingController firstnameController;
@@ -29,7 +26,7 @@ class NamePageRegistration extends StatelessWidget {
     double height10 = MediaQuery.of(context).size.height / 82.051;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height30 = MediaQuery.of(context).size.height / 27.352;
-    double height25 = MediaQuery.of(context).size.height / 32.822;
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -41,40 +38,22 @@ class NamePageRegistration extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(height: AppConstants.abovecoldtruthheight),
-                FutureBuilder(
-                  future: getAppName(),
-                  builder: (context, snapshot) {
-                    return CustomTextWidget(
-                        color: Theme.of(context).primaryColor,
-                        size: 40,
-                        text: '${snapshot.data}');
-                  },
-                ),
-                Container(height: height25),
-                CustomTextWidget(
-                  color: AppConstants.customblack,
-                  size: AppConstants.authtitlesize,
-                  text: 'Registration',
-                  fontWeight: FontWeight.normal,
-                ),
-                Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 1.4,
-                    width: MediaQuery.of(context).size.width / 1.111971924,
+                    height: MediaQuery.of(context).size.height / 1.5,
+                    width: MediaQuery.of(context).size.width / 1.1,
                     child: Column(
                       children: [
                         Container(height: height30),
                         const CustomTextWidget(
                           color: AppConstants.customblack,
                           size: 18,
-                          text: ' Identity Details',
+                          text: 'Identity Details',
                           fontWeight: FontWeight.w600,
                           letterspacing: 1,
                         ),
-                        Container(height: height30),
+                        Container(height: height20),
                         SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: Column(
@@ -92,10 +71,10 @@ class NamePageRegistration extends StatelessWidget {
                                         ),
                                         height:
                                             MediaQuery.of(context).size.height /
-                                                8.2017,
+                                                8.5017,
                                         width:
                                             MediaQuery.of(context).size.width /
-                                                4.214,
+                                                4.514,
                                         child: Stack(
                                           clipBehavior: Clip.none,
                                           fit: StackFit.expand,
@@ -143,7 +122,7 @@ class NamePageRegistration extends StatelessWidget {
                                     ),
                                     padding: const EdgeInsets.all(10),
                                     height: MediaQuery.of(context).size.height /
-                                        3.5,
+                                        3.9,
                                     width: MediaQuery.of(context).size.width,
                                     child: Column(
                                       children: [
@@ -181,7 +160,7 @@ class NamePageRegistration extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        Container(height: height20),
+                                        Container(height: height10),
                                         Flexible(
                                           child: SizedBox(
                                             width: MediaQuery.of(context)

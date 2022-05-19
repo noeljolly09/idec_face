@@ -2,14 +2,11 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:idec_face/utility/app_info.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 import '../../../custom_widgets/custom_selection.dart';
 import '../../../custom_widgets/text.dart';
-
-
 
 class GenderPageRegistration extends StatefulWidget {
   final TextEditingController dateinput;
@@ -74,24 +71,6 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(height: AppConstants.abovecoldtruthheight),
-                FutureBuilder(
-                  future: getAppName(),
-                  builder: (context, snapshot) {
-                    return CustomTextWidget(
-                        color: Theme.of(context).primaryColor,
-                        size: 40,
-                        text: '${snapshot.data}');
-                  },
-                ),
-                Container(height: height25),
-                CustomTextWidget(
-                  color: AppConstants.customblack,
-                  size: AppConstants.authtitlesize,
-                  text: 'Registration',
-                  fontWeight: FontWeight.normal,
-                ),
-                Container(height: height10),
                 Card(
                   margin: EdgeInsets.only(top: AppConstants.abovecardheight),
                   child: SizedBox(

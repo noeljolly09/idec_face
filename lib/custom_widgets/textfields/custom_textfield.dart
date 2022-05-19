@@ -4,12 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants.dart';
 
-
-
 class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final IconData? icon;
-  final IconData? suffixIcon;
+  final Widget? suffixIcon;
   final void Function()? iconFunction;
   final String? Function(String?)? validator;
   final bool? isObscure;
@@ -60,12 +58,10 @@ class CustomTextField extends StatelessWidget {
             : TextCapitalization.none,
         obscureText: isObscure == true ? true : false,
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(top: 15),
-            suffixIcon: IconButton(
-              color: Colors.black,
-              onPressed: iconFunction,
-              icon: Icon(suffixIcon),
-            ),
+            labelText: hint,
+            labelStyle: const TextStyle(color: AppConstants.customblack),
+            contentPadding: const EdgeInsets.all(10),
+            suffixIcon: suffixIcon,
             hintText: hint,
             prefixIconConstraints:
                 const BoxConstraints(maxHeight: 25, maxWidth: 25),
@@ -86,7 +82,7 @@ class CustomTextField extends StatelessWidget {
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            focusedBorder: const UnderlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: AppConstants.secondaryColor),
             )),
         keyboardType: input,

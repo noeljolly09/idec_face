@@ -51,7 +51,6 @@ class ValidationPreviewText extends StatelessWidget {
                       : TextStyle(
                           fontSize: AppConstants.modaltextsize,
                           color: AppConstants.customblack,
-                          fontWeight: FontWeight.w600,
                         )),
               Container(width: width10),
               const Text(
@@ -67,6 +66,7 @@ class ValidationPreviewText extends StatelessWidget {
                   color: AppConstants.customblack,
                   fontSize: AppConstants.modaltextsize,
                   fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

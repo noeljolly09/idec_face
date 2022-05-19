@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
@@ -15,6 +16,7 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
+  bool _isObscure = true;
 
   final TextEditingController _domainController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -110,10 +112,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   CustomTextField(
                                     isSvg: true,
                                     svgasset: "assets/svg/password.svg",
-                                    isObscure: true,
+                                    isObscure: _isObscure,
                                     controller: _passwordController,
-                                    suffixIcon: Icons.visibility_outlined,
-                                    iconFunction: () {},
+                                    suffixIcon: IconButton(
+                                      color:
+                                          const Color.fromRGBO(28, 36, 44, 1),
+                                      icon: Icon(
+                                        _isObscure
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isObscure = !_isObscure;
+                                        });
+                                      },
+                                    ),
                                     validator: (value) {
                                       if (value == null ||
                                           value.trim().isEmpty) {
@@ -207,11 +221,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: AppConstants.secondaryColor,
-                    child: const Text(
-                      "Privacy Policy",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: AppConstants.primaryColor),
+                    child: Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
+                      child: const Text(
+                        "Privacy Policy",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: AppConstants.primaryColor),
+                      ),
                     ),
                   )
                 ],

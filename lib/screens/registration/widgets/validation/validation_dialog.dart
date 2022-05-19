@@ -69,16 +69,20 @@ openValidationshowDialog(
                       ],
                     ),
                     ValidationPreviewText(
-                        titletext: "Domain",
+                        titletext: "Domain *",
                         controllertext: domain.text,
                         assetName: "assets/svg/domain.svg"),
                     ValidationPreviewText(
-                        titletext: "Name",
-                        controllertext: firstname.text +
-                            "  " +
-                            middlename.text +
-                            "  " +
-                            lastname.text,
+                        titletext: "First Name *",
+                        controllertext: firstname.text,
+                        assetName: "assets/svg/user.svg"),
+                    ValidationPreviewText(
+                        titletext: "Middle Name",
+                        controllertext: middlename.text,
+                        assetName: "assets/svg/user.svg"),
+                    ValidationPreviewText(
+                        titletext: "Last Name *",
+                        controllertext: lastname.text,
                         assetName: "assets/svg/user.svg"),
                     ValidationPreviewText(
                       assetName: "assets/svg/user.svg",
@@ -107,12 +111,17 @@ openValidationshowDialog(
                     ),
                     ValidationPreviewText(
                       assetName: "assets/svg/phone.svg",
-                      titletext: "Phone Number",
-                      controllertext: countryCode.text + " " + phone.text,
+                      titletext: "Country Code *",
+                      controllertext: countryCode.text,
+                    ),
+                    ValidationPreviewText(
+                      assetName: "assets/svg/phone.svg",
+                      titletext: "Phone Number *",
+                      controllertext: phone.text,
                     ),
                     ValidationPreviewText(
                       assetName: "assets/svg/email.svg",
-                      titletext: "Email",
+                      titletext: "Email *",
                       controllertext: email.text,
                     ),
                   ],
