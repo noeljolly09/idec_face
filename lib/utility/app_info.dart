@@ -6,15 +6,20 @@ Future<String> getAppName() async {
   return info.appName;
 }
 
-
 getVersionNumber() {
   return FutureBuilder(
     future: PackageInfo.fromPlatform(),
     builder: (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
       if (snapshot.hasData) {
-        return Text(snapshot.data!.version);
+        return Text(
+          snapshot.data!.version,
+          style: const TextStyle(color: Colors.grey),
+        );
       } else {
-        return const Text("");
+        return const Text(
+          "",
+          style:  TextStyle(color: Colors.grey),
+        );
       }
     },
   );

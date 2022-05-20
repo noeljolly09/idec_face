@@ -42,7 +42,7 @@ openValidationshowDialog(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          "Validation Error Details",
+                          "Validation failed.Error Details",
                           style: TextStyle(
                               fontSize: 20,
                               color: AppConstants.customblack,

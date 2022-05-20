@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
@@ -211,7 +210,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     padding: const EdgeInsets.all(5),
                     child: Row(
                       children: [
-                        const Text("Version V"),
+                        const Text(
+                          "v",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                         getVersionNumber(),
                       ],
                     ),

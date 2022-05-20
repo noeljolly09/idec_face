@@ -234,7 +234,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               size: 15,
                               decoration: TextDecoration.underline,
                               fontWeight: FontWeight.w400,
-                              text: 'Login Here',
+                              text: 'Login',
                             ),
                           ),
                         )
