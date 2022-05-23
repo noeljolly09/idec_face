@@ -45,7 +45,7 @@ class NamePageRegistration extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 1.1,
                     child: Column(
                       children: [
-                        Container(height: height30),
+                        Container(height: height20),
                         const CustomTextWidget(
                           color: AppConstants.customblack,
                           size: 18,

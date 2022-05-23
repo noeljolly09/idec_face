@@ -41,6 +41,10 @@ dependencies:
   fancy_bottom_navigation: ^0.3.3
   package_info_plus: ^1.4.2
   flutter_riverpod: ^1.0.3
+  country_code_picker: ^2.0.2
+  flutter_localizations: 
+    sdk: flutter
+    version: ^0.0.0
 
 dev_dependencies:
   flutter_test:

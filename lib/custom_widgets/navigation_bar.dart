@@ -24,6 +24,8 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     const SettingsPage(),
   ];
 
+  final appbartitle = ["Home", "Notifications", "Settings"];
+
   void onTapBar(int index) {
     setState(() {
       selectedIndex = index;
@@ -39,7 +41,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
             drawer: const MyDrawer(),
             appBar: AppBar(
               backgroundColor: AppConstants.primaryColor,
-              title: Text("${snapshot.data}"),
+              title: Text(appbartitle[selectedIndex]),
+              actions: const [
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text("Updated on : May 12, 2022"))
+              ],
             ),
             body: screens[selectedIndex],
             bottomNavigationBar: SizedBox(

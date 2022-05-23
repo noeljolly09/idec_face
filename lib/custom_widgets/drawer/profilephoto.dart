@@ -18,7 +18,7 @@ class _ProfilePhotoDrawerState extends State<ProfilePhotoDrawer> {
         fit: StackFit.expand,
         children: [
           const CircleAvatar(
-            backgroundImage: AssetImage("assets/images/profile.jpg"),
+            backgroundImage: AssetImage("assets/images/profile.png"),
           ),
           Positioned(
               top: -10,

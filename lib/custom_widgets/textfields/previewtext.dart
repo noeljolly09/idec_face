@@ -45,7 +45,6 @@ class PreviewText extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppConstants.modaltextsize,
                     color: AppConstants.customblack,
-                    fontWeight: FontWeight.w600,
                   )),
               Container(width: width10),
               const Text(
@@ -61,6 +60,7 @@ class PreviewText extends StatelessWidget {
                   color: AppConstants.customblack,
                   fontSize: AppConstants.modaltextsize,
                   fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

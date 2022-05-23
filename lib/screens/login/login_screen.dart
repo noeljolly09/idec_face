@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
@@ -42,14 +43,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: AppConstants.abovecoldtruthheight),
-                    FutureBuilder(
-                      future: getAppName(),
-                      builder: (context, snapshot) {
-                        return CustomTextWidget(
-                            color: Theme.of(context).primaryColor,
-                            size: 40,
-                            text: '${snapshot.data}');
-                      },
+                    // FutureBuilder(
+                    //   future: getAppName(),
+                    //   builder: (context, snapshot) {
+                    //     return CustomTextWidget(
+                    //         color: Theme.of(context).primaryColor,
+                    //         size: 40,
+                    //         text: '${snapshot.data}');
+                    //   },
+                    // ),
+                    SvgPicture.asset(
+                      "assets/svg/s.svg",
+                      height: 60,
                     ),
                     SizedBox(height: height25),
                     CustomTextWidget(
@@ -219,7 +224,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => const AlertDialog(
+                                title: Text("Privacy Policy"),
+                              ));
+                    },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: AppConstants.secondaryColor,

@@ -76,14 +76,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             body: Column(
               children: [
                 Container(height: AppConstants.abovecoldtruthheight),
-                FutureBuilder(
-                  future: getAppName(),
-                  builder: (context, snapshot) {
-                    return CustomTextWidget(
-                        color: Theme.of(context).primaryColor,
-                        size: 40,
-                        text: '${snapshot.data}');
-                  },
+                SvgPicture.asset(
+                  "assets/svg/s.svg",
+                  height: 60,
                 ),
                 SizedBox(height: height25),
                 CustomTextWidget(
@@ -141,8 +136,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: _domainController.text.isNotEmpty ||
-                                isPageChanged == 0
+                        onPressed: _domainController.text.isNotEmpty
                             ? () {
                                 if (_domainController.text.isEmpty ||
                                     _fnameController.text.isEmpty ||
