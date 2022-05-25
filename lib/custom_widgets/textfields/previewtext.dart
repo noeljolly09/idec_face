@@ -41,28 +41,21 @@ class PreviewText extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Text(titletext,
-                  style: TextStyle(
-                    fontSize: AppConstants.modaltextsize,
-                    color: AppConstants.customblack,
-                  )),
-              Container(width: width10),
-              const Text(
-                ":",
-                style: TextStyle(
-                    color: AppConstants.customblack,
-                    fontWeight: FontWeight.w600),
-              ),
-              Container(width: width20),
-              Text(
-                controllertext,
-                style: TextStyle(
-                  color: AppConstants.customblack,
-                  fontSize: AppConstants.modaltextsize,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              controllertext.isNotEmpty
+                  ? Text(
+                      controllertext,
+                      style: TextStyle(
+                        color: AppConstants.customblack,
+                        fontSize: AppConstants.modaltextsize,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  : Text(titletext,
+                      style: TextStyle(
+                        fontSize: AppConstants.modaltextsize,
+                        color: AppConstants.customblack,
+                      )),
             ],
           ),
         ),

@@ -5,6 +5,7 @@ import '../../../../constants.dart';
 
 openValidationshowDialog(
     BuildContext context,
+    // CountryController code,
     TextEditingController domain,
     TextEditingController firstname,
     TextEditingController middlename,
@@ -14,7 +15,6 @@ openValidationshowDialog(
     TextEditingController gender,
     TextEditingController nationality,
     TextEditingController blood,
-    TextEditingController countryCode,
     TextEditingController phone,
     TextEditingController email) {
   showDialog(
@@ -26,11 +26,11 @@ openValidationshowDialog(
             alignment: const Alignment(0, 1),
             child: Container(
               height: 700,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
-                  color: AppConstants.inColor),
+                  color: Theme.of(context).scaffoldBackgroundColor),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 10),
                 child: Column(
@@ -85,7 +85,7 @@ openValidationshowDialog(
                         controllertext: lastname.text,
                         assetName: "assets/svg/user.svg"),
                     ValidationPreviewText(
-                      assetName: "assets/svg/user.svg",
+                      assetName: "assets/svg/useriD.svg",
                       titletext: "Employee ID",
                       controllertext: employeeId.text,
                     ),
@@ -109,11 +109,11 @@ openValidationshowDialog(
                       titletext: "Blood Group",
                       controllertext: blood.text,
                     ),
-                    ValidationPreviewText(
-                      assetName: "assets/svg/phone.svg",
-                      titletext: "Country Code *",
-                      controllertext: countryCode.text,
-                    ),
+                    // ValidationPreviewText(
+                    //   assetName: "assets/svg/phone.svg",
+                    //   titletext: "Country Code *",
+                    //   controllertext: code.selectedCountryPhoneCode,
+                    // ),
                     ValidationPreviewText(
                       assetName: "assets/svg/phone.svg",
                       titletext: "Phone Number *",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfilePhotoDrawer extends StatefulWidget {
   const ProfilePhotoDrawer({Key? key}) : super(key: key);
@@ -17,9 +18,7 @@ class _ProfilePhotoDrawerState extends State<ProfilePhotoDrawer> {
         clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
-          const CircleAvatar(
-            backgroundImage: AssetImage("assets/images/profile.png"),
-          ),
+          SvgPicture.asset('assets/svg/User_big.svg'),
           Positioned(
               top: -10,
               right: -5,

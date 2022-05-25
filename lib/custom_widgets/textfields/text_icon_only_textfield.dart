@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
-
 class SimpleTextField extends StatelessWidget {
   final TextEditingController? controller;
   final IconData? icon;
@@ -37,7 +36,7 @@ class SimpleTextField extends StatelessWidget {
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade800)),
-            focusedBorder: const UnderlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppConstants.secondaryColor)),
             prefixIcon: Icon(
               icon,
@@ -56,9 +55,11 @@ class SimpleTextField extends StatelessWidget {
           decoration: InputDecoration(
               enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
-              focusedBorder: const UnderlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppConstants.secondaryColor)),
               hintText: hint,
+              labelText: hint,
+              labelStyle: const TextStyle(color: AppConstants.customblack),
               contentPadding: const EdgeInsets.all(10)),
           keyboardType: input ?? TextInputType.text,
           textInputAction: textAction,

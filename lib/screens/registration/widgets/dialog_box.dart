@@ -5,6 +5,7 @@ import '../../../custom_widgets/textfields/previewtext.dart';
 
 openshowDialog(
     BuildContext context,
+    // CountryController code,
     TextEditingController domain,
     TextEditingController firstname,
     TextEditingController middlename,
@@ -14,7 +15,6 @@ openshowDialog(
     TextEditingController gender,
     TextEditingController nationality,
     TextEditingController blood,
-    TextEditingController countryCode,
     TextEditingController phone,
     TextEditingController email) {
   showDialog(
@@ -26,11 +26,11 @@ openshowDialog(
             alignment: const Alignment(0, 1),
             child: Container(
               height: 700,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
-                  color: AppConstants.inColor),
+                  color: Theme.of(context).scaffoldBackgroundColor),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 10),
                 child: Column(
@@ -81,7 +81,7 @@ openshowDialog(
                             lastname.text,
                         assetName: "assets/svg/user.svg"),
                     PreviewText(
-                      assetName: "assets/svg/user.svg",
+                      assetName: "assets/svg/useriD.svg",
                       titletext: "Employee ID",
                       controllertext: employeeId.text,
                     ),
@@ -105,11 +105,14 @@ openshowDialog(
                       titletext: "Blood Group",
                       controllertext: blood.text,
                     ),
-                    PreviewText(
-                      assetName: "assets/svg/phone.svg",
-                      titletext: "Phone Number",
-                      controllertext: "+" + countryCode.text + " " + phone.text,
-                    ),
+                    // PreviewText(
+                    //   assetName: "assets/svg/phone.svg",
+                    //   titletext: "Phone Number",
+                    //   controllertext: "+" +
+                    //       code.selectedCountryPhoneCode +
+                    //       " " +
+                    //       phone.text,
+                    // ),
                     PreviewText(
                       assetName: "assets/svg/email.svg",
                       titletext: "Email",

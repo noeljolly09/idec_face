@@ -1,6 +1,7 @@
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
+import 'package:idec_face/screens/forgot_password.dart';
 import 'package:idec_face/screens/login/login_screen.dart';
 import 'package:idec_face/screens/notification_screens/notifications_screen.dart';
 import 'package:idec_face/screens/registration/registration_screen.dart';
@@ -30,8 +31,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF006e74), //custom teal
         primarySwatch: Colors.teal, // material teal
         backgroundColor: const Color(0xfff2f7f8), //custom grey
-        scaffoldBackgroundColor:
-            const Color(0xFFEEEEEE), //custom white bg color
+        scaffoldBackgroundColor: Colors.white, //custom white bg color
 
 //
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -69,6 +69,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         '/': (context) => const LoginPage(),
+        '/forgot_password': (context) => const ForgotPasswordPage(),
         '/register': (context) => const RegistrationPage(),
         '/dashboard': (context) => const DashboardPage(),
         '/navigation_bar': (context) => const CustomNavigationBar(),

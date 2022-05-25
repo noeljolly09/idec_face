@@ -58,10 +58,9 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
     double height10 = MediaQuery.of(context).size.height / 82.051;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height30 = MediaQuery.of(context).size.height / 27.352;
-    double height25 = MediaQuery.of(context).size.height / 32.822;
 
     return Scaffold(
-      backgroundColor: AppConstants.inColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -71,126 +70,123 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Card(
-                  margin: EdgeInsets.only(top: AppConstants.abovecardheight),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width / 1.111971924,
-                    child: Column(
-                      children: [
-                        Container(height: height30),
-                        const CustomTextWidget(
-                          color: AppConstants.customblack,
-                          size: 18,
-                          text: 'Personal Details',
-                          fontWeight: FontWeight.w600,
-                          letterspacing: 1,
-                        ),
-                        Container(height: height30),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: TextField(
-                            controller: widget.dateinput,
-                            decoration: InputDecoration(
-                              enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade400),
-                              ),
-                              hintText: "DOB",
-                              contentPadding: const EdgeInsets.all(10),
-                              prefixIconConstraints: const BoxConstraints(
-                                  maxHeight: 30, maxWidth: 30),
-                              prefixIcon: Container(
-                                margin:
-                                    const EdgeInsets.only(left: 5, right: 5),
-                                child: SvgPicture.asset(
-                                  "assets/svg/calendar.svg",
-                                  color: AppConstants.customblack,
-                                  alignment: Alignment.center,
-                                ),
+                SizedBox(height: height10),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width / 1.111971924,
+                  child: Column(
+                    children: [
+                      Container(height: height30),
+                      const CustomTextWidget(
+                        color: AppConstants.customblack,
+                        size: 18,
+                        text: 'Personal Details',
+                        fontWeight: FontWeight.w600,
+                        letterspacing: 1,
+                      ),
+                      Container(height: height30),
+                      Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: TextField(
+                          controller: widget.dateinput,
+                          decoration: InputDecoration(
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
+                            ),
+                            hintText: "DOB",
+                            contentPadding: const EdgeInsets.all(10),
+                            prefixIconConstraints: const BoxConstraints(
+                                maxHeight: 30, maxWidth: 30),
+                            prefixIcon: Container(
+                              margin: const EdgeInsets.only(left: 5, right: 5),
+                              child: SvgPicture.asset(
+                                "assets/svg/calendar.svg",
+                                color: AppConstants.customblack,
+                                alignment: Alignment.center,
                               ),
                             ),
-                            readOnly: true,
-                            onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1998),
-                                  lastDate: DateTime(2100));
+                          ),
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1998),
+                                lastDate: DateTime(2100));
 
-                              if (pickedDate != null) {
-                                String formattedDate =
-                                    DateFormat('dd-MM-yyyy').format(pickedDate);
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('dd-MM-yyyy').format(pickedDate);
 
-                                setState(() {
-                                  widget.dateinput.text = formattedDate;
-                                });
-                              } else {
-                                SnackBar; // to be implemented...
-                              }
-                            },
-                          ),
+                              setState(() {
+                                widget.dateinput.text = formattedDate;
+                              });
+                            } else {
+                              SnackBar; // to be implemented...
+                            }
+                          },
                         ),
-                        Container(height: height20),
-                        // gender
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: CustomSelectionBar(
-                            circleSuffixIcon: false,
-                            isSvg: true,
-                            svgAsset: "assets/svg/gender.svg",
-                            width: MediaQuery.of(context).size.width,
-                            list: _listOfgender,
-                            hinttext: "Gender",
-                            searchhinttext: "Select your gender",
-                            sheetTitle: "Gender",
-                            controller: widget.gendervalue,
-                            searchController: _searchcontroller,
-                          ),
+                      ),
+                      Container(height: height20),
+                      // gender
+                      Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: CustomSelectionBar(
+                          circleSuffixIcon: false,
+                          isSvg: true,
+                          svgAsset: "assets/svg/gender.svg",
+                          width: MediaQuery.of(context).size.width,
+                          list: _listOfgender,
+                          hinttext: "Gender",
+                          searchhinttext: "Select your gender",
+                          sheetTitle: "Gender",
+                          controller: widget.gendervalue,
+                          searchController: _searchcontroller,
                         ),
-                        Container(height: height20),
-                        // nationality
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: CustomSelectionBar(
-                            circleSuffixIcon: false,
-                            isSvg: true,
-                            svgAsset: "assets/svg/nationality.svg",
-                            width: MediaQuery.of(context).size.width,
-                            list: _listOfnationality,
-                            hinttext: "Nationality",
-                            searchhinttext: "Search your nationality",
-                            sheetTitle: "Nationality",
-                            controller: widget.nationalityvalue,
-                            searchController: _searchcontroller,
-                          ),
+                      ),
+                      Container(height: height20),
+                      // nationality
+                      Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: CustomSelectionBar(
+                          circleSuffixIcon: false,
+                          isSvg: true,
+                          svgAsset: "assets/svg/nationality.svg",
+                          width: MediaQuery.of(context).size.width,
+                          list: _listOfnationality,
+                          hinttext: "Nationality",
+                          searchhinttext: "Search your nationality",
+                          sheetTitle: "Nationality",
+                          controller: widget.nationalityvalue,
+                          searchController: _searchcontroller,
                         ),
-                        Container(height: height20),
-                        //bloodgroup
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: CustomSelectionBar(
-                            circleSuffixIcon: false,
-                            isSvg: true,
-                            svgAsset: "assets/svg/blood.svg",
-                            width: MediaQuery.of(context).size.width,
-                            list: _listOfbloodgroups,
-                            hinttext: "Blood Group",
-                            searchhinttext: "Search your blood group",
-                            sheetTitle: "Blood Group",
-                            controller: widget.bloodvalue,
-                            searchController: _searchcontroller,
-                          ),
+                      ),
+                      Container(height: height20),
+                      //bloodgroup
+                      Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: CustomSelectionBar(
+                          circleSuffixIcon: false,
+                          isSvg: true,
+                          svgAsset: "assets/svg/blood.svg",
+                          width: MediaQuery.of(context).size.width,
+                          list: _listOfbloodgroups,
+                          hinttext: "Blood Group",
+                          searchhinttext: "Search your blood group",
+                          sheetTitle: "Blood Group",
+                          controller: widget.bloodvalue,
+                          searchController: _searchcontroller,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],

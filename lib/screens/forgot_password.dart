@@ -1,34 +1,42 @@
+import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../constants.dart';
-import '../../custom_widgets/button.dart';
-import '../../custom_widgets/text.dart';
-import '../../custom_widgets/textfields/custom_textfield.dart';
-import '../../utility/app_info.dart';
-import '../../utility/privacy_policy.dart';
+import 'package:flutter_svg/svg.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+import '../constants.dart';
+import '../custom_widgets/button.dart';
+import '../custom_widgets/custom_selection.dart';
+import '../custom_widgets/text.dart';
+import '../custom_widgets/textfields/custom_textfield.dart';
+import '../utility/app_info.dart';
+import '../utility/privacy_policy.dart';
+
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
-  bool _isObscure = true;
-
   final TextEditingController _domainController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    double height10 = MediaQuery.of(context).size.height / 82.051;
+    double height10 = MediaQuery.of(context).size.height / 82.05;
     double height20 = MediaQuery.of(context).size.height / 42.02;
-    double height25 = MediaQuery.of(context).size.height / 32.822;
-    double height40 = MediaQuery.of(context).size.height / 20.514;
+    double height25 = MediaQuery.of(context).size.height / 32.82;
+    double height40 = MediaQuery.of(context).size.height / 20.51;
+    double height60 = MediaQuery.of(context).size.height / 13.67;
+
+    final List<SelectedListItem> _listOfgender = [
+      SelectedListItem(false, "Employee Id"),
+      SelectedListItem(false, "Username"),
+      SelectedListItem(false, "Email Id"),
+      SelectedListItem(false, "Phone Number"),
+    ];
 
     return SafeArea(
       child: Scaffold(
@@ -52,24 +60,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     CustomTextWidget(
                       color: AppConstants.customblack,
                       size: AppConstants.authtitlesize,
-                      text: 'Login',
+                      text: 'Forgot Your Password?',
                       fontWeight: FontWeight.normal,
                     ),
-                    SizedBox(height: height25),
+                    SizedBox(height: height10),
                     Column(
                       children: [
-                        SizedBox(height: height20),
+                        SizedBox(height: height25),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1.4,
                           child: Column(
                             children: [
+                              SizedBox(height: height20),
                               CustomTextField(
                                 isSvg: true,
                                 svgasset: "assets/svg/domain.svg",
                                 controller: _domainController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Mandatory Field';
+                                    return 'Domain name required';
                                   } else {
                                     return null;
                                   }
@@ -80,86 +89,59 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 textAction: TextInputAction.next,
                               ),
                               SizedBox(height: height20),
-                              CustomTextField(
-                                isSvg: true,
-                                svgasset: "assets/svg/user.svg",
-                                controller: _usernameController,
-                                validator: (value) {
-                                  if (value == null || value.trim().isEmpty) {
-                                    return 'Mandatory Field';
-                                  }
-                                  return null;
-                                },
-                                hint: "Username",
-                                input: TextInputType.name,
-                                textAction: TextInputAction.next,
-                              ),
-                              SizedBox(height: height20),
-                              CustomTextField(
-                                isSvg: true,
-                                svgasset: "assets/svg/password.svg",
-                                isObscure: _isObscure,
-                                controller: _passwordController,
-                                suffixIcon: IconButton(
-                                  color: const Color.fromRGBO(28, 36, 44, 1),
-                                  icon: Icon(
-                                    _isObscure
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isObscure = !_isObscure;
-                                    });
-                                  },
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: CustomSelectionBar(
+                                  circleSuffixIcon: false,
+                                  isSvg: true,
+                                  svgAsset: "assets/svg/useriD.svg",
+                                  width: MediaQuery.of(context).size.width,
+                                  list: _listOfgender,
+                                  hinttext: "Select Options",
+                                  searchhinttext: "Select Options",
+                                  sheetTitle: "Select Options",
+                                  controller: _userController,
+                                  searchController: _searchController,
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.trim().isEmpty) {
-                                    return 'Mandatory Field';
-                                  }
-
-                                  return null;
-                                },
-                                hint: "Password",
-                                input: TextInputType.name,
-                                textAction: TextInputAction.done,
                               ),
-                              SizedBox(height: height20),
                             ],
                           ),
                         ),
-                        SizedBox(height: height40),
-                        CustomButton(
-                          height: 50,
-                          function: () {
-                            if (formGlobalKey.currentState!.validate()) {
-                              Navigator.pushNamed(context, "/navigation_bar");
-                            }
-                          },
-                          width: MediaQuery.of(context).size.width / 1.7,
-                          buttonColor: Theme.of(context).primaryColor,
-                          buttonBorder:
-                              Border.all(color: Colors.white30, width: 2),
-                          buttonBorderRadius: BorderRadius.circular(05),
-                          iconColor: Colors.white,
-                          data: 'Login',
-                        ),
-                        SizedBox(height: height20),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/forgot_password');
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          hoverColor: AppConstants.secondaryColor,
-                          child: Ink(
-                            child: CustomTextWidget(
-                              color: Theme.of(context).primaryColor,
-                              size: 15,
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.w400,
-                              text: 'Forgot Password?',
-                            ),
+                        SizedBox(height: height60),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.4,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomButton(
+                                  height: 50,
+                                  function: () {
+                                    Navigator.pop(context);
+                                  },
+                                  buttonColor: Theme.of(context).primaryColor,
+                                  buttonBorder: Border.all(
+                                      color: Colors.white30, width: 2),
+                                  buttonBorderRadius: BorderRadius.circular(05),
+                                  iconColor: Colors.white,
+                                  data: 'Cancel',
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Expanded(
+                                child: CustomButton(
+                                  height: 50,
+                                  function: () {},
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.7,
+                                  buttonColor: Theme.of(context).primaryColor,
+                                  buttonBorder: Border.all(
+                                      color: Colors.white30, width: 2),
+                                  buttonBorderRadius: BorderRadius.circular(05),
+                                  iconColor: Colors.white,
+                                  data: 'Submit',
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         SizedBox(height: height20),
@@ -170,14 +152,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const CustomTextWidget(
-                                  text: "Don't have an account?",
+                                  text: "Already Registered?",
                                   size: 15,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black),
                               const SizedBox(width: 5),
                               InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/register');
+                                  Navigator.pushNamed(context, '/');
                                 },
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
@@ -188,7 +170,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     size: 15,
                                     decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.w400,
-                                    text: 'Register',
+                                    text: 'Login',
                                   ),
                                 ),
                               )

@@ -41,6 +41,36 @@ class ValidationPreviewText extends StatelessWidget {
           ),
           child: Row(
             children: [
+              // controllertext.isEmpty
+              //     ? Stack(
+              //         children: [
+              //           Text(
+              //             titletext,
+              //             style: TextStyle(
+              //               fontSize: AppConstants.modaltextsize,
+              //               color: AppConstants.customblack,
+              //             ),
+              //           ),
+              //           // ignore: prefer_const_constructors
+              //           Align(
+              //             alignment: Alignment.bottomCenter,
+              //             child: Card(
+              //               color: Colors.red,
+              //               child: Text('Mandatory Field'),
+              //             ),
+              //           )
+              //         ],
+              //       )
+              //     : Text(
+              //         controllertext,
+              //         style: TextStyle(
+              //           color: AppConstants.customblack,
+              //           fontSize: AppConstants.modaltextsize,
+              //           fontStyle: FontStyle.normal,
+              //           fontWeight: FontWeight.w600,
+              //         ),
+              //       )
+
               Text(titletext,
                   style: controllertext.isEmpty
                       ? TextStyle(

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/screens/registration/widgets/dialog_box.dart';
@@ -8,6 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
 import '../../custom_widgets/text.dart';
 import '../../utility/app_info.dart';
+import '../../utility/privacy_policy.dart';
 import 'widgets/contact_data.dart';
 import 'widgets/gender_data.dart';
 import 'widgets/validation/validation_dialog.dart';
@@ -42,7 +44,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _nationalityController = TextEditingController();
   final TextEditingController _bloodController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _codeController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
   @override
@@ -58,7 +59,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     _nationalityController.dispose();
     _bloodController.dispose();
     _emailController.dispose();
-    _codeController.dispose();
     _phoneController.dispose();
     super.dispose();
   }
@@ -77,15 +77,59 @@ class _RegistrationPageState extends State<RegistrationPage> {
               children: [
                 Container(height: AppConstants.abovecoldtruthheight),
                 SvgPicture.asset(
-                  "assets/svg/s.svg",
+                  "assets/svg/logo.svg",
                   height: 60,
                 ),
                 SizedBox(height: height25),
-                CustomTextWidget(
-                  color: AppConstants.customblack,
-                  size: AppConstants.authtitlesize,
-                  text: 'Registration',
-                  fontWeight: FontWeight.normal,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomTextWidget(
+                      color: AppConstants.customblack,
+                      size: AppConstants.authtitlesize,
+                      text: 'Registration',
+                      fontWeight: FontWeight.normal,
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          if (_domainController.text.isEmpty ||
+                              _fnameController.text.isEmpty ||
+                              _lnameController.text.isEmpty ||
+                              _phoneController.text.isEmpty ||
+                              _emailController.text.isEmpty) {
+                            openValidationshowDialog(
+                                context,
+                                // _codeController,
+                                _domainController,
+                                _fnameController,
+                                _mnameController,
+                                _lnameController,
+                                _idController,
+                                _dateinput,
+                                _genderController,
+                                _nationalityController,
+                                _bloodController,
+                                _phoneController,
+                                _emailController);
+                          } else {
+                            openshowDialog(
+                                context,
+                                // _codeController,
+                                _domainController,
+                                _fnameController,
+                                _mnameController,
+                                _lnameController,
+                                _idController,
+                                _dateinput,
+                                _genderController,
+                                _nationalityController,
+                                _bloodController,
+                                _phoneController,
+                                _emailController);
+                          }
+                        },
+                        icon: const Icon(Icons.remove_red_eye))
+                  ],
                 ),
                 Expanded(
                   child: PageView(
@@ -116,7 +160,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ContactPageRegistrtion(
                         onValidate: customValidator,
                         emailController: _emailController,
-                        codeController: _codeController,
                         phoneController: _phoneController,
                       ),
                     ],
@@ -131,79 +174,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: _domainController.text.isNotEmpty
-                            ? () {
-                                if (_domainController.text.isEmpty ||
-                                    _fnameController.text.isEmpty ||
-                                    _lnameController.text.isEmpty ||
-                                    _codeController.text.isEmpty ||
-                                    _phoneController.text.isEmpty ||
-                                    _emailController.text.isEmpty) {
-                                  openValidationshowDialog(
-                                      context,
-                                      _domainController,
-                                      _fnameController,
-                                      _mnameController,
-                                      _lnameController,
-                                      _idController,
-                                      _dateinput,
-                                      _genderController,
-                                      _nationalityController,
-                                      _bloodController,
-                                      _codeController,
-                                      _phoneController,
-                                      _emailController);
-                                } else {
-                                  openshowDialog(
-                                      context,
-                                      _domainController,
-                                      _fnameController,
-                                      _mnameController,
-                                      _lnameController,
-                                      _idController,
-                                      _dateinput,
-                                      _genderController,
-                                      _nationalityController,
-                                      _bloodController,
-                                      _codeController,
-                                      _phoneController,
-                                      _emailController);
-                                }
-                              }
-                            : null,
-                        child: const Text('Preview'),
+                  Center(
+                    child: SmoothPageIndicator(
+                      controller: controller,
+                      count: 4,
+                      axisDirection: Axis.horizontal,
+                      effect: WormEffect(
+                        dotWidth: 10,
+                        dotHeight: 10,
+                        activeDotColor: Theme.of(context).primaryColor,
                       ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width / 10.285),
-                      Center(
-                        child: SmoothPageIndicator(
-                          controller: controller,
-                          count: 4,
-                          axisDirection: Axis.horizontal,
-                          effect: WormEffect(
-                            dotWidth: 10,
-                            dotHeight: 10,
-                            activeDotColor: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width / 9.567),
-                      ElevatedButton(
-                        onPressed: isPageChanged == 3
-                            ? () {
-                                print('registered');
-                              }
-                            : null,
-                        child: const Text('Register'),
-                      )
-                    ],
+                    ),
                   ),
+                  // ElevatedButton(
+                  //   onPressed: isPageChanged == 3
+                  //       ? () {
+                  //           print('registered');
+                  //         }
+                  //       : null,
+                  //   child: const Text('Register'),
+                  // ),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Row(
@@ -235,6 +226,43 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ],
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Row(
+                          children: [
+                            const Text(
+                              "v",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            getVersionNumber(),
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => const PrivacyPolicyPage());
+                        },
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: AppConstants.secondaryColor,
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          child: const Text(
+                            "Privacy Policy",
+                            style: TextStyle(
+                                fontSize: 12,
+                                decoration: TextDecoration.underline,
+                                color: AppConstants.primaryColor),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             )),
