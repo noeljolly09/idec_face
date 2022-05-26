@@ -46,13 +46,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     SizedBox(height: AppConstants.abovecoldtruthheight),
                     SvgPicture.asset(
                       "assets/svg/logo.svg",
-                      height: 60,
+                      height: 50,
                     ),
                     SizedBox(height: height25),
                     CustomTextWidget(
                       color: AppConstants.customblack,
                       size: AppConstants.authtitlesize,
-                      text: 'Login',
+                      text: 'LOGIN',
                       fontWeight: FontWeight.normal,
                     ),
                     SizedBox(height: height25),
@@ -79,7 +79,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 input: TextInputType.name,
                                 textAction: TextInputAction.next,
                               ),
-                              SizedBox(height: height20),
+                              SizedBox(height: height40),
                               CustomTextField(
                                 isSvg: true,
                                 svgasset: "assets/svg/user.svg",
@@ -94,7 +94,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 input: TextInputType.name,
                                 textAction: TextInputAction.next,
                               ),
-                              SizedBox(height: height20),
+                              SizedBox(height: height40),
                               CustomTextField(
                                 isSvg: true,
                                 svgasset: "assets/svg/password.svg",
@@ -142,7 +142,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               Border.all(color: Colors.white30, width: 2),
                           buttonBorderRadius: BorderRadius.circular(05),
                           iconColor: Colors.white,
-                          data: 'Login',
+                          data: 'LOGIN',
                         ),
                         SizedBox(height: height20),
                         InkWell(
@@ -232,7 +232,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         "Privacy Policy",
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: AppConstants.primaryColor),
+                            fontSize: 10,
+                            color: Colors.black),
                       ),
                     ),
                   )

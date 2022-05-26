@@ -21,7 +21,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
   String currentDate = DateFormat.MMMMd().format(DateTime.now());
   String currentTime = DateFormat.jm().format(DateTime.now());
 
-  static const timestyle = TextStyle(fontSize: 12);
+  static const timestyle = TextStyle(fontSize: 10);
 
   final screens = [
     const DashboardPage(),

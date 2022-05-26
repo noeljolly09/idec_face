@@ -38,7 +38,7 @@ class MyDrawer extends StatelessWidget {
               onTap: () {},
             ),
             drawerItem(
-              svg: "assets/svg/camera.svg",
+              svg: "assets/svg/event_icon.svg",
               text: "Events",
               onTap: () {},
             ),
@@ -93,8 +93,9 @@ class MyDrawer extends StatelessWidget {
                     child: const Text(
                       "Privacy Policy",
                       style: TextStyle(
+                          fontSize: 12,
                           decoration: TextDecoration.underline,
-                          color: AppConstants.primaryColor),
+                          color: Colors.black),
                     ),
                   ),
                 )

@@ -36,7 +36,7 @@ class SimpleTextField extends StatelessWidget {
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade800)),
-            focusedBorder: const OutlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: AppConstants.secondaryColor)),
             prefixIcon: Icon(
               icon,
@@ -55,7 +55,7 @@ class SimpleTextField extends StatelessWidget {
           decoration: InputDecoration(
               enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
-              focusedBorder: const OutlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: AppConstants.secondaryColor)),
               hintText: hint,
               labelText: hint,

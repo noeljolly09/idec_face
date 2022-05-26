@@ -1,4 +1,4 @@
-
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/screens/registration/widgets/dialog_box.dart';
@@ -7,6 +7,7 @@ import 'package:idec_face/screens/registration/widgets/name_data.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
+import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
 import '../../utility/app_info.dart';
 import '../../utility/privacy_policy.dart';
@@ -24,7 +25,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isPreviewButtonActive = false;
   bool isSubmitButtonActive = false;
@@ -40,6 +41,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _lnameController = TextEditingController();
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _dateinput = TextEditingController();
+  CountryCode? code = CountryCode(
+      dialCode: "+91", name: "India", code: "IN", flagUri: "flags/in.png");
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _nationalityController = TextEditingController();
   final TextEditingController _bloodController = TextEditingController();
@@ -65,11 +68,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height25 = MediaQuery.of(context).size.height / 32.822;
+    double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25714285714286;
     return SafeArea(
       child: Form(
-        key: _formkey,
+        key: _formKey,
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -78,57 +81,66 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Container(height: AppConstants.abovecoldtruthheight),
                 SvgPicture.asset(
                   "assets/svg/logo.svg",
-                  height: 60,
+                  height: 50,
                 ),
-                SizedBox(height: height25),
+                SizedBox(height: height20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomTextWidget(
-                      color: AppConstants.customblack,
-                      size: AppConstants.authtitlesize,
-                      text: 'Registration',
-                      fontWeight: FontWeight.normal,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          if (_domainController.text.isEmpty ||
-                              _fnameController.text.isEmpty ||
-                              _lnameController.text.isEmpty ||
-                              _phoneController.text.isEmpty ||
-                              _emailController.text.isEmpty) {
-                            openValidationshowDialog(
-                                context,
-                                // _codeController,
-                                _domainController,
-                                _fnameController,
-                                _mnameController,
-                                _lnameController,
-                                _idController,
-                                _dateinput,
-                                _genderController,
-                                _nationalityController,
-                                _bloodController,
-                                _phoneController,
-                                _emailController);
-                          } else {
-                            openshowDialog(
-                                context,
-                                // _codeController,
-                                _domainController,
-                                _fnameController,
-                                _mnameController,
-                                _lnameController,
-                                _idController,
-                                _dateinput,
-                                _genderController,
-                                _nationalityController,
-                                _bloodController,
-                                _phoneController,
-                                _emailController);
-                          }
-                        },
-                        icon: const Icon(Icons.remove_red_eye))
+                    const SizedBox(width: 50),
+                    Expanded(
+                        child: Center(
+                      child: CustomTextWidget(
+                        color: AppConstants.customblack,
+                        size: AppConstants.authtitlesize,
+                        text: 'REGISTRATION',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    )),
+                    Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {
+                            if (_domainController.text.isEmpty ||
+                                _fnameController.text.isEmpty ||
+                                _lnameController.text.isEmpty ||
+                                _phoneController.text.isEmpty ||
+                                _emailController.text.isEmpty) {
+                              openValidationshowDialog(
+                                  context,
+                                  code,
+                                  _domainController,
+                                  _fnameController,
+                                  _mnameController,
+                                  _lnameController,
+                                  _idController,
+                                  _dateinput,
+                                  _genderController,
+                                  _nationalityController,
+                                  _bloodController,
+                                  _phoneController,
+                                  _emailController);
+                            } else {
+                              openshowDialog(
+                                  context,
+                                  code,
+                                  _domainController,
+                                  _fnameController,
+                                  _mnameController,
+                                  _lnameController,
+                                  _idController,
+                                  _dateinput,
+                                  _genderController,
+                                  _nationalityController,
+                                  _bloodController,
+                                  _phoneController,
+                                  _emailController);
+                            }
+                          },
+                          icon: SvgPicture.asset("assets/svg/eye.svg")),
+                    )
                   ],
                 ),
                 Expanded(
@@ -157,7 +169,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           nationalityvalue: _nationalityController,
                           bloodvalue: _bloodController,
                           gendervalue: _genderController),
-                      ContactPageRegistrtion(
+                      ContactPageRegistration(
+                        onchanged: (countryCode) {
+                          code = countryCode;
+                          return code;
+                        },
                         onValidate: customValidator,
                         emailController: _emailController,
                         phoneController: _phoneController,
@@ -165,6 +181,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ],
                   ),
                 ),
+                isPageChanged == 3
+                    ? Flexible(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: CustomButton(
+                            height: 50,
+                            function: () {},
+                            buttonColor: Theme.of(context).primaryColor,
+                            buttonBorder:
+                                Border.all(color: Colors.white30, width: 2),
+                            buttonBorderRadius: BorderRadius.circular(05),
+                            iconColor: Colors.white,
+                            data: 'Submit',
+                          ),
+                        ),
+                      )
+                    : Text(""),
               ],
             ),
             bottomSheet: Container(
@@ -179,10 +212,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       controller: controller,
                       count: 4,
                       axisDirection: Axis.horizontal,
-                      effect: WormEffect(
+                      effect: const WormEffect(
                         dotWidth: 10,
                         dotHeight: 10,
-                        activeDotColor: Theme.of(context).primaryColor,
+                        activeDotColor: Colors.black,
                       ),
                     ),
                   ),
@@ -257,7 +290,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             style: TextStyle(
                                 fontSize: 12,
                                 decoration: TextDecoration.underline,
-                                color: AppConstants.primaryColor),
+                                color: Colors.black),
                           ),
                         ),
                       )

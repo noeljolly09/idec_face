@@ -54,13 +54,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     SizedBox(height: AppConstants.abovecoldtruthheight),
                     SvgPicture.asset(
                       "assets/svg/logo.svg",
-                      height: 60,
+                      height: 50,
                     ),
                     SizedBox(height: height25),
                     CustomTextWidget(
                       color: AppConstants.customblack,
                       size: AppConstants.authtitlesize,
-                      text: 'Forgot Your Password?',
+                      text: 'FORGOT YOUR PASSWORD ?',
                       fontWeight: FontWeight.normal,
                     ),
                     SizedBox(height: height10),
@@ -123,7 +123,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       color: Colors.white30, width: 2),
                                   buttonBorderRadius: BorderRadius.circular(05),
                                   iconColor: Colors.white,
-                                  data: 'Cancel',
+                                  data: 'CANCEL',
                                 ),
                               ),
                               const SizedBox(width: 5),
@@ -138,7 +138,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       color: Colors.white30, width: 2),
                                   buttonBorderRadius: BorderRadius.circular(05),
                                   iconColor: Colors.white,
-                                  data: 'Submit',
+                                  data: 'SUBMIT',
                                 ),
                               )
                             ],
@@ -214,7 +214,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         "Privacy Policy",
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: AppConstants.primaryColor),
+                            fontSize: 10,
+                            color: Colors.black),
                       ),
                     ),
                   )

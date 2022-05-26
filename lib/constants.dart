@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 // screen height 820.5714285714286
@@ -32,7 +33,7 @@ class AppConstants {
   //width
 
   //font realted
-  static double authtitlesize = 25;
+  static double authtitlesize = 20;
 
   static double titlefontsize = 20;
 
@@ -50,6 +51,9 @@ class AppConstants {
 
   static double modaltextsize = 16;
 
-  static double listitemtextsize = 16;
-}
 
+  static double listitemtextsize = 16;
+
+ 
+
+}

@@ -27,6 +27,7 @@ class NamePageRegistration extends StatelessWidget {
     double height10 = MediaQuery.of(context).size.height / 82.051;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height30 = MediaQuery.of(context).size.height / 27.352;
+    double height40 = MediaQuery.of(context).size.height / 20.514;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -39,7 +40,6 @@ class NamePageRegistration extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: height10),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 1.5,
                   width: MediaQuery.of(context).size.width / 1.1,
@@ -85,7 +85,7 @@ class NamePageRegistration extends StatelessWidget {
                                           ),
                                           Positioned(
                                             bottom: -15,
-                                            right: -30,
+                                            right: -50,
                                             child: RawMaterialButton(
                                               splashColor: Colors.transparent,
                                               highlightColor:
@@ -103,8 +103,7 @@ class NamePageRegistration extends StatelessWidget {
                                 ],
                               ),
                               Container(height: height10),
-                              Container(
-                                padding: const EdgeInsets.all(10),
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height / 3.9,
                                 width: MediaQuery.of(context).size.width,
@@ -127,7 +126,7 @@ class NamePageRegistration extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Container(height: height10),
+                                    Container(height: height40),
                                     Flexible(
                                       child: SizedBox(
                                         width:
@@ -142,7 +141,7 @@ class NamePageRegistration extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Container(height: height10),
+                                    Container(height: height40),
                                     Flexible(
                                       child: SizedBox(
                                         width:
@@ -161,7 +160,7 @@ class NamePageRegistration extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Container(height: height10),
+                              Container(height: height40),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.2,
                                 child: CustomTextField(

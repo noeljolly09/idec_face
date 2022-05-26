@@ -1,3 +1,4 @@
+import 'package:country_list_pick/support/code_country.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
@@ -5,7 +6,7 @@ import '../../../custom_widgets/textfields/previewtext.dart';
 
 openshowDialog(
     BuildContext context,
-    // CountryController code,
+    CountryCode? code,
     TextEditingController domain,
     TextEditingController firstname,
     TextEditingController middlename,
@@ -105,14 +106,12 @@ openshowDialog(
                       titletext: "Blood Group",
                       controllertext: blood.text,
                     ),
-                    // PreviewText(
-                    //   assetName: "assets/svg/phone.svg",
-                    //   titletext: "Phone Number",
-                    //   controllertext: "+" +
-                    //       code.selectedCountryPhoneCode +
-                    //       " " +
-                    //       phone.text,
-                    // ),
+                    PreviewText(
+                      assetName: "assets/svg/phone.svg",
+                      titletext: "Phone Number",
+                      controllertext:
+                          code!.dialCode.toString() + " " + phone.text,
+                    ),
                     PreviewText(
                       assetName: "assets/svg/email.svg",
                       titletext: "Email",

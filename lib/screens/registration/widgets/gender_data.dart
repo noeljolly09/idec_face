@@ -58,6 +58,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
     double height10 = MediaQuery.of(context).size.height / 82.051;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height30 = MediaQuery.of(context).size.height / 27.352;
+    double height40 = MediaQuery.of(context).size.height / 20.514;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -70,7 +71,6 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: height10),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2,
                   width: MediaQuery.of(context).size.width / 1.111971924,
@@ -132,7 +132,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
                           },
                         ),
                       ),
-                      Container(height: height20),
+                      Container(height: height40),
                       // gender
                       Container(
                         padding: const EdgeInsets.only(left: 10),
@@ -150,7 +150,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
                           searchController: _searchcontroller,
                         ),
                       ),
-                      Container(height: height20),
+                      Container(height: height40),
                       // nationality
                       Container(
                         padding: const EdgeInsets.only(left: 10),
@@ -168,7 +168,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
                           searchController: _searchcontroller,
                         ),
                       ),
-                      Container(height: height20),
+                      Container(height: height40),
                       //bloodgroup
                       Container(
                         padding: const EdgeInsets.only(left: 10),

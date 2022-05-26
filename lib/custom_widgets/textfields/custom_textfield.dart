@@ -60,11 +60,11 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
             labelText: hint,
             labelStyle: const TextStyle(color: AppConstants.customblack),
-            contentPadding: const EdgeInsets.all(10),
+            contentPadding: const EdgeInsets.all(5),
             suffixIcon: suffixIcon,
             hintText: hint,
             prefixIconConstraints:
-                const BoxConstraints(maxHeight: 25, maxWidth: 25),
+                const BoxConstraints(maxHeight: 30, maxWidth: 30),
             prefixIcon: isSvg == true
                 ? Container(
                     margin: const EdgeInsets.only(right: 5),
@@ -82,7 +82,7 @@ class CustomTextField extends StatelessWidget {
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            focusedBorder: const OutlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: AppConstants.secondaryColor),
             )),
         keyboardType: input,
