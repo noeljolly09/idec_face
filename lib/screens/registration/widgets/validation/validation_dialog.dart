@@ -4,6 +4,7 @@ import 'package:idec_face/screens/registration/widgets/validation/validation_pre
 import 'package:idec_face/screens/registration/widgets/validation/validation_text.dart';
 
 import '../../../../constants.dart';
+import '../../../../custom_widgets/textfields/previewtext.dart';
 
 openValidationshowDialog(
     BuildContext context,
@@ -54,79 +55,72 @@ openValidationshowDialog(
                           margin: const EdgeInsets.all(5),
                           height: 35,
                           width: 60,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: AppConstants.primaryColor),
-                          child: TextButton(
+                          child: IconButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: const Text(
-                              "Done",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            icon: const Icon(Icons.close),
                           ),
                         ),
                       ],
                     ),
-                    ValidationText(controller: domain, svgasset: "assets/svg/domain.svg"),
-                    ValidationPreviewText(
-                        titletext: "Domain *",
+                    ValidationText(
+                        titletext: "Domain",
                         controllertext: domain.text,
                         assetName: "assets/svg/domain.svg"),
-                    // ValidationPreviewText(
-                    //     titletext: "First Name *",
-                    //     controllertext: firstname.text,
-                    //     assetName: "assets/svg/user.svg"),
-                    // ValidationPreviewText(
-                    //     titletext: "Middle Name",
-                    //     controllertext: middlename.text,
-                    //     assetName: "assets/svg/user.svg"),
-                    // ValidationPreviewText(
-                    //     titletext: "Last Name *",
-                    //     controllertext: lastname.text,
-                    //     assetName: "assets/svg/user.svg"),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/useriD.svg",
-                    //   titletext: "Employee ID",
-                    //   controllertext: employeeId.text,
-                    // ),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/calendar.svg",
-                    //   titletext: "DOB",
-                    //   controllertext: date.text,
-                    // ),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/gender.svg",
-                    //   titletext: "Gender",
-                    //   controllertext: gender.text,
-                    // ),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/nationality.svg",
-                    //   titletext: "Nationality",
-                    //   controllertext: nationality.text,
-                    // ),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/blood.svg",
-                    //   titletext: "Blood Group",
-                    //   controllertext: blood.text,
-                    // ),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/phone.svg",
-                    //   titletext: "Country Code *",
-                    //   controllertext: code!.dialCode.toString(),
-                    // ),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/phone.svg",
-                    //   titletext: "Phone Number *",
-                    //   controllertext: phone.text,
-                    // ),
-                    // ValidationPreviewText(
-                    //   assetName: "assets/svg/email.svg",
-                    //   titletext: "Email *",
-                    //   controllertext: email.text,
-                    // ),
+                    ValidationText(
+                        titletext: "First Name",
+                        controllertext: firstname.text,
+                        assetName: "assets/svg/user.svg"),
+                    PreviewText(
+                      assetName: "assets/svg/user.svg",
+                      titletext: "Middle Name",
+                      controllertext: middlename.text,
+                    ),
+                    ValidationText(
+                        titletext: "Last Name",
+                        controllertext: lastname.text,
+                        assetName: "assets/svg/user.svg"),
+                    PreviewText(
+                      assetName: "assets/svg/useriD.svg",
+                      titletext: "Employee ID",
+                      controllertext: employeeId.text,
+                    ),
+                    PreviewText(
+                      assetName: "assets/svg/calendar.svg",
+                      titletext: "DOB",
+                      controllertext: date.text,
+                    ),
+                    PreviewText(
+                      assetName: "assets/svg/gender.svg",
+                      titletext: "Gender",
+                      controllertext: gender.text,
+                    ),
+                    PreviewText(
+                      assetName: "assets/svg/nationality.svg",
+                      titletext: "Nationality",
+                      controllertext: nationality.text,
+                    ),
+                    PreviewText(
+                      assetName: "assets/svg/blood.svg",
+                      titletext: "Blood Group",
+                      controllertext: blood.text,
+                    ),
+                    ValidationText(
+                      assetName: "assets/svg/phone.svg",
+                      titletext: "Country Code",
+                      controllertext: code!.dialCode.toString(),
+                    ),
+                    ValidationText(
+                      assetName: "assets/svg/phone.svg",
+                      titletext: "Phone Number",
+                      controllertext: phone.text,
+                    ),
+                    ValidationText(
+                      assetName: "assets/svg/email.svg",
+                      titletext: "Email",
+                      controllertext: email.text,
+                    ),
                   ],
                 ),
               ),

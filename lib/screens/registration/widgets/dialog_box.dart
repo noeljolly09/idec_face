@@ -53,18 +53,11 @@ openshowDialog(
                           margin: const EdgeInsets.all(5),
                           height: 35,
                           width: 60,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: AppConstants.primaryColor),
-                          child: TextButton(
+                          child: IconButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: const Text(
-                              "Done",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            icon: const Icon(Icons.close),
                           ),
                         ),
                       ],

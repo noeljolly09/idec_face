@@ -5,46 +5,91 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../constants.dart';
 
 class ValidationText extends StatelessWidget {
-  final String? Function(String?)? validator;
-  final TextEditingController? controller;
-  final String svgasset;
+  final String titletext;
+  final String controllertext;
+  final String assetName;
 
   const ValidationText({
     Key? key,
-    this.validator,
-    required this.controller,
-    required this.svgasset,
+    required this.titletext,
+    required this.controllertext,
+    required this.assetName,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      style: TextStyle(
-        fontSize: AppConstants.formtextsize,
-        fontStyle: FontStyle.normal,
-      ),
-      controller: controller,
-      initialValue: controller!.text,
-      readOnly: true,
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(5),
-          prefixIconConstraints:
-              const BoxConstraints(maxHeight: 30, maxWidth: 30),
-          prefixIcon: Container(
-            margin: const EdgeInsets.only(right: 5),
-            child: SvgPicture.asset(
-              svgasset,
-              color: AppConstants.customblack,
-              alignment: Alignment.center,
+    double width10 = MediaQuery.of(context).size.width / 41.142;
+    return Row(
+      children: [
+        Container(width: width10),
+        SvgPicture.asset(
+          assetName,
+          height: 25,
+        ),
+        Container(width: width10),
+        Container(
+          width: MediaQuery.of(context).size.width / 1.25,
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          decoration: controllertext.isNotEmpty
+              ? BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.shade400,
+                      width: 1.0,
+                    ),
+                  ),
+                )
+              : const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.red,
+                      width: 1.0,
+                    ),
+                  ),
+                ),
+          child: Stack(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                controllertext.isNotEmpty
+                    ? Text(
+                        controllertext,
+                        style: TextStyle(
+                          color: AppConstants.customblack,
+                          fontSize: AppConstants.modaltextsize,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    : Text(
+                        titletext,
+                        style: TextStyle(
+                          fontSize: AppConstants.modaltextsize,
+                          color: AppConstants.customblack,
+                        ),
+                      ),
+                controllertext.isNotEmpty
+                    ? const Text("*")
+                    : const Text(
+                        "*",
+                        style: TextStyle(color: Colors.red),
+                      ),
+              ],
             ),
-          ),
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: AppConstants.secondaryColor),
-          )),
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: controllertext.isNotEmpty
+                      ? null
+                      : const Text(
+                          "Mandatory Field",
+                          style: TextStyle(color: Colors.red),
+                        )),
+            ),
+          ]),
+        ),
+      ],
     );
   }
 }
