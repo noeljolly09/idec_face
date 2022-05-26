@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 import '../../../custom_widgets/textfields/previewtext.dart';
 
-openshowDialog(
+openDialogWindow(
     BuildContext context,
     CountryCode? code,
     TextEditingController domain,

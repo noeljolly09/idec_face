@@ -17,7 +17,6 @@ class DomainPageRegistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height30 = MediaQuery.of(context).size.height / 27.352;
-    double height10 = MediaQuery.of(context).size.height / 82.051;
     double height120 = MediaQuery.of(context).size.height / 6.83;
 
     return SizedBox(

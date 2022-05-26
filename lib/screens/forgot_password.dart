@@ -28,7 +28,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     double height10 = MediaQuery.of(context).size.height / 82.05;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.82;
-    double height40 = MediaQuery.of(context).size.height / 20.51;
     double height60 = MediaQuery.of(context).size.height / 13.67;
 
     final List<SelectedListItem> _listOfgender = [

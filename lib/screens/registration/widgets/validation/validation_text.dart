@@ -85,7 +85,7 @@ class ValidationText extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 10),
           child: Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.bottomCenter,
               child: controllertext.isNotEmpty
                   ? null
                   : const Text(

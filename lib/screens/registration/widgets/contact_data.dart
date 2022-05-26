@@ -39,80 +39,82 @@ class ContactPageRegistration extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 2,
-                width: MediaQuery.of(context).size.width - 41.4285,
-                child: Column(
-                  children: [
-                    Container(height: height30),
-                    const CustomTextWidget(
-                      color: AppConstants.customblack,
-                      size: 18,
-                      text: 'Contact Details',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    Container(height: height30),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.2,
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 8),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom:
-                                    BorderSide(width: 1.0, color: Colors.grey),
+              Expanded(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width - 41.4285,
+                  child: Column(
+                    children: [
+                      Container(height: height30),
+                      const CustomTextWidget(
+                        color: AppConstants.customblack,
+                        size: 18,
+                        text: 'Contact Details',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      Container(height: height30),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                      width: 1.0, color: Colors.grey),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/svg/phone.svg",
+                                    width: 25,
+                                    height: 25,
+                                    color: AppConstants.customblack,
+                                    alignment: Alignment.center,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 0),
+                                    width:
+                                        MediaQuery.of(context).size.width / 3.5,
+                                    height: 50,
+                                    child: CustomCountryCodePicker(
+                                        changeCountryCode: onchanged),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/svg/phone.svg",
-                                  width: 25,
-                                  height: 25,
-                                  color: AppConstants.customblack,
-                                  alignment: Alignment.center,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 0),
-                                  width:
-                                      MediaQuery.of(context).size.width / 3.5,
-                                  height: 50,
-                                  child: CustomCountryCodePicker(
-                                      changeCountryCode: onchanged),
-                                ),
-                              ],
+                            SimpleTextField(
+                              hint: "Phone Number *",
+                              controller: phoneController,
+                              validator: onValidate,
+                              textAction: TextInputAction.next,
+                              input: TextInputType.number,
+                              textorflex: false,
                             ),
-                          ),
-                          SimpleTextField(
-                            hint: "Phone Number *",
-                            controller: phoneController,
-                            validator: onValidate,
-                            textAction: TextInputAction.next,
-                            input: TextInputType.number,
-                            textorflex: false,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(height: height40),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.2,
-                      child: Column(
-                        children: [
-                          CustomTextField(
-                            isSvg: true,
-                            svgasset: "assets/svg/email.svg",
-                            controller: emailController,
-                            hint: "Email *",
-                            validator: onValidate,
-                            input: TextInputType.emailAddress,
-                            textAction: TextInputAction.done,
-                          ),
-                        ],
+                      Container(height: height40),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: Column(
+                          children: [
+                            CustomTextField(
+                              isSvg: true,
+                              svgasset: "assets/svg/email.svg",
+                              controller: emailController,
+                              hint: "Email *",
+                              validator: onValidate,
+                              input: TextInputType.emailAddress,
+                              textAction: TextInputAction.done,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

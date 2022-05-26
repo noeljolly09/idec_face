@@ -1,12 +1,12 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
-import 'package:idec_face/screens/registration/widgets/validation/validation_preview.dart';
+
 import 'package:idec_face/screens/registration/widgets/validation/validation_text.dart';
 
 import '../../../../constants.dart';
 import '../../../../custom_widgets/textfields/previewtext.dart';
 
-openValidationshowDialog(
+openValidationDialogWindow(
     BuildContext context,
     CountryCode? code,
     TextEditingController domain,

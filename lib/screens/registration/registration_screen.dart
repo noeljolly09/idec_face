@@ -1,7 +1,7 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:idec_face/screens/registration/widgets/dialog_box.dart';
+import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
 
@@ -108,7 +108,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 _lnameController.text.isEmpty ||
                                 _phoneController.text.isEmpty ||
                                 _emailController.text.isEmpty) {
-                              openValidationshowDialog(
+                              openValidationDialogWindow(
                                   context,
                                   code,
                                   _domainController,
@@ -123,7 +123,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   _phoneController,
                                   _emailController);
                             } else {
-                              openshowDialog(
+                              openDialogWindow(
                                   context,
                                   code,
                                   _domainController,
