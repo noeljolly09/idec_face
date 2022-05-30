@@ -1,6 +1,10 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/models/config_request.dart';
+import 'package:idec_face/models/config_response.dart';
+import 'package:idec_face/repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
@@ -10,22 +14,23 @@ import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/custom_snackbar.dart';
 import '../../custom_widgets/text.dart';
+import '../../network/service_umbrella.dart';
 import '../../utility/app_info.dart';
 import '../../utility/privacy_policy.dart';
 import 'widgets/contact_data.dart';
 import 'widgets/gender_data.dart';
 import 'widgets/validation/validation_dialog.dart';
 
-class RegistrationPage extends StatefulWidget {
+class RegistrationPage extends ConsumerStatefulWidget {
   const RegistrationPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
+  _RegistrationPageState createState() => _RegistrationPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isPreviewButtonActive = false;
@@ -51,6 +56,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _phoneController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      _getConfigAttributes();
+    });
+  }
+
+  @override
   void dispose() {
     controller.dispose();
     _domainController.dispose();
@@ -67,10 +80,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
     super.dispose();
   }
 
+  void _getConfigAttributes() {
+    final configInfoRequest =
+        ConfigInfoRequest(configAttributes: ["GNDR", "BG", "NTY"]);
+    ref
+        .read(configInfoNotifierProvider.notifier)
+        .getConfigAttributes(configInfoRequest);
+  }
+
   @override
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25714285714286;
+    initListeners();
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -319,5 +341,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
             )),
       ),
     );
+  }
+
+  initListeners() {
+    ref.listen(configInfoNotifierProvider, (previous, next) {
+      final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+    });
   }
 }

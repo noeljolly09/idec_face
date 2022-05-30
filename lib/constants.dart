@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 // screen height 820.5714285714286
@@ -51,9 +50,7 @@ class AppConstants {
 
   static double modaltextsize = 16;
 
-
   static double listitemtextsize = 16;
-
- 
-
 }
+
+typedef SDMap = Map<String, dynamic>;
