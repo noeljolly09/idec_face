@@ -8,6 +8,7 @@ import 'package:idec_face/screens/registration/widgets/name_data.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
+import '../../custom_widgets/custom_snackbar.dart';
 import '../../custom_widgets/text.dart';
 import '../../utility/app_info.dart';
 import '../../utility/privacy_policy.dart';
@@ -96,50 +97,48 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         fontWeight: FontWeight.normal,
                       ),
                     )),
-                    Container(
-                      margin: const EdgeInsets.only(right: 5),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          onPressed: () {
-                            if (_domainController.text.isEmpty ||
-                                _fnameController.text.isEmpty ||
-                                _lnameController.text.isEmpty ||
-                                _phoneController.text.isEmpty ||
-                                _emailController.text.isEmpty) {
-                              openValidationDialogWindow(
-                                  context,
-                                  code,
-                                  _domainController,
-                                  _fnameController,
-                                  _mnameController,
-                                  _lnameController,
-                                  _idController,
-                                  _dateinput,
-                                  _genderController,
-                                  _nationalityController,
-                                  _bloodController,
-                                  _phoneController,
-                                  _emailController);
-                            } else {
-                              openDialogWindow(
-                                  context,
-                                  code,
-                                  _domainController,
-                                  _fnameController,
-                                  _mnameController,
-                                  _lnameController,
-                                  _idController,
-                                  _dateinput,
-                                  _genderController,
-                                  _nationalityController,
-                                  _bloodController,
-                                  _phoneController,
-                                  _emailController);
-                            }
-                          },
-                          icon: SvgPicture.asset("assets/svg/eye.svg")),
+                    IconButton(
+                      onPressed: () {
+                        if (_domainController.text.isEmpty ||
+                            _fnameController.text.isEmpty ||
+                            _lnameController.text.isEmpty ||
+                            _phoneController.text.isEmpty ||
+                            _emailController.text.isEmpty) {
+                          openValidationDialogWindow(
+                              context,
+                              code,
+                              _domainController,
+                              _fnameController,
+                              _mnameController,
+                              _lnameController,
+                              _idController,
+                              _dateinput,
+                              _genderController,
+                              _nationalityController,
+                              _bloodController,
+                              _phoneController,
+                              _emailController);
+                        } else {
+                          openDialogWindow(
+                              context,
+                              code,
+                              _domainController,
+                              _fnameController,
+                              _mnameController,
+                              _lnameController,
+                              _idController,
+                              _dateinput,
+                              _genderController,
+                              _nationalityController,
+                              _bloodController,
+                              _phoneController,
+                              _emailController);
+                        }
+                      },
+                      icon: SvgPicture.asset(
+                        "assets/svg/eye.svg",
+                        color: Theme.of(context).primaryColor,
+                      ),
                     )
                   ],
                 ),
@@ -187,7 +186,34 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           width: MediaQuery.of(context).size.width / 2,
                           child: CustomButton(
                             height: 50,
-                            function: () {},
+                            function: () {
+                              if (_domainController.text.isEmpty ||
+                                  _fnameController.text.isEmpty ||
+                                  _lnameController.text.isEmpty ||
+                                  _phoneController.text.isEmpty ||
+                                  _emailController.text.isEmpty) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  duration: Duration(seconds: 2),
+                                  content: CustomSnackbar(
+                                    data: "Validation Error",
+                                  ),
+                                ));
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        elevation: 0,
+                                        duration: Duration(seconds: 2),
+                                        content: CustomSnackbar(
+                                          data: "Success",
+                                        )));
+                              }
+                            },
                             buttonColor: Theme.of(context).primaryColor,
                             buttonBorder:
                                 Border.all(color: Colors.white30, width: 2),
@@ -197,7 +223,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           ),
                         ),
                       )
-                    : Text(""),
+                    : const Text(""),
               ],
             ),
             bottomSheet: Container(
@@ -219,14 +245,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                     ),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: isPageChanged == 3
-                  //       ? () {
-                  //           print('registered');
-                  //         }
-                  //       : null,
-                  //   child: const Text('Register'),
-                  // ),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),

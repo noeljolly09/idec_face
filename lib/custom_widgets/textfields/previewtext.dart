@@ -19,7 +19,6 @@ class PreviewText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width10 = MediaQuery.of(context).size.width / 41.142;
-    double width20 = MediaQuery.of(context).size.width / 20.571;
     return Row(
       children: [
         Container(width: width10),

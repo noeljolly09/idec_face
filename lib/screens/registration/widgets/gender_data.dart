@@ -55,8 +55,6 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _searchcontroller = TextEditingController();
-    double height10 = MediaQuery.of(context).size.height / 82.051;
-    double height20 = MediaQuery.of(context).size.height / 42.02;
     double height30 = MediaQuery.of(context).size.height / 27.352;
     double height40 = MediaQuery.of(context).size.height / 20.514;
 

@@ -45,7 +45,7 @@ openValidationDialogWindow(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          "Validation failed.Error Details",
+                          "Preview Page",
                           style: TextStyle(
                               fontSize: 20,
                               color: AppConstants.customblack,

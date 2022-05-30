@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/custom_widgets/country_code_picker.dart';
 
 import '../../../constants.dart';
-import '../../../custom_widgets/button.dart';
 import '../../../custom_widgets/text.dart';
 import '../../../custom_widgets/textfields/custom_textfield.dart';
 import '../../../custom_widgets/textfields/text_icon_only_textfield.dart';

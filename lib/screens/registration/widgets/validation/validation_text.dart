@@ -90,7 +90,7 @@ class ValidationText extends StatelessWidget {
                   ? null
                   : const Text(
                       "Mandatory Field",
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(color: Colors.red, fontSize: 12),
                     )),
         ),
       ],
