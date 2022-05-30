@@ -16,6 +16,8 @@ import '../../custom_widgets/custom_snackbar.dart';
 import '../../custom_widgets/text.dart';
 import '../../network/service_umbrella.dart';
 import '../../utility/app_info.dart';
+import '../../utility/connectivity/connectivity_constants.dart';
+import '../../utility/connectivity/connectivity_notifier_provider.dart';
 import '../../utility/privacy_policy.dart';
 import 'widgets/contact_data.dart';
 import 'widgets/gender_data.dart';
@@ -92,7 +94,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25714285714286;
-    initListeners();
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+    initListeners(networkStatus);
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -343,9 +346,24 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     );
   }
 
-  initListeners() {
+  initListeners(ConnectionStatus networkStatus) {
     ref.listen(configInfoNotifierProvider, (previous, next) {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+      if (configInfoResponse.status == ServiceStatus.completed) {
+        if (configInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in configInfoResponse.data!.response!) {
+            if (element.value!.bloodGrpResponse!.isNotEmpty) {
+              element.value!.bloodGrpResponse!.forEach((item) {});
+            }
+          }
+        }
+      } else if (configInfoResponse.status == ServiceStatus.error) {
+        if (networkStatus == ConnectionStatus.offline) {
+        } else if (configInfoResponse.errorCode ==
+            ServiceErrorCode.unauthorized) {
+        } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
+        } else {}
+      }
     });
   }
 }
