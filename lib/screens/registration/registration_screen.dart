@@ -41,10 +41,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   bool isSubmitButtonActive = false;
   int isPageChanged = 0;
 
-  List<SelectedListItem> listOfgender = [];
-  List<SelectedListItem> listOfblood = [];
-  List<SelectedListItem> listOfnationality = [];
-
   String? customValidator(String? fieldContent) =>
       fieldContent!.isEmpty ? 'This is required field' : null;
 
@@ -194,9 +190,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       ),
                       GenderPageRegistration(
                           onValidate: customValidator,
-                          genderlist: listOfgender,
-                          bloodlist: listOfblood,
-                          nationalitylist: listOfnationality,
+
                           dateinput: _dateinput,
                           nationalityvalue: _nationalityController,
                           bloodvalue: _bloodController,

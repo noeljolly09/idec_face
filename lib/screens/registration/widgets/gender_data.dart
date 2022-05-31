@@ -19,9 +19,6 @@ class GenderPageRegistration extends ConsumerStatefulWidget {
   final TextEditingController gendervalue;
   final TextEditingController nationalityvalue;
   final TextEditingController bloodvalue;
-  final List<SelectedListItem> genderlist;
-  final List<SelectedListItem> nationalitylist;
-  final List<SelectedListItem> bloodlist;
   final String? Function(String?)? onValidate;
 
   const GenderPageRegistration({
@@ -30,9 +27,6 @@ class GenderPageRegistration extends ConsumerStatefulWidget {
     required this.gendervalue,
     required this.nationalityvalue,
     required this.bloodvalue,
-    required this.genderlist,
-    required this.nationalitylist,
-    required this.bloodlist,
     this.onValidate,
   }) : super(key: key);
 
@@ -42,28 +36,9 @@ class GenderPageRegistration extends ConsumerStatefulWidget {
 
 class _GenderPageRegistrationState
     extends ConsumerState<GenderPageRegistration> {
-  final List<SelectedListItem> _listOfgender = [
-    SelectedListItem(false, "Male"),
-    SelectedListItem(false, "Female"),
-    SelectedListItem(false, "Other"),
-  ];
-  final List<SelectedListItem> _listOfnationality = [
-    SelectedListItem(false, "Indian"),
-    SelectedListItem(false, "American"),
-    SelectedListItem(false, "African"),
-    SelectedListItem(false, "Australian"),
-    SelectedListItem(false, "Brazalian"),
-  ];
-  final List<SelectedListItem> _listOfbloodgroups = [
-    SelectedListItem(false, "A+"),
-    SelectedListItem(false, "A-"),
-    SelectedListItem(false, "AB+"),
-    SelectedListItem(false, "AB-"),
-    SelectedListItem(false, "B+"),
-    SelectedListItem(false, "B-"),
-    SelectedListItem(false, "O+"),
-    SelectedListItem(false, "O-"),
-  ];
+  final List<SelectedListItem> _listOfgender = [];
+  final List<SelectedListItem> _listOfnationality = [];
+  final List<SelectedListItem> _listOfbloodgroups = [];
 
   @override
   void initState() {
@@ -162,7 +137,7 @@ class _GenderPageRegistrationState
                           isSvg: true,
                           svgAsset: "assets/svg/gender.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: widget.genderlist,
+                          list: _listOfgender,
                           hinttext: "Gender",
                           searchhinttext: "Select your gender",
                           sheetTitle: "Gender",
@@ -180,7 +155,7 @@ class _GenderPageRegistrationState
                           isSvg: true,
                           svgAsset: "assets/svg/nationality.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: widget.nationalitylist,
+                          list: _listOfnationality,
                           hinttext: "Nationality",
                           searchhinttext: "Search your nationality",
                           sheetTitle: "Nationality",
@@ -198,7 +173,7 @@ class _GenderPageRegistrationState
                           isSvg: true,
                           svgAsset: "assets/svg/blood.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: widget.bloodlist,
+                          list: _listOfbloodgroups,
                           hinttext: "Blood Group",
                           searchhinttext: "Search your blood group",
                           sheetTitle: "Blood Group",
@@ -219,17 +194,54 @@ class _GenderPageRegistrationState
 
   initListeners(ConnectionStatus networkStatus) {
     final configInfoResponse = ref.watch(configInfoNotifierProvider);
-    //  final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+    // final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
     if (configInfoResponse.status == ServiceStatus.completed) {
       if (configInfoResponse.data!.response!.isNotEmpty) {
         for (var element in configInfoResponse.data!.response!) {
-          List<SelectedListItem>? _listOfbloodgroups = [];
-
           if (element.value!.genderResponse != null) {
-            element.value!.genderResponse!.forEach((item) {
-              _listOfbloodgroups.add(SelectedListItem(false, item.name!));
-              print(_listOfbloodgroups);
-            });
+            for (var item in element.value!.genderResponse!) {
+              _listOfgender.add(SelectedListItem(false, item.name!));
+            }
+          }
+        }
+      }
+    } else if (configInfoResponse.status == ServiceStatus.error) {
+      if (networkStatus == ConnectionStatus.offline) {
+      } else if (configInfoResponse.errorCode ==
+          ServiceErrorCode.unauthorized) {
+      } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
+      } else {}
+    }
+
+    //bloodgroup
+
+    if (configInfoResponse.status == ServiceStatus.completed) {
+      if (configInfoResponse.data!.response!.isNotEmpty) {
+        for (var element in configInfoResponse.data!.response!) {
+          if (element.value!.bloodGrpResponse != null) {
+            for (var item in element.value!.bloodGrpResponse!) {
+              _listOfbloodgroups.add(SelectedListItem(false, item.value!));
+            }
+          }
+        }
+      }
+    } else if (configInfoResponse.status == ServiceStatus.error) {
+      if (networkStatus == ConnectionStatus.offline) {
+      } else if (configInfoResponse.errorCode ==
+          ServiceErrorCode.unauthorized) {
+      } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
+      } else {}
+    }
+
+    // // nationality
+
+    if (configInfoResponse.status == ServiceStatus.completed) {
+      if (configInfoResponse.data!.response!.isNotEmpty) {
+        for (var element in configInfoResponse.data!.response!) {
+          if (element.value!.nationalityResponse != null) {
+            for (var item in element.value!.nationalityResponse!) {
+              _listOfnationality.add(SelectedListItem(false, item.name!));
+            }
           }
         }
       }
