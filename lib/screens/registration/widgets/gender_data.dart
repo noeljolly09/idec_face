@@ -1,14 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 import '../../../custom_widgets/custom_selection.dart';
 import '../../../custom_widgets/text.dart';
+import '../../../network/core/service_constants/service_constants.dart';
+import '../../../network/core/service_response.dart';
+import '../../../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
+import '../../../utility/connectivity/connectivity_constants.dart';
+import '../../../utility/connectivity/connectivity_notifier_provider.dart';
 
-class GenderPageRegistration extends StatefulWidget {
+class GenderPageRegistration extends ConsumerStatefulWidget {
   final TextEditingController dateinput;
   final TextEditingController gendervalue;
   final TextEditingController nationalityvalue;
@@ -25,10 +31,11 @@ class GenderPageRegistration extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GenderPageRegistration> createState() => _GenderPageRegistrationState();
+  _GenderPageRegistrationState createState() => _GenderPageRegistrationState();
 }
 
-class _GenderPageRegistrationState extends State<GenderPageRegistration> {
+class _GenderPageRegistrationState
+    extends ConsumerState<GenderPageRegistration> {
   final List<SelectedListItem> _listOfgender = [
     SelectedListItem(false, "Male"),
     SelectedListItem(false, "Female"),
@@ -51,6 +58,15 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
     SelectedListItem(false, "O+"),
     SelectedListItem(false, "O-"),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      final networkStatus = ref.read(connectivityNotifierProvider).status;
+      initListeners(networkStatus);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,5 +209,30 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
         ),
       ),
     );
+  }
+
+  initListeners(ConnectionStatus networkStatus) {
+    final configInfoResponse = ref.watch(configInfoNotifierProvider);
+    //  final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+    if (configInfoResponse.status == ServiceStatus.completed) {
+      if (configInfoResponse.data!.response!.isNotEmpty) {
+        for (var element in configInfoResponse.data!.response!) {
+          List<SelectedListItem>? _listOfbloodgroups = [];
+
+          if (element.value!.genderResponse != null) {
+            element.value!.genderResponse!.forEach((item) {
+              _listOfbloodgroups.add(SelectedListItem(false, item.name!));
+              print(_listOfbloodgroups);
+            });
+          }
+        }
+      }
+    } else if (configInfoResponse.status == ServiceStatus.error) {
+      if (networkStatus == ConnectionStatus.offline) {
+      } else if (configInfoResponse.errorCode ==
+          ServiceErrorCode.unauthorized) {
+      } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
+      } else {}
+    }
   }
 }
