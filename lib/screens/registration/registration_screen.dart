@@ -1,10 +1,10 @@
 import 'package:country_list_pick/country_list_pick.dart';
-import 'package:drop_down_list/drop_down_list.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/models/config_request.dart';
-import 'package:idec_face/models/config_response.dart';
+
 import 'package:idec_face/repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
@@ -14,12 +14,11 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/custom_snackbar.dart';
-import '../../custom_widgets/loading/loading.dart';
+
 import '../../custom_widgets/text.dart';
-import '../../network/service_umbrella.dart';
+
 import '../../utility/app_info.dart';
-import '../../utility/connectivity/connectivity_constants.dart';
-import '../../utility/connectivity/connectivity_notifier_provider.dart';
+
 import '../../utility/privacy_policy.dart';
 import 'widgets/contact_data.dart';
 import 'widgets/gender_data.dart';
