@@ -98,7 +98,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
-    double height78 = MediaQuery.of(context).size.height / 10.25714285714286;
+    double height78 = MediaQuery.of(context).size.height / 10.25;
     initListeners(context);
     return SafeArea(
       child: Form(
@@ -335,7 +335,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                           child: const Text(
                             "Privacy Policy",
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 10,
                                 decoration: TextDecoration.underline,
                                 color: Colors.black),
                           ),
