@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/models/config_request.dart';
+import 'package:idec_face/models/config_response.dart';
 
 import 'package:idec_face/repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
@@ -15,8 +16,10 @@ import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/custom_snackbar.dart';
 
+import '../../custom_widgets/loading/loading.dart';
 import '../../custom_widgets/text.dart';
 
+import '../../network/service_umbrella.dart';
 import '../../utility/app_info.dart';
 
 import '../../utility/privacy_policy.dart';
@@ -63,6 +66,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
+      ProgressDialog.showLoadingDialog(context: context);
     });
   }
 
@@ -95,7 +99,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25714285714286;
-    //  initListeners(context);
+    initListeners(context);
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -189,7 +193,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       ),
                       GenderPageRegistration(
                           onValidate: customValidator,
-
                           dateinput: _dateinput,
                           nationalityvalue: _nationalityController,
                           bloodvalue: _bloodController,
@@ -347,17 +350,14 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     );
   }
 
-  // initListeners(BuildContext context) {
-  //   print("df");
-  //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-  //     final configInfoResponse = ref.watch(configInfoNotifierProvider);
-  //     if (configInfoResponse.status == ServiceStatus.loading) {
-  //       ProgressDialog.showLoadingDialog(context: context);
-  //     } else if (configInfoResponse.status == ServiceStatus.completed) {
-  //       ProgressDialog.dismiss(context: context);
-  //     } else if (configInfoResponse.status == ServiceStatus.error) {
-  //       ProgressDialog.dismiss(context: context);
-  //     }
-  //   });
-  // }
+  initListeners(BuildContext context) {
+    ref.listen(configInfoNotifierProvider, (previous, next) {
+      final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+      if (configInfoResponse.status == ServiceStatus.completed) {
+        ProgressDialog.dismiss(context: context);
+      } else if (configInfoResponse.status == ServiceStatus.error) {
+        ProgressDialog.dismiss(context: context);
+      }
+    });
+  }
 }

@@ -3,6 +3,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/utility/extensions/string_utility.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
@@ -200,7 +201,7 @@ class _GenderPageRegistrationState
         for (var element in configInfoResponse.data!.response!) {
           if (element.value!.genderResponse != null) {
             for (var item in element.value!.genderResponse!) {
-              _listOfgender.add(SelectedListItem(false, item.name!));
+              _listOfgender.add(SelectedListItem(false, item.name!.capitalize));
             }
           }
         }
@@ -220,7 +221,8 @@ class _GenderPageRegistrationState
         for (var element in configInfoResponse.data!.response!) {
           if (element.value!.bloodGrpResponse != null) {
             for (var item in element.value!.bloodGrpResponse!) {
-              _listOfbloodgroups.add(SelectedListItem(false, item.value!));
+              _listOfbloodgroups
+                  .add(SelectedListItem(false, item.value!.capitalize));
             }
           }
         }
@@ -240,7 +242,8 @@ class _GenderPageRegistrationState
         for (var element in configInfoResponse.data!.response!) {
           if (element.value!.nationalityResponse != null) {
             for (var item in element.value!.nationalityResponse!) {
-              _listOfnationality.add(SelectedListItem(false, item.name!));
+              _listOfnationality
+                  .add(SelectedListItem(false, item.name!.capitalize));
             }
           }
         }
