@@ -19,6 +19,9 @@ class GenderPageRegistration extends ConsumerStatefulWidget {
   final TextEditingController gendervalue;
   final TextEditingController nationalityvalue;
   final TextEditingController bloodvalue;
+  final List<SelectedListItem> genderlist;
+  final List<SelectedListItem> nationalitylist;
+  final List<SelectedListItem> bloodlist;
   final String? Function(String?)? onValidate;
 
   const GenderPageRegistration({
@@ -27,6 +30,9 @@ class GenderPageRegistration extends ConsumerStatefulWidget {
     required this.gendervalue,
     required this.nationalityvalue,
     required this.bloodvalue,
+    required this.genderlist,
+    required this.nationalitylist,
+    required this.bloodlist,
     this.onValidate,
   }) : super(key: key);
 
@@ -156,7 +162,7 @@ class _GenderPageRegistrationState
                           isSvg: true,
                           svgAsset: "assets/svg/gender.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: _listOfgender,
+                          list: widget.genderlist,
                           hinttext: "Gender",
                           searchhinttext: "Select your gender",
                           sheetTitle: "Gender",
@@ -174,7 +180,7 @@ class _GenderPageRegistrationState
                           isSvg: true,
                           svgAsset: "assets/svg/nationality.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: _listOfnationality,
+                          list: widget.nationalitylist,
                           hinttext: "Nationality",
                           searchhinttext: "Search your nationality",
                           sheetTitle: "Nationality",
@@ -192,7 +198,7 @@ class _GenderPageRegistrationState
                           isSvg: true,
                           svgAsset: "assets/svg/blood.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: _listOfbloodgroups,
+                          list: widget.bloodlist,
                           hinttext: "Blood Group",
                           searchhinttext: "Search your blood group",
                           sheetTitle: "Blood Group",
