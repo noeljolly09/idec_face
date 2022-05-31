@@ -76,7 +76,7 @@ class ContactPageRegistration extends StatelessWidget {
                                   Container(
                                     margin: const EdgeInsets.only(bottom: 0),
                                     width:
-                                        MediaQuery.of(context).size.width / 3.5,
+                                        MediaQuery.of(context).size.width / 3.3,
                                     height: 50,
                                     child: CustomCountryCodePicker(
                                         changeCountryCode: onchanged),
