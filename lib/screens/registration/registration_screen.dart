@@ -355,8 +355,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   initListeners(BuildContext context) {
-    final configInfoResponse = ref.watch(configInfoNotifierProvider);
+    print("df");
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      final configInfoResponse = ref.watch(configInfoNotifierProvider);
       if (configInfoResponse.status == ServiceStatus.loading) {
         ProgressDialog.showLoadingDialog(context: context);
       } else if (configInfoResponse.status == ServiceStatus.completed) {
