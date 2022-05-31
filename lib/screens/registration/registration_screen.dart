@@ -100,7 +100,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25714285714286;
-    initListeners(context);
+    //  initListeners(context);
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -354,17 +354,17 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     );
   }
 
-  initListeners(BuildContext context) {
-    print("df");
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      final configInfoResponse = ref.watch(configInfoNotifierProvider);
-      if (configInfoResponse.status == ServiceStatus.loading) {
-        ProgressDialog.showLoadingDialog(context: context);
-      } else if (configInfoResponse.status == ServiceStatus.completed) {
-        ProgressDialog.dismiss(context: context);
-      } else if (configInfoResponse.status == ServiceStatus.error) {
-        ProgressDialog.dismiss(context: context);
-      }
-    });
-  }
+  // initListeners(BuildContext context) {
+  //   print("df");
+  //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+  //     final configInfoResponse = ref.watch(configInfoNotifierProvider);
+  //     if (configInfoResponse.status == ServiceStatus.loading) {
+  //       ProgressDialog.showLoadingDialog(context: context);
+  //     } else if (configInfoResponse.status == ServiceStatus.completed) {
+  //       ProgressDialog.dismiss(context: context);
+  //     } else if (configInfoResponse.status == ServiceStatus.error) {
+  //       ProgressDialog.dismiss(context: context);
+  //     }
+  //   });
+  // }
 }
