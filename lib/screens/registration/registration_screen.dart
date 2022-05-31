@@ -1,4 +1,5 @@
 import 'package:country_list_pick/country_list_pick.dart';
+import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,7 +9,6 @@ import 'package:idec_face/repositary/config_info_repository/providers/config_inf
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
-
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
@@ -38,6 +38,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   bool isPreviewButtonActive = false;
   bool isSubmitButtonActive = false;
   int isPageChanged = 0;
+
+  List<SelectedListItem> listOfgender = [];
+  List<SelectedListItem> listOfblood = [];
+  List<SelectedListItem> listOfnationality = [];
 
   String? customValidator(String? fieldContent) =>
       fieldContent!.isEmpty ? 'This is required field' : null;
@@ -94,6 +98,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25714285714286;
+
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initListeners(networkStatus);
     return SafeArea(
@@ -189,6 +194,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       ),
                       GenderPageRegistration(
                           onValidate: customValidator,
+                          genderlist: listOfgender,
+                          bloodlist: listOfblood,
+                          nationalitylist: listOfnationality,
                           dateinput: _dateinput,
                           nationalityvalue: _nationalityController,
                           bloodvalue: _bloodController,
@@ -353,7 +361,49 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         if (configInfoResponse.data!.response!.isNotEmpty) {
           for (var element in configInfoResponse.data!.response!) {
             if (element.value!.bloodGrpResponse!.isNotEmpty) {
-              element.value!.bloodGrpResponse!.forEach((item) {});
+              for (var item in element.value!.bloodGrpResponse!) {
+                listOfblood.add(SelectedListItem(false, item.value!));
+              }
+            }
+          }
+        }
+      } else if (configInfoResponse.status == ServiceStatus.error) {
+        if (networkStatus == ConnectionStatus.offline) {
+        } else if (configInfoResponse.errorCode ==
+            ServiceErrorCode.unauthorized) {
+        } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
+        } else {}
+      }
+
+      // gender list
+
+      if (configInfoResponse.status == ServiceStatus.completed) {
+        if (configInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in configInfoResponse.data!.response!) {
+            if (element.value!.genderResponse!.isNotEmpty) {
+              for (var item in element.value!.genderResponse!) {
+                listOfgender.add(SelectedListItem(false, item.name!));
+              }
+            }
+          }
+        }
+      } else if (configInfoResponse.status == ServiceStatus.error) {
+        if (networkStatus == ConnectionStatus.offline) {
+        } else if (configInfoResponse.errorCode ==
+            ServiceErrorCode.unauthorized) {
+        } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
+        } else {}
+      }
+
+      // nationality list
+
+      if (configInfoResponse.status == ServiceStatus.completed) {
+        if (configInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in configInfoResponse.data!.response!) {
+            if (element.value!.nationalityResponse!.isNotEmpty) {
+              for (var item in element.value!.nationalityResponse!) {
+                listOfnationality.add(SelectedListItem(false, item.name!));
+              }
             }
           }
         }

@@ -13,6 +13,9 @@ class GenderPageRegistration extends StatefulWidget {
   final TextEditingController gendervalue;
   final TextEditingController nationalityvalue;
   final TextEditingController bloodvalue;
+  final List<SelectedListItem> genderlist;
+  final List<SelectedListItem> nationalitylist;
+  final List<SelectedListItem> bloodlist;
   final String? Function(String?)? onValidate;
 
   const GenderPageRegistration({
@@ -21,6 +24,9 @@ class GenderPageRegistration extends StatefulWidget {
     required this.gendervalue,
     required this.nationalityvalue,
     required this.bloodvalue,
+    required this.genderlist,
+    required this.nationalitylist,
+    required this.bloodlist,
     this.onValidate,
   }) : super(key: key);
 
@@ -29,29 +35,6 @@ class GenderPageRegistration extends StatefulWidget {
 }
 
 class _GenderPageRegistrationState extends State<GenderPageRegistration> {
-  final List<SelectedListItem> _listOfgender = [
-    SelectedListItem(false, "Male"),
-    SelectedListItem(false, "Female"),
-    SelectedListItem(false, "Other"),
-  ];
-  final List<SelectedListItem> _listOfnationality = [
-    SelectedListItem(false, "Indian"),
-    SelectedListItem(false, "American"),
-    SelectedListItem(false, "African"),
-    SelectedListItem(false, "Australian"),
-    SelectedListItem(false, "Brazalian"),
-  ];
-  final List<SelectedListItem> _listOfbloodgroups = [
-    SelectedListItem(false, "A+"),
-    SelectedListItem(false, "A-"),
-    SelectedListItem(false, "AB+"),
-    SelectedListItem(false, "AB-"),
-    SelectedListItem(false, "B+"),
-    SelectedListItem(false, "B-"),
-    SelectedListItem(false, "O+"),
-    SelectedListItem(false, "O-"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     TextEditingController _searchcontroller = TextEditingController();
@@ -140,7 +123,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
                           isSvg: true,
                           svgAsset: "assets/svg/gender.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: _listOfgender,
+                          list: widget.genderlist,
                           hinttext: "Gender",
                           searchhinttext: "Select your gender",
                           sheetTitle: "Gender",
@@ -158,7 +141,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
                           isSvg: true,
                           svgAsset: "assets/svg/nationality.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: _listOfnationality,
+                          list: widget.nationalitylist,
                           hinttext: "Nationality",
                           searchhinttext: "Search your nationality",
                           sheetTitle: "Nationality",
@@ -176,7 +159,7 @@ class _GenderPageRegistrationState extends State<GenderPageRegistration> {
                           isSvg: true,
                           svgAsset: "assets/svg/blood.svg",
                           width: MediaQuery.of(context).size.width,
-                          list: _listOfbloodgroups,
+                          list: widget.bloodlist,
                           hinttext: "Blood Group",
                           searchhinttext: "Search your blood group",
                           sheetTitle: "Blood Group",
