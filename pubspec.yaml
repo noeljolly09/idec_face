@@ -39,7 +39,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   flutter_svg: ^1.0.3
   package_info_plus: ^1.4.2
-  flutter_riverpod: ^1.0.3
+  flutter_riverpod: ^1.0.4
   flutter_localizations: 
     sdk: flutter
     version: ^0.0.0
