@@ -14,6 +14,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
+import '../../custom_widgets/custom_message_dialog.dart';
 import '../../custom_widgets/custom_snackbar.dart';
 
 import '../../custom_widgets/loading/loading.dart';
@@ -64,7 +65,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
       ProgressDialog.showLoadingDialog(context: context);
     });
@@ -221,26 +222,26 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                   _lnameController.text.isEmpty ||
                                   _phoneController.text.isEmpty ||
                                   _emailController.text.isEmpty) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  duration: Duration(seconds: 2),
-                                  content: CustomSnackbar(
-                                    data: "Validation Error",
-                                  ),
-                                ));
+                                openValidationDialogWindow(
+                                    context,
+                                    code,
+                                    _domainController,
+                                    _fnameController,
+                                    _mnameController,
+                                    _lnameController,
+                                    _idController,
+                                    _dateinput,
+                                    _genderController,
+                                    _nationalityController,
+                                    _bloodController,
+                                    _phoneController,
+                                    _emailController);
                               } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: Colors.transparent,
-                                        elevation: 0,
-                                        duration: Duration(seconds: 2),
-                                        content: CustomSnackbar(
-                                          data: "Success",
-                                        )));
+                                messageDialog(
+                                    context,
+                                    _domainController,
+                                    "Registration Success",
+                                    "Your registration to ${_domainController.text} has been submitted successfully. You will recieve an email after profile validation.");
                               }
                             },
                             buttonColor: Theme.of(context).primaryColor,

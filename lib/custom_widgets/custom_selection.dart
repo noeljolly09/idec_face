@@ -122,6 +122,9 @@ class _CustomSelectionBarState extends State<CustomSelectionBar> {
       ),
       context: context,
       builder: (context) {
+        Future.delayed(const Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
         return DraggableScrollableSheet(
           initialChildSize: 1,
           maxChildSize: 1,
