@@ -7,6 +7,7 @@ import '../custom_widgets/button.dart';
 import '../custom_widgets/custom_selection.dart';
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
+import '../custom_widgets/textfields/text_icon_only_textfield.dart';
 import '../utility/app_info.dart';
 import '../utility/privacy_policy.dart';
 
@@ -20,7 +21,8 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   final TextEditingController _domainController = TextEditingController();
-  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
+  final TextEditingController _optionsController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -89,18 +91,45 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ),
                               SizedBox(height: height20),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: CustomSelectionBar(
-                                  circleSuffixIcon: false,
-                                  isSvg: true,
-                                  svgAsset: "assets/svg/useriD.svg",
-                                  width: MediaQuery.of(context).size.width,
-                                  list: _listOfgender,
-                                  hinttext: "Select Options",
-                                  searchhinttext: "Select Options",
-                                  sheetTitle: "Select Options",
-                                  controller: _userController,
-                                  searchController: _searchController,
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(top: 10),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3,
+                                          child: CustomSelectionBar(
+                                            circleSuffixIcon: false,
+                                            isSvg: true,
+                                            svgAsset: "assets/svg/useriD.svg",
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            list: _listOfgender,
+                                            hinttext: "Select Options",
+                                            searchhinttext: "Select Options",
+                                            sheetTitle: "Select Options",
+                                            controller: _optionsController,
+                                            searchController: _searchController,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SimpleTextField(
+                                      hint: _optionsController.text.isEmpty
+                                          ? "Enter Value"
+                                          : _optionsController.text,
+                                      controller: _valueController,
+                                      textAction: TextInputAction.done,
+                                      input: TextInputType.text,
+                                      textorflex: false,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
