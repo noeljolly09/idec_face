@@ -5,9 +5,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../constants.dart';
 
-
-
-
 class CustomSelectionBar extends StatefulWidget {
   final TextEditingController controller;
   final TextEditingController searchController;
@@ -49,8 +46,13 @@ class _CustomSelectionBarState extends State<CustomSelectionBar> {
         controller: widget.controller,
         validator: widget.validator,
         onTap: () {
-          FocusScope.of(context).unfocus();
-          onTextFieldTap();
+          if (widget.list.isNotEmpty) {
+            FocusScope.of(context).unfocus();
+            onTextFieldTap();
+          } else {
+            FocusScope.of(context).unfocus();
+            onEmptyList();
+          }
         },
         readOnly: true,
         decoration: InputDecoration(
@@ -110,5 +112,25 @@ class _CustomSelectionBarState extends State<CustomSelectionBar> {
         },
       ),
     ).showModal(context);
+  }
+
+  void onEmptyList() {
+    showModalBottomSheet(
+      isScrollControlled: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+      ),
+      context: context,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 1,
+          maxChildSize: 1,
+          minChildSize: 0.5,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return const Center(child: Text('No Data Available'));
+          },
+        );
+      },
+    );
   }
 }

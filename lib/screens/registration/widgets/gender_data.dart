@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 import '../../../custom_widgets/custom_selection.dart';
+import '../../../custom_widgets/custom_snackbar.dart';
 import '../../../custom_widgets/text.dart';
 import '../../../network/core/service_constants/service_constants.dart';
 import '../../../network/core/service_response.dart';
@@ -146,6 +147,7 @@ class _GenderPageRegistrationState
                           searchController: _searchcontroller,
                         ),
                       ),
+
                       Container(height: height40),
                       // nationality
                       Container(
