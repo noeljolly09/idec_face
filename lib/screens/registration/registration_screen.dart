@@ -10,6 +10,7 @@ import 'package:idec_face/repositary/config_info_repository/providers/config_inf
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
+import 'package:idec_face/utility/connectivity/connectivity_info.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../constants.dart';
@@ -20,9 +21,12 @@ import '../../custom_widgets/custom_snackbar.dart';
 import '../../custom_widgets/loading/loading.dart';
 import '../../custom_widgets/text.dart';
 
+import '../../dialogs/info_dialog/dialog_with_timer.dart';
 import '../../network/service_umbrella.dart';
 import '../../utility/app_info.dart';
 
+import '../../utility/connectivity/connectivity_constants.dart';
+import '../../utility/connectivity/connectivity_notifier_provider.dart';
 import '../../utility/privacy_policy.dart';
 import 'widgets/contact_data.dart';
 import 'widgets/gender_data.dart';
@@ -65,7 +69,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
       ProgressDialog.showLoadingDialog(context: context);
     });
@@ -100,7 +104,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25;
-    initListeners(context);
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+    initListeners(context, networkStatus);
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -108,6 +113,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             resizeToAvoidBottomInset: false,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(height: AppConstants.abovecoldtruthheight),
                 SvgPicture.asset(
@@ -116,17 +122,19 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                 ),
                 SizedBox(height: height20),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const SizedBox(width: 50),
-                    Expanded(
-                        child: Center(
+                    const SizedBox(
+                      width: 40,
+                    ),
+                    Center(
                       child: CustomTextWidget(
                         color: AppConstants.customblack,
                         size: AppConstants.authtitlesize,
                         text: 'REGISTRATION',
                         fontWeight: FontWeight.normal,
                       ),
-                    )),
+                    ),
                     IconButton(
                       onPressed: () {
                         if (_domainController.text.isEmpty ||
@@ -237,11 +245,14 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                     _phoneController,
                                     _emailController);
                               } else {
-                                messageDialog(
-                                    context,
-                                    _domainController,
-                                    "Registration Success",
-                                    "Your registration to ${_domainController.text} has been submitted successfully. You will recieve an email after profile validation.");
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => const DialogWithTimer(
+                                    title: "Registered",
+                                    message: "Successfullly Registered",
+                                  ),
+                                );
                               }
                             },
                             buttonColor: Theme.of(context).primaryColor,
@@ -351,13 +362,32 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     );
   }
 
-  initListeners(BuildContext context) {
+  initListeners(BuildContext context, ConnectionStatus networkStatus) {
     ref.listen(configInfoNotifierProvider, (previous, next) {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
       if (configInfoResponse.status == ServiceStatus.completed) {
         ProgressDialog.dismiss(context: context);
       } else if (configInfoResponse.status == ServiceStatus.error) {
         ProgressDialog.dismiss(context: context);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const DialogWithTimer(
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const DialogWithTimer(
+              title: "Error",
+              message: "Something went wrong",
+            ),
+          );
+        }
       }
     });
   }

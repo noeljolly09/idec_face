@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           headline2: TextStyle(fontSize: 20), // title
           headline5: TextStyle(fontSize: 16), // modal text
           headline6: TextStyle(fontSize: 19), // button text
-          button: TextStyle(fontSize: 14), // button size
+          button: TextStyle(fontSize: 14, color: Colors.white), // button size
         ),
       ),
 
