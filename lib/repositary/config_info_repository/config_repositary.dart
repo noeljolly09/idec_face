@@ -16,12 +16,10 @@ class ConfigInfoRepositary {
         '/api/people/configurationsInfo',
         param.toJson(),
       );
-      print(response);
       final str = jsonEncode(response.data);
       final configResponse = configResponseFromJson(str);
       return ServiceResponse.completed(configResponse);
     } catch (e) {
-      print(e);
       final error = DioNetworkException.getDioException(e);
       return ServiceResponse.error(error.errorCode, error.message);
     }
