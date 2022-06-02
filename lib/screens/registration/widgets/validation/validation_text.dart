@@ -22,7 +22,6 @@ class ValidationText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width10 = MediaQuery.of(context).size.width / 41.142;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
