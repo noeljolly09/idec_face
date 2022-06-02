@@ -417,6 +417,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           ref
               .read(registrationNotifier)
               .updatelistOfnationalityState(value: _listOfnationality);
+          ref
+              .read(registrationNotifier)
+              .updatelistOfSelectOptionsState(value: _listOfSelectionOption);
         }
       } else if (configInfoResponse.status == ServiceStatus.error) {
         ref.read(registrationNotifier).updateConfigState(value: false);

@@ -52,11 +52,9 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
         controller: widget.controller,
         validator: widget.validator,
         onTap: () {
-          final List<SelectedListItem> _listOfSelectOptions =
-              ref.watch(registrationNotifier).listOfSelectOptions;
-          if (_listOfSelectOptions.isNotEmpty) {
+          if (widget.list.isNotEmpty) {
             FocusScope.of(context).unfocus();
-            onTextFieldTap(_listOfSelectOptions);
+            onTextFieldTap(widget.list);
           } else {
             if (!widget.isConfigreceived) {
               _getConfigAttributes();
