@@ -59,7 +59,9 @@ class SimpleTextField extends StatelessWidget {
                   borderSide: BorderSide(color: AppConstants.secondaryColor)),
               // hintText: hint,
               labelText: hint,
-              labelStyle: const TextStyle(color: AppConstants.customblack),
+              labelStyle: TextStyle(color: AppConstants.labeltextgrey),
+              floatingLabelStyle:
+                  const TextStyle(color: AppConstants.customblack),
               contentPadding: const EdgeInsets.all(10)),
           keyboardType: input ?? TextInputType.text,
           textInputAction: textAction,

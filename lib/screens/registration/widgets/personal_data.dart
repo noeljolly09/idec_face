@@ -45,12 +45,12 @@ class _GenderPageRegistrationState
     TextEditingController _searchcontroller = TextEditingController();
     double height30 = MediaQuery.of(context).size.height / 27.352;
     double height40 = MediaQuery.of(context).size.height / 20.514;
-  
+
     _listOfgender = ref.watch(registrationNotifier).listOfgender;
     _listOfbloodgroups = ref.watch(registrationNotifier).listOfbloodgroups;
     _listOfnationality = ref.watch(registrationNotifier).listOfnationality;
     isConfigreceived = ref.watch(registrationNotifier).isConfigreceived;
-    
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -89,8 +89,11 @@ class _GenderPageRegistrationState
                               borderSide:
                                   BorderSide(color: Colors.grey.shade400),
                             ),
-                            hintText: "DOB",
                             contentPadding: const EdgeInsets.all(10),
+                            hintText: "DOB",
+                            hintStyle: TextStyle(
+                                fontSize: AppConstants.formtextsize,
+                                color: AppConstants.labeltextgrey),
                             prefixIconConstraints: const BoxConstraints(
                                 maxHeight: 30, maxWidth: 30),
                             prefixIcon: Container(
@@ -189,6 +192,4 @@ class _GenderPageRegistrationState
       ),
     );
   }
-
-  
 }

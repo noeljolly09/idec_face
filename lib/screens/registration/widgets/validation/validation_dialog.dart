@@ -20,7 +20,8 @@ openValidationDialogWindow(
     TextEditingController nationality,
     TextEditingController blood,
     TextEditingController phone,
-    TextEditingController email) {
+    TextEditingController email,
+    {required String formHeader}) {
   showDialog(
       context: context,
       builder: (_) {
@@ -45,9 +46,9 @@ openValidationDialogWindow(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Preview Page",
-                          style: TextStyle(
+                        Text(
+                          formHeader,
+                          style: const TextStyle(
                               fontSize: 20,
                               color: AppConstants.customblack,
                               fontWeight: FontWeight.bold),
@@ -78,7 +79,7 @@ openValidationDialogWindow(
                         validationErrorText: firstname.text.isEmptyValidate,
                         assetName: "assets/svg/user.svg"),
                     PreviewText(
-                      assetName: "assets/svg/user.svg",
+                     // assetName: "assets/svg/user.svg",
                       titletext: "Middle Name",
                       controllertext: middlename.text,
                     ),
@@ -87,7 +88,8 @@ openValidationDialogWindow(
                         isValidated: lastname.text.isEmptyValidate.isEmpty,
                         validationErrorText: lastname.text.isEmptyValidate,
                         controllertext: lastname.text,
-                        assetName: "assets/svg/user.svg"),
+                        //assetName: "assets/svg/user.svg",
+                        ),
                     PreviewText(
                       assetName: "assets/svg/useriD.svg",
                       titletext: "Employee ID",

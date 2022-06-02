@@ -59,7 +59,9 @@ class CustomTextField extends StatelessWidget {
         obscureText: isObscure == true ? true : false,
         decoration: InputDecoration(
             labelText: hint,
-            labelStyle: const TextStyle(color: AppConstants.customblack),
+            labelStyle: TextStyle(color: AppConstants.labeltextgrey),
+            floatingLabelStyle:
+                const TextStyle(color: AppConstants.customblack),
             contentPadding: const EdgeInsets.all(5),
             suffixIcon: suffixIcon,
             // hintText: hint,

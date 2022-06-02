@@ -1,6 +1,7 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
@@ -10,6 +11,7 @@ import '../custom_widgets/button.dart';
 import '../custom_widgets/custom_selection.dart';
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
+import '../custom_widgets/textfields/forgotPassword_textField.dart';
 import '../custom_widgets/textfields/text_icon_only_textfield.dart';
 import '../dialogs/info_dialog/dialog_with_timer.dart';
 import '../models/config_request.dart';
@@ -34,7 +36,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final TextEditingController _valueController = TextEditingController();
   final TextEditingController _optionsController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
-
+  List<SelectedListItem> _listOfSelectionOption = [];
   @override
   void initState() {
     super.initState();
@@ -61,10 +63,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.82;
     double height60 = MediaQuery.of(context).size.height / 13.67;
-    final List<SelectedListItem> _listOfSelectOptions =
-        ref.watch(registrationNotifier).listOfSelectOptions;
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initListeners(networkStatus);
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -118,46 +119,32 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                               SizedBox(height: height20),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.2,
-                                child: Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 10),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3,
-                                          child: CustomSelectionBar(
-                                            circleSuffixIcon: false,
-                                            isSvg: true,
-                                            svgAsset: "assets/svg/useriD.svg",
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            list: _listOfSelectOptions,
-                                            hinttext: "Select Options",
-                                            searchhinttext: "Select Options",
-                                            sheetTitle: "Select Options",
-                                            controller: _optionsController,
-                                            searchController: _searchController,
-                                            isConfigreceived: true,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SimpleTextField(
-                                      hint: _optionsController.text.isEmpty
-                                          ? "Enter Value"
-                                          : _optionsController.text,
-                                      controller: _valueController,
-                                      textAction: TextInputAction.done,
-                                      input: TextInputType.text,
-                                      textorflex: false,
-                                    ),
-                                  ],
-                                ),
+                                child: ref
+                                            .watch(configInfoNotifierProvider)
+                                            .status ==
+                                        ServiceStatus.loading
+                                    ? const SpinKitCircle(
+                                        color: AppConstants.primaryColor,
+                                      )
+                                    : ForgotPasswordTextField(
+                                        hint: _optionsController.text.isEmpty
+                                            ? "Enter Value"
+                                            : _optionsController.text,
+                                        controller: _valueController,
+                                        optionController: _optionsController,
+                                        searchController: _searchController,
+                                        textAction: TextInputAction.done,
+                                        input: TextInputType.text,
+                                        textorflex: false,
+                                        validator: (value) {
+                                          if (value!.isEmpty ||
+                                              _searchController.text.isEmpty) {
+                                            return 'Select any one option';
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
                               ),
                             ],
                           ),
@@ -185,7 +172,12 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                               Expanded(
                                 child: CustomButton(
                                   height: 50,
-                                  function: () {},
+                                  function: () {
+                                    if (formGlobalKey.currentState!
+                                        .validate()) {
+                                      Navigator.pop(context);
+                                    }
+                                  },
                                   width:
                                       MediaQuery.of(context).size.width / 1.7,
                                   buttonColor: Theme.of(context).primaryColor,
@@ -288,7 +280,6 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
       if (configInfoResponse.status == ServiceStatus.loading) {
       } else if (configInfoResponse.status == ServiceStatus.completed) {
-        List<SelectedListItem> _listOfSelectionOption = [];
         if (configInfoResponse.data!.response!.isNotEmpty) {
           for (var element in configInfoResponse.data!.response!) {
             //list of select options
@@ -297,11 +288,10 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                 _listOfSelectionOption
                     .add(SelectedListItem(false, item.name!.capitalize));
               }
+              ref.read(registrationNotifier).updatelistOfSelectOptionsState(
+                  value: _listOfSelectionOption);
             }
           }
-          ref
-              .read(registrationNotifier)
-              .updatelistOfSelectOptionsState(value: _listOfSelectionOption);
         }
       } else if (configInfoResponse.status == ServiceStatus.error) {
         ref.read(registrationNotifier).updateConfigState(value: false);

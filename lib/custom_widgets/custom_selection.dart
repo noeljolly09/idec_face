@@ -3,6 +3,8 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/network/core/service_response.dart';
+import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
 import '../constants.dart';
 import '../models/config_request.dart';
 import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
@@ -50,9 +52,11 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
         controller: widget.controller,
         validator: widget.validator,
         onTap: () {
-          if (widget.list.isNotEmpty) {
+          final List<SelectedListItem> _listOfSelectOptions =
+              ref.watch(registrationNotifier).listOfSelectOptions;
+          if (_listOfSelectOptions.isNotEmpty) {
             FocusScope.of(context).unfocus();
-            onTextFieldTap();
+            onTextFieldTap(_listOfSelectOptions);
           } else {
             if (!widget.isConfigreceived) {
               _getConfigAttributes();
@@ -66,7 +70,8 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
           contentPadding: const EdgeInsets.only(top: 15, bottom: 10),
           hintText: widget.hinttext,
           hintStyle: TextStyle(
-              fontSize: AppConstants.formtextsize, color: Colors.black),
+              fontSize: AppConstants.formtextsize,
+              color: AppConstants.labeltextgrey),
           prefixIconConstraints:
               const BoxConstraints(maxHeight: 25, maxWidth: 30),
           prefixIcon: Container(
@@ -113,20 +118,22 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
         .getConfigAttributes(configInfoRequest);
   }
 
-  void onTextFieldTap() {
-    DropDownState(
-      DropDown(
-        searchHintText: widget.searchhinttext,
-        bottomSheetTitle: widget.sheetTitle,
-        searchBackgroundColor: Colors.black12,
-        dataList: widget.list,
-        enableMultipleSelection: false,
-        searchController: widget.searchController,
-        selectedItem: (String selected) {
-          widget.controller.text = selected;
-        },
-      ),
-    ).showModal(context);
+  void onTextFieldTap(List<SelectedListItem> _listOfSelectOptions) {
+    ref.watch(configInfoNotifierProvider).status == ServiceStatus.loading
+        ? onEmptyList()
+        : DropDownState(
+            DropDown(
+              searchHintText: widget.searchhinttext,
+              bottomSheetTitle: widget.sheetTitle,
+              searchBackgroundColor: Colors.black12,
+              dataList: _listOfSelectOptions,
+              enableMultipleSelection: false,
+              searchController: widget.searchController,
+              selectedItem: (String selected) {
+                widget.controller.text = selected;
+              },
+            ),
+          ).showModal(context);
   }
 
   void onEmptyList() {

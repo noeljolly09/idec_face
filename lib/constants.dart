@@ -15,6 +15,7 @@ class AppConstants {
   static const Color customblack = Color.fromARGB(255, 28, 36, 44);
 
   static const Color customgrey = Color(0xfff2f7f8);
+  static Color labeltextgrey = Colors.grey[500]!;
 
   static const Color inColor = Color(0xFFEEEEEE);
 

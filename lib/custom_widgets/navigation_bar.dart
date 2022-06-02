@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import '../constants.dart';
 import '../screens/dashboard/dashboard_screen.dart';
-import '../screens/notification_screens/notifications_screen.dart';
 
-import '../screens/settings_screen.dart';
+import '../screens/dashboard/notifier/dashboard_notifier.dart';
+import '../screens/device_screen.dart';
+import '../screens/events/events_screen.dart';
 import 'drawer/drawer.dart';
 
-class CustomNavigationBar extends StatefulWidget {
+class CustomNavigationBar extends ConsumerStatefulWidget {
   const CustomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  State<CustomNavigationBar> createState() => _CustomNavigationBarState();
+  _CustomNavigationBarState createState() => _CustomNavigationBarState();
 }
 
-class _CustomNavigationBarState extends State<CustomNavigationBar> {
+class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
   int selectedIndex = 0;
 
   String currentDate = DateFormat.MMMMd().format(DateTime.now());
@@ -25,20 +27,20 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
 
   final screens = [
     const DashboardPage(),
-    const NotificationsPage(),
-    const SettingsPage(),
+    const EventsPage(),
+    const DevicePage(),
   ];
 
-  final appbartitle = ["Home", "Notifications", "Settings"];
+  final appbartitle = ["Home", "Events", "Device"];
 
   void onTapBar(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    ref.read(navigationbarNotifier).updatedNavigtionIndex(value: index);
+    selectedIndex = index;
   }
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.watch(navigationbarNotifier).selectionIndex;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -89,11 +91,11 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               ),
               GButton(
                 icon: Icons.notifications,
-                text: "Notifications",
+                text: "Events",
               ),
               GButton(
-                icon: Icons.settings,
-                text: "Settings",
+                icon: Icons.phone_android,
+                text: "Device",
               ),
             ],
             onTabChange: onTapBar,
