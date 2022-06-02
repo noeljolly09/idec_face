@@ -69,7 +69,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
       ProgressDialog.showLoadingDialog(context: context);
     });

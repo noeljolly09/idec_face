@@ -42,7 +42,7 @@ class SimpleTextField extends StatelessWidget {
               icon,
               color: AppConstants.primaryColor,
             ),
-            hintText: hint,
+            // hintText: hint,
             contentPadding: const EdgeInsets.all(10)),
         keyboardType: input ?? TextInputType.text,
         textInputAction: textAction,
@@ -57,7 +57,7 @@ class SimpleTextField extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.grey)),
               focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: AppConstants.secondaryColor)),
-              hintText: hint,
+              // hintText: hint,
               labelText: hint,
               labelStyle: const TextStyle(color: AppConstants.customblack),
               contentPadding: const EdgeInsets.all(10)),

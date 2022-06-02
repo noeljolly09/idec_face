@@ -62,7 +62,7 @@ class CustomTextField extends StatelessWidget {
             labelStyle: const TextStyle(color: AppConstants.customblack),
             contentPadding: const EdgeInsets.all(5),
             suffixIcon: suffixIcon,
-            hintText: hint,
+            // hintText: hint,
             prefixIconConstraints:
                 const BoxConstraints(maxHeight: 30, maxWidth: 30),
             prefixIcon: isSvg == true

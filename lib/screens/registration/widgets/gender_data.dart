@@ -43,7 +43,7 @@ class _GenderPageRegistrationState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final networkStatus = ref.read(connectivityNotifierProvider).status;
       initListeners(networkStatus);
     });
