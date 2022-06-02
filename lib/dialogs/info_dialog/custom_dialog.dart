@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CustomDialogBox extends StatefulWidget {
+class InfoDialogBox extends StatefulWidget {
   final String title, descriptions, text;
   // final Image img;
   final VoidCallback onPressed;
 
-  const CustomDialogBox({
+  const InfoDialogBox({
     Key? key,
     required this.title,
     required this.descriptions,
@@ -15,10 +15,10 @@ class CustomDialogBox extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomDialogBoxState createState() => _CustomDialogBoxState();
+  _InfoDialogBoxState createState() => _InfoDialogBoxState();
 }
 
-class _CustomDialogBoxState extends State<CustomDialogBox> {
+class _InfoDialogBoxState extends State<InfoDialogBox> {
   @override
   Widget build(BuildContext context) {
     return Dialog(

@@ -248,7 +248,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
-                                  builder: (context) => const DialogWithTimer(
+                                  builder: (context) => const InfoDialogWithTimer(
                                     title: "Registered",
                                     message: "Successfullly Registered",
                                   ),
@@ -373,7 +373,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const DialogWithTimer(
+            builder: (context) => const InfoDialogWithTimer(
               title: "Error",
               message: "No Internet Connectivity",
             ),
@@ -382,7 +382,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const DialogWithTimer(
+            builder: (context) => const InfoDialogWithTimer(
               title: "Error",
               message: "Something went wrong",
             ),

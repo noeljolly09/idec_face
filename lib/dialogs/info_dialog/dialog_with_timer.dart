@@ -3,19 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:idec_face/dialogs/info_dialog/custom_dialog.dart';
 
-class DialogWithTimer extends StatefulWidget {
+class InfoDialogWithTimer extends StatefulWidget {
   final String title;
   final String message;
   final String? assetImage;
 
-  const DialogWithTimer(
+  const InfoDialogWithTimer(
       {required this.title, required this.message, this.assetImage});
 
   @override
-  _DialogWithTimerState createState() => _DialogWithTimerState();
+  _InfoDialogWithTimerState createState() => _InfoDialogWithTimerState();
 }
 
-class _DialogWithTimerState extends State<DialogWithTimer> {
+class _InfoDialogWithTimerState extends State<InfoDialogWithTimer> {
   late Timer? _timer;
 
   @override
@@ -28,7 +28,7 @@ class _DialogWithTimerState extends State<DialogWithTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomDialogBox(
+    return InfoDialogBox(
       title: widget.title,
       descriptions: widget.message,
       text: "OK",
