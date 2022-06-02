@@ -43,7 +43,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.zero,
+      // padding: EdgeInsets.zero,
       color: Colors.transparent,
       width: width,
       child: TextFormField(
@@ -60,7 +60,7 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
             labelText: hint,
             labelStyle: const TextStyle(color: AppConstants.customblack),
-            contentPadding: const EdgeInsets.all(5),
+            contentPadding: const EdgeInsets.all(7),
             suffixIcon: suffixIcon,
             // hintText: hint,
             prefixIconConstraints:
