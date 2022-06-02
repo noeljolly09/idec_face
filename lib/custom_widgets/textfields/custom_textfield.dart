@@ -43,7 +43,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.zero,
+      // padding: EdgeInsets.zero,
       color: Colors.transparent,
       width: width,
       child: TextFormField(
