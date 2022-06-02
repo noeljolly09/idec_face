@@ -1,6 +1,9 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
+import 'package:idec_face/utility/extensions/string_utility.dart';
 
 import '../constants.dart';
 import '../custom_widgets/button.dart';
@@ -8,17 +11,24 @@ import '../custom_widgets/custom_selection.dart';
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
 import '../custom_widgets/textfields/text_icon_only_textfield.dart';
+import '../dialogs/info_dialog/dialog_with_timer.dart';
+import '../models/config_request.dart';
+import '../models/config_response.dart';
+import '../network/service_umbrella.dart';
+import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 import '../utility/app_info.dart';
+import '../utility/connectivity/connectivity_constants.dart';
+import '../utility/connectivity/connectivity_notifier_provider.dart';
 import '../utility/privacy_policy.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
+class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   final TextEditingController _domainController = TextEditingController();
   final TextEditingController _valueController = TextEditingController();
@@ -26,19 +36,35 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getConfigAttributes();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _getConfigAttributes() {
+    final configInfoRequest = ConfigInfoRequest(configAttributes: ["FGTPSD"]);
+    ref
+        .read(configInfoNotifierProvider.notifier)
+        .getConfigAttributes(configInfoRequest);
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height10 = MediaQuery.of(context).size.height / 82.05;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.82;
     double height60 = MediaQuery.of(context).size.height / 13.67;
-
-    final List<SelectedListItem> _listOfgender = [
-      SelectedListItem(false, "Employee Id"),
-      SelectedListItem(false, "Username"),
-      SelectedListItem(false, "Email Id"),
-      SelectedListItem(false, "Phone Number"),
-    ];
-
+    final List<SelectedListItem> _listOfSelectOptions =
+        ref.watch(registrationNotifier).listOfSelectOptions;
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+    initListeners(networkStatus);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -110,12 +136,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
-                                            list: _listOfgender,
+                                            list: _listOfSelectOptions,
                                             hinttext: "Select Options",
                                             searchhinttext: "Select Options",
                                             sheetTitle: "Select Options",
                                             controller: _optionsController,
                                             searchController: _searchController,
+                                            isConfigreceived: true,
                                           ),
                                         ),
                                       ],
@@ -187,7 +214,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               const SizedBox(width: 5),
                               InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/');
+                                  Navigator.pop(context);
                                 },
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
@@ -254,5 +281,50 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
       ),
     );
+  }
+
+  initListeners(ConnectionStatus networkStatus) {
+    ref.listen(configInfoNotifierProvider, ((previous, next) {
+      final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+      if (configInfoResponse.status == ServiceStatus.loading) {
+      } else if (configInfoResponse.status == ServiceStatus.completed) {
+        List<SelectedListItem> _listOfSelectionOption = [];
+        if (configInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in configInfoResponse.data!.response!) {
+            //list of select options
+            if (element.value!.selectionResponse != null) {
+              for (var item in element.value!.selectionResponse!) {
+                _listOfSelectionOption
+                    .add(SelectedListItem(false, item.name!.capitalize));
+              }
+            }
+          }
+          ref
+              .read(registrationNotifier)
+              .updatelistOfSelectOptionsState(value: _listOfSelectionOption);
+        }
+      } else if (configInfoResponse.status == ServiceStatus.error) {
+        ref.read(registrationNotifier).updateConfigState(value: false);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const InfoDialogWithTimer(
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const InfoDialogWithTimer(
+              title: "Error",
+              message: "Something went wrong",
+            ),
+          );
+        }
+      }
+    }));
   }
 }

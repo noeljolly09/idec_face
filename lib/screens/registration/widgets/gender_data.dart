@@ -2,17 +2,12 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:idec_face/utility/extensions/string_utility.dart';
 import 'package:intl/intl.dart';
-
 import '../../../constants.dart';
 import '../../../custom_widgets/custom_selection.dart';
 import '../../../custom_widgets/text.dart';
-import '../../../network/core/service_constants/service_constants.dart';
-import '../../../network/core/service_response.dart';
-import '../../../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
-import '../../../utility/connectivity/connectivity_constants.dart';
-import '../../../utility/connectivity/connectivity_notifier_provider.dart';
+
+import '../notifiers/registration_notifiers.dart';
 
 class GenderPageRegistration extends ConsumerStatefulWidget {
   final TextEditingController dateinput;
@@ -36,17 +31,13 @@ class GenderPageRegistration extends ConsumerStatefulWidget {
 
 class _GenderPageRegistrationState
     extends ConsumerState<GenderPageRegistration> {
-  final List<SelectedListItem> _listOfgender = [];
-  final List<SelectedListItem> _listOfnationality = [];
-  final List<SelectedListItem> _listOfbloodgroups = [];
-
+  List<SelectedListItem> _listOfgender = [];
+  List<SelectedListItem> _listOfnationality = [];
+  List<SelectedListItem> _listOfbloodgroups = [];
+  bool isConfigreceived = false;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final networkStatus = ref.read(connectivityNotifierProvider).status;
-      initListeners(networkStatus);
-    });
   }
 
   @override
@@ -54,7 +45,12 @@ class _GenderPageRegistrationState
     TextEditingController _searchcontroller = TextEditingController();
     double height30 = MediaQuery.of(context).size.height / 27.352;
     double height40 = MediaQuery.of(context).size.height / 20.514;
-
+  
+    _listOfgender = ref.watch(registrationNotifier).listOfgender;
+    _listOfbloodgroups = ref.watch(registrationNotifier).listOfbloodgroups;
+    _listOfnationality = ref.watch(registrationNotifier).listOfnationality;
+    isConfigreceived = ref.watch(registrationNotifier).isConfigreceived;
+    
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -121,8 +117,6 @@ class _GenderPageRegistrationState
                               setState(() {
                                 widget.dateinput.text = formattedDate;
                               });
-                            } else {
-                              SnackBar; // to be implemented...
                             }
                           },
                         ),
@@ -143,6 +137,7 @@ class _GenderPageRegistrationState
                           sheetTitle: "Gender",
                           controller: widget.gendervalue,
                           searchController: _searchcontroller,
+                          isConfigreceived: isConfigreceived,
                         ),
                       ),
 
@@ -162,6 +157,7 @@ class _GenderPageRegistrationState
                           sheetTitle: "Nationality",
                           controller: widget.nationalityvalue,
                           searchController: _searchcontroller,
+                          isConfigreceived: isConfigreceived,
                         ),
                       ),
                       Container(height: height40),
@@ -180,6 +176,7 @@ class _GenderPageRegistrationState
                           sheetTitle: "Blood Group",
                           controller: widget.bloodvalue,
                           searchController: _searchcontroller,
+                          isConfigreceived: isConfigreceived,
                         ),
                       ),
                     ],
@@ -193,67 +190,5 @@ class _GenderPageRegistrationState
     );
   }
 
-  initListeners(ConnectionStatus networkStatus) {
-    final configInfoResponse = ref.watch(configInfoNotifierProvider);
-    // final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
-    if (configInfoResponse.status == ServiceStatus.completed) {
-      if (configInfoResponse.data!.response!.isNotEmpty) {
-        for (var element in configInfoResponse.data!.response!) {
-          if (element.value!.genderResponse != null) {
-            for (var item in element.value!.genderResponse!) {
-              _listOfgender.add(SelectedListItem(false, item.name!.capitalize));
-            }
-          }
-        }
-      }
-    } else if (configInfoResponse.status == ServiceStatus.error) {
-      if (networkStatus == ConnectionStatus.offline) {
-      } else if (configInfoResponse.errorCode ==
-          ServiceErrorCode.unauthorized) {
-      } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
-      } else {}
-    }
-
-    //bloodgroup
-
-    if (configInfoResponse.status == ServiceStatus.completed) {
-      if (configInfoResponse.data!.response!.isNotEmpty) {
-        for (var element in configInfoResponse.data!.response!) {
-          if (element.value!.bloodGrpResponse != null) {
-            for (var item in element.value!.bloodGrpResponse!) {
-              _listOfbloodgroups
-                  .add(SelectedListItem(false, item.value!.capitalize));
-            }
-          }
-        }
-      }
-    } else if (configInfoResponse.status == ServiceStatus.error) {
-      if (networkStatus == ConnectionStatus.offline) {
-      } else if (configInfoResponse.errorCode ==
-          ServiceErrorCode.unauthorized) {
-      } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
-      } else {}
-    }
-
-    // // nationality
-
-    if (configInfoResponse.status == ServiceStatus.completed) {
-      if (configInfoResponse.data!.response!.isNotEmpty) {
-        for (var element in configInfoResponse.data!.response!) {
-          if (element.value!.nationalityResponse != null) {
-            for (var item in element.value!.nationalityResponse!) {
-              _listOfnationality
-                  .add(SelectedListItem(false, item.name!.capitalize));
-            }
-          }
-        }
-      }
-    } else if (configInfoResponse.status == ServiceStatus.error) {
-      if (networkStatus == ConnectionStatus.offline) {
-      } else if (configInfoResponse.errorCode ==
-          ServiceErrorCode.unauthorized) {
-      } else if (configInfoResponse.errorCode == ServiceErrorCode.timeOut) {
-      } else {}
-    }
-  }
+  
 }

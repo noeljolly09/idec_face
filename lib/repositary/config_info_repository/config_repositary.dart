@@ -16,6 +16,7 @@ class ConfigInfoRepositary {
         '/api/people/configurationsInfo',
         param.toJson(),
       );
+      print(response);
       final str = jsonEncode(response.data);
       final configResponse = configResponseFromJson(str);
       return ServiceResponse.completed(configResponse);

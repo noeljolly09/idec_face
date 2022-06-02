@@ -1,4 +1,5 @@
 import 'package:country_list_pick/country_list_pick.dart';
+import 'package:drop_down_list/drop_down_list.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,24 +11,19 @@ import 'package:idec_face/repositary/config_info_repository/providers/config_inf
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
-import 'package:idec_face/utility/connectivity/connectivity_info.dart';
+import 'package:idec_face/utility/extensions/string_utility.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
-import '../../custom_widgets/custom_message_dialog.dart';
-import '../../custom_widgets/custom_snackbar.dart';
-
 import '../../custom_widgets/loading/loading.dart';
 import '../../custom_widgets/text.dart';
-
 import '../../dialogs/info_dialog/dialog_with_timer.dart';
 import '../../network/service_umbrella.dart';
 import '../../utility/app_info.dart';
-
 import '../../utility/connectivity/connectivity_constants.dart';
 import '../../utility/connectivity/connectivity_notifier_provider.dart';
 import '../../utility/privacy_policy.dart';
+import 'notifiers/registration_notifiers.dart';
 import 'widgets/contact_data.dart';
 import 'widgets/gender_data.dart';
 import 'widgets/validation/validation_dialog.dart';
@@ -47,9 +43,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   bool isPreviewButtonActive = false;
   bool isSubmitButtonActive = false;
   int isPageChanged = 0;
-
-  String? customValidator(String? fieldContent) =>
-      fieldContent!.isEmpty ? 'This is required field' : null;
 
   final controller = PageController();
   final TextEditingController _domainController = TextEditingController();
@@ -71,7 +64,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
-      ProgressDialog.showLoadingDialog(context: context);
     });
   }
 
@@ -100,12 +92,15 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         .getConfigAttributes(configInfoRequest);
   }
 
+  String? customValidator(String? fieldContent) =>
+      fieldContent!.isEmpty ? 'This is required field' : null;
+
   @override
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25;
     final networkStatus = ref.read(connectivityNotifierProvider).status;
-    initListeners(context, networkStatus);
+    initListeners(networkStatus);
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -137,11 +132,11 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                     ),
                     IconButton(
                       onPressed: () {
-                        if (_domainController.text.isEmpty ||
-                            _fnameController.text.isEmpty ||
-                            _lnameController.text.isEmpty ||
-                            _phoneController.text.isEmpty ||
-                            _emailController.text.isEmpty) {
+                        if (_domainController.text.isEmptyValidate.isNotEmpty ||
+                            _fnameController.text.isEmptyValidate.isNotEmpty ||
+                            _lnameController.text.isEmptyValidate.isNotEmpty ||
+                            _phoneController.text.isValidPhone.isNotEmpty ||
+                            _emailController.text.isValidEmail.isNotEmpty) {
                           openValidationDialogWindow(
                               context,
                               code,
@@ -211,7 +206,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                           code = countryCode;
                           return code;
                         },
-                        onValidate: customValidator,
+                        phoneNumberValidate: customValidator,
+                        emailValidate: customValidator,
                         emailController: _emailController,
                         phoneController: _phoneController,
                       ),
@@ -225,11 +221,16 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                           child: CustomButton(
                             height: 50,
                             function: () {
-                              if (_domainController.text.isEmpty ||
-                                  _fnameController.text.isEmpty ||
-                                  _lnameController.text.isEmpty ||
-                                  _phoneController.text.isEmpty ||
-                                  _emailController.text.isEmpty) {
+                              if (_domainController
+                                      .text.isEmptyValidate.isNotEmpty ||
+                                  _fnameController
+                                      .text.isEmptyValidate.isNotEmpty ||
+                                  _lnameController
+                                      .text.isEmptyValidate.isNotEmpty ||
+                                  _phoneController
+                                      .text.isValidPhone.isNotEmpty ||
+                                  _emailController
+                                      .text.isValidEmail.isNotEmpty) {
                                 openValidationDialogWindow(
                                     context,
                                     code,
@@ -248,7 +249,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
-                                  builder: (context) => const InfoDialogWithTimer(
+                                  builder: (context) =>
+                                      const InfoDialogWithTimer(
                                     title: "Registered",
                                     message: "Successfullly Registered",
                                   ),
@@ -362,13 +364,63 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     );
   }
 
-  initListeners(BuildContext context, ConnectionStatus networkStatus) {
-    ref.listen(configInfoNotifierProvider, (previous, next) {
+  initListeners(ConnectionStatus networkStatus) {
+    ref.listen(configInfoNotifierProvider, ((previous, next) {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
-      if (configInfoResponse.status == ServiceStatus.completed) {
-        ProgressDialog.dismiss(context: context);
+
+      if (configInfoResponse.status == ServiceStatus.loading) {
+      } else if (configInfoResponse.status == ServiceStatus.completed) {
+        List<SelectedListItem> _listOfgender = [];
+        List<SelectedListItem> _listOfnationality = [];
+        List<SelectedListItem> _listOfbloodgroups = [];
+        List<SelectedListItem> _listOfSelectionOption = [];
+        if (configInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in configInfoResponse.data!.response!) {
+            //gender
+            if (element.value!.genderResponse != null) {
+              for (var item in element.value!.genderResponse!) {
+                _listOfgender
+                    .add(SelectedListItem(false, item.name!.capitalize));
+              }
+            }
+            //blood group
+            if (element.value!.bloodGrpResponse != null) {
+              for (var item in element.value!.bloodGrpResponse!) {
+                _listOfbloodgroups
+                    .add(SelectedListItem(false, item.value!.capitalize));
+              }
+            }
+            //nationality
+            if (element.value!.nationalityResponse != null) {
+              for (var item in element.value!.nationalityResponse!) {
+                _listOfnationality
+                    .add(SelectedListItem(false, item.name!.capitalize));
+              }
+            }
+            //list of select options
+            if (element.value!.selectionResponse != null) {
+              for (var item in element.value!.selectionResponse!) {
+                _listOfSelectionOption
+                    .add(SelectedListItem(false, item.name!.capitalize));
+              }
+            }
+          }
+          ref.read(registrationNotifier).updateConfigState(value: true);
+          ref
+              .read(registrationNotifier)
+              .updatelistOfbloodgroupsState(value: _listOfbloodgroups);
+          ref
+              .read(registrationNotifier)
+              .updatelistOfgenderState(value: _listOfgender);
+          ref
+              .read(registrationNotifier)
+              .updatelistOfnationalityState(value: _listOfnationality);
+          ref
+              .read(registrationNotifier)
+              .updatelistOfSelectOptionsState(value: _listOfSelectionOption);
+        }
       } else if (configInfoResponse.status == ServiceStatus.error) {
-        ProgressDialog.dismiss(context: context);
+        ref.read(registrationNotifier).updateConfigState(value: false);
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,
@@ -389,6 +441,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           );
         }
       }
-    });
+    }));
   }
 }

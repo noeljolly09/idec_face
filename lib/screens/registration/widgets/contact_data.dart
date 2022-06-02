@@ -11,7 +11,8 @@ import '../../../custom_widgets/textfields/text_icon_only_textfield.dart';
 class ContactPageRegistration extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController phoneController;
-  final String? Function(String?)? onValidate;
+  final String? Function(String?)? emailValidate;
+  final String? Function(String?)? phoneNumberValidate;
 
   final CountryCode? Function(CountryCode?)? onchanged;
 
@@ -19,7 +20,8 @@ class ContactPageRegistration extends StatelessWidget {
     Key? key,
     required this.emailController,
     required this.phoneController,
-    this.onValidate,
+    this.emailValidate,
+    this.phoneNumberValidate,
     required this.onchanged,
   }) : super(key: key);
 
@@ -87,7 +89,7 @@ class ContactPageRegistration extends StatelessWidget {
                             SimpleTextField(
                               hint: "Phone Number *",
                               controller: phoneController,
-                              validator: onValidate,
+                              validator: phoneNumberValidate,
                               textAction: TextInputAction.next,
                               input: TextInputType.number,
                               textorflex: false,
@@ -105,7 +107,7 @@ class ContactPageRegistration extends StatelessWidget {
                               svgasset: "assets/svg/email.svg",
                               controller: emailController,
                               hint: "Email *",
-                              validator: onValidate,
+                              validator: emailValidate,
                               input: TextInputType.emailAddress,
                               textAction: TextInputAction.done,
                             ),

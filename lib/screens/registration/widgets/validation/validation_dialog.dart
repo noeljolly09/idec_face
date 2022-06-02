@@ -2,6 +2,7 @@ import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 
 import 'package:idec_face/screens/registration/widgets/validation/validation_text.dart';
+import 'package:idec_face/utility/extensions/string_utility.dart';
 
 import '../../../../constants.dart';
 import '../../../../custom_widgets/textfields/previewtext.dart';
@@ -67,10 +68,14 @@ openValidationDialogWindow(
                     ValidationText(
                         titletext: "Domain",
                         controllertext: domain.text,
+                        isValidated: domain.text.isEmptyValidate.isEmpty,
+                        validationErrorText: domain.text.isEmptyValidate,
                         assetName: "assets/svg/domain.svg"),
                     ValidationText(
                         titletext: "First Name",
                         controllertext: firstname.text,
+                        isValidated: firstname.text.isEmptyValidate.isEmpty,
+                        validationErrorText: firstname.text.isEmptyValidate,
                         assetName: "assets/svg/user.svg"),
                     PreviewText(
                       assetName: "assets/svg/user.svg",
@@ -79,6 +84,8 @@ openValidationDialogWindow(
                     ),
                     ValidationText(
                         titletext: "Last Name",
+                        isValidated: lastname.text.isEmptyValidate.isEmpty,
+                        validationErrorText: lastname.text.isEmptyValidate,
                         controllertext: lastname.text,
                         assetName: "assets/svg/user.svg"),
                     PreviewText(
@@ -113,11 +120,15 @@ openValidationDialogWindow(
                     ),
                     ValidationText(
                       assetName: "assets/svg/phone.svg",
+                      isValidated: phone.text.isValidPhone.isEmpty,
+                      validationErrorText: phone.text.isValidPhone,
                       titletext: "Phone Number",
                       controllertext: phone.text,
                     ),
                     ValidationText(
                       assetName: "assets/svg/email.svg",
+                      isValidated: email.text.isValidEmail.isEmpty,
+                      validationErrorText: email.text.isValidEmail,
                       titletext: "Email",
                       controllertext: email.text,
                     ),

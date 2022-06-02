@@ -8,12 +8,16 @@ class ValidationText extends StatelessWidget {
   final String titletext;
   final String controllertext;
   final String assetName;
+  final bool? isValidated;
+  final String? validationErrorText;
 
   const ValidationText({
     Key? key,
     required this.titletext,
     required this.controllertext,
     required this.assetName,
+    this.isValidated = false,
+    this.validationErrorText = "",
   }) : super(key: key);
 
   @override
@@ -34,7 +38,7 @@ class ValidationText extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width / 1.25,
               padding: const EdgeInsets.only(top: 10, bottom: 10),
-              decoration: controllertext.isNotEmpty
+              decoration: isValidated!
                   ? BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
@@ -71,7 +75,7 @@ class ValidationText extends StatelessWidget {
                             color: AppConstants.customblack,
                           ),
                         ),
-                  controllertext.isNotEmpty
+                  isValidated!
                       ? const Text("*")
                       : const Text(
                           "*",
@@ -86,10 +90,10 @@ class ValidationText extends StatelessWidget {
           margin: const EdgeInsets.only(left: 10),
           child: Align(
               alignment: Alignment.bottomCenter,
-              child: controllertext.isNotEmpty
+              child: isValidated!
                   ? null
-                  : const Text(
-                      "Mandatory Field",
+                  : Text(
+                      validationErrorText!,
                       style: TextStyle(color: Colors.red, fontSize: 12),
                     )),
         ),

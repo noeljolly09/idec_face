@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../constants.dart';
+import '../models/config_request.dart';
+import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 
-class CustomSelectionBar extends StatefulWidget {
+class CustomSelectionBar extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final TextEditingController searchController;
   final String? searchhinttext;
@@ -17,6 +19,7 @@ class CustomSelectionBar extends StatefulWidget {
   final String? sheetTitle;
   final String? Function(String?)? validator;
   final List<SelectedListItem> list;
+  final bool isConfigreceived;
 
   const CustomSelectionBar({
     Key? key,
@@ -31,13 +34,14 @@ class CustomSelectionBar extends StatefulWidget {
     this.sheetTitle,
     this.validator,
     required this.list,
+    required this.isConfigreceived,
   }) : super(key: key);
 
   @override
-  State<CustomSelectionBar> createState() => _CustomSelectionBarState();
+  _CustomSelectionBarState createState() => _CustomSelectionBarState();
 }
 
-class _CustomSelectionBarState extends State<CustomSelectionBar> {
+class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -50,6 +54,9 @@ class _CustomSelectionBarState extends State<CustomSelectionBar> {
             FocusScope.of(context).unfocus();
             onTextFieldTap();
           } else {
+            if (!widget.isConfigreceived) {
+              _getConfigAttributes();
+            }
             FocusScope.of(context).unfocus();
             onEmptyList();
           }
@@ -98,6 +105,14 @@ class _CustomSelectionBarState extends State<CustomSelectionBar> {
     );
   }
 
+  void _getConfigAttributes() {
+    final configInfoRequest =
+        ConfigInfoRequest(configAttributes: ["GNDR", "BG", "NTY", "FGTPSD"]);
+    ref
+        .read(configInfoNotifierProvider.notifier)
+        .getConfigAttributes(configInfoRequest);
+  }
+
   void onTextFieldTap() {
     DropDownState(
       DropDown(
@@ -122,9 +137,6 @@ class _CustomSelectionBarState extends State<CustomSelectionBar> {
       ),
       context: context,
       builder: (context) {
-        Future.delayed(const Duration(seconds: 4), () {
-          Navigator.of(context).pop(true);
-        });
         return DraggableScrollableSheet(
           initialChildSize: 1,
           maxChildSize: 1,

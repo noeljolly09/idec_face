@@ -71,11 +71,13 @@ class Value {
     this.bloodGrpResponse,
     this.genderResponse,
     this.nationalityResponse,
+    this.selectionResponse,
   });
 
   List<DropDownResponse>? nationalityResponse;
   List<DropDownResponse>? bloodGrpResponse;
   List<DropDownResponse>? genderResponse;
+  List<DropDownResponse>? selectionResponse;
 
   factory Value.fromJson(Map<String, dynamic> json) => Value(
         nationalityResponse: json["nationality"] == null
@@ -90,6 +92,10 @@ class Value {
             ? null
             : List<DropDownResponse>.from(
                 json["gender"].map((x) => DropDownResponse.fromJson(x))),
+        selectionResponse: json["forgotPassword"] == null
+            ? null
+            : List<DropDownResponse>.from(json["forgotPassword"]
+                .map((x) => DropDownResponse.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -102,6 +108,9 @@ class Value {
         "gender": genderResponse == null
             ? null
             : List<dynamic>.from(genderResponse!.map((x) => x.toJson())),
+        "forgotPassword": selectionResponse == null
+            ? null
+            : List<dynamic>.from(selectionResponse!.map((x) => x.toJson())),
       };
 }
 
