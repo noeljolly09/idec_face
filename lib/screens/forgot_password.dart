@@ -8,11 +8,11 @@ import 'package:idec_face/utility/extensions/string_utility.dart';
 
 import '../constants.dart';
 import '../custom_widgets/button.dart';
-import '../custom_widgets/custom_selection.dart';
+
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
 import '../custom_widgets/textfields/forgotPassword_textField.dart';
-import '../custom_widgets/textfields/text_icon_only_textfield.dart';
+
 import '../dialogs/info_dialog/dialog_with_timer.dart';
 import '../models/config_request.dart';
 import '../models/config_response.dart';
