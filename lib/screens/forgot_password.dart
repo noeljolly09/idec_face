@@ -36,25 +36,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final TextEditingController _valueController = TextEditingController();
   final TextEditingController _optionsController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
-  List<SelectedListItem> _listOfSelectionOption = [];
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getConfigAttributes();
-    });
-  }
-
+  final List<SelectedListItem> _listOfSelectionOption = [];
+  
   @override
   void dispose() {
     super.dispose();
-  }
-
-  void _getConfigAttributes() {
-    final configInfoRequest = ConfigInfoRequest(configAttributes: ["FGTPSD"]);
-    ref
-        .read(configInfoNotifierProvider.notifier)
-        .getConfigAttributes(configInfoRequest);
   }
 
   @override
@@ -63,6 +49,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.82;
     double height60 = MediaQuery.of(context).size.height / 13.67;
+    
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initListeners(networkStatus);
 
@@ -119,14 +106,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                               SizedBox(height: height20),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.2,
-                                child: ref
-                                            .watch(configInfoNotifierProvider)
-                                            .status ==
-                                        ServiceStatus.loading
-                                    ? const SpinKitCircle(
-                                        color: AppConstants.primaryColor,
-                                      )
-                                    : ForgotPasswordTextField(
+                                child: ForgotPasswordTextField(
                                         hint: _optionsController.text.isEmpty
                                             ? "Enter Value"
                                             : _optionsController.text,
