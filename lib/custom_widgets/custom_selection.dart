@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -118,20 +119,44 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
 
   void onTextFieldTap(List<SelectedListItem> _listOfSelectOptions) {
     ref.watch(configInfoNotifierProvider).status == ServiceStatus.loading
-        ? onEmptyList()
-        : DropDownState(
-            DropDown(
-              searchHintText: widget.searchhinttext,
-              bottomSheetTitle: widget.sheetTitle,
-              searchBackgroundColor: Colors.black12,
-              dataList: _listOfSelectOptions,
-              enableMultipleSelection: false,
-              searchController: widget.searchController,
-              selectedItem: (String selected) {
-                widget.controller.text = selected;
-              },
-            ),
-          ).showModal(context);
+        ? onEmptyListLoading()
+        : ref.watch(configInfoNotifierProvider).status == ServiceStatus.error
+            ? onEmptyList()
+            : DropDownState(
+                DropDown(
+                  searchHintText: widget.searchhinttext,
+                  bottomSheetTitle: widget.sheetTitle,
+                  searchBackgroundColor: Colors.black12,
+                  dataList: _listOfSelectOptions,
+                  enableMultipleSelection: false,
+                  searchController: widget.searchController,
+                  selectedItem: (String selected) {
+                    widget.controller.text = selected;
+                  },
+                ),
+              ).showModal(context);
+  }
+
+  void onEmptyListLoading() {
+    showModalBottomSheet(
+      isScrollControlled: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+      ),
+      context: context,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 1,
+          maxChildSize: 1,
+          minChildSize: 0.5,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return const SpinKitCircle(
+              color: AppConstants.primaryColor,
+            );
+          },
+        );
+      },
+    );
   }
 
   void onEmptyList() {
@@ -147,8 +172,8 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
           maxChildSize: 1,
           minChildSize: 0.5,
           builder: (BuildContext context, ScrollController scrollController) {
-            return const SpinKitCircle(
-              color: AppConstants.primaryColor,
+            return const Center(
+              child: Text("Data Not Available"),
             );
           },
         );

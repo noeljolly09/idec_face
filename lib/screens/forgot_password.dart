@@ -37,7 +37,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final TextEditingController _optionsController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
   final List<SelectedListItem> _listOfSelectionOption = [];
-  
+
   @override
   void dispose() {
     super.dispose();
@@ -49,7 +49,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.82;
     double height60 = MediaQuery.of(context).size.height / 13.67;
-    
+
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initListeners(networkStatus);
 
@@ -107,24 +107,24 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.2,
                                 child: ForgotPasswordTextField(
-                                        hint: _optionsController.text.isEmpty
-                                            ? "Enter Value"
-                                            : _optionsController.text,
-                                        controller: _valueController,
-                                        optionController: _optionsController,
-                                        searchController: _searchController,
-                                        textAction: TextInputAction.done,
-                                        input: TextInputType.text,
-                                        textorflex: false,
-                                        validator: (value) {
-                                          if (value!.isEmpty ||
-                                              _searchController.text.isEmpty) {
-                                            return 'Select any one option';
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                      ),
+                                  hint: _optionsController.text.isEmpty
+                                      ? "Enter Value"
+                                      : _optionsController.text,
+                                  controller: _valueController,
+                                  optionController: _optionsController,
+                                  searchController: _searchController,
+                                  textAction: TextInputAction.done,
+                                  input: TextInputType.text,
+                                  textorflex: false,
+                                  validator: (value) {
+                                    if (value!.isEmpty ||
+                                        _searchController.text.isEmpty) {
+                                      return 'Select any one option';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
                               ),
                             ],
                           ),
