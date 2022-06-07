@@ -1,8 +1,6 @@
-
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 import '../../constants.dart';
 
@@ -44,18 +42,21 @@ class ForgotPasswordTextField extends ConsumerWidget {
       decoration: InputDecoration(
           prefixIcon: SizedBox(
             width: MediaQuery.of(context).size.width / 3,
-            child: CustomSelectionBar(
-              circleSuffixIcon: false,
-              isSvg: true,
-              svgAsset: "assets/svg/useriD.svg",
-              width: MediaQuery.of(context).size.width,
-              list: _listOfSelectOptions,
-              hinttext: "Select Options",
-              searchhinttext: "Select Options",
-              sheetTitle: "Select Options",
-              controller: optionController!,
-              searchController: searchController!,
-              isConfigreceived: true,
+            child: Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: CustomSelectionBar(
+                circleSuffixIcon: false,
+                isSvg: true,
+                svgAsset: "assets/svg/useriD.svg",
+                width: MediaQuery.of(context).size.width,
+                list: _listOfSelectOptions,
+                hinttext: "Select Options",
+                searchhinttext: "Select Options",
+                sheetTitle: "Select Options",
+                controller: optionController!,
+                searchController: searchController!,
+                isConfigreceived: true,
+              ),
             ),
           ),
           enabledBorder: const UnderlineInputBorder(

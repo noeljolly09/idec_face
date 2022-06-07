@@ -218,7 +218,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                     child: Row(
                       children: [
                         const Text(
-                          "v",
+                          "V",
                           style: TextStyle(color: Colors.grey),
                         ),
                         getVersionNumber(),

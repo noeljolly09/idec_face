@@ -37,34 +37,37 @@ openValidationDialogWindow(
                       topRight: Radius.circular(20)),
                   color: Theme.of(context).scaffoldBackgroundColor),
               child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10),
+                padding: const EdgeInsets.only(right: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          formHeader,
-                          style: const TextStyle(
-                              fontSize: 20,
-                              color: AppConstants.customblack,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          height: 35,
-                          width: 60,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.close),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            formHeader,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: AppConstants.customblack,
+                                fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: const EdgeInsets.all(5),
+                            height: 35,
+                            width: 60,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     ValidationText(
                         titletext: "Domain",
@@ -79,17 +82,17 @@ openValidationDialogWindow(
                         validationErrorText: firstname.text.isEmptyValidate,
                         assetName: "assets/svg/user.svg"),
                     PreviewText(
-                     // assetName: "assets/svg/user.svg",
+                      // assetName: "assets/svg/user.svg",
                       titletext: "Middle Name",
                       controllertext: middlename.text,
                     ),
                     ValidationText(
-                        titletext: "Last Name",
-                        isValidated: lastname.text.isEmptyValidate.isEmpty,
-                        validationErrorText: lastname.text.isEmptyValidate,
-                        controllertext: lastname.text,
-                        //assetName: "assets/svg/user.svg",
-                        ),
+                      titletext: "Last Name",
+                      isValidated: lastname.text.isEmptyValidate.isEmpty,
+                      validationErrorText: lastname.text.isEmptyValidate,
+                      controllertext: lastname.text,
+                      //assetName: "assets/svg/user.svg",
+                    ),
                     PreviewText(
                       assetName: "assets/svg/useriD.svg",
                       titletext: "Employee ID",
