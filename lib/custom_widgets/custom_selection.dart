@@ -120,8 +120,6 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   void onTextFieldTap(List<SelectedListItem> _listOfSelectOptions) {
     ref.watch(configInfoNotifierProvider).status == ServiceStatus.loading
         ? onEmptyListLoading()
-        : ref.watch(configInfoNotifierProvider).status == ServiceStatus.error
-            ? onEmptyList()
             : DropDownState(
                 DropDown(
                   searchHintText: widget.searchhinttext,
