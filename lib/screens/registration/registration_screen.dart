@@ -98,8 +98,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height78 = MediaQuery.of(context).size.height / 10.25;
+
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initListeners(networkStatus);
+    
     return SafeArea(
       child: Form(
         key: _formKey,

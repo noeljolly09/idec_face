@@ -47,7 +47,8 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
         drawer: const MyDrawer(),
         appBar: AppBar(
           backgroundColor: AppConstants.primaryColor,
-          title: Center(child: Text(appbartitle[selectedIndex])),
+          centerTitle: true,
+          title: Text(appbartitle[selectedIndex]),
           actions: [
             Align(
                 alignment: Alignment.bottomRight,

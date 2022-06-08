@@ -1,7 +1,6 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
@@ -36,7 +35,6 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final TextEditingController _valueController = TextEditingController();
   final TextEditingController _optionsController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
-  final List<SelectedListItem> _listOfSelectionOption = [];
 
   @override
   void initState() {
@@ -273,6 +271,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   initListeners(ConnectionStatus networkStatus) {
     ref.listen(configInfoNotifierProvider, ((previous, next) {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+
       if (configInfoResponse.status == ServiceStatus.loading) {
       } else if (configInfoResponse.status == ServiceStatus.completed) {
         if (configInfoResponse.data!.response!.isNotEmpty) {
@@ -283,10 +282,12 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                 _listOfSelectionOption
                     .add(SelectedListItem(false, item.name!.capitalize));
               }
-              ref.read(registrationNotifier).updatelistOfSelectOptionsState(
-                  value: _listOfSelectionOption);
             }
           }
+          ref.read(registrationNotifier).updateConfigState(value: true);
+          ref
+              .read(registrationNotifier)
+              .updatelistOfSelectOptionsState(value: _listOfSelectionOption);
         }
       } else if (configInfoResponse.status == ServiceStatus.error) {
         ref.read(registrationNotifier).updateConfigState(value: false);

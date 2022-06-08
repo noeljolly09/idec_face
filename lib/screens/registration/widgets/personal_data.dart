@@ -35,6 +35,7 @@ class _GenderPageRegistrationState
   List<SelectedListItem> _listOfnationality = [];
   List<SelectedListItem> _listOfbloodgroups = [];
   bool isConfigreceived = false;
+  
   @override
   void initState() {
     super.initState();
