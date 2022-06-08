@@ -274,6 +274,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
       if (configInfoResponse.status == ServiceStatus.loading) {
       } else if (configInfoResponse.status == ServiceStatus.completed) {
+        List<SelectedListItem> _listOfSelectionOption = [];
+
         if (configInfoResponse.data!.response!.isNotEmpty) {
           for (var element in configInfoResponse.data!.response!) {
             //list of select options
