@@ -39,8 +39,23 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final List<SelectedListItem> _listOfSelectionOption = [];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getConfigAttributes();
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
+  }
+
+  void _getConfigAttributes() {
+    final configInfoRequest = ConfigInfoRequest(configAttributes: ["FGTPSD"]);
+    ref
+        .read(configInfoNotifierProvider.notifier)
+        .getConfigAttributes(configInfoRequest);
   }
 
   @override

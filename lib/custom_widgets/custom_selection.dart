@@ -1,7 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,14 +51,18 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
         controller: widget.controller,
         validator: widget.validator,
         onTap: () {
-          if (widget.list.isNotEmpty) {
+          if (widget.list.isNotEmpty ||
+              ref.watch(configInfoNotifierProvider).status ==
+                  ServiceStatus.completed) {
             FocusScope.of(context).unfocus();
             onTextFieldTap(widget.list);
-          } else {
-            if (!widget.isConfigreceived) {
-              _getConfigAttributes();
-            }
+          } else if (widget.list.isNotEmpty ||
+              ref.watch(configInfoNotifierProvider).status ==
+                  ServiceStatus.loading) {
             FocusScope.of(context).unfocus();
+            onEmptyListLoading();
+          } else if (!widget.isConfigreceived) {
+            _getConfigAttributes();
             onEmptyList();
           }
         },
@@ -118,21 +120,19 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   }
 
   void onTextFieldTap(List<SelectedListItem> _listOfSelectOptions) {
-    ref.watch(configInfoNotifierProvider).status == ServiceStatus.loading
-        ? onEmptyListLoading()
-            : DropDownState(
-                DropDown(
-                  searchHintText: widget.searchhinttext,
-                  bottomSheetTitle: widget.sheetTitle,
-                  searchBackgroundColor: Colors.black12,
-                  dataList: _listOfSelectOptions,
-                  enableMultipleSelection: false,
-                  searchController: widget.searchController,
-                  selectedItem: (String selected) {
-                    widget.controller.text = selected;
-                  },
-                ),
-              ).showModal(context);
+    DropDownState(
+      DropDown(
+        searchHintText: widget.searchhinttext,
+        bottomSheetTitle: widget.sheetTitle,
+        searchBackgroundColor: Colors.black12,
+        dataList: _listOfSelectOptions,
+        enableMultipleSelection: false,
+        searchController: widget.searchController,
+        selectedItem: (String selected) {
+          widget.controller.text = selected;
+        },
+      ),
+    ).showModal(context);
   }
 
   void onEmptyListLoading() {
