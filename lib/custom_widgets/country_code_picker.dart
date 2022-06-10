@@ -38,9 +38,9 @@ class _CustomCountryCodePickerState extends State<CustomCountryCodePicker> {
       data: ThemeData(primarySwatch: primaryBlack),
       child: CountryListPick(
           theme: CountryTheme(
-            isShowFlag: false,
+            isShowFlag: true,
             isShowTitle: false,
-            isShowCode: true,
+            isShowCode: false,
             isDownIcon: true,
             showEnglishName: true,
             alphabetSelectedBackgroundColor: Theme.of(context).primaryColor,

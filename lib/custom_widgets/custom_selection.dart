@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/network/core/service_response.dart';
+import 'package:idec_face/utility/config/config.dart';
 import '../constants.dart';
 import '../models/config_request.dart';
 import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
@@ -45,67 +46,62 @@ class CustomSelectionBar extends ConsumerStatefulWidget {
 class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      child: TextFormField(
-        controller: widget.controller,
-        validator: widget.validator,
-        onTap: () {
-          if (widget.list.isNotEmpty ||
-              ref.watch(configInfoNotifierProvider).status ==
-                  ServiceStatus.completed) {
-            FocusScope.of(context).unfocus();
-            onTextFieldTap(widget.list);
-          } else if (widget.list.isNotEmpty ||
-              ref.watch(configInfoNotifierProvider).status ==
-                  ServiceStatus.loading) {
-            FocusScope.of(context).unfocus();
-            onEmptyListLoading();
-          } else if (!widget.isConfigreceived) {
-            _getConfigAttributes();
-            onEmptyList();
-          }
-        },
-        readOnly: true,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(top: 15, bottom: 10),
-          hintText: widget.hinttext,
-          hintStyle: TextStyle(
-              fontSize: AppConstants.formtextsize,
-              color: AppConstants.labeltextgrey),
-          prefixIconConstraints:
-              const BoxConstraints(maxHeight: 25, maxWidth: 30),
-          prefixIcon: Container(
-              margin: const EdgeInsets.only(left: 5, right: 5),
-              child: widget.isSvg == true
-                  ? SvgPicture.asset(
-                      widget.svgAsset,
-                      color: AppConstants.customblack,
-                      alignment: Alignment.center,
-                      height: 25,
-                      width: 25,
-                    )
-                  : null),
-          suffixIconConstraints:
-              const BoxConstraints(maxHeight: 25, maxWidth: 30),
-          suffixIcon: widget.circleSuffixIcon == true
-              ? const Icon(
-                  Icons.arrow_drop_down_circle_sharp,
-                  color: AppConstants.primaryColor,
-                )
-              : const Icon(
-                  Icons.arrow_drop_down,
-                  size: 30,
-                  color: AppConstants.customblack,
-                ),
-          fillColor: Colors.black12,
-          border: widget.circleSuffixIcon == true
-              ? const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+    return   Consumer(
+      builder: (context, ref, child) => SizedBox(
+        width: widget.width,
+        child: TextFormField(
+          controller: widget.controller,
+          validator: widget.validator,
+          onTap: () {
+            if (widget.list.isNotEmpty) {
+              FocusScope.of(context).unfocus();
+              onTextFieldTap(widget.list);
+            } else if (!widget.isConfigreceived) {
+              _getConfigAttributes();
+              onEmptyList();
+            }
+          },
+          readOnly: true,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(top: 15, bottom: 10),
+            hintText: widget.hinttext,
+            hintStyle: TextStyle(
+                fontSize: AppConstants.formtextsize,
+                color: AppConstants.labeltextgrey),
+            prefixIconConstraints:
+                const BoxConstraints(maxHeight: 25, maxWidth: 30),
+            prefixIcon: Container(
+                margin: const EdgeInsets.only(left: 5, right: 5),
+                child: widget.isSvg == true
+                    ? SvgPicture.asset(
+                        widget.svgAsset,
+                        color: AppConstants.customblack,
+                        alignment: Alignment.center,
+                        height: 25,
+                        width: 25,
+                      )
+                    : null),
+            suffixIconConstraints:
+                const BoxConstraints(maxHeight: 25, maxWidth: 30),
+            suffixIcon: widget.circleSuffixIcon == true
+                ? const Icon(
+                    Icons.arrow_drop_down_circle_sharp,
+                    color: AppConstants.primaryColor,
+                  )
+                : const Icon(
+                    Icons.arrow_drop_down,
+                    size: 30,
+                    color: AppConstants.customblack,
                   ),
-                )
-              : null,
+            fillColor: Colors.black12,
+            border: widget.circleSuffixIcon == true
+                ? const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                  )
+                : null,
+          ),
         ),
       ),
     );
@@ -133,28 +129,6 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
         },
       ),
     ).showModal(context);
-  }
-
-  void onEmptyListLoading() {
-    showModalBottomSheet(
-      isScrollControlled: false,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-      ),
-      context: context,
-      builder: (context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 1,
-          maxChildSize: 1,
-          minChildSize: 0.5,
-          builder: (BuildContext context, ScrollController scrollController) {
-            return const SpinKitCircle(
-              color: AppConstants.primaryColor,
-            );
-          },
-        );
-      },
-    );
   }
 
   void onEmptyList() {

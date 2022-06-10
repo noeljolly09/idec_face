@@ -5,19 +5,21 @@ import '../../../constants.dart';
 import '../../../custom_widgets/textfields/previewtext.dart';
 
 openDialogWindow(
-    BuildContext context,
-    CountryCode? code,
-    TextEditingController domain,
-    TextEditingController firstname,
-    TextEditingController middlename,
-    TextEditingController lastname,
-    TextEditingController employeeId,
-    TextEditingController date,
-    TextEditingController gender,
-    TextEditingController nationality,
-    TextEditingController blood,
-    TextEditingController phone,
-    TextEditingController email) {
+  BuildContext context,
+  CountryCode? code,
+  TextEditingController domain,
+  TextEditingController firstname,
+  TextEditingController middlename,
+  TextEditingController lastname,
+  TextEditingController employeeId,
+  TextEditingController date,
+  TextEditingController gender,
+  TextEditingController nationality,
+  TextEditingController blood,
+  TextEditingController phone,
+  TextEditingController email,
+  TextEditingController comments,
+) {
   showDialog(
       context: context,
       builder: (_) {
@@ -112,6 +114,11 @@ openDialogWindow(
                       assetName: "assets/svg/email.svg",
                       titletext: "Email",
                       controllertext: email.text,
+                    ),
+                    PreviewText(
+                      assetName: "assets/svg/email.svg",
+                      titletext: "Comments",
+                      controllertext: comments.text,
                     ),
                   ],
                 ),

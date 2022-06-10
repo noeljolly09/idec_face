@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../constants.dart';
 import '../screens/dashboard/dashboard_screen.dart';
 
@@ -77,29 +79,29 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
         body: screens[selectedIndex],
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-          child: GNav(
-            gap: 2,
-            iconSize: 24,
-            activeColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: SalomonBottomBar(
+            currentIndex: selectedIndex,
+            itemPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             duration: const Duration(milliseconds: 400),
-            tabBackgroundColor: AppConstants.primaryColor,
-            color: Colors.black,
-            tabs: const [
-              GButton(
-                icon: Icons.home,
-                text: "Home",
+            selectedItemColor: AppConstants.primaryColor,
+            items: [
+              SalomonBottomBarItem(
+                icon: const Icon(
+                  Icons.home,
+                ),
+                title: const Text("Home"),
               ),
-              GButton(
-                icon: Icons.notifications,
-                text: "Events",
+              SalomonBottomBarItem(
+                icon: SvgPicture.asset('assets/svg/event_icon.svg'),
+                title: const Text("Events"),
               ),
-              GButton(
-                icon: Icons.phone_android,
-                text: "Device",
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.phone_android),
+                title: const Text("Device"),
               ),
             ],
-            onTabChange: onTapBar,
+            onTap: onTapBar,
           ),
         ),
       ),

@@ -104,60 +104,38 @@ class NamePageRegistration extends StatelessWidget {
                               ),
                               Container(height: height10),
                               SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 3.9,
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(
-                                  children: [
-                                    Container(height: height10),
-                                    Flexible(
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        child: CustomTextField(
-                                          isSvg: true,
-                                          svgasset: "assets/svg/user.svg",
-                                          controller: firstnameController,
-                                          hint: "First Name *",
-                                          validator: onValidate,
-                                          input: TextInputType.name,
-                                          textAction: TextInputAction.next,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(height: height40),
-                                    Flexible(
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        child: CustomTextField(
-                                          svgasset: "",
-                                          controller: middlenameController,
-                                          hint: "Middle Name",
-                                          input: TextInputType.name,
-                                          textAction: TextInputAction.next,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(height: height40),
-                                    Flexible(
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        child: CustomTextField(
-                                          svgasset: "",
-                                          controller: lastnameController,
-                                          hint: "Last Name *",
-                                          validator: onValidate,
-                                          input: TextInputType.name,
-                                          textAction: TextInputAction.next,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: CustomTextField(
+                                  isSvg: true,
+                                  svgasset: "assets/svg/user.svg",
+                                  controller: firstnameController,
+                                  hint: "First Name *",
+                                  validator: onValidate,
+                                  input: TextInputType.name,
+                                  textAction: TextInputAction.next,
+                                ),
+                              ),
+                              Container(height: height40),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: CustomTextField(
+                                  svgasset: "",
+                                  controller: middlenameController,
+                                  hint: "Middle Name",
+                                  input: TextInputType.name,
+                                  textAction: TextInputAction.next,
+                                ),
+                              ),
+                              Container(height: height40),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: CustomTextField(
+                                  svgasset: "",
+                                  controller: lastnameController,
+                                  hint: "Last Name *",
+                                  validator: onValidate,
+                                  input: TextInputType.name,
+                                  textAction: TextInputAction.next,
                                 ),
                               ),
                               Container(height: height40),
