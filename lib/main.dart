@@ -30,9 +30,19 @@ class MyApp extends StatelessWidget {
 
         appBarTheme: const AppBarTheme(
           centerTitle: true,
+          elevation: 3,
         ),
-        cardTheme: CardTheme(),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(),
+
+        cardTheme: const CardTheme(
+          elevation: 1,
+          clipBehavior: Clip.antiAlias,
+        ),
+
+        //
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          elevation: 1,
+          iconSize: 30,
+        ),
 //
         primaryColor: const Color(0xFF006e74), //custom teal
         primarySwatch: Colors.teal, // material teal
