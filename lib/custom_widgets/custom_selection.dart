@@ -46,7 +46,7 @@ class CustomSelectionBar extends ConsumerStatefulWidget {
 class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   @override
   Widget build(BuildContext context) {
-    return   Consumer(
+    return Consumer(
       builder: (context, ref, child) => SizedBox(
         width: widget.width,
         child: TextFormField(
@@ -59,6 +59,8 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
             } else if (!widget.isConfigreceived) {
               _getConfigAttributes();
               onEmptyList();
+            } else {
+              onEmptyListLoading();
             }
           },
           readOnly: true,
@@ -146,6 +148,30 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
           builder: (BuildContext context, ScrollController scrollController) {
             return const Center(
               child: Text("Data Not Available"),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void onEmptyListLoading() {
+    showModalBottomSheet(
+      isScrollControlled: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+      ),
+      context: context,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 1,
+          maxChildSize: 1,
+          minChildSize: 0.5,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return const Center(
+              child: SpinKitCircle(
+                color: AppConstants.primaryColor,
+              ),
             );
           },
         );

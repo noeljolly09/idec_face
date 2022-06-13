@@ -27,6 +27,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Fort",
+
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+        ),
+        cardTheme: CardTheme(),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(),
 //
         primaryColor: const Color(0xFF006e74), //custom teal
         primarySwatch: Colors.teal, // material teal

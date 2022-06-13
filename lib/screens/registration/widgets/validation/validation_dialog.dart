@@ -120,6 +120,7 @@ openValidationDialogWindow(
                       controllertext: blood.text,
                     ),
                     ValidationText(
+                      isValidated: true,
                       assetName: "assets/svg/phone.svg",
                       titletext: "Country Code",
                       controllertext: code!.dialCode.toString(),
@@ -139,7 +140,7 @@ openValidationDialogWindow(
                       controllertext: email.text,
                     ),
                     PreviewText(
-                      assetName: "assets/svg/email.svg",
+                      assetName: "assets/svg/comments.svg",
                       titletext: "Comments",
                       controllertext: comments.text,
                     ),

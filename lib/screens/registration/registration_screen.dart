@@ -193,7 +193,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       DomainPageRegistration(
                         onValidate: customValidator,
                         domainController: _domainController,
-                      ),
+                      ),  
                       NamePageRegistration(
                         onValidate: customValidator,
                         firstnameController: _fnameController,

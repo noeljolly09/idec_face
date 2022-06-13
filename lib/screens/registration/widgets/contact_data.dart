@@ -46,7 +46,7 @@ class ContactPageRegistration extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height / 1.8,
+                height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width - 41.4285,
                 child: Column(
                   children: [
@@ -130,12 +130,23 @@ class ContactPageRegistration extends StatelessWidget {
                             ),
                             controller: commentController,
                             decoration: InputDecoration(
-                                labelText: "Comments",
+                                label: const Text("Comments"),
                                 labelStyle: TextStyle(
                                     color: AppConstants.labeltextgrey),
                                 floatingLabelStyle: const TextStyle(
                                     color: AppConstants.customblack),
-                                contentPadding: const EdgeInsets.all(5),
+                                contentPadding:
+                                    const EdgeInsets.only(bottom: 5),
+                                prefixIconConstraints: const BoxConstraints(
+                                    maxHeight: 30, maxWidth: 30),
+                                prefixIcon: Container(
+                                  margin: const EdgeInsets.all(2),
+                                  child: SvgPicture.asset(
+                                    "assets/svg/comments.svg",
+                                    color: AppConstants.customblack,
+                                    alignment: Alignment.center,
+                                  ),
+                                ),
                                 enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                 ),
@@ -145,6 +156,7 @@ class ContactPageRegistration extends StatelessWidget {
                                 )),
                             keyboardType: TextInputType.multiline,
                             textInputAction: TextInputAction.done,
+                            textAlign: TextAlign.start,
                             maxLines: 3,
                           )
                         ],

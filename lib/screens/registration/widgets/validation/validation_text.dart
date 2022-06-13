@@ -22,9 +22,8 @@ class ValidationText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      alignment: Alignment.center,
       children: [
         Row(
           children: [
@@ -91,9 +90,9 @@ class ValidationText extends StatelessWidget {
           ],
         ),
         Container(
-          margin: const EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(left: 10, right: 10),
           child: Align(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.centerRight,
               child: isValidated!
                   ? null
                   : Text(

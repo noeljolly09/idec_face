@@ -116,7 +116,7 @@ openDialogWindow(
                       controllertext: email.text,
                     ),
                     PreviewText(
-                      assetName: "assets/svg/email.svg",
+                      assetName: "assets/svg/comments.svg",
                       titletext: "Comments",
                       controllertext: comments.text,
                     ),
