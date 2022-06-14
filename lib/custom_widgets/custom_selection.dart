@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:idec_face/network/core/service_response.dart';
-import 'package:idec_face/utility/config/config.dart';
 import '../constants.dart';
 import '../models/config_request.dart';
 import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';

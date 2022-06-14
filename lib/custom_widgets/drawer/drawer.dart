@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../../screens/dashboard/notifier/dashboard_notifier.dart';
@@ -10,7 +11,7 @@ import '../../utility/privacy_policy.dart';
 import 'drawer_item.dart';
 
 class MyDrawer extends ConsumerWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+  MyDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -87,6 +88,8 @@ class MyDrawer extends ConsumerWidget {
                   svg: "assets/svg/logout.svg",
                   text: "Logout",
                   onTap: () {
+                    isLoggedOut();
+
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -141,5 +144,11 @@ class MyDrawer extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void isLoggedOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('login', true);
+    prefs.clear();
   }
 }

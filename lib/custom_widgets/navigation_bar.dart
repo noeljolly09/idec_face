@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+
 import 'package:intl/intl.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../constants.dart';
@@ -46,7 +46,7 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        drawer: const MyDrawer(),
+        drawer: MyDrawer(),
         appBar: AppBar(
           backgroundColor: AppConstants.primaryColor,
           title: Text(appbartitle[selectedIndex]),

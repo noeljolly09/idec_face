@@ -1,3 +1,4 @@
+
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
@@ -82,7 +83,7 @@ class MyApp extends StatelessWidget {
 
 // Routes
 
-      initialRoute: "/",
+      initialRoute: '/',
       routes: {
         '/': (context) => const LoginPage(),
         '/forgot_password': (context) => const ForgotPasswordPage(),

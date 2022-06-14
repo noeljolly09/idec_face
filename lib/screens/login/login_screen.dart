@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
-import '../../custom_widgets/navigation_bar.dart';
 import '../../custom_widgets/text.dart';
 import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../utility/app_info.dart';
@@ -23,6 +24,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _domainController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  late SharedPreferences logindata;
+
+  //
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfAlreadyLoggedIn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,17 +140,28 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         SizedBox(height: height40),
+
+                        // login
+
                         CustomButton(
                           height: 50,
                           function: () {
                             if (formGlobalKey.currentState!.validate()) {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const CustomNavigationBar()),
-                                (Route<dynamic> route) => false,
-                              );
+
+                              logindata.setBool("isLogin", false);
+
+                              logindata.setString(
+                                  "domain", _domainController.text);
+                              logindata.setString(
+                                  "username", _usernameController.text);
+                              logindata.setString(
+                                  "password", _passwordController.text);
+
+                              ref
+                                  .read(navigationbarNotifier)
+                                  .updatedNavigtionIndex(value: 0);
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, "/navigation_bar", (route) => false);
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,
@@ -151,6 +173,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           data: 'LOGIN',
                         ),
                         SizedBox(height: height20),
+
+                        // forgot password
+
                         InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, '/forgot_password');
@@ -169,6 +194,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         SizedBox(height: height20),
+
+                        // register
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
@@ -250,5 +278,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ),
       ),
     );
+  }
+
+  void checkIfAlreadyLoggedIn() async {
+    logindata = await SharedPreferences.getInstance();
+
+    var newuser = (logindata.getBool('isLogin') ?? true);
+
+    if (newuser == false) {
+      ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+      Navigator.pushNamedAndRemoveUntil(
+          context, "/navigation_bar", (route) => false);
+    }
   }
 }
