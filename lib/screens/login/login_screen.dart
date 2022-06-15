@@ -154,8 +154,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   "domain", _domainController.text);
                               logindata.setString(
                                   "username", _usernameController.text);
-                              logindata.setString(
-                                  "password", _passwordController.text);
+                    
 
                               ref
                                   .read(navigationbarNotifier)

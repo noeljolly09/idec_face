@@ -6,12 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/models/config_request.dart';
 import 'package:idec_face/models/config_response.dart';
+import 'package:idec_face/models/registration_request.dart';
 
 import 'package:idec_face/repositary/config_info_repository/providers/config_info_notifier_provider.dart';
+import 'package:idec_face/repositary/config_info_repository/providers/registration_info_notifier_provider.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
 import 'package:idec_face/screens/registration/widgets/name_data.dart';
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
@@ -49,6 +52,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   final TextEditingController _mnameController = TextEditingController();
   final TextEditingController _lnameController = TextEditingController();
   final TextEditingController _idController = TextEditingController();
+
   final TextEditingController _dateinput = TextEditingController();
   CountryCode? code = CountryCode(
       dialCode: "+91", name: "India", code: "IN", flagUri: "flags/in.png");
@@ -64,6 +68,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
+      _registerUserAttributes();
     });
   }
 
@@ -91,6 +96,24 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         .read(configInfoNotifierProvider.notifier)
         .getConfigAttributes(configInfoRequest);
   }
+
+  void _registerUserAttributes() {
+    final registrationInfoRequest = RegistrationInfoRequest(
+        employeeDetails: EmployeeDetails(
+            organisation: _domainController.text,
+            phone: Phone(
+                countryCode: code.toString(), number: _phoneController.text),
+            email: _emailController.text,
+            empId: _idController.text,
+            name: Name(
+                first: _fnameController.text,
+                middle: _mnameController.text,
+                last: _lnameController.text)));
+    ref
+        .read(registrationInfoNotifierProvider.notifier)
+        .getregistrationattributes(registrationInfoRequest);
+  }
+
 
   String? customValidator(String? fieldContent) =>
       fieldContent!.isEmpty ? 'This is required field' : null;
@@ -193,7 +216,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       DomainPageRegistration(
                         onValidate: customValidator,
                         domainController: _domainController,
-                      ),  
+                      ),
                       NamePageRegistration(
                         onValidate: customValidator,
                         firstnameController: _fnameController,
