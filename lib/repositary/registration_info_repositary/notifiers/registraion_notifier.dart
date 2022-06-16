@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/models/registration_request.dart';
 import 'package:idec_face/models/registration_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
-import 'package:idec_face/repositary/config_info_repository/registration_repositary.dart';
+import 'package:idec_face/repositary/registration_info_repositary/registration_repositary.dart';
 
 class RegistrationInfoNotifier
-    extends StateNotifier<ServiceResponse<RegistrationInfoResponse?>> {
+    extends StateNotifier<ServiceResponse<RegistrationResponse?>> {
   final RegistrationInfoRepositary _registrationInfoRepositary;
 
   RegistrationInfoNotifier(this._registrationInfoRepositary)

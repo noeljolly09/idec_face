@@ -4,9 +4,6 @@
 
 import 'dart:convert';
 
-RegistrationInfoRequest registrationInfoRequestFromJson(String str) =>
-    RegistrationInfoRequest.fromJson(json.decode(str));
-
 String registrationInfoRequestToJson(RegistrationInfoRequest data) =>
     json.encode(data.toJson());
 
@@ -18,12 +15,6 @@ class RegistrationInfoRequest {
 
   EmployeeDetails employeeDetails;
   String? sourceTime;
-
-  factory RegistrationInfoRequest.fromJson(Map<String, dynamic> json) =>
-      RegistrationInfoRequest(
-        employeeDetails: EmployeeDetails.fromJson(json["employeeDetails"]),
-        sourceTime: json["sourceTime"],
-      );
 
   Map<String, dynamic> toJson() => {
         "employeeDetails": employeeDetails.toJson(),
@@ -76,48 +67,6 @@ class EmployeeDetails {
   dynamic employeeComments;
   dynamic greenWorker;
 
-  factory EmployeeDetails.fromJson(Map<String, dynamic> json) =>
-      EmployeeDetails(
-        organisation: json["organisation"],
-        name: Name.fromJson(json["name"]),
-        empId: json["empId"],
-        address:
-            json["address"] == null ? null : Address.fromJson(json["address"]),
-        phone: Phone.fromJson(json["phone"]),
-        personal: Personal.fromJson(json["personal"]),
-        contractorId: json["contractorId"],
-        image: json["image"],
-        thumbnail: json["thumbnail"],
-        allergies: json["allergies"] == null
-            ? null
-            : List<Allergy>.from(
-                json["allergies"].map((x) => Allergy.fromJson(x))),
-        injuries: json["injuries"] == null
-            ? null
-            : List<Injury>.from(
-                json["injuries"].map((x) => Injury.fromJson(x))),
-        experience: json["experience"] == null
-            ? null
-            : List<Experience>.from(
-                json["experience"].map((x) => Experience.fromJson(x))),
-        certificates: json["certificates"] == null
-            ? null
-            : List<Certificate>.from(
-                json["certificates"].map((x) => Certificate.fromJson(x))),
-        emergencyPoc: json["emergencyPoc"] == null
-            ? null
-            : List<EmergencyPoc>.from(
-                json["emergencyPoc"].map((x) => EmergencyPoc.fromJson(x))),
-        poi: json["poi"] == null
-            ? null
-            : List<Poi>.from(json["poi"].map((x) => Poi.fromJson(x))),
-        roleId: json["roleId"],
-        tradeId: json["tradeId"],
-        email: json["email"],
-        employeeComments: json["employeeComments"],
-        greenWorker: json["greenWorker"],
-      );
-
   Map<String, dynamic> toJson() => {
         "organisation": organisation,
         "name": name.toJson(),
@@ -169,14 +118,6 @@ class Address {
   dynamic country;
   dynamic postalCode;
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-        lineOne: json["lineOne"],
-        lineTwo: json["lineTwo"],
-        state: json["state"],
-        country: json["country"],
-        postalCode: json["postalCode"],
-      );
-
   Map<String, dynamic> toJson() => {
         "lineOne": lineOne,
         "lineTwo": lineTwo,
@@ -194,11 +135,6 @@ class Allergy {
 
   dynamic nature;
   dynamic allergicTo;
-
-  factory Allergy.fromJson(Map<String, dynamic> json) => Allergy(
-        nature: json["nature"],
-        allergicTo: json["allergicTo"],
-      );
 
   Map<String, dynamic> toJson() => {
         "nature": nature,
@@ -220,14 +156,6 @@ class Certificate {
   dynamic name;
   dynamic type;
   dynamic description;
-
-  factory Certificate.fromJson(Map<String, dynamic> json) => Certificate(
-        expiryDate: json["expiryDate"],
-        certificateNumber: json["certificateNumber"],
-        name: json["name"],
-        type: json["type"],
-        description: json["description"],
-      );
 
   Map<String, dynamic> toJson() => {
         "expiryDate": expiryDate,
@@ -253,14 +181,6 @@ class EmergencyPoc {
   dynamic phoneCountryCode;
   dynamic phoneNumber;
 
-  factory EmergencyPoc.fromJson(Map<String, dynamic> json) => EmergencyPoc(
-        name: json["name"],
-        relation: json["relation"],
-        email: json["email"],
-        phoneCountryCode: json["phoneCountryCode"],
-        phoneNumber: json["phoneNumber"],
-      );
-
   Map<String, dynamic> toJson() => {
         "name": name,
         "relation": relation,
@@ -284,14 +204,6 @@ class Experience {
   dynamic startDate;
   dynamic months;
   dynamic years;
-
-  factory Experience.fromJson(Map<String, dynamic> json) => Experience(
-        company: json["company"],
-        designation: json["designation"],
-        startDate: json["startDate"],
-        months: json["months"],
-        years: json["years"],
-      );
 
   Map<String, dynamic> toJson() => {
         "company": company,
@@ -317,14 +229,6 @@ class Injury {
   dynamic injuryDate;
   dynamic recoveryDate;
 
-  factory Injury.fromJson(Map<String, dynamic> json) => Injury(
-        injuryPart: json["part"],
-        description: json["description"],
-        severity: json["severity"],
-        injuryDate: json["injuryDate"],
-        recoveryDate: json["recoveryDate"],
-      );
-
   Map<String, dynamic> toJson() => {
         "part": injuryPart,
         "description": description,
@@ -345,12 +249,6 @@ class Name {
   dynamic middle;
   String last;
 
-  factory Name.fromJson(Map<String, dynamic> json) => Name(
-        first: json["first"],
-        middle: json["middle"],
-        last: json["last"],
-      );
-
   Map<String, dynamic> toJson() => {
         "first": first,
         "middle": middle,
@@ -369,12 +267,6 @@ class Personal {
   dynamic maritalStatus;
   dynamic highestQualification;
 
-  factory Personal.fromJson(Map<String, dynamic> json) => Personal(
-        dob: DateTime.parse(json["dob"]),
-        maritalStatus: json["maritalStatus"],
-        highestQualification: json["highestQualification"],
-      );
-
   Map<String, dynamic> toJson() => {
         "dob":
             "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
@@ -392,11 +284,6 @@ class Phone {
   String countryCode;
   String number;
 
-  factory Phone.fromJson(Map<String, dynamic> json) => Phone(
-        countryCode: json["countryCode"],
-        number: json["number"],
-      );
-
   Map<String, dynamic> toJson() => {
         "countryCode": countryCode,
         "number": number,
@@ -413,12 +300,6 @@ class Poi {
   dynamic docType;
   dynamic docNumber;
   dynamic description;
-
-  factory Poi.fromJson(Map<String, dynamic> json) => Poi(
-        docType: json["docType"],
-        docNumber: json["docNumber"],
-        description: json["description"],
-      );
 
   Map<String, dynamic> toJson() => {
         "docType": docType,

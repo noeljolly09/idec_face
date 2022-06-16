@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:idec_face/models/registration_request.dart';
 import 'package:idec_face/models/registration_response.dart';
-import '../../network/service_umbrella.dart';
+import '../../../network/service_umbrella.dart';
 
 class RegistrationInfoRepositary {
   final ServiceManager _serviceManager;
 
   RegistrationInfoRepositary(this._serviceManager);
 
-  Future<ServiceResponse<RegistrationInfoResponse?>> registrationInfoAttributes(
+  Future<ServiceResponse<RegistrationResponse?>> registrationInfoAttributes(
       RegistrationInfoRequest param) async {
     try {
       final response = await _serviceManager.post(

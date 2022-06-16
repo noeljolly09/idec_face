@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-RegistrationInfoResponse registrationInfoResponseFromJson(String str) =>
-    RegistrationInfoResponse.fromJson(json.decode(str));
+RegistrationResponse registrationInfoResponseFromJson(String str) =>
+    RegistrationResponse.fromJson(json.decode(str));
 
-String registrationInfoResponseToJson(RegistrationInfoResponse data) =>
+String registrationInfoResponseToJson(RegistrationResponse data) =>
     json.encode(data.toJson());
 
-class RegistrationInfoResponse {
-  RegistrationInfoResponse({
-    required this.status,
-    required this.payload,
-    required this.response,
+class RegistrationResponse {
+  RegistrationResponse({
+    this.status,
+    this.payload,
+    this.response,
   });
 
-  bool status;
-  Payload payload;
-  Response response;
+  bool? status;
+  Payload? payload;
+  Response? response;
 
-  factory RegistrationInfoResponse.fromJson(Map<String, dynamic> json) =>
-      RegistrationInfoResponse(
+  factory RegistrationResponse.fromJson(Map<String, dynamic> json) =>
+      RegistrationResponse(
         status: json["status"],
         payload: Payload.fromJson(json["payload"]),
         response: Response.fromJson(json["response"]),
@@ -26,29 +26,29 @@ class RegistrationInfoResponse {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "payload": payload.toJson(),
-        "response": response.toJson(),
+        "payload": payload!.toJson(),
+        "response": response!.toJson(),
       };
 }
 
 class Payload {
   Payload({
     this.id,
-    required this.notificationType,
-    required this.sourceTime,
-    required this.cid,
+    this.notificationType,
+    this.sourceTime,
+    this.cid,
     this.sid,
-    required this.employeeInfo,
-    required this.emailInfo,
+    this.employeeInfo,
+    this.emailInfo,
   });
 
   String? id;
-  String notificationType;
-  String sourceTime;
-  String cid;
+  String? notificationType;
+  String? sourceTime;
+  String? cid;
   String? sid;
-  EmployeeInfo employeeInfo;
-  EmailInfo emailInfo;
+  EmployeeInfo? employeeInfo;
+  EmailInfo? emailInfo;
 
   factory Payload.fromJson(Map<String, dynamic> json) => Payload(
         id: json["id"],
@@ -66,25 +66,25 @@ class Payload {
         "sourceTime": sourceTime,
         "cid": cid,
         "sid": sid,
-        "employeeInfo": employeeInfo.toJson(),
-        "emailInfo": emailInfo.toJson(),
+        "employeeInfo": employeeInfo!.toJson(),
+        "emailInfo": emailInfo!.toJson(),
       };
 }
 
 class EmailInfo {
   EmailInfo({
-    required this.to,
+    this.to,
     this.cc,
     this.bcc,
-    required this.subject,
-    required this.body,
+    this.subject,
+    this.body,
   });
 
-  List<String> to;
+  List<String>? to;
   List<dynamic>? cc;
   List<dynamic>? bcc;
-  String subject;
-  Body body;
+  String? subject;
+  Body? body;
 
   factory EmailInfo.fromJson(Map<String, dynamic> json) => EmailInfo(
         to: List<String>.from(json["to"].map((x) => x)),
@@ -95,11 +95,11 @@ class EmailInfo {
       );
 
   Map<String, dynamic> toJson() => {
-        "to": List<dynamic>.from(to.map((x) => x)),
+        "to": List<dynamic>.from(to!.map((x) => x)),
         "cc": List<dynamic>.from(cc!.map((x) => x)),
         "bcc": List<dynamic>.from(bcc!.map((x) => x)),
         "subject": subject,
-        "body": body.toJson(),
+        "body": body!.toJson(),
       };
 }
 
@@ -121,18 +121,18 @@ class Body {
 
 class EmployeeInfo {
   EmployeeInfo({
-    required this.empId,
-    required this.employeeId,
-    required this.employeeName,
-    required this.phone,
-    required this.email,
+    this.empId,
+    this.employeeId,
+    this.employeeName,
+    this.phone,
+    this.email,
   });
 
-  String empId;
-  String employeeId;
-  EmployeeName employeeName;
-  Phone phone;
-  String email;
+  String? empId;
+  String? employeeId;
+  EmployeeName? employeeName;
+  Phone? phone;
+  String? email;
 
   factory EmployeeInfo.fromJson(Map<String, dynamic> json) => EmployeeInfo(
         empId: json["empId"],
@@ -145,8 +145,8 @@ class EmployeeInfo {
   Map<String, dynamic> toJson() => {
         "empId": empId,
         "employeeId": employeeId,
-        "employeeName": employeeName.toJson(),
-        "phone": phone.toJson(),
+        "employeeName": employeeName!.toJson(),
+        "phone": phone!.toJson(),
         "email": email,
       };
 }
