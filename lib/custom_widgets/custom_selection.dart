@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import '../constants.dart';
-import '../models/config_request.dart';
+import '../models/config/config_request.dart';
 import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 
 class CustomSelectionBar extends ConsumerStatefulWidget {

@@ -4,9 +4,12 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:idec_face/models/config_request.dart';
-import 'package:idec_face/models/config_response.dart';
-import 'package:idec_face/models/registration_request.dart';
+import 'package:idec_face/models/config/config_request.dart';
+import 'package:idec_face/models/config/config_response.dart';
+//
+import 'package:idec_face/models/registration/registration_request.dart'
+    as registrationrequest;
+import 'package:idec_face/models/registration/registration_response.dart';
 
 import 'package:idec_face/repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 import 'package:idec_face/screens/registration/widgets/domain_data.dart';
@@ -67,7 +70,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
-      _registerUserAttributes();
     });
   }
 
@@ -97,14 +99,16 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
-    final registrationInfoRequest = RegistrationInfoRequest(
-        employeeDetails: EmployeeDetails(
+    final registrationInfoRequest = registrationrequest.RegistrationInfoRequest(
+        employeeDetails: registrationrequest.EmployeeDetails(
             organisation: _domainController.text,
-            phone: Phone(
-                countryCode: code.toString(), number: _phoneController.text),
+            phone: registrationrequest.Phone(
+              countryCode: code.toString(),
+              number: _phoneController.text,
+            ),
             email: _emailController.text,
             empId: _idController.text,
-            name: Name(
+            name: registrationrequest.Name(
                 first: _fnameController.text,
                 middle: _mnameController.text,
                 last: _lnameController.text)));
@@ -112,7 +116,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         .read(registrationInfoNotifierProvider.notifier)
         .getregistrationattributes(registrationInfoRequest);
   }
-
 
   String? customValidator(String? fieldContent) =>
       fieldContent!.isEmpty ? 'This is required field' : null;
@@ -123,7 +126,12 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     double height78 = MediaQuery.of(context).size.height / 10.25;
 
     final networkStatus = ref.read(connectivityNotifierProvider).status;
+
+    //config api
     initListeners(networkStatus);
+
+    // registration api
+    initlisteners(networkStatus);
 
     return SafeArea(
       child: Form(
@@ -279,15 +287,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                   formHeader: "Validation Error!",
                                 );
                               } else {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (context) =>
-                                      const InfoDialogWithTimer(
-                                    title: "Registered",
-                                    message: "Successfullly Registered",
-                                  ),
-                                );
+                                _registerUserAttributes();
                               }
                             },
                             buttonColor: Theme.of(context).primaryColor,
@@ -395,6 +395,27 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             )),
       ),
     );
+  }
+
+  initlisteners(ConnectionStatus networkStatus) {
+    ref.listen(registrationInfoNotifierProvider, (previous, next) {
+      final registrationInfoResponse =
+          next as ServiceResponse<RegistrationResponse?>;
+      if (registrationInfoResponse.status == ServiceStatus.loading) {
+      } else if (registrationInfoResponse.status == ServiceStatus.completed) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => InfoDialogWithTimer(
+            title: registrationInfoResponse.data!.payload!.emailInfo!.subject
+                .toString(),
+            message: registrationInfoResponse
+                .data!.payload!.emailInfo!.body!.value
+                .toString(),
+          ),
+        );
+      }
+    });
   }
 
   initListeners(ConnectionStatus networkStatus) {

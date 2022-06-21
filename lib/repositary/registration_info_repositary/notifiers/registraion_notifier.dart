@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:idec_face/models/registration_request.dart';
-import 'package:idec_face/models/registration_response.dart';
+import 'package:idec_face/models/registration/registration_request.dart';
+import 'package:idec_face/models/registration/registration_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/registration_info_repositary/registration_repositary.dart';
 
@@ -18,5 +18,7 @@ class RegistrationInfoNotifier
     final response = await _registrationInfoRepositary
         .registrationInfoAttributes(registrationInfoRequest);
     state = response;
+
+    // final response =await _registrationInfoRepositary
   }
 }

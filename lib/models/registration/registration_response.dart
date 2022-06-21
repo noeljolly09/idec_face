@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-RegistrationResponse registrationInfoResponseFromJson(String str) =>
+RegistrationResponse registrationResponseFromJson(String str) =>
     RegistrationResponse.fromJson(json.decode(str));
 
 String registrationInfoResponseToJson(RegistrationResponse data) =>

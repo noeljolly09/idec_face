@@ -46,7 +46,7 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        drawer: MyDrawer(),
+        drawer: const MyDrawer(),
         appBar: AppBar(
           backgroundColor: AppConstants.primaryColor,
           title: Text(appbartitle[selectedIndex]),

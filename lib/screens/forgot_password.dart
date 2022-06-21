@@ -2,6 +2,9 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/models/password_reset/password_reset_request.dart';
+import 'package:idec_face/models/password_reset/password_reset_response.dart';
+import 'package:idec_face/repositary/password_reset_repository/providers/password_reset_notifier_provider.dart';
 import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
 
@@ -13,8 +16,8 @@ import '../custom_widgets/textfields/custom_textfield.dart';
 import '../custom_widgets/textfields/forgotPassword_textField.dart';
 
 import '../dialogs/info_dialog/dialog_with_timer.dart';
-import '../models/config_request.dart';
-import '../models/config_response.dart';
+import '../models/config/config_request.dart';
+import '../models/config/config_response.dart';
 import '../network/service_umbrella.dart';
 import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
 import '../utility/app_info.dart';
@@ -56,6 +59,14 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         .getConfigAttributes(configInfoRequest);
   }
 
+  void _getPasswordResetAttributes() {
+    final passwordResetRequest =
+        PasswordResetRequest(userName: _valueController.text);
+    ref
+        .read(passwordResetNotifierProvider.notifier)
+        .getPasswordResetAttributes(passwordResetRequest);
+  }
+
   @override
   Widget build(BuildContext context) {
     double height10 = MediaQuery.of(context).size.height / 82.05;
@@ -65,6 +76,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initListeners(networkStatus);
+    initlisteners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -131,7 +143,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                                   textorflex: false,
                                   validator: (value) {
                                     if (value!.isEmpty ||
-                                        _searchController.text.isEmpty) {
+                                        _optionsController.text.isEmpty) {
                                       return 'Select any one option';
                                     } else {
                                       return null;
@@ -168,7 +180,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                                   function: () {
                                     if (formGlobalKey.currentState!
                                         .validate()) {
-                                      Navigator.pop(context);
+                                      _getPasswordResetAttributes();
                                     }
                                   },
                                   width:
@@ -266,6 +278,24 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         ),
       ),
     );
+  }
+
+  initlisteners(ConnectionStatus networkStatus) {
+    ref.listen(passwordResetNotifierProvider, (previous, next) {
+      final passwordResetResponse =
+          next as ServiceResponse<PasswordResetResponse?>;
+      if (passwordResetResponse.status == ServiceStatus.loading) {
+      } else if (passwordResetResponse.status == ServiceStatus.completed) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => InfoDialogWithTimer(
+            title: "Password Reset",
+            message: passwordResetResponse.data!.response!.message.toString(),
+          ),
+        );
+      }
+    });
   }
 
   initListeners(ConnectionStatus networkStatus) {

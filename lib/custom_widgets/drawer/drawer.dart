@@ -11,7 +11,7 @@ import '../../utility/privacy_policy.dart';
 import 'drawer_item.dart';
 
 class MyDrawer extends ConsumerWidget {
-  MyDrawer({Key? key}) : super(key: key);
+  const MyDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
