@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:idec_face/models/login/login_request.dart';
+import 'package:idec_face/models/login/login_response.dart';
+import 'package:idec_face/models/login/privileges_and_license_details_request.dart';
+import 'package:idec_face/network/core/service_response.dart';
+import 'package:idec_face/repositary/login_info_repository/providers/login_info_notifier_provider.dart';
 import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
+import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
@@ -25,14 +31,29 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  late SharedPreferences logindata;
-
   //
 
   @override
   void initState() {
     super.initState();
-    checkIfAlreadyLoggedIn();
+    // checkIfAlreadyLoggedIn();
+  }
+
+  void _loginUserAttributes() {
+    final loginInfoRequest =
+        LoginInfoRequest(username: _usernameController.text);
+    ref
+        .read(loginInfoNotifierProvider.notifier)
+        .getloginattributes(loginInfoRequest);
+  }
+
+  void _licenseAttributes() {
+    final licenseRequest =
+        PrivilegesAndLicenseDetailsRequest(userName: _usernameController.text);
+
+    ref
+        .read(privilegesAndLicenseDetailsInfoNotifierProvider.notifier)
+        .getlicenseattributes(licenseRequest);
   }
 
   @override
@@ -40,6 +61,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.822;
     double height40 = MediaQuery.of(context).size.height / 20.514;
+
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+
+    initlisteners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -147,20 +172,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           height: 50,
                           function: () {
                             if (formGlobalKey.currentState!.validate()) {
-
-                              logindata.setBool("isLogin", false);
-
-                              logindata.setString(
-                                  "domain", _domainController.text);
-                              logindata.setString(
-                                  "username", _usernameController.text);
-                    
-
-                              ref
-                                  .read(navigationbarNotifier)
-                                  .updatedNavigtionIndex(value: 0);
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, "/navigation_bar", (route) => false);
+                              //api
+                              _licenseAttributes();
+                              _loginUserAttributes();
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,
@@ -279,15 +293,27 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 
-  void checkIfAlreadyLoggedIn() async {
-    logindata = await SharedPreferences.getInstance();
+  // void checkIfAlreadyLoggedIn() async {
+  //   logindata = await SharedPreferences.getInstance();
 
-    var newuser = (logindata.getBool('isLogin') ?? true);
+  //   var newuser = (logindata.getBool('isLogin') ?? true);
 
-    if (newuser == false) {
-      ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
-      Navigator.pushNamedAndRemoveUntil(
-          context, "/navigation_bar", (route) => false);
-    }
+  //   if (newuser == false) {
+  //     ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+  //     Navigator.pushNamedAndRemoveUntil(
+  //         context, "/navigation_bar", (route) => false);
+  //   }
+  // }
+
+  initlisteners(ConnectionStatus networkStatus) {
+    ref.listen(loginInfoNotifierProvider, (previous, next) {
+      final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
+      if (loginInfoResponse.status == ServiceStatus.loading) {
+      } else if (loginInfoResponse.status == ServiceStatus.completed) {
+        ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/navigation_bar", (route) => false);
+      }
+    });
   }
 }

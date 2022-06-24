@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:idec_face/models/logout/logout_request.dart';
+import 'package:idec_face/models/logout/logout_response.dart';
+import 'package:idec_face/network/core/service_response.dart';
+import 'package:idec_face/repositary/login_info_repository/providers/login_info_notifier_provider.dart';
+import 'package:idec_face/repositary/logout_repository/providers/logout_info_notifier_provider.dart';
+import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
+import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 
 import '../../constants.dart';
+import '../../models/login/login_response.dart';
 import '../../screens/dashboard/notifier/dashboard_notifier.dart';
 import '../../screens/login/login_screen.dart';
 import '../../utility/app_info.dart';
 import '../../utility/privacy_policy.dart';
 import 'drawer_item.dart';
 
-class MyDrawer extends ConsumerWidget {
+class MyDrawer extends ConsumerStatefulWidget {
   const MyDrawer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _MyDrawerState createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends ConsumerState<MyDrawer> {
+  void _getLogoutAttributes() {
+    final logoutRequest = LogoutRequest(userName: "");
+
+    ref
+        .read(logoutInfoNotifierProvider.notifier)
+        .getlogoutattributes(logoutRequest);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+
+    initLogoutListeners(networkStatus);
+
     return Drawer(
       backgroundColor: Colors.white,
       child: Column(
@@ -88,14 +112,8 @@ class MyDrawer extends ConsumerWidget {
                   svg: "assets/svg/logout.svg",
                   text: "Logout",
                   onTap: () {
-                    isLoggedOut();
-
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
-                      (Route<dynamic> route) => false,
-                    );
+                    //api
+                    _getLogoutAttributes();
                   },
                 ),
               ],
@@ -146,9 +164,17 @@ class MyDrawer extends ConsumerWidget {
     );
   }
 
-  void isLoggedOut() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('login', true);
-    prefs.clear();
+  void initLogoutListeners(ConnectionStatus networkStatus) {
+    ref.listen(logoutInfoNotifierProvider, (previous, next) {
+      final logoutInfoResponse = next as ServiceResponse<LogoutResponse?>;
+      if (logoutInfoResponse.status == ServiceStatus.loading) {
+      } else if (logoutInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (Route<dynamic> route) => false,
+        );
+      }
+    });
   }
 }

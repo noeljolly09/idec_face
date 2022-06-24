@@ -21,7 +21,7 @@ class _InfoDialogWithTimerState extends State<InfoDialogWithTimer> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 10), () {
+    _timer = Timer(const Duration(seconds: 5), () {
       Navigator.of(context).pop();
     });
   }

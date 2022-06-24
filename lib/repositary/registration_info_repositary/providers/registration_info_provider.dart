@@ -8,3 +8,9 @@ final registrationInfoRepositoryProvider =
   final serviceManager = ServiceManager(apiClient: _apiClient);
   return RegistrationInfoRepositary(serviceManager);
 });
+
+final getClientsInfoRepositoryProvider = Provider<ClientInfoRepositary>((ref) {
+  final _apiClient = ref.watch(dioProvider);
+  final serviceManager = ServiceManager(apiClient: _apiClient);
+  return ClientInfoRepositary(serviceManager);
+});

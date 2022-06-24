@@ -16,6 +16,9 @@ class RegistrationsNotifier extends ChangeNotifier {
   List<SelectedListItem> _listOfSelectOptions = [];
   List<SelectedListItem> get listOfSelectOptions => _listOfSelectOptions;
 
+  String? _tenantId;
+  String? get tenantId => _tenantId;
+
   bool _isConfigreceived = false;
   bool get isConfigreceived => _isConfigreceived;
 
@@ -39,6 +42,11 @@ class RegistrationsNotifier extends ChangeNotifier {
 
   void updateConfigState({required bool value}) {
     _isConfigreceived = value;
+    notifyListeners();
+  }
+
+  void updateTenantId({required String? value}) {
+    _tenantId = value;
     notifyListeners();
   }
 }

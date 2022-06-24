@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/models/config/config_request.dart';
 import 'package:idec_face/models/config/config_response.dart';
+import 'package:idec_face/models/registration/client_details_response.dart';
 //
 import 'package:idec_face/models/registration/registration_request.dart'
     as registrationrequest;
@@ -56,6 +57,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   final TextEditingController _idController = TextEditingController();
 
   final TextEditingController _dateinput = TextEditingController();
+
+  String? tenantId;
+  String? hello = '5e142d628f7356e52ff0df75';
+
   CountryCode? code = CountryCode(
       dialCode: "+91", name: "India", code: "IN", flagUri: "flags/in.png");
   final TextEditingController _genderController = TextEditingController();
@@ -70,6 +75,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
+      _getClientDetails();
     });
   }
 
@@ -88,6 +94,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     _emailController.dispose();
     _phoneController.dispose();
     super.dispose();
+  }
+
+  void _getClientDetails() {
+    ref.read(clientInfoNotifierProvider.notifier).getClientInfo();
   }
 
   void _getConfigAttributes() {
@@ -114,7 +124,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                 last: _lnameController.text)));
     ref
         .read(registrationInfoNotifierProvider.notifier)
-        .getregistrationattributes(registrationInfoRequest);
+        .getregistrationattributes(registrationInfoRequest, hello);
   }
 
   String? customValidator(String? fieldContent) =>
@@ -128,10 +138,13 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     final networkStatus = ref.read(connectivityNotifierProvider).status;
 
     //config api
-    initListeners(networkStatus);
+    initConfigListeners(networkStatus);
+
+    //client Info
+    initClientDetailsListeners(networkStatus);
 
     // registration api
-    initlisteners(networkStatus);
+    initRegistrationListeners(networkStatus);
 
     return SafeArea(
       child: Form(
@@ -288,6 +301,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                 );
                               } else {
                                 _registerUserAttributes();
+                                print(tenantId);
                               }
                             },
                             buttonColor: Theme.of(context).primaryColor,
@@ -397,7 +411,25 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     );
   }
 
-  initlisteners(ConnectionStatus networkStatus) {
+  initClientDetailsListeners(ConnectionStatus networkStatus) {
+    ref.listen(clientInfoNotifierProvider, (previous, next) {
+      final clientsInfoResponse =
+          next as ServiceResponse<ClientDetailsResponse?>;
+      if (clientsInfoResponse.status == ServiceStatus.loading) {
+      } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
+          for (var element in clientsInfoResponse.data!.response!.response!) {
+            if (element.domain == _domainController.text) {
+              tenantId = element.id;
+            }
+          }
+          ref.read(registrationNotifier).updateTenantId(value: tenantId);
+        }
+      }
+    });
+  }
+
+  initRegistrationListeners(ConnectionStatus networkStatus) {
     ref.listen(registrationInfoNotifierProvider, (previous, next) {
       final registrationInfoResponse =
           next as ServiceResponse<RegistrationResponse?>;
@@ -407,8 +439,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           context: context,
           barrierDismissible: false,
           builder: (context) => InfoDialogWithTimer(
-            title: registrationInfoResponse.data!.payload!.emailInfo!.subject
-                .toString(),
+            title: "Registration",
             message: registrationInfoResponse
                 .data!.payload!.emailInfo!.body!.value
                 .toString(),
@@ -418,7 +449,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     });
   }
 
-  initListeners(ConnectionStatus networkStatus) {
+  initConfigListeners(ConnectionStatus networkStatus) {
     ref.listen(configInfoNotifierProvider, ((previous, next) {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
 

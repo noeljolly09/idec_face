@@ -75,8 +75,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     double height60 = MediaQuery.of(context).size.height / 13.67;
 
     final networkStatus = ref.read(connectivityNotifierProvider).status;
-    initListeners(networkStatus);
-    initlisteners(networkStatus);
+    initConfigListeners(networkStatus);
+    initResetPasswordListeners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -280,7 +280,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     );
   }
 
-  initlisteners(ConnectionStatus networkStatus) {
+  initResetPasswordListeners(ConnectionStatus networkStatus) {
     ref.listen(passwordResetNotifierProvider, (previous, next) {
       final passwordResetResponse =
           next as ServiceResponse<PasswordResetResponse?>;
@@ -298,7 +298,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     });
   }
 
-  initListeners(ConnectionStatus networkStatus) {
+  initConfigListeners(ConnectionStatus networkStatus) {
     ref.listen(configInfoNotifierProvider, ((previous, next) {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
 
