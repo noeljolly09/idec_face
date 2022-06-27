@@ -290,6 +290,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           context: context,
           barrierDismissible: false,
           builder: (context) => InfoDialogWithTimer(
+            isTimerActivated: true,
             title: "Password Reset",
             message: passwordResetResponse.data!.response!.message.toString(),
           ),
@@ -328,6 +329,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             context: context,
             barrierDismissible: false,
             builder: (context) => const InfoDialogWithTimer(
+              isTimerActivated: true,
               title: "Error",
               message: "No Internet Connectivity",
             ),
@@ -337,6 +339,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             context: context,
             barrierDismissible: false,
             builder: (context) => const InfoDialogWithTimer(
+              isTimerActivated: true,
               title: "Error",
               message: "Something went wrong",
             ),

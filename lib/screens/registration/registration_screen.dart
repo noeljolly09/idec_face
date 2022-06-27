@@ -150,263 +150,262 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       child: Form(
         key: _formKey,
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(height: AppConstants.abovecoldtruthheight),
-                SvgPicture.asset(
-                  "assets/svg/logo.svg",
-                  height: 50,
-                ),
-                SizedBox(height: height20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(height: AppConstants.abovecoldtruthheight),
+              SvgPicture.asset(
+                "assets/svg/logo.svg",
+                height: 50,
+              ),
+              SizedBox(height: height20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Center(
+                    child: CustomTextWidget(
+                      color: AppConstants.customblack,
+                      size: AppConstants.authtitlesize,
+                      text: 'REGISTRATION',
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      if (_domainController.text.isEmptyValidate.isNotEmpty ||
+                          _fnameController.text.isEmptyValidate.isNotEmpty ||
+                          _lnameController.text.isEmptyValidate.isNotEmpty ||
+                          _phoneController.text.isValidPhone.isNotEmpty ||
+                          _emailController.text.isValidEmail.isNotEmpty) {
+                        openValidationDialogWindow(
+                            context,
+                            code,
+                            _domainController,
+                            _fnameController,
+                            _mnameController,
+                            _lnameController,
+                            _idController,
+                            _dateinput,
+                            _genderController,
+                            _nationalityController,
+                            _bloodController,
+                            _phoneController,
+                            _emailController,
+                            _commentsController,
+                            formHeader: "Preview Page");
+                      } else {
+                        openDialogWindow(
+                            context,
+                            code,
+                            _domainController,
+                            _fnameController,
+                            _mnameController,
+                            _lnameController,
+                            _idController,
+                            _dateinput,
+                            _genderController,
+                            _nationalityController,
+                            _bloodController,
+                            _phoneController,
+                            _emailController,
+                            _commentsController);
+                      }
+                    },
+                    icon: SvgPicture.asset(
+                      "assets/svg/eye.svg",
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Flexible(
+                flex: 3,
+                child: PageView(
+                  controller: controller,
+                  onPageChanged: (index) {
+                    setState(() {
+                      isPageChanged = index;
+                    });
+                  },
                   children: [
-                    const SizedBox(
-                      width: 40,
+                    DomainPageRegistration(
+                      onValidate: customValidator,
+                      domainController: _domainController,
                     ),
-                    Center(
-                      child: CustomTextWidget(
-                        color: AppConstants.customblack,
-                        size: AppConstants.authtitlesize,
-                        text: 'REGISTRATION',
-                        fontWeight: FontWeight.normal,
-                      ),
+                    NamePageRegistration(
+                      onValidate: customValidator,
+                      firstnameController: _fnameController,
+                      middlenameController: _mnameController,
+                      lastnameController: _lnameController,
+                      employeeIdController: _idController,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        if (_domainController.text.isEmptyValidate.isNotEmpty ||
-                            _fnameController.text.isEmptyValidate.isNotEmpty ||
-                            _lnameController.text.isEmptyValidate.isNotEmpty ||
-                            _phoneController.text.isValidPhone.isNotEmpty ||
-                            _emailController.text.isValidEmail.isNotEmpty) {
-                          openValidationDialogWindow(
-                              context,
-                              code,
-                              _domainController,
-                              _fnameController,
-                              _mnameController,
-                              _lnameController,
-                              _idController,
-                              _dateinput,
-                              _genderController,
-                              _nationalityController,
-                              _bloodController,
-                              _phoneController,
-                              _emailController,
-                              _commentsController,
-                              formHeader: "Preview Page");
-                        } else {
-                          openDialogWindow(
-                              context,
-                              code,
-                              _domainController,
-                              _fnameController,
-                              _mnameController,
-                              _lnameController,
-                              _idController,
-                              _dateinput,
-                              _genderController,
-                              _nationalityController,
-                              _bloodController,
-                              _phoneController,
-                              _emailController,
-                              _commentsController);
-                        }
+                    GenderPageRegistration(
+                        onValidate: customValidator,
+                        dateinput: _dateinput,
+                        nationalityvalue: _nationalityController,
+                        bloodvalue: _bloodController,
+                        gendervalue: _genderController),
+                    ContactPageRegistration(
+                      onchanged: (countryCode) {
+                        code = countryCode;
+                        return code;
                       },
-                      icon: SvgPicture.asset(
-                        "assets/svg/eye.svg",
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    )
+                      phoneNumberValidate: customValidator,
+                      emailValidate: customValidator,
+                      commentController: _commentsController,
+                      emailController: _emailController,
+                      phoneController: _phoneController,
+                    ),
                   ],
                 ),
-                Flexible(
-                  flex: 3,
-                  child: PageView(
+              ),
+              isPageChanged == 3
+                  ? Flexible(
+                      flex: 1,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: CustomButton(
+                          height: 50,
+                          function: () {
+                            if (_domainController
+                                    .text.isEmptyValidate.isNotEmpty ||
+                                _fnameController
+                                    .text.isEmptyValidate.isNotEmpty ||
+                                _lnameController
+                                    .text.isEmptyValidate.isNotEmpty ||
+                                _phoneController.text.isValidPhone.isNotEmpty ||
+                                _emailController.text.isValidEmail.isNotEmpty) {
+                              openValidationDialogWindow(
+                                context,
+                                code,
+                                _domainController,
+                                _fnameController,
+                                _mnameController,
+                                _lnameController,
+                                _idController,
+                                _dateinput,
+                                _genderController,
+                                _nationalityController,
+                                _bloodController,
+                                _phoneController,
+                                _emailController,
+                                _commentsController,
+                                formHeader: "Validation Error!",
+                              );
+                            } else {
+                              _registerUserAttributes();
+                              print(tenantId);
+                            }
+                          },
+                          buttonColor: Theme.of(context).primaryColor,
+                          buttonBorder:
+                              Border.all(color: Colors.white30, width: 2),
+                          buttonBorderRadius: BorderRadius.circular(05),
+                          iconColor: Colors.white,
+                          data: 'Submit',
+                        ),
+                      ),
+                    )
+                  : const Text(""),
+            ],
+          ),
+          bottomSheet: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            height: height78,
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                Center(
+                  child: SmoothPageIndicator(
                     controller: controller,
-                    onPageChanged: (index) {
-                      setState(() {
-                        isPageChanged = index;
-                      });
-                    },
-                    children: [
-                      DomainPageRegistration(
-                        onValidate: customValidator,
-                        domainController: _domainController,
-                      ),
-                      NamePageRegistration(
-                        onValidate: customValidator,
-                        firstnameController: _fnameController,
-                        middlenameController: _mnameController,
-                        lastnameController: _lnameController,
-                        employeeIdController: _idController,
-                      ),
-                      GenderPageRegistration(
-                          onValidate: customValidator,
-                          dateinput: _dateinput,
-                          nationalityvalue: _nationalityController,
-                          bloodvalue: _bloodController,
-                          gendervalue: _genderController),
-                      ContactPageRegistration(
-                        onchanged: (countryCode) {
-                          code = countryCode;
-                          return code;
-                        },
-                        phoneNumberValidate: customValidator,
-                        emailValidate: customValidator,
-                        commentController: _commentsController,
-                        emailController: _emailController,
-                        phoneController: _phoneController,
-                      ),
-                    ],
+                    count: 4,
+                    axisDirection: Axis.horizontal,
+                    effect: const WormEffect(
+                      dotWidth: 10,
+                      dotHeight: 10,
+                      activeDotColor: Colors.black,
+                    ),
                   ),
                 ),
-                isPageChanged == 3
-                    ? Flexible(
-                        flex: 1,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: CustomButton(
-                            height: 50,
-                            function: () {
-                              if (_domainController
-                                      .text.isEmptyValidate.isNotEmpty ||
-                                  _fnameController
-                                      .text.isEmptyValidate.isNotEmpty ||
-                                  _lnameController
-                                      .text.isEmptyValidate.isNotEmpty ||
-                                  _phoneController
-                                      .text.isValidPhone.isNotEmpty ||
-                                  _emailController
-                                      .text.isValidEmail.isNotEmpty) {
-                                openValidationDialogWindow(
-                                  context,
-                                  code,
-                                  _domainController,
-                                  _fnameController,
-                                  _mnameController,
-                                  _lnameController,
-                                  _idController,
-                                  _dateinput,
-                                  _genderController,
-                                  _nationalityController,
-                                  _bloodController,
-                                  _phoneController,
-                                  _emailController,
-                                  _commentsController,
-                                  formHeader: "Validation Error!",
-                                );
-                              } else {
-                                _registerUserAttributes();
-                                print(tenantId);
-                              }
-                            },
-                            buttonColor: Theme.of(context).primaryColor,
-                            buttonBorder:
-                                Border.all(color: Colors.white30, width: 2),
-                            buttonBorderRadius: BorderRadius.circular(05),
-                            iconColor: Colors.white,
-                            data: 'Submit',
-                          ),
-                        ),
-                      )
-                    : const Text(""),
-              ],
-            ),
-            bottomSheet: Container(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              height: height78,
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: [
-                  Center(
-                    child: SmoothPageIndicator(
-                      controller: controller,
-                      count: 4,
-                      axisDirection: Axis.horizontal,
-                      effect: const WormEffect(
-                        dotWidth: 10,
-                        dotHeight: 10,
-                        activeDotColor: Colors.black,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CustomTextWidget(
-                            text: "Already Registered ?",
-                            size: 15,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                        const SizedBox(width: 5),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          hoverColor: AppConstants.secondaryColor,
-                          child: Ink(
-                            child: CustomTextWidget(
-                              color: Theme.of(context).primaryColor,
-                              size: 15,
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.w400,
-                              text: 'Login',
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Row(
-                          children: [
-                            const Text(
-                              "v",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            getVersionNumber(),
-                          ],
-                        ),
-                      ),
+                      const CustomTextWidget(
+                          text: "Already Registered ?",
+                          size: 15,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black),
+                      const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => const PrivacyPolicyPage());
+                          Navigator.pop(context);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         hoverColor: AppConstants.secondaryColor,
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            "Privacy Policy",
-                            style: TextStyle(
-                                fontSize: 10,
-                                decoration: TextDecoration.underline,
-                                color: Colors.black),
+                        child: Ink(
+                          child: CustomTextWidget(
+                            color: Theme.of(context).primaryColor,
+                            size: 15,
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.w400,
+                            text: 'Login',
                           ),
                         ),
                       )
                     ],
-                  )
-                ],
-              ),
-            )),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "v",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          getVersionNumber(),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => const PrivacyPolicyPage());
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      hoverColor: AppConstants.secondaryColor,
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        child: const Text(
+                          "Privacy Policy",
+                          style: TextStyle(
+                              fontSize: 10,
+                              decoration: TextDecoration.underline,
+                              color: Colors.black),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -439,6 +438,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           context: context,
           barrierDismissible: false,
           builder: (context) => InfoDialogWithTimer(
+            isTimerActivated: true,
             title: "Registration",
             message: registrationInfoResponse
                 .data!.payload!.emailInfo!.body!.value
@@ -511,6 +511,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             context: context,
             barrierDismissible: false,
             builder: (context) => const InfoDialogWithTimer(
+              isTimerActivated: true,
               title: "Error",
               message: "No Internet Connectivity",
             ),
@@ -520,6 +521,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             context: context,
             barrierDismissible: false,
             builder: (context) => const InfoDialogWithTimer(
+              isTimerActivated: true,
               title: "Error",
               message: "Something went wrong",
             ),

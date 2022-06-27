@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 class InfoDialogBox extends StatefulWidget {
   final String title, descriptions, text;
   // final Image img;
-  final VoidCallback onPressed;
+
+  final VoidCallback onPressedBttn1;
+  final VoidCallback? onPressedBttn2;
+  final String bttnText1;
+  final String bttnText2;
+  final bool isCancelButtonVisible;
 
   const InfoDialogBox({
     Key? key,
@@ -11,7 +16,11 @@ class InfoDialogBox extends StatefulWidget {
     required this.descriptions,
     required this.text,
     // this.img,
-    required this.onPressed,
+    required this.onPressedBttn1,
+    this.onPressedBttn2,
+    required this.bttnText1,
+    required this.bttnText2,
+    required this.isCancelButtonVisible,
   }) : super(key: key);
 
   @override
@@ -35,8 +44,8 @@ class _InfoDialogBoxState extends State<InfoDialogBox> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.only(
-              left: 20, top: 45.0 + 20, right: 20, bottom: 20),
+          padding:
+              const EdgeInsets.only(left: 20, top: 45.0, right: 20, bottom: 20),
           margin: const EdgeInsets.only(top: 45),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -65,21 +74,62 @@ class _InfoDialogBoxState extends State<InfoDialogBox> {
               const SizedBox(
                 height: 22,
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(80, 40),
-                        primary: Theme.of(context).primaryColor,
+              widget.isCancelButtonVisible
+                  ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: SizedBox(
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    fixedSize: const Size(90, 40),
+                                    primary: Theme.of(context).primaryColor,
+                                  ),
+                                  onPressed: widget.onPressedBttn1,
+                                  child: Text(
+                                    widget.bttnText1,
+                                    style: Theme.of(context).textTheme.button,
+                                  )),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: SizedBox(
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    fixedSize: const Size(90, 40),
+                                    primary: Theme.of(context).primaryColor,
+                                  ),
+                                  onPressed: widget.onPressedBttn2,
+                                  child: Text(
+                                    widget.bttnText2,
+                                    style: Theme.of(context).textTheme.button,
+                                  )),
+                            ),
+                          ),
+                        ],
                       ),
-                      onPressed: widget.onPressed,
-                      child: Text(
-                        widget.text,
-                        style: Theme.of(context).textTheme.button,
-                      )),
-                ),
-              ),
+                    )
+                  : Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(80, 40),
+                              primary: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: widget.onPressedBttn1,
+                            child: Text(
+                              widget.text,
+                              style: Theme.of(context).textTheme.button,
+                            )),
+                      ),
+                    ),
             ],
           ),
         ),

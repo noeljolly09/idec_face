@@ -1,10 +1,10 @@
-
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
 import 'package:idec_face/screens/events/events_screen.dart';
 import 'package:idec_face/screens/forgot_password.dart';
 import 'package:idec_face/screens/login/login_screen.dart';
+import 'package:idec_face/screens/people_profile/profile.dart';
 import 'package:idec_face/screens/registration/registration_screen.dart';
 import 'package:idec_face/screens/device_screen.dart';
 
@@ -54,7 +54,9 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
+            
             onPrimary: const Color(0xFF006e74),
+            
             padding: const EdgeInsets.symmetric(horizontal: 16),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -92,6 +94,7 @@ class MyApp extends StatelessWidget {
         '/navigation_bar': (context) => const CustomNavigationBar(),
         '/events': (context) => const EventsPage(),
         '/devices': (context) => const DevicePage(),
+        '/profile': (context) => const ProfilePage(),
       },
     );
   }

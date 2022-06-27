@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../constants.dart';
 import '../models/config/config_request.dart';
 import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
@@ -14,7 +16,8 @@ class CustomSelectionBar extends ConsumerStatefulWidget {
   final String? hinttext;
   final double width;
   final bool isSvg;
-  final bool circleSuffixIcon;
+  final bool isCircleSuffixIcon;
+  final bool? isCircleSearchIcon;
   final String svgAsset;
   final String? sheetTitle;
   final String? Function(String?)? validator;
@@ -29,7 +32,8 @@ class CustomSelectionBar extends ConsumerStatefulWidget {
     this.hinttext,
     required this.width,
     required this.isSvg,
-    required this.circleSuffixIcon,
+    required this.isCircleSuffixIcon,
+    this.isCircleSearchIcon,
     required this.svgAsset,
     this.sheetTitle,
     this.validator,
@@ -83,18 +87,26 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
                     : null),
             suffixIconConstraints:
                 const BoxConstraints(maxHeight: 25, maxWidth: 30),
-            suffixIcon: widget.circleSuffixIcon == true
-                ? const Icon(
-                    Icons.arrow_drop_down_circle_sharp,
+            suffixIcon: widget.isCircleSuffixIcon == true
+                ? Icon(
+                    (widget.isCircleSearchIcon == true)
+                        ? Icons.search_rounded
+                        : Icons.arrow_drop_down_circle_sharp,
                     color: AppConstants.primaryColor,
                   )
-                : const Icon(
-                    Icons.arrow_drop_down,
-                    size: 30,
-                    color: AppConstants.customblack,
-                  ),
+                : (widget.isCircleSearchIcon == true)
+                    ? const Icon(
+                        Icons.search,
+                        size: 30,
+                        color: AppConstants.primaryColor,
+                      )
+                    : const Icon(
+                        Icons.arrow_drop_down,
+                        size: 30,
+                        color: AppConstants.customblack,
+                      ),
             fillColor: Colors.black12,
-            border: widget.circleSuffixIcon == true
+            border: widget.isCircleSuffixIcon == true
                 ? const OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(8.0),

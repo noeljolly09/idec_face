@@ -35,7 +35,7 @@ class _GenderPageRegistrationState
   List<SelectedListItem> _listOfnationality = [];
   List<SelectedListItem> _listOfbloodgroups = [];
   bool isConfigreceived = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -131,7 +131,7 @@ class _GenderPageRegistrationState
                         padding: const EdgeInsets.only(left: 10),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: CustomSelectionBar(
-                          circleSuffixIcon: false,
+                          isCircleSuffixIcon: false,
                           isSvg: true,
                           svgAsset: "assets/svg/gender.svg",
                           width: MediaQuery.of(context).size.width,
@@ -151,7 +151,7 @@ class _GenderPageRegistrationState
                         padding: const EdgeInsets.only(left: 10),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: CustomSelectionBar(
-                          circleSuffixIcon: false,
+                          isCircleSuffixIcon: false,
                           isSvg: true,
                           svgAsset: "assets/svg/nationality.svg",
                           width: MediaQuery.of(context).size.width,
@@ -170,7 +170,7 @@ class _GenderPageRegistrationState
                         padding: const EdgeInsets.only(left: 10),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: CustomSelectionBar(
-                          circleSuffixIcon: false,
+                          isCircleSuffixIcon: false,
                           isSvg: true,
                           svgAsset: "assets/svg/blood.svg",
                           width: MediaQuery.of(context).size.width,
