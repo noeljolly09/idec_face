@@ -43,7 +43,7 @@ class _DetailedProfileScreenState extends State<DetailedProfileScreen> {
           color: Theme.of(context).scaffoldBackgroundColor,
           height: height68,
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(2),
           child: Column(
             children: [
               Center(
@@ -59,7 +59,9 @@ class _DetailedProfileScreenState extends State<DetailedProfileScreen> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: const Text('Close'),
               )
             ],

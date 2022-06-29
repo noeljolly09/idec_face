@@ -76,7 +76,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             const Text(
                               "Enrolled",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+                                  fontWeight: FontWeight.bold, fontSize: 17),
                             ),
                           ],
                         ),
@@ -93,7 +93,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             const Text(
                               "Pending",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+                                  fontWeight: FontWeight.bold, fontSize: 17),
                             ),
                           ],
                         ),
@@ -110,7 +110,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             const Text(
                               "Declined",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+                                  fontWeight: FontWeight.bold, fontSize: 17),
                             ),
                           ],
                         ),

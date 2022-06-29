@@ -16,6 +16,10 @@ class MappingPage extends StatelessWidget {
         Align(
           alignment: Alignment.topRight,
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              onPrimary: Colors.white,
+              primary: AppConstants.primaryColor,
+            ),
             onPressed: () {},
             child: const Text('Delete Site'),
           ),
@@ -38,7 +42,7 @@ class MappingPage extends StatelessWidget {
                       isIconNeeded: true,
                       icon: Icons.edit,
                       onPressed: () {
-                        openMappingDialog(context);
+                        openMappingDialog(context, "Project");
                       },
                       cardLabel: 'Project',
                       cardData: '',
@@ -46,28 +50,36 @@ class MappingPage extends StatelessWidget {
                     MappingProfileCard(
                       isIconNeeded: true,
                       icon: Icons.edit,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Phase");
+                      },
                       cardLabel: 'Phase',
                       cardData: '',
                     ),
                     MappingProfileCard(
                       isIconNeeded: true,
                       icon: Icons.edit,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Building");
+                      },
                       cardLabel: 'Building',
                       cardData: '',
                     ),
                     MappingProfileCard(
                       isIconNeeded: true,
                       icon: Icons.edit,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Floors");
+                      },
                       cardLabel: 'Floors',
                       cardData: '',
                     ),
                     MappingProfileCard(
                       isIconNeeded: true,
                       icon: Icons.edit,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Restricterd Entry Zone");
+                      },
                       cardLabel: 'Restricted \nEntry Zones',
                       cardData: '',
                     ),
@@ -80,7 +92,9 @@ class MappingPage extends StatelessWidget {
                     ),
                     MappingProfileCard(
                       isIconNeeded: true,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Buddy");
+                      },
                       icon: Icons.person_add_alt,
                       cardLabel: 'Buddy',
                       cardData: '',
@@ -88,21 +102,27 @@ class MappingPage extends StatelessWidget {
                     MappingProfileCard(
                       isIconNeeded: true,
                       icon: Icons.person_add_alt,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Supervisor 1");
+                      },
                       cardLabel: 'Supervisor 1',
                       cardData: '',
                     ),
                     MappingProfileCard(
                       isIconNeeded: true,
                       icon: Icons.person_add_alt,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Supervisor 2");
+                      },
                       cardLabel: 'Supervisor 2',
                       cardData: '',
                     ),
                     MappingProfileCard(
                       isIconNeeded: true,
                       icon: Icons.person_add_alt,
-                      onPressed: () {},
+                      onPressed: () {
+                        openMappingDialog(context, "Supervisor 3");
+                      },
                       cardLabel: 'Supervisor 3',
                       cardData: '',
                     ),

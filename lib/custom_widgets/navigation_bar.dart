@@ -45,6 +45,7 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
     final selectedIndex = ref.watch(navigationbarNotifier).selectionIndex;
     return SafeArea(
       child: Scaffold(
+        
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: const MyDrawer(),
         appBar: AppBar(
