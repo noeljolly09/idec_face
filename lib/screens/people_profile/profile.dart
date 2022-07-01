@@ -2,9 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/constants.dart';
+import 'package:idec_face/models/people_profile/all_employees_request.dart';
+import 'package:idec_face/models/people_profile/all_employees_response.dart';
+import 'package:idec_face/network/core/service_response.dart';
+import 'package:idec_face/repositary/people_profile/providers/people_profile_notifier_provider.dart';
 import 'package:idec_face/screens/people_profile/status_pages/declined_page.dart';
 import 'package:idec_face/screens/people_profile/status_pages/enrolled_people.dart';
 import 'package:idec_face/screens/people_profile/status_pages/pending_people.dart';
+import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
+import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -19,8 +25,37 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   String currentTime = DateFormat.jm().format(DateTime.now());
 
   static const timestyle = TextStyle(fontSize: 10);
+
+  @override
+  void initState() {
+    super.initState();
+
+    // _getAllEmployeesDetails();
+  }
+
+  // void _getAllEmployeesDetails() {
+  //   final allEmployeesListRequest = AllEmployeesListRequest(
+  //       siteId: null,
+  //       gamificationStatus: false,
+  //       contractorId: null,
+  //       tradeId: null,
+  //       roleId: null,
+  //       unallocated: null,
+  //       direct: false,
+  //       tabType: "active",
+  //       liveVideoStream: false);
+
+  //   ref
+  //       .read(peopleProfileNotifierProvider.notifier)
+  //       .allEmployeesListAttributes(allEmployeesListRequest);
+  // }
+
   @override
   Widget build(BuildContext context) {
+    //
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+    initPeopleProfileListeners(networkStatus);
+    //
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -137,5 +172,23 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
       ),
     );
+  }
+
+  initPeopleProfileListeners(ConnectionStatus networkStatus) {
+    ref.listen(peopleProfileNotifierProvider, (previous, next) {
+      final peopleProfileInfoResponse =
+          next as ServiceResponse<AllEmployeesListResponse?>;
+      if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
+      } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
+        List employeeName = [];
+        List employeeID = [];
+        if (peopleProfileInfoResponse.data!.response.isNotEmpty) {
+          for (var element in peopleProfileInfoResponse.data!.response) {
+            employeeName.add(element.fullName);
+            employeeID.add(element.empId);
+          }
+        }
+      }
+    });
   }
 }

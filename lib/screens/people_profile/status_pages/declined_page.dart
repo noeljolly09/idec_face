@@ -1,6 +1,7 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/custom_widgets/custom_selection.dart';
+import 'package:idec_face/custom_widgets/search_bar.dart';
 
 class DeclinedPage extends StatefulWidget {
   const DeclinedPage({Key? key}) : super(key: key);
@@ -10,20 +11,6 @@ class DeclinedPage extends StatefulWidget {
 }
 
 class _DeclinedPageState extends State<DeclinedPage> {
-  final List<SelectedListItem> _listOfEmployees = [
-    SelectedListItem(true, "A"),
-    SelectedListItem(false, "B"),
-    SelectedListItem(false, "C"),
-    SelectedListItem(false, "D"),
-    SelectedListItem(false, "E"),
-    SelectedListItem(false, "F"),
-    SelectedListItem(false, "G"),
-    SelectedListItem(false, "H"),
-  ];
-
-  final TextEditingController _storetextController = TextEditingController();
-
-  final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,20 +18,8 @@ class _DeclinedPageState extends State<DeclinedPage> {
         children: [
           Container(
             margin: const EdgeInsets.all(5),
-            child: CustomSelectionBar(
-              isConfigreceived: false,
-              isCircleSuffixIcon: true,
-              isCircleSearchIcon: true,
-              isSvg: false,
-              svgAsset: "",
-              width: MediaQuery.of(context).size.width,
-              list: _listOfEmployees,
-              hinttext: "Search Employee",
-              searchhinttext: "Search Employee",
-              sheetTitle: "Search Employee",
-              controller: _storetextController,
-              searchController: _searchController,
-            ),
+            color: Colors.white,
+            child: const SearchInput(labelText: 'Employee'),
           ),
           const Text('Employee List is empty')
         ],

@@ -1,13 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/screens/people_profile/custom_widgets/people_profile/profile_card_text.dart';
 
 class EmployeeCard extends StatelessWidget {
   final int index;
+  final String employeeName;
+  final String employeeId;
   const EmployeeCard({
     Key? key,
     required this.index,
+    required this.employeeName,
+    required this.employeeId,
   }) : super(key: key);
 
   @override
@@ -28,17 +34,17 @@ class EmployeeCard extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ProfileIconText(
                     isIconNeeded: true,
                     isProfileName: true,
-                    icon: Icon(Icons.circle_notifications_rounded),
-                    textData: 'Abhilassh N'),
+                    icon: const Icon(Icons.circle_notifications_rounded),
+                    textData: employeeName),
                 ProfileIconText(
                     isIconNeeded: true,
                     isProfileName: false,
                     icon: Icon(Icons.circle_notifications_rounded),
-                    textData: 'UP0011'),
+                    textData: employeeId),
                 ProfileIconText(
                     isIconNeeded: true,
                     isProfileName: false,

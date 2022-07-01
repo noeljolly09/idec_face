@@ -38,11 +38,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void initState() {
     super.initState();
     // checkIfAlreadyLoggedIn();
+    _loginUserAttributes();
   }
 
   void _loginUserAttributes() {
-    final loginInfoRequest =
-        LoginInfoRequest(username: _usernameController.text);
+    final loginInfoRequest = LoginInfoRequest(
+        username: "support3", identifier: "3ffa01837a3a0c44611a715fb6cdf2f0");
     ref
         .read(loginInfoNotifierProvider.notifier)
         .getloginattributes(loginInfoRequest);
@@ -175,7 +176,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             if (formGlobalKey.currentState!.validate()) {
                               //api
                               _licenseAttributes();
-                              _loginUserAttributes();
+                              // _loginUserAttributes();
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,

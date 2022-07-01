@@ -4,13 +4,11 @@ import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
 import 'package:idec_face/models/logout/logout_request.dart';
 import 'package:idec_face/models/logout/logout_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
-import 'package:idec_face/repositary/login_info_repository/providers/login_info_notifier_provider.dart';
 import 'package:idec_face/repositary/logout_repository/providers/logout_info_notifier_provider.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 
 import '../../constants.dart';
-import '../../models/login/login_response.dart';
 import '../../screens/dashboard/notifier/dashboard_notifier.dart';
 import '../../screens/login/login_screen.dart';
 import '../../utility/app_info.dart';

@@ -78,7 +78,7 @@ class MappingPage extends StatelessWidget {
                       isIconNeeded: true,
                       icon: Icons.edit,
                       onPressed: () {
-                        openMappingDialog(context, "Restricterd Entry Zone");
+                        openMappingDialog(context, "Restricted Entry Zone");
                       },
                       cardLabel: 'Restricted \nEntry Zones',
                       cardData: '',
