@@ -328,8 +328,12 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const InfoDialogWithTimer(
+            builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
               title: "Error",
               message: "No Internet Connectivity",
             ),
@@ -338,8 +342,12 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const InfoDialogWithTimer(
+            builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
               title: "Error",
               message: "Something went wrong",
             ),

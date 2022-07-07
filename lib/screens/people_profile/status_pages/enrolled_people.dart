@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
-import 'package:idec_face/screens/people_profile/custom_widgets/people_profile/employee_profile_card.dart';
+import 'package:idec_face/screens/people_profile/widgets/people_profile/employee_profile_card.dart';
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 
 import '../../../custom_widgets/search_bar.dart';

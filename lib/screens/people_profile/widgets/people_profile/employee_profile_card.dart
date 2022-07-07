@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:idec_face/constants.dart';
-import 'package:idec_face/screens/people_profile/custom_widgets/people_profile/profile_card_text.dart';
+import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
 
 class EmployeeCard extends StatelessWidget {
   final int index;

@@ -510,8 +510,12 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const InfoDialogWithTimer(
+            builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
               title: "Error",
               message: "No Internet Connectivity",
             ),
@@ -520,8 +524,12 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const InfoDialogWithTimer(
+            builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
               title: "Error",
               message: "Something went wrong",
             ),

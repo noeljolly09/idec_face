@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/constants.dart';
+import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
@@ -187,6 +188,36 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             employeeName.add(element.fullName);
             employeeID.add(element.empId);
           }
+        }
+      } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
+            ),
+          );
         }
       }
     });

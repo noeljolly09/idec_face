@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/dialogs/profile_dialog.dart';
-import 'package:idec_face/screens/people_profile/custom_widgets/mapping_card.dart';
+import 'package:idec_face/screens/people_profile/widgets/mapping_card.dart';
 
 class MappingPage extends StatelessWidget {
   const MappingPage({Key? key}) : super(key: key);
