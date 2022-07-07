@@ -43,17 +43,17 @@ class EmployeeCard extends StatelessWidget {
                 ProfileIconText(
                     isIconNeeded: true,
                     isProfileName: false,
-                    icon: Icon(Icons.circle_notifications_rounded),
+                    icon: const Icon(Icons.circle_notifications_rounded),
                     textData: employeeId),
-                ProfileIconText(
+                const ProfileIconText(
                     isIconNeeded: true,
                     isProfileName: false,
-                    icon: Icon(Icons.circle_notifications_rounded),
+                    icon: const Icon(Icons.circle_notifications_rounded),
                     textData: 'Engineer'),
-                ProfileIconText(
+                const ProfileIconText(
                     isIconNeeded: true,
                     isProfileName: false,
-                    icon: Icon(Icons.circle_notifications_rounded),
+                    icon: const Icon(Icons.circle_notifications_rounded),
                     textData: 'Bidadari Estate Construction'),
               ],
             ),

@@ -1,6 +1,5 @@
-import 'package:drop_down_list/drop_down_list.dart';
+
 import 'package:flutter/material.dart';
-import 'package:idec_face/custom_widgets/custom_selection.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 
 class PendingPage extends StatefulWidget {

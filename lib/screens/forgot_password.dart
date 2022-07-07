@@ -13,7 +13,7 @@ import '../custom_widgets/button.dart';
 
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
-import '../custom_widgets/textfields/forgotPassword_textField.dart';
+import '../custom_widgets/textfields/forgotpassword_textfield.dart';
 
 import '../dialogs/info_dialog/dialog_with_timer.dart';
 import '../models/config/config_request.dart';

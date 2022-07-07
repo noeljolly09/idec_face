@@ -50,6 +50,7 @@ dependencies:
   connectivity: ^3.0.6
   flutter_spinkit: ^5.1.0
   shared_preferences: ^2.0.15
+  encrypt: ^5.0.1
 
   
 

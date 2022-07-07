@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
-import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/people_profile/providers/people_profile_notifier_provider.dart';

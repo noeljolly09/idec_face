@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:idec_face/custom_widgets/encryptor.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/login/login_request.dart';
 import 'package:idec_face/models/login/login_response.dart';
@@ -37,13 +38,24 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   void initState() {
     super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _loginUserAttributes();
+    // });
     // checkIfAlreadyLoggedIn();
-    _loginUserAttributes();
   }
+
+  // void _loginUserAttributes() {
+  //   final loginInfoRequest = LoginInfoRequest(
+  //       username: "support3", identifier: "3ffa01837a3a0c44611a715fb6cdf2f0");
+  //   ref
+  //       .read(loginInfoNotifierProvider.notifier)
+  //       .getloginattributes(loginInfoRequest);
+  // }
 
   void _loginUserAttributes() {
     final loginInfoRequest = LoginInfoRequest(
-        username: "support3", identifier: "3ffa01837a3a0c44611a715fb6cdf2f0");
+        username: _usernameController.text,
+        identifier: encryptor(_passwordController.text));
     ref
         .read(loginInfoNotifierProvider.notifier)
         .getloginattributes(loginInfoRequest);
@@ -176,7 +188,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             if (formGlobalKey.currentState!.validate()) {
                               //api
                               _licenseAttributes();
-                              // _loginUserAttributes();
+                              _loginUserAttributes();
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,
