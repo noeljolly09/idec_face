@@ -68,7 +68,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     ref
         .read(privilegesAndLicenseDetailsInfoNotifierProvider.notifier)
-        .getlicenseattributes(licenseRequest);
+        .getlicenseattributes(
+          licenseRequest,
+          _domainController.text,
+        );
   }
 
   @override
@@ -325,9 +328,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
       if (loginInfoResponse.status == ServiceStatus.loading) {
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
-        ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/navigation_bar", (route) => false);
+        if (loginInfoResponse.data!.status = true) {
+          ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/navigation_bar", (route) => false);
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Unauthorized User",
+            ),
+          );
+        }
       } else if (loginInfoResponse.status == ServiceStatus.error) {
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(

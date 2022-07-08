@@ -36,11 +36,11 @@ class PrivilegesAndLicenseDetailsInfoRepositary {
   PrivilegesAndLicenseDetailsInfoRepositary(this._serviceManager);
 
   Future<ServiceResponse<PrivilegesAndLicenseDetailsResponse?>>
-      licenseAttributes(PrivilegesAndLicenseDetailsRequest param) async {
+      licenseAttributes(PrivilegesAndLicenseDetailsRequest param, String domain) async {
     try {
       final response = await _serviceManager.post(
           '/api/auth/privilegesAndLicenseDetails', param.toJson(),
-          headers: {'domain': "UST"});
+          headers: {'domain': domain});
       print(response);
       final str = jsonEncode(response.data);
       final licenseResponse = privilegesAndLicenseDetailsResponseFromJson(str);

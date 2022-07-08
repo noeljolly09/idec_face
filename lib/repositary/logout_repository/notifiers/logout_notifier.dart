@@ -10,7 +10,8 @@ class LogoutInfoNotifier
 
   LogoutInfoNotifier(this._logoutRepository) : super(ServiceResponse.none());
 
-  Future<void> getlogoutattributes(LogoutRequest logoutRequest) async {
+  Future<void> getlogoutattributes(
+      LogoutRequest logoutRequest,) async {
     state = ServiceResponse.loading('Loading...');
 
     final response =

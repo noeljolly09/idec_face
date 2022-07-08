@@ -60,11 +60,13 @@ class ClientInfoRepositary {
         token = config.token;
       });
 
-      final response =
-          await _serviceManager.get('/api/people/getclientDetails', headers: {
-        'x-access-token': token,
-        'appId': appId,
-      });
+      final response = await _serviceManager.get(
+        '/api/people/getclientDetails',
+        headers: {
+          'x-access-token': token,
+          'appId': appId,
+        },
+      );
 
       print(response);
       final str = jsonEncode(response);

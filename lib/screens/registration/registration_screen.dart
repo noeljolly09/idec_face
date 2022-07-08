@@ -413,7 +413,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   initClientDetailsListeners(ConnectionStatus networkStatus) {
-    ref.listen(clientInfoNotifierProvider, (previous, next) { 
+    ref.listen(clientInfoNotifierProvider, (previous, next) {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
@@ -449,17 +449,34 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           next as ServiceResponse<RegistrationResponse?>;
       if (registrationInfoResponse.status == ServiceStatus.loading) {
       } else if (registrationInfoResponse.status == ServiceStatus.completed) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => InfoDialogWithTimer(
-            isTimerActivated: true,
-            title: "Registration",
-            message: registrationInfoResponse
-                .data!.payload!.emailInfo!.body!.value
-                .toString(),
-          ),
-        );
+        if (registrationInfoResponse.data!.status = true) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              title: "Registration",
+              message: registrationInfoResponse
+                  .data!.payload!.emailInfo!.body!.value
+                  .toString(),
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Validation Error",
+              message: "Required field is left empty.",
+            ),
+          );
+        }
       }
     });
   }

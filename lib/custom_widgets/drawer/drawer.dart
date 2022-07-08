@@ -174,11 +174,13 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
       final logoutInfoResponse = next as ServiceResponse<LogoutResponse?>;
       if (logoutInfoResponse.status == ServiceStatus.loading) {
       } else if (logoutInfoResponse.status == ServiceStatus.completed) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (Route<dynamic> route) => false,
-        );
+        if (logoutInfoResponse.data!.status = true) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (Route<dynamic> route) => false,
+          );
+        }
       }
     });
   }

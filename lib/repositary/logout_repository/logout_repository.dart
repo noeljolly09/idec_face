@@ -15,6 +15,7 @@ class LogoutInfoRepositary {
       final response = await _serviceManager.post(
         '/api/auth/logout',
         param.toJson(),
+        // headers: {'tenantId': tenantId},
       );
       print(response);
       final str = jsonEncode(response.data);

@@ -33,11 +33,11 @@ class PrivilegesAndLicenseDetailsInfoNotifier extends StateNotifier<
 
   Future<void> getlicenseattributes(
       PrivilegesAndLicenseDetailsRequest
-          privilegesAndLicenseDetailsRequest) async {
+          privilegesAndLicenseDetailsRequest,String domain) async {
     state = ServiceResponse.loading('Loading...');
 
     final response = await _privilegesandLicenseDetailsInfoRepositary
-        .licenseAttributes(privilegesAndLicenseDetailsRequest);
+        .licenseAttributes(privilegesAndLicenseDetailsRequest,domain);
 
     state = response;
   }
