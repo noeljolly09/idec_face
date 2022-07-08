@@ -56,9 +56,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final loginInfoRequest = LoginInfoRequest(
         username: _usernameController.text,
         identifier: encryptor(_passwordController.text));
-    ref
-        .read(loginInfoNotifierProvider.notifier)
-        .getloginattributes(loginInfoRequest);
+    ref.read(loginInfoNotifierProvider.notifier).getloginattributes(
+          loginInfoRequest,
+          _domainController.text,
+        );
   }
 
   void _licenseAttributes() {

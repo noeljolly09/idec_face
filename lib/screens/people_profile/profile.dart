@@ -104,7 +104,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              'assets/svg/blood.svg',
+                              'assets/svg/enrolled.svg',
                               height: 20,
                             ),
                             const SizedBox(width: 5),
@@ -121,7 +121,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              'assets/svg/blood.svg',
+                              'assets/svg/pending.svg',
                               height: 20,
                             ),
                             const SizedBox(width: 5),
@@ -138,7 +138,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              'assets/svg/blood.svg',
+                              'assets/svg/rejected.svg',
                               height: 20,
                             ),
                             const SizedBox(width: 5),

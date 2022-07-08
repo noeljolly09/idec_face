@@ -59,7 +59,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   final TextEditingController _dateinput = TextEditingController();
 
   String? tenantId;
-  String? hello = '5e142d628f7356e52ff0df75';
 
   CountryCode? code = CountryCode(
       dialCode: "+91", name: "India", code: "IN", flagUri: "flags/in.png");
@@ -109,6 +108,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
+    final tenantIdFromForm = ref.read(registrationNotifier).tenantId;
     final registrationInfoRequest = registrationrequest.RegistrationInfoRequest(
         employeeDetails: registrationrequest.EmployeeDetails(
             organisation: _domainController.text,
@@ -124,7 +124,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                 last: _lnameController.text)));
     ref
         .read(registrationInfoNotifierProvider.notifier)
-        .getregistrationattributes(registrationInfoRequest, hello);
+        .getregistrationattributes(
+          registrationInfoRequest,
+          tenantIdFromForm,
+        );
   }
 
   String? customValidator(String? fieldContent) =>
@@ -299,7 +302,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                               );
                             } else {
                               _registerUserAttributes();
-                              print(tenantId);
                             }
                           },
                           buttonColor: Theme.of(context).primaryColor,
@@ -411,7 +413,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   initClientDetailsListeners(ConnectionStatus networkStatus) {
-    ref.listen(clientInfoNotifierProvider, (previous, next) {
+    ref.listen(clientInfoNotifierProvider, (previous, next) { 
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
@@ -420,6 +422,19 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           for (var element in clientsInfoResponse.data!.response!.response!) {
             if (element.domain == _domainController.text) {
               tenantId = element.id;
+              print(tenantId);
+            } else {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => const InfoDialogWithTimer(
+                  isTimerActivated: true,
+                  isCancelButtonVisible: false,
+                  title: "Invalid Domain",
+                  message:
+                      "You have provided the invalid domain, please provide the required one.",
+                ),
+              );
             }
           }
           ref.read(registrationNotifier).updateTenantId(value: tenantId);

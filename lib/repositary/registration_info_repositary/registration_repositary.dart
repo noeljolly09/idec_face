@@ -51,9 +51,20 @@ class ClientInfoRepositary {
 
   Future<ServiceResponse<ClientDetailsResponse?>> getClientDetails() async {
     try {
-      final response = await _serviceManager.get(
-        '/api/people/getclientDetails',
-      );
+      String? token;
+      String? appId;
+
+      Provider((ref) {
+        final config = ref.read(configProvider);
+        appId = config.appId;
+        token = config.token;
+      });
+
+      final response =
+          await _serviceManager.get('/api/people/getclientDetails', headers: {
+        'x-access-token': token,
+        'appId': appId,
+      });
 
       print(response);
       final str = jsonEncode(response);
