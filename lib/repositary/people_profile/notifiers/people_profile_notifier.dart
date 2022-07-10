@@ -12,10 +12,14 @@ class PeopleProfileNotifier
       : super(ServiceResponse.none());
 
   Future<void> allEmployeesListAttributes(
-      AllEmployeesListRequest allEmployeesListRequest) async {
+    AllEmployeesListRequest allEmployeesListRequest,
+    String tenantId,
+  ) async {
     state = ServiceResponse.loading('Loading...');
-    final response = await _peopleProfileRepository
-        .allEmployeesListAttributes(allEmployeesListRequest);
+    final response = await _peopleProfileRepository.allEmployeesListAttributes(
+      allEmployeesListRequest,
+      tenantId,
+    );
     state = response;
   }
 }

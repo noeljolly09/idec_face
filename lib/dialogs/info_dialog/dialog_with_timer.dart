@@ -57,7 +57,7 @@ class _InfoDialogWithTimerState extends State<InfoDialogWithTimer> {
             }
             Navigator.of(context).pop();
           },
-      onPressedBttn1: widget.onPressedBttn1!,
+      onPressedBttn1: widget.onPressedBttn1,
       bttnText1: widget.bttnText1!,
     
       bttnText2: widget.bttnText2!,

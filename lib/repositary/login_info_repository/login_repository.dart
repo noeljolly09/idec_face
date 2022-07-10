@@ -12,11 +12,12 @@ class LoginInfoRepositary {
   LoginInfoRepositary(this._serviceManager);
 
   Future<ServiceResponse<LoginResponse?>> loginInfoAttributes(
-      LoginInfoRequest param) async {
+      LoginInfoRequest param, String domain) async {
     try {
       final response = await _serviceManager.post(
         '/api/auth/v2/login',
         param.toJson(),
+        headers: {'domain': domain},
       );
       print(response);
       final str = jsonEncode(response.data);
@@ -35,12 +36,11 @@ class PrivilegesAndLicenseDetailsInfoRepositary {
   PrivilegesAndLicenseDetailsInfoRepositary(this._serviceManager);
 
   Future<ServiceResponse<PrivilegesAndLicenseDetailsResponse?>>
-      licenseAttributes(PrivilegesAndLicenseDetailsRequest param) async {
+      licenseAttributes(PrivilegesAndLicenseDetailsRequest param, String domain) async {
     try {
       final response = await _serviceManager.post(
-        '/api/auth/privilegesAndLicenseDetails',
-        param.toJson(),
-      );
+          '/api/auth/privilegesAndLicenseDetails', param.toJson(),
+          headers: {'domain': domain});
       print(response);
       final str = jsonEncode(response.data);
       final licenseResponse = privilegesAndLicenseDetailsResponseFromJson(str);

@@ -71,12 +71,12 @@ class DetailedEmployeeProfilePage extends StatelessWidget {
             isProfileName: true,
             icon: Icon(Icons.circle_notifications_rounded),
             textData: 'Indian'),
-        const ProfileIconText(
+        ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: true,
             isProfileName: true,
-            icon: Icon(Icons.circle_notifications_rounded),
-            textData: '1    123'),
+            icon: SvgPicture.asset('assets/svg/phone.svg'),
+            textData: '1\t\t123'),
       ],
     );
   }

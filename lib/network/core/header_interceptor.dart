@@ -3,8 +3,13 @@ import 'package:dio/dio.dart';
 class HeaderInterceptor extends Interceptor {
   final String token;
   final String tenantId;
+  final String domain;
 
-  HeaderInterceptor({required this.tenantId, required this.token});
+  HeaderInterceptor({
+    required this.tenantId,
+    required this.token,
+    required this.domain,
+  });
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

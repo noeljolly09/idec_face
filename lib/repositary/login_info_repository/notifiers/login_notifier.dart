@@ -11,11 +11,12 @@ class LoginInfoNotifier extends StateNotifier<ServiceResponse<LoginResponse?>> {
 
   LoginInfoNotifier(this._loginInfoRepositary) : super(ServiceResponse.none());
 
-  Future<void> getloginattributes(LoginInfoRequest loginInfoRequest) async {
+  Future<void> getloginattributes(
+      LoginInfoRequest loginInfoRequest, String domain) async {
     state = ServiceResponse.loading('Loading...');
 
-    final response =
-        await _loginInfoRepositary.loginInfoAttributes(loginInfoRequest);
+    final response = await _loginInfoRepositary.loginInfoAttributes(
+        loginInfoRequest, domain);
 
     state = response;
   }
@@ -32,11 +33,11 @@ class PrivilegesAndLicenseDetailsInfoNotifier extends StateNotifier<
 
   Future<void> getlicenseattributes(
       PrivilegesAndLicenseDetailsRequest
-          privilegesAndLicenseDetailsRequest) async {
+          privilegesAndLicenseDetailsRequest,String domain) async {
     state = ServiceResponse.loading('Loading...');
 
     final response = await _privilegesandLicenseDetailsInfoRepositary
-        .licenseAttributes(privilegesAndLicenseDetailsRequest);
+        .licenseAttributes(privilegesAndLicenseDetailsRequest,domain);
 
     state = response;
   }

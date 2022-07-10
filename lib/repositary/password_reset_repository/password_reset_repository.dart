@@ -10,11 +10,14 @@ class PasswordResetRepositary {
   PasswordResetRepositary(this._serviceManager);
 
   Future<ServiceResponse<PasswordResetResponse?>> passwordResetAttributes(
-      PasswordResetRequest param) async {
+      PasswordResetRequest param, String tenantId) async {
     try {
       final response = await _serviceManager.post(
         '/api/people/resetPassword',
         param.toJson(),
+        headers: {
+          'tenantId': tenantId,
+        },
       );
       print(response);
       final str = jsonEncode(response.data);

@@ -24,11 +24,11 @@ class MyDrawer extends ConsumerStatefulWidget {
 
 class _MyDrawerState extends ConsumerState<MyDrawer> {
   void _getLogoutAttributes() {
-    final logoutRequest = LogoutRequest(userName: "");
+    final logoutRequest = LogoutRequest(userName: "noel");
 
     ref
         .read(logoutInfoNotifierProvider.notifier)
-        .getlogoutattributes(logoutRequest);
+        .getlogoutattributes(logoutRequest, "5df380f38baa86fc4ae24264");
   }
 
   @override
@@ -85,7 +85,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   },
                 ),
                 drawerItem(
-                  svg: "assets/svg/event_icon.svg",
+                  svg: "assets/svg/peoplesIcon.svg",
                   text: "People",
                   onTap: () {
                     Navigator.pushNamed(context, '/profile');
@@ -174,11 +174,13 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
       final logoutInfoResponse = next as ServiceResponse<LogoutResponse?>;
       if (logoutInfoResponse.status == ServiceStatus.loading) {
       } else if (logoutInfoResponse.status == ServiceStatus.completed) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (Route<dynamic> route) => false,
-        );
+        if (logoutInfoResponse.data!.status = true) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (Route<dynamic> route) => false,
+          );
+        }
       }
     });
   }

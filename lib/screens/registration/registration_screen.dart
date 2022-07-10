@@ -59,7 +59,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   final TextEditingController _dateinput = TextEditingController();
 
   String? tenantId;
-  String? hello = '5e142d628f7356e52ff0df75';
 
   CountryCode? code = CountryCode(
       dialCode: "+91", name: "India", code: "IN", flagUri: "flags/in.png");
@@ -109,6 +108,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
+    final tenantIdFromForm = ref.watch(registrationNotifier).tenantId;
+
     final registrationInfoRequest = registrationrequest.RegistrationInfoRequest(
         employeeDetails: registrationrequest.EmployeeDetails(
             organisation: _domainController.text,
@@ -124,7 +125,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                 last: _lnameController.text)));
     ref
         .read(registrationInfoNotifierProvider.notifier)
-        .getregistrationattributes(registrationInfoRequest, hello);
+        .getregistrationattributes(
+          registrationInfoRequest,
+          "5df380f38baa86fc4ae24264",
+        );
   }
 
   String? customValidator(String? fieldContent) =>
@@ -299,7 +303,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                               );
                             } else {
                               _registerUserAttributes();
-                              print(tenantId);
                             }
                           },
                           buttonColor: Theme.of(context).primaryColor,
@@ -347,7 +350,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                          print(tenantId);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -420,6 +424,18 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           for (var element in clientsInfoResponse.data!.response!.response!) {
             if (element.domain == _domainController.text) {
               tenantId = element.id;
+            } else {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => const InfoDialogWithTimer(
+                  isTimerActivated: true,
+                  isCancelButtonVisible: false,
+                  title: "Invalid Domain",
+                  message:
+                      "You have provided the invalid domain, please provide the required one.",
+                ),
+              );
             }
           }
           ref.read(registrationNotifier).updateTenantId(value: tenantId);
@@ -434,17 +450,37 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           next as ServiceResponse<RegistrationResponse?>;
       if (registrationInfoResponse.status == ServiceStatus.loading) {
       } else if (registrationInfoResponse.status == ServiceStatus.completed) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => InfoDialogWithTimer(
-            isTimerActivated: true,
-            title: "Registration",
-            message: registrationInfoResponse
-                .data!.payload!.emailInfo!.body!.value
-                .toString(),
-          ),
-        );
+        if (registrationInfoResponse.data!.status = true) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.pop(context);
+              },
+              title: "Registration",
+              message: registrationInfoResponse
+                  .data!.payload!.emailInfo!.body!.value
+                  .toString(),
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Validation Error",
+              message: "Required field is left empty.",
+            ),
+          );
+        }
       }
     });
   }
