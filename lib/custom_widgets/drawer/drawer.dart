@@ -24,11 +24,11 @@ class MyDrawer extends ConsumerStatefulWidget {
 
 class _MyDrawerState extends ConsumerState<MyDrawer> {
   void _getLogoutAttributes() {
-    final logoutRequest = LogoutRequest(userName: "");
+    final logoutRequest = LogoutRequest(userName: "noel");
 
     ref
         .read(logoutInfoNotifierProvider.notifier)
-        .getlogoutattributes(logoutRequest);
+        .getlogoutattributes(logoutRequest, "5df380f38baa86fc4ae24264");
   }
 
   @override

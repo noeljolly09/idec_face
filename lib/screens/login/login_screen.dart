@@ -191,8 +191,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           function: () {
                             if (formGlobalKey.currentState!.validate()) {
                               //api
-                              _licenseAttributes();
                               _loginUserAttributes();
+                              _licenseAttributes();
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,
@@ -328,7 +328,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
       if (loginInfoResponse.status == ServiceStatus.loading) {
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
-        if (loginInfoResponse.data!.status = true) {
+        if (loginInfoResponse.data!.status == true) {
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
           Navigator.pushNamedAndRemoveUntil(
               context, "/navigation_bar", (route) => false);
@@ -342,7 +342,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },
-              title: "Error",
+              title: "Login Error",
               message: "Unauthorized User",
             ),
           );

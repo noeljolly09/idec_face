@@ -16,7 +16,6 @@ class HeaderInterceptor extends Interceptor {
     options.headers['Content-Type'] = 'application/json';
     options.headers['x-access-token'] = token;
     options.headers['tenantId'] = tenantId;
-    options.headers['domain'] = domain;
 
     super.onRequest(options, handler);
   }

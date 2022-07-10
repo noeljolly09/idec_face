@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
+import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/people_profile/providers/people_profile_notifier_provider.dart';
+import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
+import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
 import 'package:idec_face/screens/people_profile/status_pages/declined_page.dart';
 import 'package:idec_face/screens/people_profile/status_pages/enrolled_people.dart';
 import 'package:idec_face/screens/people_profile/status_pages/pending_people.dart';
@@ -29,26 +32,26 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   void initState() {
     super.initState();
-
-    // _getAllEmployeesDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getAllEmployeesDetails();
+    });
   }
 
-  // void _getAllEmployeesDetails() {
-  //   final allEmployeesListRequest = AllEmployeesListRequest(
-  //       siteId: null,
-  //       gamificationStatus: false,
-  //       contractorId: null,
-  //       tradeId: null,
-  //       roleId: null,
-  //       unallocated: null,
-  //       direct: false,
-  //       tabType: "active",
-  //       liveVideoStream: false);
+  void _getAllEmployeesDetails() {
+    final allEmployeesListRequest = AllEmployeesListRequest(
+        siteId: null,
+        gamificationStatus: false,
+        contractorId: null,
+        tradeId: null,
+        roleId: null,
+        unallocated: null,
+        direct: false,
+        tabType: "active",
+        liveVideoStream: false);
 
-  //   ref
-  //       .read(peopleProfileNotifierProvider.notifier)
-  //       .allEmployeesListAttributes(allEmployeesListRequest);
-  // }
+    ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
+        allEmployeesListRequest, "5df380f38baa86fc4ae24264");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +156,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     ],
                     indicatorSize: TabBarIndicatorSize.tab,
                   ),
-                  const Expanded(
+                  const Flexible(
                     child: TabBarView(
                       children: [
                         // first tab bar view widget
@@ -180,13 +183,20 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           next as ServiceResponse<AllEmployeesListResponse?>;
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
-        List employeeName = [];
-        List employeeID = [];
+        List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
         if (peopleProfileInfoResponse.data!.response.isNotEmpty) {
           for (var element in peopleProfileInfoResponse.data!.response) {
-            employeeName.add(element.fullName);
-            employeeID.add(element.empId);
+            employeeDetails.add(EmployeeDetailsFetchedFromApi(
+              empId: element.empId,
+              email: element.email,
+              fullName: element.fullName,
+              siteName: element.siteName,
+            ));
           }
+          //
+          ref
+              .read(peopleProfileNotifier)
+              .updatelistOfemployeenames(value: employeeDetails);
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         if (networkStatus == ConnectionStatus.offline) {

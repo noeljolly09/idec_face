@@ -108,7 +108,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
-    final tenantIdFromForm = ref.read(registrationNotifier).tenantId;
+    final tenantIdFromForm = ref.watch(registrationNotifier).tenantId;
+
     final registrationInfoRequest = registrationrequest.RegistrationInfoRequest(
         employeeDetails: registrationrequest.EmployeeDetails(
             organisation: _domainController.text,
@@ -126,7 +127,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         .read(registrationInfoNotifierProvider.notifier)
         .getregistrationattributes(
           registrationInfoRequest,
-          tenantIdFromForm,
+          "5df380f38baa86fc4ae24264",
         );
   }
 
@@ -349,7 +350,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                          print(tenantId);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -422,7 +424,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           for (var element in clientsInfoResponse.data!.response!.response!) {
             if (element.domain == _domainController.text) {
               tenantId = element.id;
-              print(tenantId);
             } else {
               showDialog(
                 context: context,
@@ -456,6 +457,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+              onPressedBttn1: () {
+                Navigator.pop(context);
+              },
               title: "Registration",
               message: registrationInfoResponse
                   .data!.payload!.emailInfo!.body!.value

@@ -9,6 +9,7 @@ class EmployeeCard extends StatelessWidget {
   final int index;
   final String employeeName;
   final String employeeId;
+
   const EmployeeCard({
     Key? key,
     required this.index,
@@ -54,7 +55,7 @@ class EmployeeCard extends StatelessWidget {
                     isIconNeeded: true,
                     isProfileName: false,
                     icon: Icon(Icons.circle_notifications_rounded),
-                    textData: 'Bidadari Estate Construction'),
+                    textData: "Trivandrum"),
               ],
             ),
             const Icon(

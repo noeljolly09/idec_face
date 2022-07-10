@@ -62,9 +62,10 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   void _getPasswordResetAttributes() {
     final passwordResetRequest =
         PasswordResetRequest(userName: _valueController.text);
-    ref
-        .read(passwordResetNotifierProvider.notifier)
-        .getPasswordResetAttributes(passwordResetRequest);
+    ref.read(passwordResetNotifierProvider.notifier).getPasswordResetAttributes(
+          passwordResetRequest,
+          "5df380f38baa86fc4ae24264",
+        );
   }
 
   @override
@@ -178,10 +179,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                                 child: CustomButton(
                                   height: 50,
                                   function: () {
-                                    if (formGlobalKey.currentState!
-                                        .validate()) {
-                                      _getPasswordResetAttributes();
-                                    }
+                                    _getPasswordResetAttributes();
                                   },
                                   width:
                                       MediaQuery.of(context).size.width / 1.7,
@@ -286,15 +284,23 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           next as ServiceResponse<PasswordResetResponse?>;
       if (passwordResetResponse.status == ServiceStatus.loading) {
       } else if (passwordResetResponse.status == ServiceStatus.completed) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => InfoDialogWithTimer(
-            isTimerActivated: true,
-            title: "Password Reset",
-            message: passwordResetResponse.data!.response!.message.toString(),
-          ),
-        );
+        if (passwordResetResponse.data!.status == true) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              title: "Password Reset",
+              onPressedBttn1: () {
+                Navigator.pop(context);
+              },
+              message: passwordResetResponse.data!.response!.message.toString(),
+            ),
+          );
+        } else {
+          //
+        }
       }
     });
   }

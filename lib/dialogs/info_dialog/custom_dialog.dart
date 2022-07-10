@@ -4,7 +4,7 @@ class InfoDialogBox extends StatefulWidget {
   final String title, descriptions, text;
   // final Image img;
 
-  final VoidCallback onPressedBttn1;
+  final VoidCallback? onPressedBttn1;
   final VoidCallback? onPressedBttn2;
   final String bttnText1;
   final String bttnText2;
