@@ -156,7 +156,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     ],
                     indicatorSize: TabBarIndicatorSize.tab,
                   ),
-                  const Flexible(
+                  const Expanded(
                     child: TabBarView(
                       children: [
                         // first tab bar view widget
