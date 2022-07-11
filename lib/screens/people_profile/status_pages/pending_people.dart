@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 
@@ -12,17 +11,15 @@ class PendingPage extends StatefulWidget {
 class _PendingPageState extends State<PendingPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(5),
-            color: Colors.white,
-            child: const SearchInput(labelText: 'Employee'),
-          ),
-          const Text('Employee List is empty')
-        ],
-      ),
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.all(5),
+          color: Colors.white,
+          child: const SearchInput(labelText: 'Employee'),
+        ),
+        const Text('Employee List is empty')
+      ],
     );
   }
 }

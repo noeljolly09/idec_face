@@ -419,15 +419,14 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            builder: (context) => const Center(
-                  child: SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ),
-                ));
+        // showDialog(
+        //     context: context,
+        //     builder: (context) => const Center(
+        //           child: SpinKitCircle(
+        //             color: AppConstants.primaryColor,
+        //           ),
+        //         ));
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
-        Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           for (var element in clientsInfoResponse.data!.response!.response!) {
             if (element.domain == _domainController.text) {
@@ -506,7 +505,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
 
       if (configInfoResponse.status == ServiceStatus.loading) {
-        
       } else if (configInfoResponse.status == ServiceStatus.completed) {
         List<SelectedListItem> _listOfgender = [];
         List<SelectedListItem> _listOfnationality = [];

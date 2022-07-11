@@ -9,12 +9,14 @@ class EmployeeCard extends StatelessWidget {
   final int index;
   final String employeeName;
   final String employeeId;
+  final String siteName;
 
   const EmployeeCard({
     Key? key,
     required this.index,
     required this.employeeName,
     required this.employeeId,
+    required this.siteName,
   }) : super(key: key);
 
   @override
@@ -52,11 +54,11 @@ class EmployeeCard extends StatelessWidget {
                     isProfileName: false,
                     icon: Icon(Icons.circle_notifications_rounded),
                     textData: 'Engineer'),
-                const ProfileIconText(
+                ProfileIconText(
                     isIconNeeded: true,
                     isProfileName: false,
                     icon: Icon(Icons.circle_notifications_rounded),
-                    textData: "Trivandrum"),
+                    textData: siteName),
               ],
             ),
             const Spacer(),
