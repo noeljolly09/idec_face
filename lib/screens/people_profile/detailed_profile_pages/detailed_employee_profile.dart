@@ -65,7 +65,7 @@ class _DetailedEmployeeProfilePageState
             icon: const Icon(Icons.circle_notifications_rounded),
             textData: _employeeList[widget.employeeIndex].siteName != null
                 ? _employeeList[widget.employeeIndex].siteName!
-                : "No Data Available"),
+                : "No Data"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
@@ -73,7 +73,7 @@ class _DetailedEmployeeProfilePageState
             icon: const Icon(Icons.circle_notifications_rounded),
             textData: _employeeList[widget.employeeIndex].dob != null
                 ? _employeeList[widget.employeeIndex].dob!
-                : "No data Available"),
+                : "No data"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
@@ -81,7 +81,7 @@ class _DetailedEmployeeProfilePageState
             icon: const Icon(Icons.circle_notifications_rounded),
             textData: _employeeList[widget.employeeIndex].gender != null
                 ? _employeeList[widget.employeeIndex].gender!
-                : "No data Available"),
+                : "No data"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
@@ -89,32 +89,26 @@ class _DetailedEmployeeProfilePageState
             icon: const Icon(Icons.circle_notifications_rounded),
             textData: _employeeList[widget.employeeIndex].bloodGroup != null
                 ? _employeeList[widget.employeeIndex].bloodGroup!
-                : "No data Available"),
+                : "No data"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
-            textData:
-                _employeeList[widget.employeeIndex].nationality != null
-                    ? _employeeList[widget.employeeIndex].nationality!
-                    : "No data Available"),
+            textData: _employeeList[widget.employeeIndex].nationality != null
+                ? _employeeList[widget.employeeIndex].nationality!
+                : "No data"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: true,
             isProfileName: true,
             icon: SvgPicture.asset('assets/svg/phone.svg'),
-            textData: _employeeList[widget.employeeIndex].countryCode !=
-                        null ||
+            textData: _employeeList[widget.employeeIndex].countryCode != null ||
                     _employeeList[widget.employeeIndex].phoneNumber != null
-                ? _employeeList[widget.employeeIndex]
-                        .countryCode!
-                        .toString() +
+                ? _employeeList[widget.employeeIndex].countryCode!.toString() +
                     " " +
-                    _employeeList[widget.employeeIndex]
-                        .phoneNumber!
-                        .toString()
-                : "No data Available"),
+                    _employeeList[widget.employeeIndex].phoneNumber!.toString()
+                : "No data"),
       ],
     );
   }

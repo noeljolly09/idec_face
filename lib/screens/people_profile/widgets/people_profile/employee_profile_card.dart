@@ -26,12 +26,13 @@ class EmployeeCard extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         color: Colors.white,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SvgPicture.asset(
               'assets/svg/User_big.svg',
               height: 80,
             ),
+            SizedBox(width: screenWidth(context, dividedBy: 10.28)),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,6 +59,7 @@ class EmployeeCard extends StatelessWidget {
                     textData: "Trivandrum"),
               ],
             ),
+            const Spacer(),
             const Icon(
               Icons.arrow_left,
             ),

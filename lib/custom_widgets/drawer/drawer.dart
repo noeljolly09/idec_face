@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
 import 'package:idec_face/models/logout/logout_request.dart';
 import 'package:idec_face/models/logout/logout_response.dart';
@@ -175,7 +176,15 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
     ref.listen(logoutInfoNotifierProvider, (previous, next) {
       final logoutInfoResponse = next as ServiceResponse<LogoutResponse?>;
       if (logoutInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
       } else if (logoutInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (logoutInfoResponse.data!.status = true) {
           Navigator.pushAndRemoveUntil(
             context,
