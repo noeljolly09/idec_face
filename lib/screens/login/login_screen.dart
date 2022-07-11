@@ -9,6 +9,7 @@ import 'package:idec_face/models/login/privileges_and_license_details_request.da
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/login_info_repository/providers/login_info_notifier_provider.dart';
 import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
+import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import '../../constants.dart';
@@ -329,6 +330,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (loginInfoResponse.status == ServiceStatus.loading) {
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
         if (loginInfoResponse.data!.status == true) {
+          ref
+              .read(loginNotifier)
+              .updateUsername(value: _usernameController.text);
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
           Navigator.pushNamedAndRemoveUntil(
               context, "/navigation_bar", (route) => false);

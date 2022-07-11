@@ -6,7 +6,11 @@ import 'package:idec_face/dialogs/profile_dialog.dart';
 import 'package:idec_face/screens/people_profile/widgets/mapping_card.dart';
 
 class MappingPage extends StatelessWidget {
-  const MappingPage({Key? key}) : super(key: key);
+  final int employeeMappingIndex;
+  const MappingPage({
+    Key? key,
+    required this.employeeMappingIndex,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

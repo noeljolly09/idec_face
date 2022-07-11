@@ -48,7 +48,7 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const DetailedProfileScreen(),
+                                  DetailedProfileScreen(employeeIndex: index),
                             ));
                       },
                       child: Dismissible(

@@ -6,7 +6,11 @@ import 'package:idec_face/screens/people_profile/detailed_profile_pages/mapping_
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class DetailedProfileScreen extends StatefulWidget {
-  const DetailedProfileScreen({Key? key}) : super(key: key);
+  final int employeeIndex;
+  const DetailedProfileScreen({
+    Key? key,
+    required this.employeeIndex,
+  }) : super(key: key);
 
   @override
   State<DetailedProfileScreen> createState() => _DetailedProfileScreenState();
@@ -34,9 +38,11 @@ class _DetailedProfileScreenState extends State<DetailedProfileScreen> {
               isPageChanged = index;
             });
           },
-          children: const [
-            DetailedEmployeeProfilePage(),
-            MappingPage(),
+          children: [
+            DetailedEmployeeProfilePage(
+              employeeIndex: widget.employeeIndex,
+            ),
+            MappingPage(employeeMappingIndex: widget.employeeIndex),
           ],
         ),
         bottomSheet: Container(

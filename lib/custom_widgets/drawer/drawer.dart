@@ -5,6 +5,7 @@ import 'package:idec_face/models/logout/logout_request.dart';
 import 'package:idec_face/models/logout/logout_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/logout_repository/providers/logout_info_notifier_provider.dart';
+import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 
@@ -24,7 +25,8 @@ class MyDrawer extends ConsumerStatefulWidget {
 
 class _MyDrawerState extends ConsumerState<MyDrawer> {
   void _getLogoutAttributes() {
-    final logoutRequest = LogoutRequest(userName: "noel");
+    final logoutRequest =
+        LogoutRequest(userName: ref.watch(loginNotifier).username);
 
     ref
         .read(logoutInfoNotifierProvider.notifier)

@@ -190,6 +190,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               empId: element.empId,
               email: element.email,
               fullName: element.fullName,
+              bloodGroup: element.personal!.bloodGroup,
+              countryCode: element.phone!.countryCode,
+              dob: element.personal!.dob,
+              gender: element.personal!.gender,
+              nationality: element.personal!.nationality,
+              phoneNumber: element.phone!.number,
               siteName: element.siteName,
             ));
           }
