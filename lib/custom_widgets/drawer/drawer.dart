@@ -186,6 +186,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
       } else if (logoutInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (logoutInfoResponse.data!.status = true) {
+          print("logged out :" + ref.watch(loginNotifier).username!);
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const LoginPage()),

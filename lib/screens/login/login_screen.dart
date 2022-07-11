@@ -342,6 +342,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ref
               .read(loginNotifier)
               .updateUsername(value: _usernameController.text);
+          print("logged In : " + _usernameController.text);
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
           Navigator.pushNamedAndRemoveUntil(
               context, "/navigation_bar", (route) => false);
