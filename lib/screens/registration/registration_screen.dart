@@ -350,8 +350,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          // Navigator.pop(context);
-                          print(tenantId);
+                          Navigator.pop(context);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -424,6 +423,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           for (var element in clientsInfoResponse.data!.response!.response!) {
             if (element.domain == _domainController.text) {
               tenantId = element.id;
+              ref.read(registrationNotifier).updateTenantId(value: tenantId);
             } else {
               showDialog(
                 context: context,
@@ -438,7 +438,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               );
             }
           }
-          ref.read(registrationNotifier).updateTenantId(value: tenantId);
         }
       }
     });
