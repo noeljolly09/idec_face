@@ -2,6 +2,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/custom_widgets/textfields/forgot_password_textfield.dart';
 import 'package:idec_face/models/password_reset/password_reset_request.dart';
 import 'package:idec_face/models/password_reset/password_reset_response.dart';
 import 'package:idec_face/repositary/password_reset_repository/providers/password_reset_notifier_provider.dart';
@@ -13,7 +14,7 @@ import '../custom_widgets/button.dart';
 
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
-import '../custom_widgets/textfields/forgotpassword_textfield.dart';
+
 
 import '../dialogs/info_dialog/dialog_with_timer.dart';
 import '../models/config/config_request.dart';
