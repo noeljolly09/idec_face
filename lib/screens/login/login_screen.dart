@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/custom_widgets/encryptor.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
@@ -328,7 +329,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen(loginInfoNotifierProvider, (previous, next) {
       final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
       if (loginInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {
           ref
               .read(loginNotifier)

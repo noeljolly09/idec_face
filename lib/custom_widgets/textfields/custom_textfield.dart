@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final void Function()? iconFunction;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
   final bool? isObscure;
   final bool? isSvg;
   final TextCapitalization? capital;
@@ -38,6 +39,7 @@ class CustomTextField extends StatelessWidget {
     this.hint,
     required this.svgasset,
     this.svgheight,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class CustomTextField extends StatelessWidget {
       color: Colors.transparent,
       width: width,
       child: TextFormField(
+        onChanged: onChanged,
         validator: validator,
         style: TextStyle(
           fontSize: AppConstants.formtextsize,

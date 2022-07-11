@@ -22,7 +22,7 @@ class _DetailedEmployeeProfilePageState
     extends ConsumerState<DetailedEmployeeProfilePage> {
   @override
   Widget build(BuildContext context) {
-    List<EmployeeDetailsFetchedFromApi> _employeeNameList =
+    List<EmployeeDetailsFetchedFromApi> _employeeList =
         ref.watch(peopleProfileNotifier).listOfEmployeeNames;
 
     return Column(
@@ -39,13 +39,13 @@ class _DetailedEmployeeProfilePageState
             isIconNeeded: false,
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeNameList[widget.employeeIndex].fullName!),
+            textData: _employeeList[widget.employeeIndex].fullName!),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeNameList[widget.employeeIndex].empId!),
+            textData: _employeeList[widget.employeeIndex].empId!),
         const ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
@@ -63,32 +63,32 @@ class _DetailedEmployeeProfilePageState
             isIconNeeded: false,
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeNameList[widget.employeeIndex].siteName != null
-                ? _employeeNameList[widget.employeeIndex].siteName!
+            textData: _employeeList[widget.employeeIndex].siteName != null
+                ? _employeeList[widget.employeeIndex].siteName!
                 : "No Data Available"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeNameList[widget.employeeIndex].dob != null
-                ? _employeeNameList[widget.employeeIndex].dob!
+            textData: _employeeList[widget.employeeIndex].dob != null
+                ? _employeeList[widget.employeeIndex].dob!
                 : "No data Available"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeNameList[widget.employeeIndex].gender != null
-                ? _employeeNameList[widget.employeeIndex].gender!
+            textData: _employeeList[widget.employeeIndex].gender != null
+                ? _employeeList[widget.employeeIndex].gender!
                 : "No data Available"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeNameList[widget.employeeIndex].bloodGroup != null
-                ? _employeeNameList[widget.employeeIndex].bloodGroup!
+            textData: _employeeList[widget.employeeIndex].bloodGroup != null
+                ? _employeeList[widget.employeeIndex].bloodGroup!
                 : "No data Available"),
         ProfileIconText(
             isExtraHeightNeeded: true,
@@ -96,22 +96,22 @@ class _DetailedEmployeeProfilePageState
             isProfileName: true,
             icon: const Icon(Icons.circle_notifications_rounded),
             textData:
-                _employeeNameList[widget.employeeIndex].nationality != null
-                    ? _employeeNameList[widget.employeeIndex].nationality!
+                _employeeList[widget.employeeIndex].nationality != null
+                    ? _employeeList[widget.employeeIndex].nationality!
                     : "No data Available"),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: true,
             isProfileName: true,
             icon: SvgPicture.asset('assets/svg/phone.svg'),
-            textData: _employeeNameList[widget.employeeIndex].countryCode !=
+            textData: _employeeList[widget.employeeIndex].countryCode !=
                         null ||
-                    _employeeNameList[widget.employeeIndex].phoneNumber != null
-                ? _employeeNameList[widget.employeeIndex]
+                    _employeeList[widget.employeeIndex].phoneNumber != null
+                ? _employeeList[widget.employeeIndex]
                         .countryCode!
                         .toString() +
                     " " +
-                    _employeeNameList[widget.employeeIndex]
+                    _employeeList[widget.employeeIndex]
                         .phoneNumber!
                         .toString()
                 : "No data Available"),

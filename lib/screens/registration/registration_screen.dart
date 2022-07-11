@@ -3,6 +3,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/models/config/config_request.dart';
 import 'package:idec_face/models/config/config_response.dart';
@@ -418,7 +419,15 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           for (var element in clientsInfoResponse.data!.response!.response!) {
             if (element.domain == _domainController.text) {
@@ -448,7 +457,15 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final registrationInfoResponse =
           next as ServiceResponse<RegistrationResponse?>;
       if (registrationInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
       } else if (registrationInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (registrationInfoResponse.data!.status = true) {
           showDialog(
             context: context,
@@ -489,6 +506,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
 
       if (configInfoResponse.status == ServiceStatus.loading) {
+        
       } else if (configInfoResponse.status == ServiceStatus.completed) {
         List<SelectedListItem> _listOfgender = [];
         List<SelectedListItem> _listOfnationality = [];

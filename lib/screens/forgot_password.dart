@@ -1,6 +1,7 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/custom_widgets/textfields/forgot_password_textfield.dart';
 import 'package:idec_face/models/password_reset/password_reset_request.dart';
@@ -14,7 +15,6 @@ import '../custom_widgets/button.dart';
 
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
-
 
 import '../dialogs/info_dialog/dialog_with_timer.dart';
 import '../models/config/config_request.dart';
@@ -284,7 +284,15 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       final passwordResetResponse =
           next as ServiceResponse<PasswordResetResponse?>;
       if (passwordResetResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
       } else if (passwordResetResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (passwordResetResponse.data!.status == true) {
           showDialog(
             context: context,
@@ -300,7 +308,19 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             ),
           );
         } else {
-          //
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              title: "Password Reset",
+              onPressedBttn1: () {
+                Navigator.pop(context);
+              },
+              message: passwordResetResponse.data!.response!.message.toString(),
+            ),
+          );
         }
       }
     });

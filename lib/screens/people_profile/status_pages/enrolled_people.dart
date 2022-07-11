@@ -20,7 +20,7 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
   Widget build(BuildContext context) {
     //
 
-    List<EmployeeDetailsFetchedFromApi> _employeeNameList =
+    List<EmployeeDetailsFetchedFromApi> _employeeList =
         ref.watch(peopleProfileNotifier).listOfEmployeeNames;
 
     return Column(
@@ -39,7 +39,7 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
                 shrinkWrap: true,
                 // itemCount:_addCard,
                 // itemCount: items.length,
-                itemCount: _employeeNameList.length,
+                itemCount: _employeeList.length,
                 itemBuilder: (context, index) {
                   return SingleChildScrollView(
                     child: InkWell(
@@ -68,7 +68,7 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
                             context: context,
                             barrierDismissible: false,
                             builder: (context) => InfoDialogWithTimer(
-                              title: "Generate User Credentials",
+                              title: "Generate User \n Credentials",
                               message:
                                   "Email is Mandatory for user credentials creation.",
                               isTimerActivated: true,
@@ -80,8 +80,8 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
                           );
                         },
                         child: EmployeeCard(
-                          employeeName: _employeeNameList[index].fullName!,
-                          employeeId: _employeeNameList[index].empId!,
+                          employeeName: _employeeList[index].fullName!,
+                          employeeId: _employeeList[index].empId!,
                           index: index,
                         ),
                       ),

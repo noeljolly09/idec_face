@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
@@ -60,39 +61,39 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     initPeopleProfileListeners(networkStatus);
     //
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppConstants.primaryColor,
-          title: const Text('Employees'),
-          actions: [
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Row(
-                  children: [
-                    const Text(
-                      "Updated on: ",
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentDate,
-                      style: timestyle,
-                    ),
-                    const Text(
-                      ',',
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentTime,
-                      style: timestyle,
-                    ),
-                  ],
-                ))
-          ],
-        ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: DefaultTabController(
-          length: 3,
-          child: Stack(
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppConstants.primaryColor,
+            title: const Text('Employees'),
+            actions: [
+              Align(
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Updated on: ",
+                        style: timestyle,
+                      ),
+                      Text(
+                        currentDate,
+                        style: timestyle,
+                      ),
+                      const Text(
+                        ',',
+                        style: timestyle,
+                      ),
+                      Text(
+                        currentTime,
+                        style: timestyle,
+                      ),
+                    ],
+                  ))
+            ],
+          ),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Stack(
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -182,7 +183,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       final peopleProfileInfoResponse =
           next as ServiceResponse<AllEmployeesListResponse?>;
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
         if (peopleProfileInfoResponse.data!.response.isNotEmpty) {
           for (var element in peopleProfileInfoResponse.data!.response) {
