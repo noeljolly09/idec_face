@@ -14,7 +14,7 @@ class _PendingPageState extends State<PendingPage> {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.all(5),
+          margin: const EdgeInsets.all(15),
           color: Colors.white,
           child: const SearchInput(labelText: 'Employee'),
         ),

@@ -17,27 +17,25 @@ class SearchInput extends StatefulWidget {
 class _SearchInputState extends State<SearchInput> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: TextField(
-        cursorColor: AppConstants.primaryColor,
-        decoration: InputDecoration(
-            fillColor: Colors.white,
-            contentPadding: const EdgeInsets.only(left: 30),
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
+    return TextField(
+      cursorColor: AppConstants.primaryColor,
+      decoration: InputDecoration(
+          fillColor: Colors.white,
+          contentPadding: const EdgeInsets.only(left: 30),
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Search ${widget.labelText}',
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
+          suffixIcon: Container(
+            padding: const EdgeInsets.all(10),
+            child: const Icon(
+              Icons.search,
+              color: AppConstants.primaryColor,
             ),
-            hintText: 'Search ${widget.labelText}',
-            hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
-            suffixIcon: Container(
-              padding: const EdgeInsets.all(10),
-              child: const Icon(
-                Icons.search,
-                color: AppConstants.primaryColor,
-              ),
-              width: 18,
-            )),
-      ),
+            width: 18,
+          )),
     );
   }
 }

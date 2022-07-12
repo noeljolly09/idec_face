@@ -26,11 +26,12 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.all(5),
+          margin: const EdgeInsets.all(15),
           color: Colors.white,
           child: const SearchInput(labelText: 'Employee'),
         ),
         Expanded(
+          flex: 5,
           child: Scrollbar(
             thickness: 10,
             interactive: true,
@@ -82,7 +83,6 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
                         child: EmployeeCard(
                           employeeName: _employeeList[index].fullName!,
                           employeeId: _employeeList[index].empId!,
-                        
                           siteName: _employeeList[index].siteName != null
                               ? _employeeList[index].siteName!
                               : "Trivandrum",

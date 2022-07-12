@@ -93,83 +93,82 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ],
           ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: Stack(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TabBar(
-                    unselectedLabelColor: Colors.black,
-                    labelColor: AppConstants.primaryColor,
-                    tabs: [
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/enrolled.svg',
-                              height: 20,
-                            ),
-                            const SizedBox(width: 5),
-                            const Text(
-                              "Enrolled",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 17),
-                            ),
-                          ],
-                        ),
+              Expanded(
+                child: TabBar(
+                  unselectedLabelColor: Colors.black,
+                  labelColor: AppConstants.primaryColor,
+                  tabs: [
+                    Tab(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/enrolled.svg',
+                            height: 20,
+                          ),
+                          const SizedBox(width: 5),
+                          const Text(
+                            "Enrolled",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17),
+                          ),
+                        ],
                       ),
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/pending.svg',
-                              height: 20,
-                            ),
-                            const SizedBox(width: 5),
-                            const Text(
-                              "Pending",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 17),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/rejected.svg',
-                              height: 20,
-                            ),
-                            const SizedBox(width: 5),
-                            const Text(
-                              "Declined",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 17),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                    indicatorSize: TabBarIndicatorSize.tab,
-                  ),
-                  const Expanded(
-                    child: TabBarView(
-                      children: [
-                        // first tab bar view widget
-                        EnrolledPage(),
-                        // second tab bar viiew widget
-                        PendingPage(),
-                        //third tab
-                        DeclinedPage(),
-                      ],
                     ),
-                  ),
-                ],
+                    Tab(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/pending.svg',
+                            height: 20,
+                          ),
+                          const SizedBox(width: 5),
+                          const Text(
+                            "Pending",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Tab(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/rejected.svg',
+                            height: 20,
+                          ),
+                          const SizedBox(width: 5),
+                          const Text(
+                            "Declined",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  indicatorSize: TabBarIndicatorSize.tab,
+                ),
+              ),
+              const Expanded(
+                flex: 12,
+                child: TabBarView(
+                  children: [
+                    // first tab bar view widget
+                    EnrolledPage(),
+                    // second tab bar viiew widget
+                    PendingPage(),
+                    //third tab
+                    DeclinedPage(),
+                  ],
+                ),
               ),
             ],
           ),
