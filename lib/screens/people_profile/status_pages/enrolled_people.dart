@@ -82,7 +82,6 @@ class _EnrolledPageState extends ConsumerState<EnrolledPage> {
                         child: EmployeeCard(
                           employeeName: _employeeList[index].fullName!,
                           employeeId: _employeeList[index].empId!,
-                        
                           siteName: _employeeList[index].siteName != null
                               ? _employeeList[index].siteName!
                               : "Trivandrum",
