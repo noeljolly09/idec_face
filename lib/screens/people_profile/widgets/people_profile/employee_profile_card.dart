@@ -28,36 +28,42 @@ class EmployeeCard extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         color: Colors.white,
         child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset(
-              'assets/svg/User_big.svg',
-              height: 80,
-            ),
             SizedBox(width: screenWidth(context, dividedBy: 10.28)),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/svg/User_big.svg',
+                  height: 80,
+                ),
+                ProfileIconText(
+                    icon: const Icon(Icons.abc),
+                    isIconNeeded: false,
+                    isProfileName: false,
+                    textData: employeeId),
+              ],
+            ),
+            SizedBox(width: screenWidth(context, dividedBy: 15.28)),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProfileIconText(
-                    isIconNeeded: true,
+                    isIconNeeded: false,
                     isProfileName: true,
                     icon: const Icon(Icons.circle_notifications_rounded),
                     textData: employeeName),
-                ProfileIconText(
-                    isIconNeeded: true,
-                    isProfileName: false,
-                    icon: const Icon(Icons.circle_notifications_rounded),
-                    textData: employeeId),
                 const ProfileIconText(
-                    isIconNeeded: true,
+                    isIconNeeded: false,
                     isProfileName: false,
                     icon: Icon(Icons.circle_notifications_rounded),
                     textData: 'Engineer'),
                 ProfileIconText(
-                    isIconNeeded: true,
+                    isIconNeeded: false,
                     isProfileName: false,
-                    icon: Icon(Icons.circle_notifications_rounded),
+                    icon: const Icon(Icons.circle_notifications_rounded),
                     textData: siteName),
               ],
             ),

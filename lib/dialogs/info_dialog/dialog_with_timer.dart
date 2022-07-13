@@ -12,6 +12,7 @@ class InfoDialogWithTimer extends StatefulWidget {
   final VoidCallback? onPressedBttn2;
   final bool? isCancelButtonVisible;
   final bool isTimerActivated;
+  final void Function()? afterSuccess;
   final String? assetImage;
 
   const InfoDialogWithTimer({
@@ -24,6 +25,7 @@ class InfoDialogWithTimer extends StatefulWidget {
     this.onPressedBttn2,
     this.isCancelButtonVisible = true,
     required this.isTimerActivated,
+    this.afterSuccess,
   });
 
   @override
@@ -36,8 +38,9 @@ class _InfoDialogWithTimerState extends State<InfoDialogWithTimer> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 10), () {
+    _timer = Timer(const Duration(seconds: 5), () {
       Navigator.of(context).pop();
+      widget.afterSuccess!();
     });
   }
 
@@ -59,7 +62,7 @@ class _InfoDialogWithTimerState extends State<InfoDialogWithTimer> {
           },
       onPressedBttn1: widget.onPressedBttn1,
       bttnText1: widget.bttnText1!,
-    
+
       bttnText2: widget.bttnText2!,
       isCancelButtonVisible: widget.isCancelButtonVisible!,
     );

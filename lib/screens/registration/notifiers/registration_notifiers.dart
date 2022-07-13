@@ -2,6 +2,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:idec_face/models/client_details.dart';
 
 class RegistrationsNotifier extends ChangeNotifier {
   List<SelectedListItem> _listOfgender = [];
@@ -15,6 +16,9 @@ class RegistrationsNotifier extends ChangeNotifier {
 
   List<SelectedListItem> _listOfSelectOptions = [];
   List<SelectedListItem> get listOfSelectOptions => _listOfSelectOptions;
+
+  List<ClientDetailsModel> _listofClients = [];
+  List<ClientDetailsModel> get listOfClients => _listofClients;
 
   String? _tenantId;
   String? get tenantId => _tenantId;
@@ -47,6 +51,11 @@ class RegistrationsNotifier extends ChangeNotifier {
 
   void updateTenantId({required String? value}) {
     _tenantId = value;
+    notifyListeners();
+  }
+
+  void updatelistofClients({required List<ClientDetailsModel> value}) {
+    _listofClients = value;
     notifyListeners();
   }
 }

@@ -301,8 +301,13 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               isTimerActivated: true,
               isCancelButtonVisible: false,
               title: "Password Reset",
+              afterSuccess: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (route) => false);
+              },
               onPressedBttn1: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (route) => false);
               },
               message: passwordResetResponse.data!.response!.message.toString(),
             ),

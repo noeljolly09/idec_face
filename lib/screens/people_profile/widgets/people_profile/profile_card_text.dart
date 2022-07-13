@@ -31,10 +31,11 @@ class ProfileIconText extends StatelessWidget {
         Text(
           textData,
           style: TextStyle(
-              fontSize: isProfileName == true ? 20 : 16,
-              color: isProfileName == true
-                  ? AppConstants.primaryColor
-                  : Colors.grey.shade600),
+              fontSize: isProfileName == true ? 21 : 16,
+              fontWeight:
+                  isProfileName == true ? FontWeight.bold : FontWeight.normal,
+              color:
+                  isProfileName == true ? Colors.black : Colors.grey.shade600),
         ),
         isExtraHeightNeeded == true
             ? SizedBox(height: height40)

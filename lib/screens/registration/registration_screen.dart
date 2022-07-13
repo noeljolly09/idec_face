@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/models/client_details.dart';
 import 'package:idec_face/models/config/config_request.dart';
 import 'package:idec_face/models/config/config_response.dart';
 import 'package:idec_face/models/registration/client_details_response.dart';
@@ -141,6 +142,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     double height78 = MediaQuery.of(context).size.height / 10.25;
 
     final networkStatus = ref.read(connectivityNotifierProvider).status;
+
+    final listOfClient = ref.watch(registrationNotifier).listOfClients;
 
     //config api
     initConfigListeners(networkStatus);
@@ -352,6 +355,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       InkWell(
                         onTap: () {
                           Navigator.pop(context);
+                          // print(listOfClient);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -419,34 +423,34 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
-        // showDialog(
-        //     context: context,
-        //     builder: (context) => const Center(
-        //           child: SpinKitCircle(
-        //             color: AppConstants.primaryColor,
-        //           ),
-        //         ));
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
-          for (var element in clientsInfoResponse.data!.response!.response!) {
-            if (element.domain == _domainController.text) {
-              tenantId = element.id;
-              ref.read(registrationNotifier).updateTenantId(value: tenantId);
-            } else {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const InfoDialogWithTimer(
-                  isTimerActivated: true,
-                  isCancelButtonVisible: false,
-                  title: "Invalid Domain",
-                  message:
-                      "You have provided the invalid domain, please provide the required one.",
-                ),
-              );
-            }
+          List<ClientDetailsModel> _list = [];
+          for (var e in clientsInfoResponse.data!.response!.response!) {
+            _list.add(ClientDetailsModel(
+              id: e.id,
+              domain: e.domain,
+              name: e.name,
+            ));
           }
+          ref.read(registrationNotifier).updatelistofClients(value: _list);
         }
+        //  else {
+        //   showDialog(
+        //     context: context,
+        //     barrierDismissible: false,
+        //     builder: (context) => InfoDialogWithTimer(
+        //       isTimerActivated: true,
+        //       isCancelButtonVisible: false,
+        //       afterSuccess: () {},
+        //       onPressedBttn1: () {
+        //         Navigator.of(context).pop(false);
+        //       },
+        //       title: "Error",
+        //       message: "Client Data fetch error",
+        //     ),
+        //   );
+        // }
       }
     });
   }
@@ -472,8 +476,13 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+              afterSuccess: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (route) => false);
+              },
               onPressedBttn1: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (route) => false);
               },
               title: "Registration",
               message: registrationInfoResponse
@@ -564,6 +573,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+              afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },
@@ -578,6 +588,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+              afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },

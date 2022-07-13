@@ -38,77 +38,114 @@ class _DetailedEmployeeProfilePageState
             isExtraHeightNeeded: true,
             isIconNeeded: false,
             isProfileName: true,
-            icon: const Icon(Icons.circle_notifications_rounded),
+            icon: const Icon(Icons.abc),
             textData: _employeeList[widget.employeeIndex].fullName!),
-        ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeList[widget.employeeIndex].empId!),
-        const ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: Icon(Icons.circle_notifications_rounded),
-            textData: 'Engineer'),
-        const ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: Icon(Icons.circle_notifications_rounded),
-            textData: 'Electrical'),
-        ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeList[widget.employeeIndex].siteName != null
-                ? _employeeList[widget.employeeIndex].siteName!
-                : "No Data"),
-        ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeList[widget.employeeIndex].dob != null
-                ? _employeeList[widget.employeeIndex].dob!
-                : "No data"),
-        ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeList[widget.employeeIndex].gender != null
-                ? _employeeList[widget.employeeIndex].gender!
-                : "No data"),
-        ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeList[widget.employeeIndex].bloodGroup != null
-                ? _employeeList[widget.employeeIndex].bloodGroup!
-                : "No data"),
-        ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: false,
-            isProfileName: true,
-            icon: const Icon(Icons.circle_notifications_rounded),
-            textData: _employeeList[widget.employeeIndex].nationality != null
-                ? _employeeList[widget.employeeIndex].nationality!
-                : "No data"),
-        ProfileIconText(
-            isExtraHeightNeeded: true,
-            isIconNeeded: true,
-            isProfileName: true,
-            icon: SvgPicture.asset('assets/svg/phone.svg'),
-            textData: _employeeList[widget.employeeIndex].countryCode != null ||
-                    _employeeList[widget.employeeIndex].phoneNumber != null
-                ? _employeeList[widget.employeeIndex].countryCode!.toString() +
-                    " " +
-                    _employeeList[widget.employeeIndex].phoneNumber!.toString()
-                : "No data"),
+        Card(
+          margin:
+              const EdgeInsets.only(top: 10, bottom: 10, right: 20, left: 20),
+          elevation: 2,
+          child: Column(
+            children: [
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: const Icon(Icons.abc),
+                  textData: _employeeList[widget.employeeIndex].empId!),
+              const ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: Icon(Icons.abc),
+                  textData: 'Engineer'),
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: const Icon(Icons.abc),
+                  textData: _employeeList[widget.employeeIndex].siteName != null
+                      ? _employeeList[widget.employeeIndex].siteName!
+                      : "No Data"),
+            ],
+          ),
+        ),
+        Card(
+          margin:
+              const EdgeInsets.only(top: 10, bottom: 10, right: 20, left: 20),
+          elevation: 2,
+          child: Column(
+            children: [
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: const Icon(Icons.abc),
+                  textData: _employeeList[widget.employeeIndex].dob != null
+                      ? _employeeList[widget.employeeIndex].dob!
+                      : "No data"),
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: const Icon(Icons.abc),
+                  textData: _employeeList[widget.employeeIndex].gender != null
+                      ? _employeeList[widget.employeeIndex].gender!
+                      : "No data"),
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: const Icon(Icons.abc),
+                  textData:
+                      _employeeList[widget.employeeIndex].bloodGroup != null
+                          ? _employeeList[widget.employeeIndex].bloodGroup!
+                          : "No data"),
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: const Icon(Icons.abc),
+                  textData:
+                      _employeeList[widget.employeeIndex].nationality != null
+                          ? _employeeList[widget.employeeIndex].nationality!
+                          : "No data"),
+            ],
+          ),
+        ),
+        Card(
+          margin:
+              const EdgeInsets.only(top: 10, bottom: 10, right: 20, left: 20),
+          elevation: 2,
+          child: Column(
+            children: [
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: false,
+                  isProfileName: false,
+                  icon: const Icon(Icons.abc),
+                  textData: _employeeList[widget.employeeIndex].email != null
+                      ? _employeeList[widget.employeeIndex].email!
+                      : "No data"),
+              ProfileIconText(
+                  isExtraHeightNeeded: true,
+                  isIconNeeded: true,
+                  isProfileName: false,
+                  icon: SvgPicture.asset('assets/svg/phone.svg'),
+                  textData:
+                      _employeeList[widget.employeeIndex].countryCode != null ||
+                              _employeeList[widget.employeeIndex].phoneNumber !=
+                                  null
+                          ? _employeeList[widget.employeeIndex]
+                                  .countryCode!
+                                  .toString() +
+                              " " +
+                              _employeeList[widget.employeeIndex]
+                                  .phoneNumber!
+                                  .toString()
+                          : "No data"),
+            ],
+          ),
+        ),
       ],
     );
   }

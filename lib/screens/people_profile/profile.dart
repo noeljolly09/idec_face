@@ -64,6 +64,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: AppConstants.primaryColor,
             title: const Text('Employees'),

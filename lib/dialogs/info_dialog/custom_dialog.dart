@@ -9,6 +9,7 @@ class InfoDialogBox extends StatefulWidget {
   final String bttnText1;
   final String bttnText2;
   final bool isCancelButtonVisible;
+  
 
   const InfoDialogBox({
     Key? key,
