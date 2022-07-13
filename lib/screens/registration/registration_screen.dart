@@ -497,6 +497,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+               afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },

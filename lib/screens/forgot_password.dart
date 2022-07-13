@@ -300,6 +300,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+              
               title: "Password Reset",
               afterSuccess: () {
                 Navigator.pushNamedAndRemoveUntil(
@@ -320,6 +321,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               isTimerActivated: true,
               isCancelButtonVisible: false,
               title: "Password Reset",
+              afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.pop(context);
               },
@@ -363,6 +365,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+              afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },
@@ -377,6 +380,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
+              afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },
