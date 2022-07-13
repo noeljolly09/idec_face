@@ -180,7 +180,10 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                                 child: CustomButton(
                                   height: 50,
                                   function: () {
-                                    _getPasswordResetAttributes();
+                                    if (formGlobalKey.currentState!
+                                        .validate()) {
+                                      _getPasswordResetAttributes();
+                                    }
                                   },
                                   width:
                                       MediaQuery.of(context).size.width / 1.7,
@@ -300,7 +303,6 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-              
               title: "Password Reset",
               afterSuccess: () {
                 Navigator.pushNamedAndRemoveUntil(
@@ -320,7 +322,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-              title: "Password Reset",
+              title: "Password Reset Error",
               afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.pop(context);
