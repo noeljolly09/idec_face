@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
         fontFamily: "Fort",
 
@@ -54,9 +55,7 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
-            
             onPrimary: const Color(0xFF006e74),
-            
             padding: const EdgeInsets.symmetric(horizontal: 16),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),

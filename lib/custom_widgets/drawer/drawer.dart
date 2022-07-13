@@ -66,6 +66,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   ),
                 ),
                 drawerItem(
+                  isdiabled: false,
                   svg: "assets/svg/home.svg",
                   text: "Home",
                   onTap: () {
@@ -77,6 +78,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   },
                 ),
                 drawerItem(
+                  isdiabled: false,
                   svg: "assets/svg/event_icon.svg",
                   text: "Events",
                   onTap: () {
@@ -88,6 +90,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   },
                 ),
                 drawerItem(
+                  isdiabled: false,
                   svg: "assets/svg/peoplesIcon.svg",
                   text: "People",
                   onTap: () {
@@ -95,6 +98,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   },
                 ),
                 drawerItem(
+                  isdiabled: false,
                   svg: "assets/svg/device.svg",
                   text: "Devices",
                   onTap: () {
@@ -106,17 +110,20 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   },
                 ),
                 drawerItem(
+                  isdiabled: true,
                   svg: "assets/svg/support.svg",
                   text: "Support Request",
-                  onTap: () {},
+                  // onTap: () {},
                 ),
                 const Divider(color: AppConstants.customblack),
                 drawerItem(
+                  isdiabled: true,
                   svg: "assets/svg/settings.svg",
                   text: "Settings",
-                  onTap: () {},
+                  // onTap: () {},
                 ),
                 drawerItem(
+                  isdiabled: false,
                   svg: "assets/svg/logout.svg",
                   text: "Logout",
                   onTap: () {
