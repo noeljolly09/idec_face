@@ -43,6 +43,10 @@ class AppConstants {
 
   static double formbuttontextsize = 19;
 
+  // for all the numbers in app font
+
+  static String forNumbersFont = "Roboto";
+
   // static double formtextbuttonsize = 14;
 
   static double formtextsize = 16;

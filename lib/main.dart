@@ -79,6 +79,8 @@ class MyApp extends StatelessWidget {
           headline5: TextStyle(fontSize: 16), // modal text
           headline6: TextStyle(fontSize: 19), // button text
           button: TextStyle(fontSize: 14, color: Colors.white), // button size
+
+
         ),
       ),
 

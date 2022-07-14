@@ -45,7 +45,6 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
     final selectedIndex = ref.watch(navigationbarNotifier).selectionIndex;
     return SafeArea(
       child: Scaffold(
-        
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: const MyDrawer(),
         appBar: AppBar(
@@ -62,7 +61,9 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
                     ),
                     Text(
                       currentDate,
-                      style: timestyle,
+                      style: TextStyle(
+                          fontFamily: AppConstants.forNumbersFont,
+                          fontSize: 10),
                     ),
                     const Text(
                       ',',
@@ -70,7 +71,9 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
                     ),
                     Text(
                       currentTime,
-                      style: timestyle,
+                      style: TextStyle(
+                          fontFamily: AppConstants.forNumbersFont,
+                          fontSize: 10),
                     ),
                   ],
                 ))
