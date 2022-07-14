@@ -33,6 +33,7 @@ class ValidationText extends StatelessWidget {
                   : SvgPicture.asset(
                       assetName!,
                       height: 25,
+                      color: Colors.grey.shade600,
                     ),
             ),
             Expanded(
@@ -64,7 +65,7 @@ class ValidationText extends StatelessWidget {
                         ? Text(
                             controllertext,
                             style: TextStyle(
-                              color: AppConstants.customblack,
+                              color: Colors.black,
                               fontSize: AppConstants.modaltextsize,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w600,
@@ -74,7 +75,7 @@ class ValidationText extends StatelessWidget {
                             titletext,
                             style: TextStyle(
                               fontSize: AppConstants.modaltextsize,
-                              color: AppConstants.customblack,
+                              color: Colors.grey.shade600,
                             ),
                           ),
                     isValidated!

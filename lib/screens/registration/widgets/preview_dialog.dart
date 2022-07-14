@@ -43,9 +43,11 @@ openDialogWindow(
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          SizedBox(
+                            width: screenWidth(context, dividedBy: 3.5),
+                          ),
                           const Text(
                             "Preview Details",
                             style: TextStyle(
@@ -53,6 +55,7 @@ openDialogWindow(
                                 color: AppConstants.customblack,
                                 fontWeight: FontWeight.bold),
                           ),
+                          const Spacer(),
                           Container(
                             margin: const EdgeInsets.all(5),
                             height: 35,

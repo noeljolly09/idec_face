@@ -435,22 +435,21 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           }
           ref.read(registrationNotifier).updatelistofClients(value: _list);
         }
-        //  else {
-        //   showDialog(
-        //     context: context,
-        //     barrierDismissible: false,
-        //     builder: (context) => InfoDialogWithTimer(
-        //       isTimerActivated: true,
-        //       isCancelButtonVisible: false,
-        //       afterSuccess: () {},
-        //       onPressedBttn1: () {
-        //         Navigator.of(context).pop(false);
-        //       },
-        //       title: "Error",
-        //       message: "Client Data fetch error",
-        //     ),
-        //   );
-        // }
+      } else {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => InfoDialogWithTimer(
+            isTimerActivated: true,
+            isCancelButtonVisible: false,
+            afterSuccess: () {},
+            onPressedBttn1: () {
+              Navigator.of(context).pop(false);
+            },
+            title: "Error",
+            message: "Client Data fetch error",
+          ),
+        );
       }
     });
   }
@@ -497,7 +496,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-               afterSuccess: () {},
+              afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },

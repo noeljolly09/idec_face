@@ -26,6 +26,7 @@ class PreviewText extends StatelessWidget {
               : SvgPicture.asset(
                   assetName!,
                   height: 25,
+                  color: Colors.grey.shade600,
                 ),
         ),
         Expanded(
@@ -47,7 +48,7 @@ class PreviewText extends StatelessWidget {
                     ? Text(
                         controllertext,
                         style: TextStyle(
-                          color: AppConstants.customblack,
+                          color: Colors.black,
                           fontSize: AppConstants.modaltextsize,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w600,
@@ -56,7 +57,7 @@ class PreviewText extends StatelessWidget {
                     : Text(titletext,
                         style: TextStyle(
                           fontSize: AppConstants.modaltextsize,
-                          color: AppConstants.customblack,
+                          color: Colors.grey.shade600,
                         )),
               ],
             ),

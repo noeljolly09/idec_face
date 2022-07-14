@@ -1,3 +1,5 @@
+import 'package:idec_face/models/client_details.dart';
+
 extension StringUtility on String {
   String get isValidEmail {
     String textValue = this;
@@ -44,4 +46,6 @@ extension StringUtility on String {
   String get capitalize {
     return "${this[0].toUpperCase()}${substring(1)}";
   }
+
+
 }

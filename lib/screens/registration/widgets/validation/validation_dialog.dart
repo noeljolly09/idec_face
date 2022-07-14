@@ -46,9 +46,11 @@ openValidationDialogWindow(
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          SizedBox(
+                            width: screenWidth(context, dividedBy: 3.7),
+                          ),
                           Text(
                             formHeader,
                             style: const TextStyle(
@@ -56,6 +58,7 @@ openValidationDialogWindow(
                                 color: AppConstants.customblack,
                                 fontWeight: FontWeight.bold),
                           ),
+                          const Spacer(),
                           Container(
                             margin: const EdgeInsets.all(5),
                             height: 35,
@@ -119,8 +122,7 @@ openValidationDialogWindow(
                       titletext: "Blood Group",
                       controllertext: blood.text,
                     ),
-                    ValidationText(
-                      isValidated: true,
+                    PreviewText(
                       assetName: "assets/svg/phone.svg",
                       titletext: "Country Code",
                       controllertext: code!.dialCode.toString(),
