@@ -100,9 +100,27 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: AppConstants.abovecoldtruthheight),
-                    SvgPicture.asset(
-                      "assets/svg/logo.svg",
-                      height: 50,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg/ust_logo.svg",
+                          height: 50,
+                        ),
+                        RichText(
+                          text: const TextSpan(
+                            style: TextStyle(color: Colors.black, fontSize: 35),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: " Idec ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppConstants.primaryColor)),
+                              TextSpan(text: 'Face', style: TextStyle())
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                     SizedBox(height: height25),
                     CustomTextWidget(
