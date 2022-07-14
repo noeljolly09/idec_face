@@ -7,6 +7,7 @@ import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/login/login_request.dart';
 import 'package:idec_face/models/login/login_response.dart';
 import 'package:idec_face/models/login/privileges_and_license_details_request.dart';
+import 'package:idec_face/models/login/privileges_and_license_details_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/login_info_repository/providers/login_info_notifier_provider.dart';
 import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
@@ -84,7 +85,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     final networkStatus = ref.read(connectivityNotifierProvider).status;
 
-    initlisteners(networkStatus);
+    initLoginListeners(networkStatus);
+    initPrivilegeListeners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -343,7 +345,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   //   }
   // }
 
-  initlisteners(ConnectionStatus networkStatus) {
+  initLoginListeners(ConnectionStatus networkStatus) {
     ref.listen(loginInfoNotifierProvider, (previous, next) {
       final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
       if (loginInfoResponse.status == ServiceStatus.loading) {
@@ -357,10 +359,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {
+          //
           ref
               .read(loginNotifier)
               .updateUsername(value: _usernameController.text);
+          ref.read(loginNotifier).updateDomain(value: _domainController.text);
+          //
+
           print("logged In : " + _usernameController.text);
+          //
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
           Navigator.pushNamedAndRemoveUntil(
               context, "/navigation_bar", (route) => false);
@@ -411,6 +418,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               message: "Something went wrong",
             ),
           );
+        }
+      }
+    });
+  }
+
+  initPrivilegeListeners(ConnectionStatus networkStatus) {
+    ref.listen(privilegesAndLicenseDetailsInfoNotifierProvider,
+        (previous, next) {
+      final previlegeUserInfoResponse =
+          next as ServiceResponse<PrivilegesAndLicenseDetailsResponse?>;
+      if (previlegeUserInfoResponse.status == ServiceStatus.loading) {
+      } else if (previlegeUserInfoResponse.status == ServiceStatus.completed) {
+        for (var element in previlegeUserInfoResponse.data!.response!) {
+          ref
+              .watch(loginNotifier)
+              .updateImage(value: element.employees!.image.toString());
+
+          ref
+              .watch(loginNotifier)
+              .updateFName(value: element.employees!.name!.first.toString());
         }
       }
     });

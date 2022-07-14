@@ -41,6 +41,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
     initLogoutListeners(networkStatus);
 
     return Drawer(
+      width: screenWidth(context, dividedBy: 1.6),
       backgroundColor: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -49,20 +50,20 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                const UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: Colors.white),
-                  margin: EdgeInsets.only(bottom: 0.0),
-                  currentAccountPicture: ProfilePhotoDrawer(),
+                UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(color: Colors.white),
+                  margin: const EdgeInsets.only(bottom: 0.0),
+                  currentAccountPicture: const ProfilePhotoDrawer(),
                   accountName: Text(
-                    'Name',
-                    style: TextStyle(
+                    ref.watch(loginNotifier).fName.toString().toUpperCase(),
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                     ),
                   ),
                   accountEmail: Text(
-                    'Domain',
-                    style: TextStyle(color: Colors.black),
+                    ref.watch(loginNotifier).domain.toString().toUpperCase(),
+                    style: const TextStyle(color: Colors.black),
                   ),
                 ),
                 drawerItem(
@@ -89,13 +90,54 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                         context, "/navigation_bar", (route) => false);
                   },
                 ),
-                drawerItem(
-                  isdiabled: false,
-                  svg: "assets/svg/peoplesIcon.svg",
-                  text: "People",
-                  onTap: () {
-                    Navigator.pushNamed(context, '/profile');
-                  },
+                ExpansionTile(
+                  tilePadding: const EdgeInsets.only(right: 10),
+                  trailing: const Icon(Icons.arrow_drop_down_sharp),
+                  title: drawerItem(
+                    isdiabled: false,
+                    svg: "assets/svg/peoplesIcon.svg",
+                    text: "People",
+                  ),
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            drawerItem(
+                              isdiabled: false,
+                              svg: "assets/svg/enrolled.svg",
+                              text: "Enrolled",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, '/enrolled_employees');
+                              },
+                            ),
+                            drawerItem(
+                              isdiabled: false,
+                              svg: "assets/svg/pending.svg",
+                              text: "Pending",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, '/pending_employees');
+                              },
+                            ),
+                            drawerItem(
+                              isdiabled: false,
+                              svg: "assets/svg/rejected.svg",
+                              text: "Declined",
+                              onTap: () {
+                                Navigator.pushNamed(context, '/profile');
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 drawerItem(
                   isdiabled: false,

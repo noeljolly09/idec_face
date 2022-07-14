@@ -4,7 +4,8 @@ import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
 import 'package:idec_face/screens/events/events_screen.dart';
 import 'package:idec_face/screens/forgot_password.dart';
 import 'package:idec_face/screens/login/login_screen.dart';
-import 'package:idec_face/screens/people_profile/profile.dart';
+import 'package:idec_face/screens/people_profile/enrolled_page.dart';
+import 'package:idec_face/screens/people_profile/pending_page.dart';
 import 'package:idec_face/screens/registration/registration_screen.dart';
 import 'package:idec_face/screens/device_screen.dart';
 
@@ -79,13 +80,10 @@ class MyApp extends StatelessWidget {
           headline5: TextStyle(fontSize: 16), // modal text
           headline6: TextStyle(fontSize: 19), // button text
           button: TextStyle(fontSize: 14, color: Colors.white), // button size
-
-
         ),
       ),
 
 // Routes
-
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginPage(),
@@ -95,7 +93,9 @@ class MyApp extends StatelessWidget {
         '/navigation_bar': (context) => const CustomNavigationBar(),
         '/events': (context) => const EventsPage(),
         '/devices': (context) => const DevicePage(),
-        '/profile': (context) => const ProfilePage(),
+        '/enrolled_employees': (context) => const EnrolledProfilePage(),
+        '/pending_employees': (context) => const PendingEmployeePage(),
+        
       },
     );
   }
