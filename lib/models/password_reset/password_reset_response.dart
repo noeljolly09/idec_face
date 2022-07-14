@@ -39,8 +39,8 @@ class Payload {
     this.sourceTime,
     this.cid,
     this.sid,
-    required this.employeeInfo,
-    required this.emailInfo,
+     this.employeeInfo,
+     this.emailInfo,
   });
 
   String? id;
@@ -48,8 +48,8 @@ class Payload {
   dynamic sourceTime;
   String? cid;
   String? sid;
-  EmployeeInfo employeeInfo;
-  EmailInfo emailInfo;
+  EmployeeInfo? employeeInfo;
+  EmailInfo? emailInfo;
 
   factory Payload.fromJson(Map<String, dynamic> json) => Payload(
         id: json["id"],
@@ -67,8 +67,8 @@ class Payload {
         "sourceTime": sourceTime,
         "cid": cid,
         "sid": sid,
-        "employeeInfo": employeeInfo.toJson(),
-        "emailInfo": emailInfo.toJson(),
+        "employeeInfo": employeeInfo!.toJson(),
+        "emailInfo": emailInfo!.toJson(),
       };
 }
 
@@ -122,18 +122,18 @@ class Body {
 
 class EmployeeInfo {
   EmployeeInfo({
-    required this.empId,
-    required this.employeeId,
-    required this.employeeName,
-    required this.phone,
-    required this.email,
+     this.empId,
+     this.employeeId,
+     this.employeeName,
+     this.phone,
+     this.email,
   });
 
-  String empId;
-  String employeeId;
-  EmployeeName employeeName;
-  Phone phone;
-  String email;
+  String? empId;
+  String ?employeeId;
+  EmployeeName? employeeName;
+  Phone ?phone;
+  String? email;
 
   factory EmployeeInfo.fromJson(Map<String, dynamic> json) => EmployeeInfo(
         empId: json["empId"],
@@ -146,22 +146,22 @@ class EmployeeInfo {
   Map<String, dynamic> toJson() => {
         "empId": empId,
         "employeeId": employeeId,
-        "employeeName": employeeName.toJson(),
-        "phone": phone.toJson(),
+        "employeeName": employeeName!.toJson(),
+        "phone": phone!.toJson(),
         "email": email,
       };
 }
 
 class EmployeeName {
   EmployeeName({
-    required this.first,
+     this.first,
     this.middle,
-    required this.last,
+     this.last,
   });
 
-  String first;
+  String ?first;
   dynamic middle;
-  String last;
+  String ?last;
 
   factory EmployeeName.fromJson(Map<String, dynamic> json) => EmployeeName(
         first: json["first"],
@@ -178,12 +178,12 @@ class EmployeeName {
 
 class Phone {
   Phone({
-    required this.countryCode,
-    required this.number,
+     this.countryCode,
+     this.number,
   });
 
-  int countryCode;
-  int number;
+  int? countryCode;
+  int ?number;
 
   factory Phone.fromJson(Map<String, dynamic> json) => Phone(
         countryCode: json["countryCode"],

@@ -4,15 +4,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 
 class PeopleProfileNotifier extends ChangeNotifier {
-  List<EmployeeDetailsFetchedFromApi> _listOfEmployeeNames = [];
-  List<EmployeeDetailsFetchedFromApi> get listOfEmployeeNames => _listOfEmployeeNames;
+  List<EmployeeDetailsFetchedFromApi> _listOfAllEmployees = [];
+  List<EmployeeDetailsFetchedFromApi> get listOfAllEmployees =>
+      _listOfAllEmployees;
 
-  void updatelistOfemployeenames({required List<EmployeeDetailsFetchedFromApi> value}) {
-    _listOfEmployeeNames = value;
+  List<EmployeeDetailsFetchedFromApi> _listOfPendingEmployees = [];
+  List<EmployeeDetailsFetchedFromApi> get listOfPendingEmployees =>
+      _listOfPendingEmployees;
+
+  List<EmployeeDetailsFetchedFromApi> _listOfRejcetedEmployees = [];
+  List<EmployeeDetailsFetchedFromApi> get listOfRejectedEmployees =>
+      _listOfRejcetedEmployees;
+
+  void updatelistOfRejectedEmployees(
+      {required List<EmployeeDetailsFetchedFromApi> value}) {
+    _listOfRejcetedEmployees = value;
     notifyListeners();
   }
 
+  void updatelistOfAllEmployees(
+      {required List<EmployeeDetailsFetchedFromApi> value}) {
+    _listOfAllEmployees = value;
+    notifyListeners();
+  }
 
+  void updatelistOfPendingEmployees(
+      {required List<EmployeeDetailsFetchedFromApi> value}) {
+    _listOfPendingEmployees = value;
+    notifyListeners();
+  }
 }
 
 final peopleProfileNotifier =

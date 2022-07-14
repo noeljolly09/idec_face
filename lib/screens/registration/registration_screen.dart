@@ -298,6 +298,11 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                         child: CustomButton(
                           height: 50,
                           function: () {
+                            for (var e in listOfClient) {
+                              if (e.domain == _domainController.text) {
+                                tenantId = e.id;
+                              }
+                            }
                             if (_domainController
                                     .text.isEmptyValidate.isNotEmpty ||
                                 _fnameController
@@ -372,8 +377,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          Navigator.pop(context);
-                          // print(listOfClient);
+                          // Navigator.pop(context);
+
+                          print(tenantId);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -451,6 +457,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               name: e.name,
             ));
           }
+
           ref.read(registrationNotifier).updatelistofClients(value: _list);
         }
       } else {

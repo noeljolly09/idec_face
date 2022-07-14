@@ -20,13 +20,14 @@ class RegistrationResponse {
   factory RegistrationResponse.fromJson(Map<String, dynamic> json) =>
       RegistrationResponse(
         status: json["status"],
-        payload: Payload.fromJson(json["payload"]),
+        payload:
+            json["payload"] == null ? null : Payload.fromJson(json["payload"]),
         response: Response.fromJson(json["response"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "payload": payload!.toJson(),
+        "payload":  payload == null ? null : payload!.toJson(),
         "response": response!.toJson(),
       };
 }

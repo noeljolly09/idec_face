@@ -128,9 +128,10 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                             drawerItem(
                               isdiabled: false,
                               svg: "assets/svg/rejected.svg",
-                              text: "Declined",
+                              text: "Rejected",
                               onTap: () {
-                                Navigator.pushNamed(context, '/profile');
+                                Navigator.pushNamed(
+                                    context, '/rejected_employees');
                               },
                             ),
                           ],

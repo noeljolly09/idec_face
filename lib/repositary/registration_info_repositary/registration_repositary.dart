@@ -68,6 +68,7 @@ class ClientInfoRepositary {
         },
       );
 
+      print(response);
       final str = jsonEncode(response.data);
       final clientDetailsResponse = clientDetailsResponseFromJson(str);
       return ServiceResponse.completed(clientDetailsResponse);

@@ -19,14 +19,14 @@ import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
 
-class EnrolledEmployeePage extends ConsumerStatefulWidget {
-  const EnrolledEmployeePage({Key? key}) : super(key: key);
+class RejectedEmployeePage extends ConsumerStatefulWidget {
+  const RejectedEmployeePage({Key? key}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
+class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
   String currentDate = DateFormat.MMMMd().format(DateTime.now());
   String currentTime = DateFormat.jm().format(DateTime.now());
 
@@ -49,7 +49,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
         roleId: null,
         unallocated: null,
         direct: false,
-        tabType: "active",
+        tabType: "rejected",
         liveVideoStream: false);
 
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
@@ -63,7 +63,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
     initPeopleProfileListeners(networkStatus);
 
     List<EmployeeDetailsFetchedFromApi> _employeeList =
-        ref.watch(peopleProfileNotifier).listOfAllEmployees;
+        ref.watch(peopleProfileNotifier).listOfRejectedEmployees;
     //
     return SafeArea(
       child: DefaultTabController(
@@ -72,7 +72,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: AppConstants.primaryColor,
-            title: const Text('Enrolled Employees'),
+            title: const Text('Rejected Employees'),
             actions: [
               Align(
                   alignment: Alignment.bottomRight,
@@ -148,6 +148,13 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                               dismissal: SlidableDismissal(
                                 child: const SlidableDrawerDismissal(),
 
+                                onDismissed: (e) {
+                                  showSnackBar(
+                                      context,
+                                      e == SlideActionType.primary
+                                          ? 'Dismiss Archive'
+                                          : 'Dimiss Delete');
+                                },
                                 // onDismissed: (direction) {
                                 //   return showDialog(
                                 //     context: context,
@@ -201,10 +208,10 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                 ));
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
-        List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
+        List<EmployeeDetailsFetchedFromApi> rejectedEmployeeDetails = [];
         if (peopleProfileInfoResponse.data!.response.isNotEmpty) {
           for (var element in peopleProfileInfoResponse.data!.response) {
-            employeeDetails.add(EmployeeDetailsFetchedFromApi(
+            rejectedEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
               empId: element.empId,
               email: element.email,
               fullName: element.fullName,
@@ -220,7 +227,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           //
           ref
               .read(peopleProfileNotifier)
-              .updatelistOfAllEmployees(value: employeeDetails);
+              .updatelistOfRejectedEmployees(value: rejectedEmployeeDetails);
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         if (networkStatus == ConnectionStatus.offline) {

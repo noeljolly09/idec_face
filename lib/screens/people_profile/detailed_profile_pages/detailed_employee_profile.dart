@@ -23,7 +23,7 @@ class _DetailedEmployeeProfilePageState
   @override
   Widget build(BuildContext context) {
     List<EmployeeDetailsFetchedFromApi> _employeeList =
-        ref.watch(peopleProfileNotifier).listOfEmployeeNames;
+        ref.watch(peopleProfileNotifier).listOfAllEmployees;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

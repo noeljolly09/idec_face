@@ -63,7 +63,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
     initPeopleProfileListeners(networkStatus);
 
     List<EmployeeDetailsFetchedFromApi> _employeeList =
-        ref.watch(peopleProfileNotifier).listOfEmployeeNames;
+        ref.watch(peopleProfileNotifier).listOfPendingEmployees;
     //
     return SafeArea(
       child: DefaultTabController(
@@ -72,7 +72,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: AppConstants.primaryColor,
-            title: const Text('Enrolled Employees'),
+            title: const Text('Pending Employees'),
             actions: [
               Align(
                   alignment: Alignment.bottomRight,
@@ -208,10 +208,14 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                 ));
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
-        List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
+        //
+
+        List<EmployeeDetailsFetchedFromApi> pendingEmployeeDetails = [];
+
+        //
         if (peopleProfileInfoResponse.data!.response.isNotEmpty) {
           for (var element in peopleProfileInfoResponse.data!.response) {
-            employeeDetails.add(EmployeeDetailsFetchedFromApi(
+            pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
               empId: element.empId,
               email: element.email,
               fullName: element.fullName,
@@ -227,7 +231,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           //
           ref
               .read(peopleProfileNotifier)
-              .updatelistOfemployeenames(value: employeeDetails);
+              .updatelistOfPendingEmployees(value: pendingEmployeeDetails);
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         if (networkStatus == ConnectionStatus.offline) {
@@ -237,7 +241,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-              afterSuccess: () {},
+              afterSuccess: () {
+                Navigator.pop(context);
+              },
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },
@@ -252,7 +258,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-              afterSuccess: () {},
+              afterSuccess: () {
+                Navigator.pop(context);
+              },
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },

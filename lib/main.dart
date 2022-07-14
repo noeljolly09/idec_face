@@ -6,6 +6,7 @@ import 'package:idec_face/screens/forgot_password.dart';
 import 'package:idec_face/screens/login/login_screen.dart';
 import 'package:idec_face/screens/people_profile/enrolled_page.dart';
 import 'package:idec_face/screens/people_profile/pending_page.dart';
+import 'package:idec_face/screens/people_profile/rejected_page.dart';
 import 'package:idec_face/screens/registration/registration_screen.dart';
 import 'package:idec_face/screens/device_screen.dart';
 
@@ -93,9 +94,9 @@ class MyApp extends StatelessWidget {
         '/navigation_bar': (context) => const CustomNavigationBar(),
         '/events': (context) => const EventsPage(),
         '/devices': (context) => const DevicePage(),
-        '/enrolled_employees': (context) => const EnrolledProfilePage(),
+        '/enrolled_employees': (context) => const EnrolledEmployeePage(),
         '/pending_employees': (context) => const PendingEmployeePage(),
-        
+        '/rejected_employees': (context) => const RejectedEmployeePage(),
       },
     );
   }
