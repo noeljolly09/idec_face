@@ -171,7 +171,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                                     },
                                     backgroundColor: Colors.greenAccent,
                                     foregroundColor: Colors.black,
-                                    icon: Icons.archive,
+
                                     label: 'Generate \n User\n Credentials',
                                   ),
                                 ],
