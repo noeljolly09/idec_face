@@ -18,7 +18,7 @@ class AllEmployeesListResponse {
   });
 
   bool status;
-  List<Response> response;
+  List<Response>? response;
   PageInfo pageInfo;
 
   factory AllEmployeesListResponse.fromJson(Map<String, dynamic> json) =>
@@ -31,48 +31,50 @@ class AllEmployeesListResponse {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "response": List<dynamic>.from(response.map((x) => x.toJson())),
+        "response": response == null
+            ? null
+            : List<dynamic>.from(response!.map((x) => x.toJson())),
         "pageInfo": pageInfo.toJson(),
       };
 }
 
 class PageInfo {
+  List<int>? pages;
+  int? endIndex;
+  int? currentPage;
+  int? pageCount;
+  int? startIndex;
+  int? totalItems;
+
   PageInfo({
-    this.totalItems,
-    this.currentPage,
-    this.startIndex,
-    this.endIndex,
     this.pages,
-    this.endPage,
+    this.endIndex,
+    this.currentPage,
     this.pageCount,
+    this.startIndex,
+    this.totalItems,
   });
 
-  int? totalItems;
-  int? currentPage;
-  int? startIndex;
-  int? endIndex;
-  List<int>? pages;
-  bool? endPage;
-  int? pageCount;
-
   factory PageInfo.fromJson(Map<String, dynamic> json) => PageInfo(
-        totalItems: json["totalItems"],
-        currentPage: json["currentPage"],
-        startIndex: json["startIndex"],
-        endIndex: json["endIndex"],
         pages: List<int>.from(json["pages"].map((x) => x)),
-        endPage: json["endPage"],
-        pageCount: json["pageCount"],
+        endIndex: json["endIndex"] as int?,
+        currentPage: json["currentPage"] as int?,
+        pageCount: json["pageCount"] as int?,
+        startIndex: json["startIndex"] as int?,
+        totalItems: json["totalItems"] as int?,
       );
 
+  static List<int> parseZones(zoneJson) {
+    List<int> pageList = List<int>.from(zoneJson);
+    return pageList;
+  }
+
   Map<String, dynamic> toJson() => {
-        "totalItems": totalItems,
-        "currentPage": currentPage,
-        "startIndex": startIndex,
         "endIndex": endIndex,
-        "pages": List<dynamic>.from(pages!.map((x) => x)),
-        "endPage": endPage,
+        "currentPage": currentPage,
         "pageCount": pageCount,
+        "startIndex": startIndex,
+        "totalItems": totalItems,
       };
 }
 
@@ -98,7 +100,6 @@ class Response {
     this.roleId,
     this.tradeId,
     this.email,
-    this.greenWorker,
     this.fullName,
     this.credentials,
     this.roleName,
@@ -112,7 +113,7 @@ class Response {
   });
 
   String? id;
-  dynamic contractorId;
+  String? contractorId;
   String? image;
   String? thumbnail;
   bool? status;
@@ -131,7 +132,6 @@ class Response {
   String? roleId;
   String? tradeId;
   String? email;
-  dynamic greenWorker;
   String? fullName;
   List<Credential>? credentials;
   String? roleName;
@@ -144,44 +144,61 @@ class Response {
   bool? liveVideoStream;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
-        id: json["_id"],
-        contractorId: json["contractorId"],
-        image: json["image"],
-        thumbnail: json["thumbnail"],
-        status: json["status"],
-        registrationStatus: json["registrationStatus"],
-        name: Name.fromJson(json["name"]),
-        empId: json["empId"],
-        address: Address.fromJson(json["address"]),
-        phone: Phone.fromJson(json["phone"]),
-        personal: Personal.fromJson(json["personal"]),
-        allergies: List<Allergy>.from(
-            json["allergies"].map((x) => Allergy.fromJson(x))),
-        injuries:
-            List<Injury>.from(json["injuries"].map((x) => Injury.fromJson(x))),
-        experience: List<Experience>.from(
-            json["experience"].map((x) => Experience.fromJson(x))),
-        certificates: List<Certificate>.from(
-            json["certificates"].map((x) => Certificate.fromJson(x))),
-        emergencyPoc: List<EmergencyPoc>.from(
-            json["emergencyPoc"].map((x) => EmergencyPoc.fromJson(x))),
-        poi: List<Poi>.from(json["poi"].map((x) => Poi.fromJson(x))),
-        roleId: json["roleId"],
-        tradeId: json["tradeId"],
-        email: json["email"],
-        greenWorker: json["greenWorker"],
-        fullName: json["fullName"],
-        credentials: List<Credential>.from(
-            json["credentials"].map((x) => Credential.fromJson(x))),
-        roleName: json["roleName"],
-        color: json["color"],
-        roleType: json["roleType"],
-        tradeName: json["tradeName"],
-        supervisor:
-            List<Name>.from(json["supervisor"].map((x) => Name.fromJson(x))),
-        siteName: json["siteName"],
-        siteId: json["siteId"],
-        liveVideoStream: json["liveVideoStream"],
+        id: json["_id"] as String?,
+        contractorId: json["contractorId"] as String?,
+        image: json["image"] as String?,
+        thumbnail: json["thumbnail"] as String?,
+        status: json["status"] as bool?,
+        registrationStatus: json["registrationStatus"] as String?,
+        name: json["name"] == null ? null : Name.fromJson(json["name"]),
+        empId: json["empId"] as String?,
+        address:
+            json["address"] == null ? null : Address.fromJson(json["address"]),
+        phone: json["phone"] == null ? null : Phone.fromJson(json["phone"]),
+        personal: json["personal"] == null
+            ? null
+            : Personal.fromJson(json["personal"]),
+        allergies: json["allergies"] == null
+            ? null
+            : List<Allergy>.from(
+                json["allergies"].map((x) => Allergy.fromJson(x))),
+        injuries: json["injuries"] == null
+            ? null
+            : List<Injury>.from(
+                json["injuries"].map((x) => Injury.fromJson(x))),
+        experience: json["experience"] == null
+            ? null
+            : List<Experience>.from(
+                json["experience"].map((x) => Experience.fromJson(x))),
+        certificates: json["certificates"] == null
+            ? null
+            : List<Certificate>.from(
+                json["certificates"].map((x) => Certificate.fromJson(x))),
+        emergencyPoc: json["emergencyPoc"] == null
+            ? null
+            : List<EmergencyPoc>.from(
+                json["emergencyPoc"].map((x) => EmergencyPoc.fromJson(x))),
+        poi: json["poi"] == null
+            ? null
+            : List<Poi>.from(json["poi"].map((x) => Poi.fromJson(x))),
+        roleId: json["roleId"] as String?,
+        tradeId: json["tradeId"] as String?,
+        email: json["email"] as String?,
+        fullName: json["fullName"] as String?,
+        credentials: json["credentials"] == null
+            ? null
+            : List<Credential>.from(
+                json["credentials"].map((x) => Credential.fromJson(x))),
+        roleName: json["roleName"] as String?,
+        color: json["color"] as String?,
+        roleType: json["roleType"] as String?,
+        tradeName: json["tradeName"] as String?,
+        supervisor: json["supervisor"] == null
+            ? null
+            : List<Name>.from(json["supervisor"].map((x) => Name.fromJson(x))),
+        siteName: json["siteName"] as String?,
+        siteId: json["siteId"] as String?,
+        liveVideoStream: json["liveVideoStream"] as bool?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -207,14 +224,13 @@ class Response {
         "roleId": roleId,
         "tradeId": tradeId,
         "email": email,
-        "greenWorker": greenWorker,
         "fullName": fullName,
-        "credentials": List<dynamic>.from(credentials!.map((x) => x.toJson())),
+        //  "credentials": List<dynamic>.from(credentials!.map((x) => x.toJson())),
         "roleName": roleName,
         "color": color,
         "roleType": roleType,
         "tradeName": tradeName,
-        "supervisor": List<dynamic>.from(supervisor!.map((x) => x.toJson())),
+        // "supervisor": List<dynamic>.from(supervisor!.map((x) => x.toJson())),
         "siteName": siteName,
         "siteId": siteId,
         "liveVideoStream": liveVideoStream,
@@ -468,7 +484,7 @@ class Name {
 
   factory Name.fromJson(Map<String, dynamic> json) => Name(
         first: json["first"],
-        middle: json["middle"],
+        middle: json["middle"] as String?,
         last: json["last"],
       );
 
@@ -525,8 +541,8 @@ class Phone {
   int? number;
 
   factory Phone.fromJson(Map<String, dynamic> json) => Phone(
-        countryCode: json["countryCode"],
-        number: json["number"],
+        countryCode: json["countryCode"] as int?,
+        number: json["number"] as int?,
       );
 
   Map<String, dynamic> toJson() => {

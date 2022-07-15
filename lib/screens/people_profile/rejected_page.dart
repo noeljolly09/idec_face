@@ -209,8 +209,8 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         List<EmployeeDetailsFetchedFromApi> rejectedEmployeeDetails = [];
-        if (peopleProfileInfoResponse.data!.response.isNotEmpty) {
-          for (var element in peopleProfileInfoResponse.data!.response) {
+        if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in peopleProfileInfoResponse.data!.response!) {
             rejectedEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
               empId: element.empId,
               email: element.email,

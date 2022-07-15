@@ -15,7 +15,7 @@ class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
   @override
   Widget build(BuildContext context) {
     String? image = ref.watch(loginNotifier).image;
-
+    print(image);
     return SizedBox(
       height: 115,
       width: 115,
@@ -23,9 +23,7 @@ class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
         clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
-          image != null
-              ? Image.network(image)
-              : SvgPicture.asset('assets/svg/User_big.svg'),
+          SvgPicture.asset('assets/svg/User_big.svg'),
           Positioned(
               top: -10,
               right: -5,

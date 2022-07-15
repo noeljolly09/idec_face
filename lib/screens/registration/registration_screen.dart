@@ -70,6 +70,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
+  Map<String, String> _domainList = {};
 
   @override
   void initState() {
@@ -110,8 +111,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
-    final tenantIdFromForm = ref.watch(registrationNotifier).tenantId;
-
+    String tenantId = "";
+    if (_domainList.keys.contains(_domainController.text)) {
+      tenantId = _domainList[_domainController.text.trim()]!;
+    }
     final registrationInfoRequest = registrationrequest.RegistrationInfoRequest(
         employeeDetails: registrationrequest.EmployeeDetails(
             organisation: _domainController.text,
@@ -129,7 +132,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         .read(registrationInfoNotifierProvider.notifier)
         .getregistrationattributes(
           registrationInfoRequest,
-          "5df380f38baa86fc4ae24264",
+          tenantId,
         );
   }
 
@@ -450,12 +453,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           List<ClientDetailsModel> _list = [];
-          for (var e in clientsInfoResponse.data!.response!.response!) {
-            _list.add(ClientDetailsModel(
-              id: e.id,
-              domain: e.domain,
-              name: e.name,
-            ));
+          for (var item in clientsInfoResponse.data!.response!.response!) {
+            _domainList[item.domain!] = item.id!;
           }
 
           ref.read(registrationNotifier).updatelistofClients(value: _list);

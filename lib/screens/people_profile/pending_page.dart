@@ -208,14 +208,12 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                 ));
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
-        //
 
         List<EmployeeDetailsFetchedFromApi> pendingEmployeeDetails = [];
 
-        //
-        if (peopleProfileInfoResponse.data!.response.isNotEmpty) {
-          for (var element in peopleProfileInfoResponse.data!.response) {
-            pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
+        if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in peopleProfileInfoResponse.data!.response!) {
+            /*     pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
               empId: element.empId,
               email: element.email,
               fullName: element.fullName,
@@ -226,14 +224,15 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
               nationality: element.personal!.nationality,
               phoneNumber: element.phone!.number,
               siteName: element.siteName,
-            ));
+            )); */
           }
-          //
+
           ref
               .read(peopleProfileNotifier)
               .updatelistOfPendingEmployees(value: pendingEmployeeDetails);
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,

@@ -21,6 +21,7 @@ class PeopleProfileRepository {
       final allEmployeesListResponse = allEmployeesListResponseFromJson(str);
       return ServiceResponse.completed(allEmployeesListResponse);
     } catch (e) {
+      print(e);
       final error = DioNetworkException.getDioException(e);
       return ServiceResponse.error(error.errorCode, error.message);
     }

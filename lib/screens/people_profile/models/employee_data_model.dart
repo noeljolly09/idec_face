@@ -35,16 +35,17 @@ class EmployeeDetailsFetchedFromApi {
 
   factory EmployeeDetailsFetchedFromApi.fromJson(Map<String, dynamic> json) =>
       EmployeeDetailsFetchedFromApi(
-          empId: json["empId"],
-          email: json["email"],
-          fullName: json["fullName"],
-          siteName: json["siteName"],
-          bloodGroup: json["bloodGroup"],
-          countryCode: json["countryCode"],
-          dob: json["dob"],
-          gender: json["gender"],
-          nationality: json["nationality"],
-          phoneNumber: json["phoneNumber"]);
+        empId: json["empId"] as String?,
+        email: json["email"] as String?,
+        fullName: json["fullName"] as String?,
+        siteName: json["siteName"] as String?,
+        bloodGroup: json["bloodGroup"] as String?,
+        countryCode: json["countryCode"] as int?,
+        dob: json["dob"] as String?,
+        gender: json["gender"] as String?,
+        nationality: json["nationality"] as String?,
+        phoneNumber: json["phoneNumber"] as int?,
+      );
 
   Map<String, dynamic> toJson() => {
         "empId": empId,
