@@ -5,10 +5,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
+import 'package:idec_face/dialogs/profile_dialog.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/people_profile/providers/people_profile_notifier_provider.dart';
+import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
@@ -53,7 +55,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
         liveVideoStream: false);
 
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
-        allEmployeesListRequest, "5df380f38baa86fc4ae24264");
+        allEmployeesListRequest, ref.watch(loginNotifier).tenantId.toString());
   }
 
   @override
@@ -133,44 +135,46 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                                   ));
                             },
                             child: Slidable(
-                              actionPane: const SlidableBehindActionPane(),
-                              actionExtentRatio: 0.32,
                               key: ValueKey(index),
-                              secondaryActions: <Widget>[
-                                IconSlideAction(
-                                  caption: 'Generate  User \n Credentials',
-                                  color: Colors.greenAccent,
-                                  icon: Icons.archive,
-                                  onTap: () {},
-                                ),
-                              ],
-                              direction: Axis.horizontal,
-                              dismissal: SlidableDismissal(
-                                child: const SlidableDrawerDismissal(),
+                              // startActionPane: ActionPane(
+                              //   // A motion is a widget used to control how the pane animates.
+                              //   motion: const ScrollMotion(),
 
-                                onDismissed: (e) {
-                                  showSnackBar(
-                                      context,
-                                      e == SlideActionType.primary
-                                          ? 'Dismiss Archive'
-                                          : 'Dimiss Delete');
-                                },
-                                // onDismissed: (direction) {
-                                //   return showDialog(
-                                //     context: context,
-                                //     barrierDismissible: false,
-                                //     builder: (context) => InfoDialogWithTimer(
-                                //       title: "Generate User \n Credentials",
-                                //       message:
-                                //           "Email is Mandatory for user credentials creation.",
-                                //       isTimerActivated: true,
-                                //       isCancelButtonVisible: false,
-                                //       onPressedBttn1: () {
-                                //         Navigator.of(context).pop(false);
-                                //       },
-                                //     ),
-                                //   );
-                                // },
+                              //   // A pane can dismiss the Slidable.
+                              //   dismissible:
+                              //       DismissiblePane(onDismissed: () {}),
+
+                              //   // All actions are defined in the children parameter.
+                              //   children: [
+                              //     // A SlidableAction can have an icon and/or a label.
+                              //     SlidableAction(
+                              //       onPressed: openMappingDialog(
+                              //           context, "Generate User Credentials"),
+                              //       backgroundColor: const Color(0xFFFE4A49),
+                              //       foregroundColor: Colors.white,
+                              //       icon: Icons.delete,
+                              //       label: 'Delete',
+                              //     ),
+                              //   ],
+                              // ),
+                              endActionPane: ActionPane(
+                                extentRatio: 0.35,
+                                motion: const ScrollMotion(),
+                                children: [
+                                  SlidableAction(
+                                    // An action can be bigger than the others.
+                                    flex: 2,
+                                    onPressed: (context) {
+                                      openMappingDialog(
+                                          context, "Generate User Credentials",
+                                          isAvailableNeeded: false);
+                                    },
+                                    backgroundColor: Colors.greenAccent,
+                                    foregroundColor: Colors.black,
+                                    icon: Icons.archive,
+                                    label: 'Generate \n User\n Credentials',
+                                  ),
+                                ],
                               ),
                               child: EmployeeCard(
                                 employeeName: _employeeList[index].fullName!,
@@ -263,6 +267,12 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
         }
       }
     });
+  }
+
+  void doNothing(BuildContext context) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('hello')));
   }
 }
 

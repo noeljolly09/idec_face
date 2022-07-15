@@ -127,10 +127,8 @@ openValidationDialogWindow(
                       titletext: "Country Code",
                       controllertext: code!.dialCode.toString(),
                     ),
-                    ValidationText(
+                    PreviewText(
                       assetName: "assets/svg/phone.svg",
-                      isValidated: phone.text.isValidPhone.isEmpty,
-                      validationErrorText: phone.text.isValidPhone,
                       titletext: "Phone Number",
                       controllertext: phone.text,
                     ),

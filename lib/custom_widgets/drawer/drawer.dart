@@ -9,12 +9,12 @@ import 'package:idec_face/repositary/logout_repository/providers/logout_info_not
 import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants.dart';
 import '../../screens/dashboard/notifier/dashboard_notifier.dart';
 import '../../screens/login/login_screen.dart';
 import '../../utility/app_info.dart';
-import '../../utility/privacy_policy.dart';
 import 'drawer_item.dart';
 
 class MyDrawer extends ConsumerStatefulWidget {
@@ -195,10 +195,8 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => const PrivacyPolicyPage());
+                  onTap: () async {
+                    await launchUrl(Uri.parse("https://thenavisafe.com/#/"));
                   },
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,

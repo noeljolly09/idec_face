@@ -5,8 +5,9 @@ import 'package:idec_face/custom_widgets/search_bar.dart';
 
 openMappingDialog(
   BuildContext context,
-  String label,
-) {
+  String label, {
+  bool isAvailableNeeded = true,
+}) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -18,14 +19,14 @@ openMappingDialog(
             children: [
               Center(
                   child: Text(
-                'Available $label',
+                isAvailableNeeded == true ? 'Available $label' : label,
                 style: const TextStyle(color: AppConstants.primaryColor),
               )),
               const SizedBox(height: 10),
               SearchInput(labelText: label),
               PhysicalModel(
                 color: Colors.white,
-                elevation: 8,
+                elevation: 2,
                 shadowColor: AppConstants.primaryColor,
                 borderRadius: BorderRadius.circular(20),
                 child: Container(

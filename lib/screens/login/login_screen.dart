@@ -14,12 +14,12 @@ import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
 import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
 import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../utility/app_info.dart';
-import '../../utility/privacy_policy.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -304,10 +304,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => const PrivacyPolicyPage());
+                    onTap: () async {
+                      await launchUrl(Uri.parse("https://thenavisafe.com/#/"));
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -434,6 +432,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ref
               .watch(loginNotifier)
               .updateImage(value: element.employees!.image.toString());
+
+          ref
+              .watch(loginNotifier)
+              .updateImage(value: element.tenants!.id.toString());
+
+          print(element.tenants!.id);
+          print(element.employees!.image);
 
           ref
               .watch(loginNotifier)

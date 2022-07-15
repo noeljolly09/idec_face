@@ -1,4 +1,4 @@
-import 'package:idec_face/models/client_details.dart';
+
 
 extension StringUtility on String {
   String get isValidEmail {

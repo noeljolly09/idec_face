@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:idec_face/repositary/login_info_repository/providers/login_info_notifier_provider.dart';
 import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 
 class ProfilePhotoDrawer extends ConsumerStatefulWidget {
