@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
 class LoginNotifier extends ChangeNotifier {
   String? _username;
   String? get username => _username;
+
+  String? _tenantId;
+  String? get tenantId => _tenantId;
 
   String? _firstName;
   String? get fName => _firstName;
@@ -16,6 +20,11 @@ class LoginNotifier extends ChangeNotifier {
 
   void updateUsername({required String? value}) {
     _username = value;
+    notifyListeners();
+  }
+
+  void updateTenantId({required String? value}) {
+    _tenantId = value;
     notifyListeners();
   }
 

@@ -20,6 +20,7 @@ import 'package:idec_face/screens/registration/widgets/name_data.dart';
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
@@ -29,7 +30,7 @@ import '../../repositary/registration_info_repositary/providers/registration_inf
 import '../../utility/app_info.dart';
 import '../../utility/connectivity/connectivity_constants.dart';
 import '../../utility/connectivity/connectivity_notifier_provider.dart';
-import '../../utility/privacy_policy.dart';
+
 import 'notifiers/registration_notifiers.dart';
 import 'widgets/contact_data.dart';
 import 'widgets/personal_data.dart';
@@ -110,7 +111,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
-    final tenantIdFromForm = ref.watch(registrationNotifier).tenantId;
 
     final registrationInfoRequest = registrationrequest.RegistrationInfoRequest(
         employeeDetails: registrationrequest.EmployeeDetails(
@@ -143,7 +143,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
 
     final networkStatus = ref.read(connectivityNotifierProvider).status;
 
-    final listOfClient = ref.watch(registrationNotifier).listOfClients;
 
     //config api
     initConfigListeners(networkStatus);
@@ -298,18 +297,12 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                         child: CustomButton(
                           height: 50,
                           function: () {
-                            for (var e in listOfClient) {
-                              if (e.domain == _domainController.text) {
-                                tenantId = e.id;
-                              }
-                            }
                             if (_domainController
                                     .text.isEmptyValidate.isNotEmpty ||
                                 _fnameController
                                     .text.isEmptyValidate.isNotEmpty ||
                                 _lnameController
                                     .text.isEmptyValidate.isNotEmpty ||
-                                _phoneController.text.isValidPhone.isNotEmpty ||
                                 _emailController.text.isValidEmail.isNotEmpty) {
                               openValidationDialogWindow(
                                 context,
@@ -413,10 +406,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => const PrivacyPolicyPage());
+                      onTap: () async {
+                        await launchUrl(
+                            Uri.parse("https://thenavisafe.com/#/"));
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
@@ -498,21 +490,23 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             context: context,
             barrierDismissible: false,
             builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/', (route) => false);
-              },
-              onPressedBttn1: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/', (route) => false);
-              },
-              title: "Registration",
-              message: registrationInfoResponse
-                  .data!.payload!.emailInfo!.body!.value
-                  .toString(),
-            ),
+                isTimerActivated: true,
+                isCancelButtonVisible: false,
+                afterSuccess: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/', (route) => false);
+                },
+                onPressedBttn1: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/', (route) => false);
+                },
+                title: "Registration",
+                message: registrationInfoResponse.status == true
+                    ? registrationInfoResponse
+                        .data!.payload!.emailInfo!.body!.value
+                        .toString()
+                    : registrationInfoResponse.data!.response!.error
+                        .toString()),
           );
         } else {
           showDialog(

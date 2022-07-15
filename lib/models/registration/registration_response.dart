@@ -27,7 +27,7 @@ class RegistrationResponse {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "payload":  payload == null ? null : payload!.toJson(),
+        "payload": payload == null ? null : payload!.toJson(),
         "response": response!.toJson(),
       };
 }
@@ -154,14 +154,14 @@ class EmployeeInfo {
 
 class EmployeeName {
   EmployeeName({
-    required this.first,
+    this.first,
     this.middle,
-    required this.last,
+    this.last,
   });
 
-  String first;
+  String? first;
   dynamic middle;
-  String last;
+  String? last;
 
   factory EmployeeName.fromJson(Map<String, dynamic> json) => EmployeeName(
         first: json["first"],
@@ -178,12 +178,12 @@ class EmployeeName {
 
 class Phone {
   Phone({
-    required this.countryCode,
-    required this.number,
+    this.countryCode,
+    this.number,
   });
 
-  String countryCode;
-  String number;
+  String? countryCode;
+  String? number;
 
   factory Phone.fromJson(Map<String, dynamic> json) => Phone(
         countryCode: json["countryCode"],
@@ -198,13 +198,16 @@ class Phone {
 
 class Response {
   Response({
-    required this.message,
+    this.message,
+    this.error,
   });
 
-  String message;
+  String? message;
+  String? error;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         message: json["message"],
+        error: json["error"],
       );
 
   Map<String, dynamic> toJson() => {

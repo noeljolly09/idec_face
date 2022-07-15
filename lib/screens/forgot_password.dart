@@ -9,6 +9,7 @@ import 'package:idec_face/models/password_reset/password_reset_response.dart';
 import 'package:idec_face/repositary/password_reset_repository/providers/password_reset_notifier_provider.dart';
 import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
 import '../custom_widgets/button.dart';
@@ -24,7 +25,7 @@ import '../repositary/config_info_repository/providers/config_info_notifier_prov
 import '../utility/app_info.dart';
 import '../utility/connectivity/connectivity_constants.dart';
 import '../utility/connectivity/connectivity_notifier_provider.dart';
-import '../utility/privacy_policy.dart';
+
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -271,10 +272,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => const PrivacyPolicyPage());
+                    onTap: () async {
+                      await launchUrl(Uri.parse("https://thenavisafe.com/#/"));
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
