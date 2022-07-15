@@ -373,9 +373,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          // Navigator.pop(context);
-
-                          print(tenantId);
+                          Navigator.pop(context);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -500,7 +498,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       context, '/', (route) => false);
                 },
                 title: "Registration",
-                message: registrationInfoResponse.status == true
+                message: registrationInfoResponse.data!.status == true
                     ? registrationInfoResponse
                         .data!.payload!.emailInfo!.body!.value
                         .toString()

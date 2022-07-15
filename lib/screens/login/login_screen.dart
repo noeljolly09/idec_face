@@ -430,18 +430,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       } else if (previlegeUserInfoResponse.status == ServiceStatus.completed) {
         for (var element in previlegeUserInfoResponse.data!.response!) {
           ref
-              .watch(loginNotifier)
+              .read(loginNotifier)
               .updateImage(value: element.employees!.image.toString());
 
           ref
-              .watch(loginNotifier)
-              .updateImage(value: element.tenants!.id.toString());
-
-          print(element.tenants!.id);
-          print(element.employees!.image);
+              .read(loginNotifier)
+              .updateTenantId(value: element.tenants!.id.toString());
 
           ref
-              .watch(loginNotifier)
+              .read(loginNotifier)
               .updateFName(value: element.employees!.name!.first.toString());
         }
       }

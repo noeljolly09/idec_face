@@ -10,6 +10,7 @@ import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repositary/people_profile/providers/people_profile_notifier_provider.dart';
+import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
@@ -55,7 +56,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
         liveVideoStream: false);
 
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
-        allEmployeesListRequest, "5df380f38baa86fc4ae24264");
+        allEmployeesListRequest, ref.watch(loginNotifier).tenantId.toString());
   }
 
   @override
@@ -171,7 +172,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                     },
                                     backgroundColor: Colors.greenAccent,
                                     foregroundColor: Colors.black,
-                                    icon: Icons.archive,
+
                                     label: 'Generate \n User\n Credentials',
                                   ),
                                 ],
