@@ -165,14 +165,13 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                     // An action can be bigger than the others.
                                     flex: 2,
                                     onPressed: (context) {
-                                      openMappingDialog(
-                                          context, "Generate User Credentials",
-                                          isAvailableNeeded: false);
+                                      doNothing(context,
+                                          "Approval Procedure on Progress");
                                     },
                                     backgroundColor: Colors.greenAccent,
                                     foregroundColor: Colors.black,
-                                    icon: Icons.archive,
-                                    label: 'Generate \n User\n Credentials',
+
+                                    label: 'Approve \nEmployee',
                                   ),
                                 ],
                               ),
@@ -222,6 +221,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
               empId: element.empId,
               email: element.email,
               fullName: element.fullName,
+<<<<<<< HEAD
               bloodGroup: element.personal == null
                   ? null
                   : element.personal!.bloodGroup,
@@ -233,6 +233,14 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                   ? null
                   : element.personal!.nationality,
               phoneNumber: element.phone == null ? null : element.phone!.number,
+=======
+              // bloodGroup: element.personal!.bloodGroup,
+              countryCode: element.phone!.countryCode,
+              // dob: element.personal!.dob,
+              // gender: element.personal!.gender,
+              // nationality: element.personal!.nationality,
+              phoneNumber: element.phone!.number,
+>>>>>>> e0b65262e0fbc857bbe3a2e379c9190188dd6bd6
               siteName: element.siteName,
             ));
           }
@@ -282,10 +290,10 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
     });
   }
 
-  void doNothing(BuildContext context) {
+  void doNothing(BuildContext context, String text) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('hello')));
+      ..showSnackBar(SnackBar(content: Text(text)));
   }
 }
 

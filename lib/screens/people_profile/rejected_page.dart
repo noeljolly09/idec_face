@@ -165,14 +165,13 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                                     // An action can be bigger than the others.
                                     flex: 2,
                                     onPressed: (context) {
-                                      openMappingDialog(
-                                          context, "Generate User Credentials",
-                                          isAvailableNeeded: false);
+                                      showSnackBar(context,
+                                          "Reapproval Procedure on Progress");
                                     },
                                     backgroundColor: Colors.greenAccent,
                                     foregroundColor: Colors.black,
-                                    icon: Icons.archive,
-                                    label: 'Generate \n User\n Credentials',
+
+                                    label: 'Reapprove \n Employee',
                                   ),
                                 ],
                               ),
@@ -274,15 +273,9 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
     });
   }
 
-  void doNothing(BuildContext context) {
+  void showSnackBar(BuildContext context, String text) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('hello')));
+      ..showSnackBar(SnackBar(content: Text(text)));
   }
-}
-
-void showSnackBar(BuildContext context, String text) {
-  ScaffoldMessenger.of(context)
-    ..hideCurrentSnackBar()
-    ..showSnackBar(SnackBar(content: Text(text)));
 }
