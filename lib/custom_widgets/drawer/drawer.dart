@@ -29,9 +29,8 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
     final logoutRequest =
         LogoutRequest(userName: ref.watch(loginNotifier).username);
 
-    ref
-        .read(logoutInfoNotifierProvider.notifier)
-        .getlogoutattributes(logoutRequest, "5df380f38baa86fc4ae24264");
+    ref.read(logoutInfoNotifierProvider.notifier).getlogoutattributes(
+        logoutRequest, ref.watch(loginNotifier).tenantId.toString());
   }
 
   @override

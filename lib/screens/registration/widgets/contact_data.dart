@@ -91,7 +91,7 @@ class ContactPageRegistration extends StatelessWidget {
                             ),
                           ),
                           SimpleTextField(
-                            hint: "Phone Number *",
+                            hint: "Phone Number ",
                             controller: phoneController,
                             validator: phoneNumberValidate,
                             textAction: TextInputAction.next,

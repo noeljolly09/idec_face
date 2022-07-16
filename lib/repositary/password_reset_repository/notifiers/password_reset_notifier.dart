@@ -13,7 +13,7 @@ class PasswordResetNotifier
       : super(ServiceResponse.none());
 
   Future<void> getPasswordResetAttributes(
-      PasswordResetRequest passwordResetRequest, String tenantId) async {
+      PasswordResetRequest passwordResetRequest, String? tenantId) async {
     state = ServiceResponse.loading('Loading...');
     final response = await _passwordResetRepositary.passwordResetAttributes(
         passwordResetRequest, tenantId);

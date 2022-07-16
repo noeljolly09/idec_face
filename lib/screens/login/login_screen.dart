@@ -365,6 +365,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           //
 
           print("logged In : " + _usernameController.text);
+          print("logged In tenant ID : " +
+              ref.watch(loginNotifier).tenantId.toString());
           //
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
           Navigator.pushNamedAndRemoveUntil(

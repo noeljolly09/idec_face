@@ -165,14 +165,13 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                     // An action can be bigger than the others.
                                     flex: 2,
                                     onPressed: (context) {
-                                      openMappingDialog(
-                                          context, "Generate User Credentials",
-                                          isAvailableNeeded: false);
+                                      doNothing(context,
+                                          "Approval Procedure on Progress");
                                     },
                                     backgroundColor: Colors.greenAccent,
                                     foregroundColor: Colors.black,
 
-                                    label: 'Generate \n User\n Credentials',
+                                    label: 'Approve \nEmployee',
                                   ),
                                 ],
                               ),
@@ -277,10 +276,10 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
     });
   }
 
-  void doNothing(BuildContext context) {
+  void doNothing(BuildContext context, String text) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('hello')));
+      ..showSnackBar(SnackBar(content: Text(text)));
   }
 }
 

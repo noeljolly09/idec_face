@@ -133,7 +133,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         .read(registrationInfoNotifierProvider.notifier)
         .getregistrationattributes(
           registrationInfoRequest,
-          tenantId,
+          "5df380f38baa86fc4ae24264",
         );
   }
 
@@ -518,6 +518,39 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               },
               title: "Validation Error",
               message: "Required field is left empty.",
+            ),
+          );
+        }
+      } else if (registrationInfoResponse.status == ServiceStatus.error) {
+        ref.read(registrationNotifier).updateConfigState(value: false);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
             ),
           );
         }

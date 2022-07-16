@@ -4,9 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/custom_widgets/textfields/forgot_password_textfield.dart';
+import 'package:idec_face/models/client_details.dart';
 import 'package:idec_face/models/password_reset/password_reset_request.dart';
 import 'package:idec_face/models/password_reset/password_reset_response.dart';
+import 'package:idec_face/models/registration/client_details_response.dart';
 import 'package:idec_face/repositary/password_reset_repository/providers/password_reset_notifier_provider.dart';
+import 'package:idec_face/repositary/registration_info_repositary/providers/registration_info_notifier_provider.dart';
 import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,7 +29,6 @@ import '../utility/app_info.dart';
 import '../utility/connectivity/connectivity_constants.dart';
 import '../utility/connectivity/connectivity_notifier_provider.dart';
 
-
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
@@ -41,17 +43,24 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final TextEditingController _optionsController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
 
+  Map<String, String> domainList = {};
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getConfigAttributes();
+      _getClientDetails();
     });
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void _getClientDetails() {
+    ref.read(clientInfoNotifierProvider.notifier).getClientInfo();
   }
 
   void _getConfigAttributes() {
@@ -62,8 +71,29 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   }
 
   void _getPasswordResetAttributes() {
-    final passwordResetRequest =
-        PasswordResetRequest(userName: _valueController.text);
+    String tenantId = "";
+    if (domainList.keys.contains(_domainController.text)) {
+      tenantId = domainList[_domainController.text.trim()]!;
+    }
+    var passwordResetRequest = PasswordResetRequest();
+    if (_optionsController.text.toLowerCase() == "username") {
+      passwordResetRequest = PasswordResetRequest(
+        userName: _valueController.text,
+      );
+    } else if (_optionsController.text.toLowerCase() == "employee id") {
+      passwordResetRequest = PasswordResetRequest(
+        empId: _valueController.text,
+      );
+    } else if (_optionsController.text.toLowerCase() == "email id") {
+      passwordResetRequest = PasswordResetRequest(
+        email: _valueController.text,
+      );
+    } else if (_optionsController.text.toLowerCase() == "phone number") {
+      passwordResetRequest = PasswordResetRequest(
+        phoneNumber: _valueController.text,
+      );
+    }
+    //
     ref.read(passwordResetNotifierProvider.notifier).getPasswordResetAttributes(
           passwordResetRequest,
           "5df380f38baa86fc4ae24264",
@@ -80,6 +110,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initConfigListeners(networkStatus);
     initResetPasswordListeners(networkStatus);
+    initClientDetailsListeners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -297,6 +328,39 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         ),
       ),
     );
+  }
+
+  initClientDetailsListeners(ConnectionStatus networkStatus) {
+    ref.listen(clientInfoNotifierProvider, (previous, next) {
+      final clientsInfoResponse =
+          next as ServiceResponse<ClientDetailsResponse?>;
+      if (clientsInfoResponse.status == ServiceStatus.loading) {
+      } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
+          List<ClientDetailsModel> _list = [];
+          for (var item in clientsInfoResponse.data!.response!.response!) {
+            domainList[item.domain!] = item.id!;
+          }
+
+          ref.read(registrationNotifier).updatelistofClients(value: _list);
+        }
+      } else {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => InfoDialogWithTimer(
+            isTimerActivated: true,
+            isCancelButtonVisible: false,
+            afterSuccess: () {},
+            onPressedBttn1: () {
+              Navigator.of(context).pop(false);
+            },
+            title: "Error",
+            message: "Client Data fetch error",
+          ),
+        );
+      }
+    });
   }
 
   initResetPasswordListeners(ConnectionStatus networkStatus) {
