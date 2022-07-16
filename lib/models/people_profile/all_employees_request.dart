@@ -14,6 +14,7 @@ class AllEmployeesListRequest {
     this.direct,
     this.tabType,
     this.liveVideoStream,
+    this.empName,
   });
 
   dynamic siteId;
@@ -25,6 +26,7 @@ class AllEmployeesListRequest {
   bool? direct;
   String? tabType;
   bool? liveVideoStream;
+  String? empName;
 
   Map<String, dynamic> toJson() => {
         "siteId": siteId,
@@ -36,5 +38,6 @@ class AllEmployeesListRequest {
         "direct": direct,
         "tabType": tabType,
         "liveVideoStream": liveVideoStream,
+        "empName": empName,
       };
 }

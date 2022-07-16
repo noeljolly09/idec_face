@@ -1,34 +1,40 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:idec_face/repository/media_repository/providers/media_notifier_provider.dart';
+import 'package:idec_face/screens/registration/notifiers/media_state_notifier/media_upload_notifier.dart';
 
 import '../../../constants.dart';
 import '../../../custom_widgets/text.dart';
 import '../../../custom_widgets/textfields/custom_textfield.dart';
 
-class NamePageRegistration extends StatelessWidget {
+class NamePageRegistration extends ConsumerWidget {
   final TextEditingController firstnameController;
   final TextEditingController middlenameController;
   final TextEditingController lastnameController;
   final TextEditingController employeeIdController;
   final String? Function(String?)? onValidate;
-
-  const NamePageRegistration({
+  final VoidCallback onPressed;
+  NamePageRegistration({
     Key? key,
     required this.firstnameController,
     required this.middlenameController,
     required this.lastnameController,
     required this.employeeIdController,
     this.onValidate,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double height10 = MediaQuery.of(context).size.height / 82.051;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height30 = MediaQuery.of(context).size.height / 27.352;
     double height40 = MediaQuery.of(context).size.height / 20.514;
-
+    final _imageFile = ref.watch(imageNotifier).getImageFile;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -58,47 +64,47 @@ class NamePageRegistration extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              Stack(
                                 children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              8.5017,
-                                      width: MediaQuery.of(context).size.width /
-                                          4.514,
-                                      child: Stack(
-                                        clipBehavior: Clip.none,
-                                        fit: StackFit.expand,
-                                        children: [
-                                          CircleAvatar(
-                                            radius: 60.0,
-                                            child: SvgPicture.asset(
-                                                'assets/svg/User_big.svg'),
-                                            // backgroundImage: NetworkImage(''),
-                                            backgroundColor: Colors.transparent,
+                                  _imageFile == null
+                                      ? Container(
+                                          height: 105,
+                                          width: 105,
+                                          margin: const EdgeInsets.all(0.0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.teal[50],
+                                            shape: BoxShape.circle,
                                           ),
-                                          Positioned(
-                                            bottom: -15,
-                                            right: -50,
-                                            child: RawMaterialButton(
-                                              splashColor: Colors.transparent,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              onPressed: () {},
-                                              elevation: 2.0,
-                                              child: SvgPicture.asset(
-                                                  'assets/svg/camera.svg'),
-                                            ),
+                                          child: SvgPicture.asset(
+                                            'assets/svg/User_big.svg',
+                                            fit: BoxFit.scaleDown,
+                                            height: 60,
+                                            width: 60,
+                                            color: Colors.black12,
                                           ),
-                                        ],
-                                      ),
-                                    ),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 60,
+                                          backgroundColor: Colors.grey,
+                                          foregroundImage:
+                                              Image.file(File(_imageFile.path))
+                                                  .image,
+                                          onForegroundImageError:
+                                              (exception, stackTrace) {},
+                                        ),
+                                  Positioned(
+                                    bottom: 5,
+                                    right: 5,
+                                    child: IconButton(
+                                        padding: const EdgeInsets.all(0),
+                                        alignment: Alignment.bottomRight,
+                                        onPressed: onPressed,
+                                        icon: _imageFile == null
+                                            ? const Icon(
+                                                Icons.add_a_photo_outlined)
+                                            : const Icon(
+                                                Icons.no_photography_outlined,
+                                              )),
                                   ),
                                 ],
                               ),

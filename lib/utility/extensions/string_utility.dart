@@ -1,5 +1,3 @@
-
-
 extension StringUtility on String {
   String get isValidEmail {
     String textValue = this;
@@ -43,9 +41,23 @@ extension StringUtility on String {
     }
   }
 
+  String domainValidate(
+      {required String domainController, required List<String> domainList}) {
+    final value = domainController;
+    if (value.isEmpty) {
+      return "Mandatory field";
+    } else if (domainList.isEmpty) {
+      return "No domains found";
+    } else if (!domainList.contains(
+      domainController.trim().toUpperCase(),
+    )) {
+      return "Invalid domain";
+    } else {
+      return "";
+    }
+  }
+
   String get capitalize {
     return "${this[0].toUpperCase()}${substring(1)}";
   }
-
-
 }

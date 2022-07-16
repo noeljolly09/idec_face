@@ -109,10 +109,11 @@ class _GenderPageRegistrationState
                           readOnly: true,
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1998),
-                                lastDate: DateTime(2100));
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              lastDate: DateTime.now(),
+                            );
 
                             if (pickedDate != null) {
                               String formattedDate =

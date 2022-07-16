@@ -8,21 +8,23 @@ import '../../../../constants.dart';
 import '../../../../custom_widgets/textfields/previewtext.dart';
 
 openValidationDialogWindow(
-    BuildContext context,
-    CountryCode? code,
-    TextEditingController domain,
-    TextEditingController firstname,
-    TextEditingController middlename,
-    TextEditingController lastname,
-    TextEditingController employeeId,
-    TextEditingController date,
-    TextEditingController gender,
-    TextEditingController nationality,
-    TextEditingController blood,
-    TextEditingController phone,
-    TextEditingController email,
-    TextEditingController comments,
-    {required String formHeader}) {
+  BuildContext context,
+  CountryCode? code,
+  TextEditingController domain,
+  TextEditingController firstname,
+  TextEditingController middlename,
+  TextEditingController lastname,
+  TextEditingController employeeId,
+  TextEditingController date,
+  TextEditingController gender,
+  TextEditingController nationality,
+  TextEditingController blood,
+  TextEditingController phone,
+  TextEditingController email,
+  TextEditingController comments, {
+  required String formHeader,
+  required List<String> domainList,
+}) {
   showDialog(
       context: context,
       builder: (_) {

@@ -16,6 +16,9 @@ class PeopleProfileNotifier extends ChangeNotifier {
   List<EmployeeDetailsFetchedFromApi> get listOfRejectedEmployees =>
       _listOfRejcetedEmployees;
 
+  bool _isEmployeeNameFiltered = false;
+  bool get getEmpNameFilteredStatus => _isEmployeeNameFiltered;
+
   void updatelistOfRejectedEmployees(
       {required List<EmployeeDetailsFetchedFromApi> value}) {
     _listOfRejcetedEmployees = value;
@@ -31,6 +34,11 @@ class PeopleProfileNotifier extends ChangeNotifier {
   void updatelistOfPendingEmployees(
       {required List<EmployeeDetailsFetchedFromApi> value}) {
     _listOfPendingEmployees = value;
+    notifyListeners();
+  }
+
+  void updateEmpFilterStatus({required bool value}) {
+    _isEmployeeNameFiltered = value;
     notifyListeners();
   }
 }

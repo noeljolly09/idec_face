@@ -5,12 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
-import 'package:idec_face/dialogs/profile_dialog.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
-import 'package:idec_face/repositary/people_profile/providers/people_profile_notifier_provider.dart';
-import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
+import 'package:idec_face/repository/people_profile/providers/people_profile_notifier_provider.dart';
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
@@ -32,27 +30,39 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
   String currentDate = DateFormat.MMMMd().format(DateTime.now());
   String currentTime = DateFormat.jm().format(DateTime.now());
 
+  TextEditingController employeeNameController = TextEditingController();
   static const timestyle = TextStyle(fontSize: 10);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(peopleProfileNotifier).updateEmpFilterStatus(value: false);
       _getAllEmployeesDetails();
     });
   }
 
+  @override
+  void dispose() {
+    employeeNameController.dispose();
+    super.dispose();
+  }
+
   void _getAllEmployeesDetails() {
     final allEmployeesListRequest = AllEmployeesListRequest(
-        siteId: null,
-        gamificationStatus: false,
-        contractorId: null,
-        tradeId: null,
-        roleId: null,
-        unallocated: null,
-        direct: false,
-        tabType: "rejected",
-        liveVideoStream: false);
+      siteId: null,
+      gamificationStatus: false,
+      contractorId: null,
+      tradeId: null,
+      roleId: null,
+      unallocated: null,
+      direct: false,
+      tabType: "rejected",
+      liveVideoStream: false,
+      empName: employeeNameController.text.isEmpty
+          ? null
+          : employeeNameController.text,
+    );
 
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
         allEmployeesListRequest, "5df380f38baa86fc4ae24264");
@@ -112,7 +122,25 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
               Container(
                 margin: const EdgeInsets.all(15),
                 color: Colors.white,
-                child: const SearchInput(labelText: 'Employee'),
+                child: SearchInput(
+                  labelText: 'Employee',
+                  controller: employeeNameController,
+                  onTap: () {
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updateEmpFilterStatus(value: true);
+                    FocusScope.of(context).unfocus();
+                    _getAllEmployeesDetails();
+                  },
+                  onClear: () {
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updateEmpFilterStatus(value: false);
+                    employeeNameController.clear();
+                    FocusScope.of(context).unfocus();
+                    _getAllEmployeesDetails();
+                  },
+                ),
               ),
               Expanded(
                 flex: 5,
@@ -236,8 +264,27 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
           ref
               .read(peopleProfileNotifier)
               .updatelistOfRejectedEmployees(value: rejectedEmployeeDetails);
+        } else {
+          ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
+            value: [],
+          );
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Info",
+              message: "No Employees found",
+            ),
+          );
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,

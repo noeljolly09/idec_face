@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../constants.dart';
 import '../models/config/config_request.dart';
-import '../repositary/config_info_repository/providers/config_info_notifier_provider.dart';
+import '../repository/config_info_repository/providers/config_info_notifier_provider.dart';
 
 class CustomSelectionBar extends ConsumerStatefulWidget {
   final TextEditingController controller;

@@ -5,7 +5,7 @@ import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
 import 'package:idec_face/models/logout/logout_request.dart';
 import 'package:idec_face/models/logout/logout_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
-import 'package:idec_face/repositary/logout_repository/providers/logout_info_notifier_provider.dart';
+import 'package:idec_face/repository/logout_repository/providers/logout_info_notifier_provider.dart';
 import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
@@ -70,6 +70,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   svg: "assets/svg/home.svg",
                   text: "Home",
                   onTap: () {
+                    Navigator.pop(context);
                     ref
                         .read(navigationbarNotifier)
                         .updatedNavigtionIndex(value: 0);
@@ -82,6 +83,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   svg: "assets/svg/event_icon.svg",
                   text: "Events",
                   onTap: () {
+                    Navigator.pop(context);
                     ref
                         .read(navigationbarNotifier)
                         .updatedNavigtionIndex(value: 1);
@@ -111,6 +113,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                               svg: "assets/svg/enrolled.svg",
                               text: "Enrolled",
                               onTap: () {
+                                Navigator.pop(context);
                                 Navigator.pushNamed(
                                     context, '/enrolled_employees');
                               },
@@ -120,6 +123,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                               svg: "assets/svg/pending.svg",
                               text: "Pending",
                               onTap: () {
+                                Navigator.pop(context);
                                 Navigator.pushNamed(
                                     context, '/pending_employees');
                               },
@@ -129,6 +133,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                               svg: "assets/svg/rejected.svg",
                               text: "Rejected",
                               onTap: () {
+                                Navigator.pop(context);
                                 Navigator.pushNamed(
                                     context, '/rejected_employees');
                               },
@@ -144,6 +149,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   svg: "assets/svg/device.svg",
                   text: "Devices",
                   onTap: () {
+                    Navigator.pop(context);
                     ref
                         .read(navigationbarNotifier)
                         .updatedNavigtionIndex(value: 2);

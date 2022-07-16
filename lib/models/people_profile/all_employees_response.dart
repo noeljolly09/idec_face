@@ -19,14 +19,16 @@ class AllEmployeesListResponse {
 
   bool status;
   List<Response>? response;
-  PageInfo pageInfo;
+  PageInfo? pageInfo;
 
   factory AllEmployeesListResponse.fromJson(Map<String, dynamic> json) =>
       AllEmployeesListResponse(
         status: json["status"],
         response: List<Response>.from(
             json["response"].map((x) => Response.fromJson(x))),
-        pageInfo: PageInfo.fromJson(json["pageInfo"]),
+        pageInfo: json["pageInfo"] == null
+            ? null
+            : PageInfo.fromJson(json["pageInfo"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,7 +36,7 @@ class AllEmployeesListResponse {
         "response": response == null
             ? null
             : List<dynamic>.from(response!.map((x) => x.toJson())),
-        "pageInfo": pageInfo.toJson(),
+        "pageInfo": pageInfo!.toJson(),
       };
 }
 
