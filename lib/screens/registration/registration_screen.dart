@@ -373,9 +373,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       const SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-                          // Navigator.pop(context);
-
-                          print(tenantId);
+                          Navigator.pop(context);
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,

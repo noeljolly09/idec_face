@@ -55,7 +55,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
         liveVideoStream: false);
 
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
-        allEmployeesListRequest, ref.watch(loginNotifier).tenantId.toString());
+        allEmployeesListRequest, "5df380f38baa86fc4ae24264");
   }
 
   @override
@@ -134,7 +134,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                         employeeIndex: index),
                                   ));
                             },
-                            child:  Slidable(
+                            child: Slidable(
                               key: ValueKey(index),
                               // startActionPane: ActionPane(
                               //   // A motion is a widget used to control how the pane animates.
@@ -218,18 +218,23 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
 
         if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
           for (var element in peopleProfileInfoResponse.data!.response!) {
-            /*     pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
+            pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
               empId: element.empId,
               email: element.email,
               fullName: element.fullName,
-              bloodGroup: element.personal!.bloodGroup,
+              bloodGroup: element.personal == null
+                  ? null
+                  : element.personal!.bloodGroup,
               countryCode: element.phone!.countryCode,
-              dob: element.personal!.dob,
-              gender: element.personal!.gender,
-              nationality: element.personal!.nationality,
-              phoneNumber: element.phone!.number,
+              dob: element.personal == null ? null : element.personal!.dob,
+              gender:
+                  element.personal == null ? null : element.personal!.gender,
+              nationality: element.personal == null
+                  ? null
+                  : element.personal!.nationality,
+              phoneNumber: element.phone == null ? null : element.phone!.number,
               siteName: element.siteName,
-            )); */
+            ));
           }
 
           ref

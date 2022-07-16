@@ -6,10 +6,10 @@ import 'package:idec_face/constants.dart';
 import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
 
 class EmployeeCard extends StatelessWidget {
-  final int index;
-  final String employeeName;
-  final String employeeId;
-  final String siteName;
+  final int? index;
+  final String? employeeName;
+  final String? employeeId;
+  final String? siteName;
 
   const EmployeeCard({
     Key? key,
@@ -42,7 +42,7 @@ class EmployeeCard extends StatelessWidget {
                     icon: const Icon(Icons.abc),
                     isIconNeeded: false,
                     isProfileName: false,
-                    textData: employeeId),
+                    textData: employeeId!),
               ],
             ),
             SizedBox(width: screenWidth(context, dividedBy: 15.28)),
@@ -54,7 +54,7 @@ class EmployeeCard extends StatelessWidget {
                     isIconNeeded: false,
                     isProfileName: true,
                     icon: const Icon(Icons.circle_notifications_rounded),
-                    textData: employeeName),
+                    textData: employeeName!),
                 const ProfileIconText(
                     isIconNeeded: false,
                     isProfileName: false,
@@ -64,7 +64,7 @@ class EmployeeCard extends StatelessWidget {
                     isIconNeeded: false,
                     isProfileName: false,
                     icon: const Icon(Icons.circle_notifications_rounded),
-                    textData: siteName),
+                    textData: siteName!),
               ],
             ),
             const Spacer(),

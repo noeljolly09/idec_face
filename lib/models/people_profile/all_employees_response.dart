@@ -225,12 +225,12 @@ class Response {
         "tradeId": tradeId,
         "email": email,
         "fullName": fullName,
-        //  "credentials": List<dynamic>.from(credentials!.map((x) => x.toJson())),
+        "credentials": List<dynamic>.from(credentials!.map((x) => x.toJson())),
         "roleName": roleName,
         "color": color,
         "roleType": roleType,
         "tradeName": tradeName,
-        // "supervisor": List<dynamic>.from(supervisor!.map((x) => x.toJson())),
+        "supervisor": List<dynamic>.from(supervisor!.map((x) => x.toJson())),
         "siteName": siteName,
         "siteId": siteId,
         "liveVideoStream": liveVideoStream,
@@ -505,20 +505,20 @@ class Personal {
     this.highestQualification,
   });
 
-  dynamic bloodGroup;
-  dynamic nationality;
-  dynamic dob;
-  dynamic maritalStatus;
-  dynamic gender;
-  dynamic highestQualification;
+  String? bloodGroup;
+  String? nationality;
+  String? dob;
+  String? maritalStatus;
+  String? gender;
+  String? highestQualification;
 
   factory Personal.fromJson(Map<String, dynamic> json) => Personal(
-        bloodGroup: json["bloodGroup"],
-        nationality: json["nationality"],
-        dob: json["dob"],
-        maritalStatus: json["maritalStatus"],
-        gender: json["gender"],
-        highestQualification: json["highestQualification"],
+        bloodGroup: json["bloodGroup"] as String?,
+        nationality: json["nationality"] as String?,
+        dob: json["dob"] as String?,
+        maritalStatus: json["maritalStatus"] as String?,
+        gender: json["gender"] as String?,
+        highestQualification: json["highestQualification"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
