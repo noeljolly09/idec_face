@@ -356,7 +356,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                         if (_domainController.text.isEmptyValidate.isNotEmpty ||
                             _fnameController.text.isEmptyValidate.isNotEmpty ||
                             _lnameController.text.isEmptyValidate.isNotEmpty ||
-                            _phoneController.text.isValidPhone.isNotEmpty ||
                             _emailController.text.isValidEmail.isNotEmpty ||
                             !_domainList.keys.contains(
                                 _domainController.text.trim().toUpperCase())) {
@@ -681,11 +680,10 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       context, '/', (route) => false);
                 },
                 title: "Registration",
-                message: registrationInfoResponse.data!.status == true
-                    ? registrationInfoResponse
+                message: registrationInfoResponse.data!.status == false
+                    ? registrationInfoResponse.data!.response!.error.toString()
+                    : registrationInfoResponse
                         .data!.payload!.emailInfo!.body!.value
-                        .toString()
-                    : registrationInfoResponse.data!.response!.error
                         .toString()),
           );
         } else {

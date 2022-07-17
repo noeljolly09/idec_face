@@ -164,6 +164,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DetailedProfileScreen(
+                                      employeeStatus: "enrolled",
                                         employeeIndex: index),
                                   ));
                             },
