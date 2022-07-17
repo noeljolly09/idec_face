@@ -13,8 +13,6 @@ import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/people_profile/providers/people_profile_notifier_provider.dart';
 
-import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
-
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
@@ -39,6 +37,9 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
   String currentTime = DateFormat.jm().format(DateTime.now());
   TextEditingController employeeNameController = TextEditingController();
   static const timestyle = TextStyle(fontSize: 10);
+
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: true);
 
   @override
   void initState() {

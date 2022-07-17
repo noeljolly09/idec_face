@@ -9,10 +9,11 @@ class PeopleProfileRepository {
   PeopleProfileRepository(this._serviceManager);
 
   Future<ServiceResponse<AllEmployeesListResponse?>> allEmployeesListAttributes(
-      AllEmployeesListRequest param, String tenantId) async {
+      AllEmployeesListRequest param, String tenantId,
+      {int page = 1}) async {
     try {
       final response = await _serviceManager.post(
-        '/api/people/employeeList/1',
+        '/api/people/employeeList/$page',
         param.toJson(),
         headers: {'tenantId': tenantId},
       );
@@ -26,4 +27,5 @@ class PeopleProfileRepository {
       return ServiceResponse.error(error.errorCode, error.message);
     }
   }
+ 
 }
