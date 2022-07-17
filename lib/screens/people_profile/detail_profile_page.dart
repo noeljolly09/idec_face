@@ -1,15 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/screens/people_profile/detailed_profile_pages/detailed_employee_profile.dart';
 import 'package:idec_face/screens/people_profile/detailed_profile_pages/mapping_page.dart';
 
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 class DetailedProfileScreen extends StatefulWidget {
   final int employeeIndex;
+  final String employeeStatus;
   const DetailedProfileScreen({
     Key? key,
     required this.employeeIndex,
+    required this.employeeStatus,
   }) : super(key: key);
 
   @override
@@ -17,61 +20,17 @@ class DetailedProfileScreen extends StatefulWidget {
 }
 
 class _DetailedProfileScreenState extends State<DetailedProfileScreen> {
-  final controller = PageController();
-
-  final appbartitle = ["Profile", "Mapping"];
-
-  int isPageChanged = 0;
   @override
   Widget build(BuildContext context) {
-    double height68 = MediaQuery.of(context).size.height / 12.06;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppConstants.primaryColor,
-          title: Text(appbartitle[isPageChanged]),
+          title: const Text("Profile"),
         ),
-        body: PageView(
-          controller: controller,
-          onPageChanged: (index) {
-            setState(() {
-              isPageChanged = index;
-            });
-          },
-          children: [
-            DetailedEmployeeProfilePage(
-              employeeIndex: widget.employeeIndex,
-            ),
-            MappingPage(employeeMappingIndex: widget.employeeIndex),
-          ],
-        ),
-        bottomSheet: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          height: height68,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(2),
-          child: Column(
-            children: [
-              Center(
-                child: SmoothPageIndicator(
-                  controller: controller,
-                  count: 2,
-                  axisDirection: Axis.horizontal,
-                  effect: const WormEffect(
-                    dotWidth: 10,
-                    dotHeight: 10,
-                    activeDotColor: AppConstants.primaryColor,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Close'),
-              )
-            ],
-          ),
+        body: DetailedEmployeeProfilePage(
+          employeeStatus: widget.employeeStatus,
+          employeeIndex: widget.employeeIndex,
         ),
       ),
     );

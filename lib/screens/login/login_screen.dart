@@ -330,6 +330,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ));
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {
           _licenseAttributes();
         } else {
@@ -339,7 +340,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-              afterSuccess: () {},
+              afterSuccess: () {
+                Navigator.pop(context);
+              },
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },

@@ -22,7 +22,9 @@ class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
         clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
-          SvgPicture.asset('assets/svg/User_big.svg'),
+          image == null
+              ? SvgPicture.asset('assets/svg/User_big.svg')
+              : Image.network(image),
           Positioned(
               top: -10,
               right: -5,
