@@ -26,19 +26,26 @@ class MyDrawer extends ConsumerStatefulWidget {
 }
 
 class _MyDrawerState extends ConsumerState<MyDrawer> {
-  void _getLogoutAttributes() {
-    final logoutRequest =
-        LogoutRequest(userName: ref.watch(loginNotifier).username);
-
-    ref.read(logoutInfoNotifierProvider.notifier).getlogoutattributes(
-        logoutRequest, ref.watch(loginNotifier).tenantId.toString());
-  }
+  String name = "";
+  String domain = "";
 
   @override
   void initState() {
     super.initState();
     final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    print(response);
+    name = response.response!.first.employees!.name!.first!;
+    domain = response.response!.first.tenants!.domain!;
+  }
+
+  void _getLogoutAttributes() {
+    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
+    final userName = response.response!.first.userName;
+    final tenantId = response.response!.first.tenants!.id;
+    final logoutRequest = LogoutRequest(userName: userName);
+
+    ref
+        .read(logoutInfoNotifierProvider.notifier)
+        .getlogoutattributes(logoutRequest, tenantId!);
   }
 
   @override
@@ -62,14 +69,14 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   margin: const EdgeInsets.only(bottom: 0.0),
                   currentAccountPicture: const ProfilePhotoDrawer(),
                   accountName: Text(
-                    ref.watch(loginNotifier).fName.toString().toUpperCase(),
+                    name.toUpperCase(),
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                     ),
                   ),
                   accountEmail: Text(
-                    ref.watch(loginNotifier).domain.toString().toUpperCase(),
+                    domain.toUpperCase(),
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),

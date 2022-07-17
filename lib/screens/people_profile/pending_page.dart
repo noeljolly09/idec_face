@@ -20,6 +20,8 @@ import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
 
+import '../../utility/shared_pref/provider/shared_pref_provider.dart';
+
 class PendingEmployeePage extends ConsumerStatefulWidget {
   const PendingEmployeePage({Key? key}) : super(key: key);
 
@@ -50,6 +52,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
   }
 
   void _getAllEmployeesDetails() {
+    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
+
+    final tenantId = response.response!.first.tenants!.id;
     final allEmployeesListRequest = AllEmployeesListRequest(
       siteId: null,
       gamificationStatus: false,
@@ -65,8 +70,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           : employeeNameController.text,
     );
 
-    ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
-        allEmployeesListRequest, ref.watch(loginNotifier).tenantId.toString());
+    ref
+        .read(peopleProfileNotifierProvider.notifier)
+        .allEmployeesListAttributes(allEmployeesListRequest, tenantId!);
   }
 
   @override

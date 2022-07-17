@@ -650,93 +650,109 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   initRegistrationListeners(ConnectionStatus networkStatus) {
-    ref.listen(registrationInfoNotifierProvider, (previous, next) {
-      final registrationInfoResponse =
-          next as ServiceResponse<RegistrationResponse?>;
-      if (registrationInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            builder: (context) => const Center(
-                  child: SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ),
-                ));
-      } else if (registrationInfoResponse.status == ServiceStatus.completed) {
-        ref.read(imageNotifier).updateImage(image: null);
-        Navigator.pop(context);
-        if (registrationInfoResponse.data!.status = true) {
+    try {
+      ref.listen(registrationInfoNotifierProvider, (previous, next) {
+        final registrationInfoResponse =
+            next as ServiceResponse<RegistrationResponse?>;
+        if (registrationInfoResponse.status == ServiceStatus.loading) {
           showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
+              context: context,
+              builder: (context) => const Center(
+                    child: SpinKitCircle(
+                      color: AppConstants.primaryColor,
+                    ),
+                  ));
+        } else if (registrationInfoResponse.status == ServiceStatus.completed) {
+          ref.read(imageNotifier).updateImage(image: null);
+          Navigator.pop(context);
+          if (registrationInfoResponse.data!.status == true) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
+                  isTimerActivated: true,
+                  isCancelButtonVisible: false,
+                  afterSuccess: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (route) => false);
+                  },
+                  onPressedBttn1: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (route) => false);
+                  },
+                  title: "Registration",
+                  message: registrationInfoResponse
+                      .data!.payload!.emailInfo!.body!.value
+                      .toString()),
+            );
+          } else {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
                 isTimerActivated: true,
                 isCancelButtonVisible: false,
-                afterSuccess: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/', (route) => false);
-                },
+                afterSuccess: () {},
                 onPressedBttn1: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/', (route) => false);
+                  Navigator.of(context).pop(false);
                 },
-                title: "Registration",
-                message: registrationInfoResponse.data!.status == false
-                    ? registrationInfoResponse.data!.response!.error.toString()
-                    : registrationInfoResponse
-                        .data!.payload!.emailInfo!.body!.value
-                        .toString()),
-          );
-        } else {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Validation Error",
-              message: "Required field is left empty.",
-            ),
-          );
+                title: "Validation Error",
+                message:
+                    registrationInfoResponse.data!.response!.error.toString(),
+              ),
+            );
+          }
+        } else if (registrationInfoResponse.status == ServiceStatus.error) {
+          ref.read(registrationNotifier).updateConfigState(value: false);
+          if (networkStatus == ConnectionStatus.offline) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
+                isTimerActivated: true,
+                isCancelButtonVisible: false,
+                afterSuccess: () {},
+                onPressedBttn1: () {
+                  Navigator.of(context).pop(false);
+                },
+                title: "Error",
+                message: "No Internet Connectivity",
+              ),
+            );
+          } else {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
+                isTimerActivated: true,
+                isCancelButtonVisible: false,
+                afterSuccess: () {},
+                onPressedBttn1: () {
+                  Navigator.of(context).pop(false);
+                },
+                title: "Error",
+                message: "Something went wrong",
+              ),
+            );
+          }
         }
-      } else if (registrationInfoResponse.status == ServiceStatus.error) {
-        ref.read(registrationNotifier).updateConfigState(value: false);
-        if (networkStatus == ConnectionStatus.offline) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Error",
-              message: "No Internet Connectivity",
-            ),
-          );
-        } else {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Error",
-              message: "Something went wrong",
-            ),
-          );
-        }
-      }
-    });
+      });
+    } catch (e) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => InfoDialogWithTimer(
+          isTimerActivated: true,
+          isCancelButtonVisible: false,
+          afterSuccess: () {},
+          onPressedBttn1: () {
+            Navigator.of(context).pop(false);
+          },
+          title: "Error",
+          message: "Something went wrong",
+        ),
+      );
+    }
   }
 
   initConfigListeners(ConnectionStatus networkStatus) {

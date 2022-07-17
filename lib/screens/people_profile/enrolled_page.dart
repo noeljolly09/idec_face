@@ -25,6 +25,8 @@ import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
 
+import '../../utility/shared_pref/provider/shared_pref_provider.dart';
+
 class EnrolledEmployeePage extends ConsumerStatefulWidget {
   const EnrolledEmployeePage({Key? key}) : super(key: key);
 
@@ -54,6 +56,10 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
   }
 
   void _getAllEmployeesDetails() {
+    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
+
+    final tenantId = response.response!.first.tenants!.id;
+    print(tenantId);
     final allEmployeesListRequest = AllEmployeesListRequest(
       siteId: null,
       gamificationStatus: false,
@@ -68,9 +74,10 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           ? null
           : employeeNameController.text,
     );
-
-    ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
-        allEmployeesListRequest, ref.watch(loginNotifier).tenantId.toString());
+    print(jsonEncode(allEmployeesListRequest));
+    ref
+        .read(peopleProfileNotifierProvider.notifier)
+        .allEmployeesListAttributes(allEmployeesListRequest, tenantId!);
   }
 
   @override
@@ -164,7 +171,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DetailedProfileScreen(
-                                      employeeStatus: "enrolled",
+                                        employeeStatus: "enrolled",
                                         employeeIndex: index),
                                   ));
                             },
