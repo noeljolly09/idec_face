@@ -20,6 +20,7 @@ import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
 import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../utility/app_info.dart';
+import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -369,6 +370,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ref.watch(loginNotifier).tenantId.toString());
           //
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+          ref.read(sharedPrefUtilityProvider).setLoggedInUser();
           Navigator.pushNamedAndRemoveUntil(
               context, "/navigation_bar", (route) => false);
         } else {

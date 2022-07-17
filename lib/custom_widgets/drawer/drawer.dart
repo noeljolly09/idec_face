@@ -15,6 +15,7 @@ import '../../constants.dart';
 import '../../screens/dashboard/notifier/dashboard_notifier.dart';
 import '../../screens/login/login_screen.dart';
 import '../../utility/app_info.dart';
+import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 import 'drawer_item.dart';
 
 class MyDrawer extends ConsumerStatefulWidget {
@@ -239,7 +240,7 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
       } else if (logoutInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (logoutInfoResponse.data!.status = true) {
-          print("logged out :" + ref.watch(loginNotifier).username!);
+          ref.read(sharedPrefUtilityProvider).resetPreference();
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const LoginPage()),

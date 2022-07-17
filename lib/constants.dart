@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class AppConstants {
   // strings
   static String appName = "Idec Face";
-
+  String prefKeyLoggedIn = 'prefLoggedIn';
   //app colors
   static const Color primaryColor = Color(0xFF006e74);
 

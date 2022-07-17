@@ -72,32 +72,34 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
   void _getPasswordResetAttributes() {
     String tenantId = "";
-    if (domainList.keys.contains(_domainController.text)) {
-      tenantId = domainList[_domainController.text.trim()]!;
-    }
-    var passwordResetRequest = PasswordResetRequest();
-    if (_optionsController.text.toLowerCase() == "username") {
-      passwordResetRequest = PasswordResetRequest(
-        userName: _valueController.text,
-      );
-    } else if (_optionsController.text.toLowerCase() == "employee id") {
-      passwordResetRequest = PasswordResetRequest(
-        empId: _valueController.text,
-      );
-    } else if (_optionsController.text.toLowerCase() == "email id") {
-      passwordResetRequest = PasswordResetRequest(
-        email: _valueController.text,
-      );
-    } else if (_optionsController.text.toLowerCase() == "phone number") {
-      passwordResetRequest = PasswordResetRequest(
-        phoneNumber: _valueController.text,
-      );
-    }
-    //
-    ref.read(passwordResetNotifierProvider.notifier).getPasswordResetAttributes(
-          passwordResetRequest,
-          "5df380f38baa86fc4ae24264",
+    if (domainList.keys.contains(_domainController.text.trim().toUpperCase())) {
+      tenantId = domainList[_domainController.text.trim().toUpperCase()]!;
+      var passwordResetRequest = PasswordResetRequest();
+      if (_optionsController.text.toLowerCase() == "username") {
+        passwordResetRequest = PasswordResetRequest(
+          userName: _valueController.text,
         );
+      } else if (_optionsController.text.toLowerCase() == "employee id") {
+        passwordResetRequest = PasswordResetRequest(
+          empId: _valueController.text,
+        );
+      } else if (_optionsController.text.toLowerCase() == "email id") {
+        passwordResetRequest = PasswordResetRequest(
+          email: _valueController.text,
+        );
+      } else if (_optionsController.text.toLowerCase() == "phone number") {
+        passwordResetRequest = PasswordResetRequest(
+          phoneNumber: _valueController.text,
+        );
+      }
+
+      ref
+          .read(passwordResetNotifierProvider.notifier)
+          .getPasswordResetAttributes(
+            passwordResetRequest,
+            tenantId,
+          );
+    }
   }
 
   @override
@@ -171,6 +173,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Domain name required';
+                                  } else if (!domainList.keys
+                                      .contains(value.trim().toUpperCase())) {
+                                    return "Invalid domain";
                                   } else {
                                     return null;
                                   }
@@ -339,7 +344,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           List<ClientDetailsModel> _list = [];
           for (var item in clientsInfoResponse.data!.response!.response!) {
-            domainList[item.domain!] = item.id!;
+            domainList[item.domain!.trim().toUpperCase()] = item.id!;
           }
 
           ref.read(registrationNotifier).updatelistofClients(value: _list);
@@ -387,11 +392,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               title: "Password Reset",
               afterSuccess: () {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, '/', (route) => false);
+                    context, '/login', (route) => false);
               },
               onPressedBttn1: () {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, '/', (route) => false);
+                    context, '/login', (route) => false);
               },
               message: passwordResetResponse.data!.response!.message.toString(),
             ),
