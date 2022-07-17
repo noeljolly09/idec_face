@@ -22,6 +22,7 @@ import 'package:idec_face/screens/people_profile/widgets/people_profile/employee
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 
@@ -38,8 +39,58 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
   TextEditingController employeeNameController = TextEditingController();
   static const timestyle = TextStyle(fontSize: 10);
 
-  final RefreshController refreshController =
-      RefreshController(initialRefresh: true);
+  // int currentPage = 1;
+  // late int totalPages;
+
+  // List<EmployeeDetailsFetchedFromApi>? employeeDetails = [];
+
+  // final RefreshController refreshController =
+  //     RefreshController(initialRefresh: true);
+
+  // getEmployeeDetails({isRefreshed = false}) async {
+  //   if (isRefreshed) {
+  //     currentPage = 1;
+  //   } else {
+  //     if (currentPage >= totalPages) {
+  //       refreshController.loadNoData();
+  //       return false;
+  //     }
+  //   }
+
+  //   final response = ref.watch(sharedPrefUtilityProvider).getLoggedInUser()!;
+  //   final tenantId = response.response!.first.tenants!.id;
+  //   final pageResponse = ref.watch(peopleProfileNotifier).pageDetails;
+
+  //   final allEmployeesListRequest = AllEmployeesListRequest(
+  //     siteId: null,
+  //     gamificationStatus: false,
+  //     contractorId: null,
+  //     tradeId: null,
+  //     roleId: null,
+  //     unallocated: null,
+  //     direct: false,
+  //     tabType: "active",
+  //     liveVideoStream: false,
+  //     empName: employeeNameController.text.isEmpty
+  //         ? null
+  //         : employeeNameController.text,
+  //   );
+  //   ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
+  //       allEmployeesListRequest, tenantId!,
+  //       page: currentPage);
+  //   //
+
+  //   ref.listen(peopleProfileNotifierProvider, (previous, next) {
+  //     final peopleProfileInfoResponse =
+  //         next as ServiceResponse<AllEmployeesListResponse?>;
+
+  //     if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
+  //       if (isRefreshed) {
+  //         employeeDetails = peopleProfileInfoResponse.data;
+  //       }
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
@@ -58,9 +109,8 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
 
   void _getAllEmployeesDetails() {
     final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-
     final tenantId = response.response!.first.tenants!.id;
-    print(tenantId);
+
     final allEmployeesListRequest = AllEmployeesListRequest(
       siteId: null,
       gamificationStatus: false,
@@ -198,6 +248,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                 ],
                               ),
                               child: EmployeeCard(
+                                image: _employeeList[index].image,
                                 employeeName: _employeeList[index].fullName!,
                                 employeeId: _employeeList[index].empId!,
                                 siteName: _employeeList[index].siteName != null
@@ -241,6 +292,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
             employeeDetails.add(EmployeeDetailsFetchedFromApi(
               empId: element.empId,
               email: element.email,
+              image: element.image,
               fullName: element.fullName,
               bloodGroup: element.personal == null
                   ? null

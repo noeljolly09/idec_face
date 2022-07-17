@@ -45,10 +45,16 @@ class _DetailedEmployeeProfilePageState
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: screenHeight(context, dividedBy: 27.52)),
-        SvgPicture.asset(
-          'assets/svg/User_big.svg',
-          height: 80,
-        ),
+        employeeList[widget.employeeIndex].image == null
+            ? SvgPicture.asset(
+                'assets/svg/User_big.svg',
+                height: 80,
+              )
+            : Image.network(
+                employeeList[widget.employeeIndex].image!,
+                height: 80,
+                width: 80,
+              ),
         ProfileIconText(
             isExtraHeightNeeded: true,
             isIconNeeded: false,

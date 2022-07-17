@@ -27,5 +27,4 @@ class PeopleProfileRepository {
       return ServiceResponse.error(error.errorCode, error.message);
     }
   }
- 
 }

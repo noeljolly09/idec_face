@@ -10,6 +10,7 @@ class EmployeeCard extends StatelessWidget {
   final String? employeeName;
   final String? employeeId;
   final String? siteName;
+  final String? image;
 
   const EmployeeCard({
     Key? key,
@@ -17,6 +18,7 @@ class EmployeeCard extends StatelessWidget {
     required this.employeeName,
     required this.employeeId,
     required this.siteName,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -34,10 +36,16 @@ class EmployeeCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset(
-                  'assets/svg/User_big.svg',
-                  height: 80,
-                ),
+                image == null
+                    ? SvgPicture.asset(
+                        'assets/svg/User_big.svg',
+                        height: 80,
+                      )
+                    : Image.network(
+                        image!,
+                        width: 80,
+                        height: 80,
+                      ),
                 ProfileIconText(
                     icon: const Icon(Icons.abc),
                     isIconNeeded: false,

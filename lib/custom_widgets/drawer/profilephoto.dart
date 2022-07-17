@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
+import 'package:idec_face/utility/shared_pref/provider/shared_pref_provider.dart';
 
 class ProfilePhotoDrawer extends ConsumerStatefulWidget {
   const ProfilePhotoDrawer({Key? key}) : super(key: key);
@@ -13,7 +13,8 @@ class ProfilePhotoDrawer extends ConsumerStatefulWidget {
 class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
   @override
   Widget build(BuildContext context) {
-    String? image = ref.watch(loginNotifier).image;
+    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
+    String? image = response.response!.first.employees!.image;
     print(image);
     return SizedBox(
       height: 115,

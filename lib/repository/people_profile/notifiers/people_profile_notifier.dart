@@ -12,9 +12,8 @@ class PeopleProfileNotifier
       : super(ServiceResponse.none());
 
   Future<void> allEmployeesListAttributes(
-    AllEmployeesListRequest allEmployeesListRequest,
-    String tenantId,
-  ) async {
+      AllEmployeesListRequest allEmployeesListRequest, String tenantId,
+      {int page = 1}) async {
     state = ServiceResponse.loading('Loading...');
     final response = await _peopleProfileRepository.allEmployeesListAttributes(
       allEmployeesListRequest,

@@ -14,6 +14,7 @@ class EmployeeDetailsFetchedFromApi {
     this.email,
     this.fullName,
     this.siteName,
+    this.image,
     this.countryCode,
     this.phoneNumber,
     this.bloodGroup,
@@ -23,6 +24,7 @@ class EmployeeDetailsFetchedFromApi {
   });
 
   String? empId;
+  String? image;
   String? email;
   int? countryCode;
   int? phoneNumber;
@@ -37,6 +39,7 @@ class EmployeeDetailsFetchedFromApi {
       EmployeeDetailsFetchedFromApi(
         empId: json["empId"] as String?,
         email: json["email"] as String?,
+        image: json["image"] as String?,
         fullName: json["fullName"] as String?,
         siteName: json["siteName"] as String?,
         bloodGroup: json["bloodGroup"] as String?,
@@ -51,6 +54,7 @@ class EmployeeDetailsFetchedFromApi {
         "empId": empId,
         "email": email,
         "fullName": fullName,
+        "image": image,
         "siteName": siteName,
         "dob": dob,
         "gender": gender,
