@@ -13,8 +13,6 @@ import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/people_profile/providers/people_profile_notifier_provider.dart';
 
-import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
-
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
@@ -50,17 +48,18 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
       ref.read(peopleProfileNotifier).updateEmpFilterStatus(value: false);
       _getAllEmployeesDetails();
     });
+    print(_refreshController.initialRefresh);
   }
 
   @override
   void dispose() {
     employeeNameController.dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
   void _getAllEmployeesDetails() {
     final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-
     final tenantId = response.response!.first.tenants!.id;
     final allEmployeesListRequest = AllEmployeesListRequest(
       siteId: null,
@@ -94,135 +93,162 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
     return SafeArea(
       child: DefaultTabController(
         length: 3,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            backgroundColor: AppConstants.primaryColor,
-            title: const Text('Enrolled Employees'),
-            actions: [
-              Align(
-                  alignment: Alignment.bottomRight,
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Updated on: ",
-                        style: timestyle,
-                      ),
-                      Text(
-                        currentDate,
-                        style: TextStyle(
-                            fontFamily: AppConstants.forNumbersFont,
-                            fontSize: 10),
-                      ),
-                      const Text(
-                        ',',
-                        style: timestyle,
-                      ),
-                      Text(
-                        currentTime,
-                        style: TextStyle(
-                            fontFamily: AppConstants.forNumbersFont,
-                            fontSize: 10),
-                      ),
-                    ],
-                  ))
-            ],
-          ),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body:
-              // first tab bar view widget
-              Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(15),
-                color: Colors.white,
-                child: SearchInput(
-                  labelText: 'Employee',
-                  controller: employeeNameController,
-                  onTap: () {
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updateEmpFilterStatus(value: true);
-                    FocusScope.of(context).unfocus();
-                    _getAllEmployeesDetails();
-                  },
-                  onClear: () {
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updateEmpFilterStatus(value: false);
-                    employeeNameController.clear();
-                    FocusScope.of(context).unfocus();
-                    _getAllEmployeesDetails();
-                  },
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Scrollbar(
-                  thickness: 10,
-                  interactive: true,
-                  child: SmartRefresher(
-                    controller: _refreshController,
-                    enablePullDown: false,
-                    enablePullUp: true,
-                    onLoading: () {
+        child: WillPopScope(
+          onWillPop: () async {
+            _currentPage = 1;
+            employeeDetails = [];
+            ref.read(peopleProfileNotifier).updatelistOfAllEmployees(value: []);
+            return true;
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: AppConstants.primaryColor,
+              title: const Text('Enrolled Employees'),
+              actions: [
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Updated on: ",
+                          style: timestyle,
+                        ),
+                        Text(
+                          currentDate,
+                          style: TextStyle(
+                              fontFamily: AppConstants.forNumbersFont,
+                              fontSize: 10),
+                        ),
+                        const Text(
+                          ',',
+                          style: timestyle,
+                        ),
+                        Text(
+                          currentTime,
+                          style: TextStyle(
+                              fontFamily: AppConstants.forNumbersFont,
+                              fontSize: 10),
+                        ),
+                      ],
+                    ))
+              ],
+            ),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body:
+                // first tab bar view widget
+                Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(15),
+                  color: Colors.white,
+                  child: SearchInput(
+                    labelText: 'Employee',
+                    controller: employeeNameController,
+                    onTap: () {
+                      _currentPage = 1;
+                      employeeDetails = [];
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updatelistOfAllEmployees(value: []);
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updateEmpFilterStatus(value: true);
+                      FocusScope.of(context).unfocus();
                       _getAllEmployeesDetails();
                     },
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: _employeeList.length,
-                        itemBuilder: (context, index) {
-                          return SingleChildScrollView(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailedProfileScreen(
-                                              employeeStatus: "enrolled",
-                                              employeeIndex: index),
-                                    ));
-                              },
-                              child: Slidable(
-                                key: ValueKey(index),
-                                endActionPane: ActionPane(
-                                  extentRatio: 0.35,
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      flex: 2,
-                                      onPressed: (context) {
-                                        openMappingDialog(context,
-                                            "Generate User Credentials",
-                                            isAvailableNeeded: false);
-                                      },
-                                      backgroundColor: Colors.greenAccent,
-                                      foregroundColor: Colors.black,
-                                      label: 'Generate \n User\n Credentials',
-                                    ),
-                                  ],
-                                ),
-                                child: EmployeeCard(
-                                  employeeName: _employeeList[index].fullName!,
-                                  employeeId: _employeeList[index].empId!,
-                                  siteName:
-                                      _employeeList[index].siteName != null
-                                          ? _employeeList[index].siteName!
-                                          : "Trivandrum",
-                                  index: index,
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
+                    onClear: () {
+                      _currentPage = 1;
+                      employeeDetails = [];
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updatelistOfAllEmployees(value: []);
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updateEmpFilterStatus(value: false);
+                      employeeNameController.clear();
+                      FocusScope.of(context).unfocus();
+                      _getAllEmployeesDetails();
+                    },
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 5,
+                  child: Scrollbar(
+                    thickness: 10,
+                    interactive: true,
+                    child: SmartRefresher(
+                      controller: _refreshController,
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      onRefresh: () {
+                        _currentPage = 1;
+                        employeeDetails = [];
+                        _getAllEmployeesDetails();
+                        ref
+                            .read(peopleProfileNotifier)
+                            .updatelistOfAllEmployees(value: []);
+                      },
+                      onLoading: () {
+                        _getAllEmployeesDetails();
+                      },
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: _employeeList.length,
+                          itemBuilder: (context, index) {
+                            return SingleChildScrollView(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailedProfileScreen(
+                                                employeeStatus: "enrolled",
+                                                employeeIndex: index),
+                                      ));
+                                },
+                                child: Slidable(
+                                  key: ValueKey(index),
+                                  endActionPane: ActionPane(
+                                    extentRatio: 0.35,
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        flex: 2,
+                                        onPressed: (context) {
+                                          openMappingDialog(context,
+                                              "Generate User Credentials",
+                                              isAvailableNeeded: false);
+                                        },
+                                        backgroundColor: Colors.greenAccent,
+                                        foregroundColor: Colors.black,
+                                        label: 'Generate \n User\n Credentials',
+                                      ),
+                                    ],
+                                  ),
+                                  child: EmployeeCard(
+                                    employeeName:
+                                        _employeeList[index].fullName!,
+                                    employeeId: _employeeList[index].empId!,
+                                    siteName:
+                                        _employeeList[index].siteName != null
+                                            ? _employeeList[index].siteName!
+                                            : "Trivandrum",
+                                    index: index,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // second tab bar viiew widget
           ),
-          // second tab bar viiew widget
         ),
       ),
     );
@@ -265,23 +291,6 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                 .updatelistOfAllEmployees(value: employeeDetails);
           } else {
             _refreshController.loadNoData();
-            ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
-              value: [],
-            );
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => InfoDialogWithTimer(
-                isTimerActivated: true,
-                isCancelButtonVisible: false,
-                afterSuccess: () {},
-                onPressedBttn1: () {
-                  Navigator.of(context).pop(false);
-                },
-                title: "Info",
-                message: "No Employees found",
-              ),
-            );
           }
         } else {
           _refreshController.loadFailed();

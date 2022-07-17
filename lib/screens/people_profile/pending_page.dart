@@ -38,7 +38,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
   static const timestyle = TextStyle(fontSize: 10);
   final _refreshController = RefreshController();
   int _currentPage = 1;
-  List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
+  List<EmployeeDetailsFetchedFromApi> pendingEmployeeDetails = [];
   @override
   void initState() {
     super.initState();
@@ -51,6 +51,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
   @override
   void dispose() {
     employeeNameController.dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
@@ -92,87 +93,110 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
     return SafeArea(
       child: DefaultTabController(
         length: 3,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            backgroundColor: AppConstants.primaryColor,
-            title: const Text('Pending Employees'),
-            actions: [
-              Align(
-                  alignment: Alignment.bottomRight,
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Updated on: ",
-                        style: timestyle,
-                      ),
-                      Text(
-                        currentDate,
-                        style: TextStyle(
-                            fontFamily: AppConstants.forNumbersFont,
-                            fontSize: 10),
-                      ),
-                      const Text(
-                        ',',
-                        style: timestyle,
-                      ),
-                      Text(
-                        currentTime,
-                        style: TextStyle(
-                            fontFamily: AppConstants.forNumbersFont,
-                            fontSize: 10),
-                      ),
-                    ],
-                  ))
-            ],
-          ),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body:
-              // first tab bar view widget
-              Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(15),
-                color: Colors.white,
-                child: SearchInput(
-                  labelText: 'Employee',
-                  controller: employeeNameController,
-                  onTap: () {
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updateEmpFilterStatus(value: true);
-                    FocusScope.of(context).unfocus();
-                    _getAllEmployeesDetails();
-                  },
-                  onClear: () {
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updateEmpFilterStatus(value: false);
-                    employeeNameController.clear();
-                    FocusScope.of(context).unfocus();
-                    _getAllEmployeesDetails();
-                  },
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Scrollbar(
-                  thickness: 10,
-                  interactive: true,
-                  child: SmartRefresher(
-                    controller: _refreshController,
-                    enablePullDown: false,
-                    enablePullUp: true,
-                    onLoading: () {
+        child: WillPopScope(
+          onWillPop: () async {
+            _currentPage = 1;
+            pendingEmployeeDetails = [];
+            ref
+                .read(peopleProfileNotifier)
+                .updatelistOfPendingEmployees(value: []);
+            return true;
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: AppConstants.primaryColor,
+              title: const Text('Pending Employees'),
+              actions: [
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Updated on: ",
+                          style: timestyle,
+                        ),
+                        Text(
+                          currentDate,
+                          style: TextStyle(
+                              fontFamily: AppConstants.forNumbersFont,
+                              fontSize: 10),
+                        ),
+                        const Text(
+                          ',',
+                          style: timestyle,
+                        ),
+                        Text(
+                          currentTime,
+                          style: TextStyle(
+                              fontFamily: AppConstants.forNumbersFont,
+                              fontSize: 10),
+                        ),
+                      ],
+                    ))
+              ],
+            ),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body:
+                // first tab bar view widget
+                Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(15),
+                  color: Colors.white,
+                  child: SearchInput(
+                    labelText: 'Employee',
+                    controller: employeeNameController,
+                    onTap: () {
+                      _currentPage = 1;
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updateEmpFilterStatus(value: true);
+                      pendingEmployeeDetails = [];
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updatelistOfPendingEmployees(value: []);
+                      FocusScope.of(context).unfocus();
                       _getAllEmployeesDetails();
                     },
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: _employeeList.length,
-                        itemBuilder: (context, index) {
-                          return SingleChildScrollView(
-                            child: InkWell(
+                    onClear: () {
+                      _currentPage = 1;
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updateEmpFilterStatus(value: false);
+                      employeeNameController.clear();
+                      FocusScope.of(context).unfocus();
+                      _getAllEmployeesDetails();
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 5,
+                  child: Scrollbar(
+                    thickness: 10,
+                    interactive: true,
+                    child: SmartRefresher(
+                      controller: _refreshController,
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      onRefresh: () {
+                        _currentPage = 1;
+                        _getAllEmployeesDetails();
+                        pendingEmployeeDetails = [];
+                        ref
+                            .read(peopleProfileNotifier)
+                            .updatelistOfPendingEmployees(value: []);
+                      },
+                      onLoading: () {
+                        _getAllEmployeesDetails();
+                      },
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: _employeeList.length,
+                          itemBuilder: (context, index) {
+                            return SingleChildScrollView(
+                                child: InkWell(
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -204,6 +228,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                   ],
                                 ),
                                 child: EmployeeCard(
+                                  image: _employeeList[index].image,
                                   employeeName: _employeeList[index].fullName!,
                                   employeeId: _employeeList[index].empId!,
                                   siteName:
@@ -213,15 +238,14 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                   index: index,
                                 ),
                               ),
-                            ),
-                          );
-                        }),
+                            ));
+                          }),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          // second tab bar viiew widget
         ),
       ),
     );
@@ -231,17 +255,18 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
     ref.listen(peopleProfileNotifierProvider, (previous, next) {
       final peopleProfileInfoResponse =
           next as ServiceResponse<AllEmployeesListResponse?>;
-      if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
-      } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
+      if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         _refreshController.refreshCompleted();
-        List<EmployeeDetailsFetchedFromApi> pendingEmployeeDetails = [];
+
         if (peopleProfileInfoResponse.data!.status) {
           if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
             _refreshController.loadComplete();
+            _currentPage += 1;
             for (var element in peopleProfileInfoResponse.data!.response!) {
               pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
                 empId: element.empId,
                 email: element.email,
+                image: element.image,
                 fullName: element.fullName,
                 bloodGroup: element.personal == null
                     ? null
@@ -258,29 +283,11 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                 siteName: element.siteName,
               ));
             }
-
             ref
                 .read(peopleProfileNotifier)
                 .updatelistOfPendingEmployees(value: pendingEmployeeDetails);
           } else {
             _refreshController.loadNoData();
-            ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
-              value: [],
-            );
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => InfoDialogWithTimer(
-                isTimerActivated: true,
-                isCancelButtonVisible: false,
-                afterSuccess: () {},
-                onPressedBttn1: () {
-                  Navigator.of(context).pop(false);
-                },
-                title: "Info",
-                message: "No Employees found",
-              ),
-            );
           }
         } else {
           _refreshController.loadFailed();

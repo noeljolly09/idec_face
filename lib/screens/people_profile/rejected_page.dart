@@ -217,6 +217,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                                 ],
                               ),
                               child: EmployeeCard(
+                                image: _employeeList[index].image,
                                 employeeName: _employeeList[index].fullName!,
                                 employeeId: _employeeList[index].empId!,
                                 siteName: _employeeList[index].siteName != null
@@ -259,6 +260,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
               empId: element.empId,
               email: element.email,
               fullName: element.fullName,
+              image: element.image,
               bloodGroup: element.personal == null
                   ? null
                   : element.personal!.bloodGroup,
