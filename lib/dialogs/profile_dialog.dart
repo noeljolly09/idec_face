@@ -17,7 +17,7 @@ openMappingDialog(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           content: SizedBox(
-            height: 400,
+            height: 450,
             child: Column(
               children: [
                 Center(

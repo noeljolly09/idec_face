@@ -226,6 +226,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                     ],
                                   ),
                                   child: EmployeeCard(
+                                    image: _employeeList[index].image,
                                     employeeName:
                                         _employeeList[index].fullName!,
                                     employeeId: _employeeList[index].empId!,
@@ -267,6 +268,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
               employeeDetails.add(EmployeeDetailsFetchedFromApi(
                 empId: element.empId,
                 email: element.email,
+                image: element.image,
                 fullName: element.fullName,
                 bloodGroup: element.personal == null
                     ? null
