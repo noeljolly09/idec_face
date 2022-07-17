@@ -22,7 +22,6 @@ import 'package:idec_face/screens/people_profile/widgets/people_profile/employee
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 
