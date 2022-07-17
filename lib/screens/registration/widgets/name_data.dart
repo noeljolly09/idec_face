@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:idec_face/repository/media_repository/providers/media_notifier_provider.dart';
 import 'package:idec_face/screens/registration/notifiers/media_state_notifier/media_upload_notifier.dart';
 
 import '../../../constants.dart';

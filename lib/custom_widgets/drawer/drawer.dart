@@ -6,7 +6,6 @@ import 'package:idec_face/models/logout/logout_request.dart';
 import 'package:idec_face/models/logout/logout_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/logout_repository/providers/logout_info_notifier_provider.dart';
-import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:url_launcher/url_launcher.dart';

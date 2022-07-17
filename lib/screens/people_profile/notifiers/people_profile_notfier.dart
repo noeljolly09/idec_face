@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 
 class PeopleProfileNotifier extends ChangeNotifier {
