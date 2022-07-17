@@ -19,6 +19,7 @@ import 'package:idec_face/screens/people_profile/widgets/people_profile/employee
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 
@@ -35,7 +36,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
 
   TextEditingController employeeNameController = TextEditingController();
   static const timestyle = TextStyle(fontSize: 10);
-
+  final _refreshController = RefreshController();
+  int _currentPage = 1;
+  List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
   @override
   void initState() {
     super.initState();
@@ -70,9 +73,11 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           : employeeNameController.text,
     );
 
-    ref
-        .read(peopleProfileNotifierProvider.notifier)
-        .allEmployeesListAttributes(allEmployeesListRequest, tenantId!);
+    ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
+          allEmployeesListRequest,
+          tenantId!,
+          pageNumber: _currentPage,
+        );
   }
 
   @override
@@ -154,76 +159,64 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                 child: Scrollbar(
                   thickness: 10,
                   interactive: true,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: _employeeList.length,
-                      itemBuilder: (context, index) {
-                        return SingleChildScrollView(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailedProfileScreen(
-                                        employeeStatus: "pending",
-                                        employeeIndex: index),
-                                  ));
-                            },
-                            child: Slidable(
-                              key: ValueKey(index),
-                              // startActionPane: ActionPane(
-                              //   // A motion is a widget used to control how the pane animates.
-                              //   motion: const ScrollMotion(),
+                  child: SmartRefresher(
+                    controller: _refreshController,
+                    enablePullDown: false,
+                    enablePullUp: true,
+                    onLoading: () {
+                      _getAllEmployeesDetails();
+                    },
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: _employeeList.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailedProfileScreen(
+                                              employeeStatus: "pending",
+                                              employeeIndex: index),
+                                    ));
+                              },
+                              child: Slidable(
+                                key: ValueKey(index),
+                                endActionPane: ActionPane(
+                                  extentRatio: 0.35,
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      // An action can be bigger than the others.
+                                      flex: 2,
+                                      onPressed: (context) {
+                                        doNothing(context,
+                                            "Approval Procedure on Progress");
+                                      },
+                                      backgroundColor: Colors.greenAccent,
+                                      foregroundColor: Colors.black,
 
-                              //   // A pane can dismiss the Slidable.
-                              //   dismissible:
-                              //       DismissiblePane(onDismissed: () {}),
-
-                              //   // All actions are defined in the children parameter.
-                              //   children: [
-                              //     // A SlidableAction can have an icon and/or a label.
-                              //     SlidableAction(
-                              //       onPressed: openMappingDialog(
-                              //           context, "Generate User Credentials"),
-                              //       backgroundColor: const Color(0xFFFE4A49),
-                              //       foregroundColor: Colors.white,
-                              //       icon: Icons.delete,
-                              //       label: 'Delete',
-                              //     ),
-                              //   ],
-                              // ),
-                              endActionPane: ActionPane(
-                                extentRatio: 0.35,
-                                motion: const ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    // An action can be bigger than the others.
-                                    flex: 2,
-                                    onPressed: (context) {
-                                      doNothing(context,
-                                          "Approval Procedure on Progress");
-                                    },
-                                    backgroundColor: Colors.greenAccent,
-                                    foregroundColor: Colors.black,
-
-                                    label: 'Approve \nEmployee',
-                                  ),
-                                ],
-                              ),
-
-                              child: EmployeeCard(
-                                employeeName: _employeeList[index].fullName!,
-                                employeeId: _employeeList[index].empId!,
-                                siteName: _employeeList[index].siteName != null
-                                    ? _employeeList[index].siteName!
-                                    : "Trivandrum",
-                                index: index,
+                                      label: 'Approve \nEmployee',
+                                    ),
+                                  ],
+                                ),
+                                child: EmployeeCard(
+                                  employeeName: _employeeList[index].fullName!,
+                                  employeeId: _employeeList[index].empId!,
+                                  siteName:
+                                      _employeeList[index].siteName != null
+                                          ? _employeeList[index].siteName!
+                                          : "Trivandrum",
+                                  index: index,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
+                  ),
                 ),
               ),
             ],
@@ -239,63 +232,61 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
       final peopleProfileInfoResponse =
           next as ServiceResponse<AllEmployeesListResponse?>;
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            builder: (context) => const Center(
-                  child: SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ),
-                ));
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
-        Navigator.pop(context);
-
+        _refreshController.refreshCompleted();
         List<EmployeeDetailsFetchedFromApi> pendingEmployeeDetails = [];
+        if (peopleProfileInfoResponse.data!.status) {
+          if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
+            _refreshController.loadComplete();
+            for (var element in peopleProfileInfoResponse.data!.response!) {
+              pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
+                empId: element.empId,
+                email: element.email,
+                fullName: element.fullName,
+                bloodGroup: element.personal == null
+                    ? null
+                    : element.personal!.bloodGroup,
+                countryCode: element.phone!.countryCode,
+                dob: element.personal == null ? null : element.personal!.dob,
+                gender:
+                    element.personal == null ? null : element.personal!.gender,
+                nationality: element.personal == null
+                    ? null
+                    : element.personal!.nationality,
+                phoneNumber:
+                    element.phone == null ? null : element.phone!.number,
+                siteName: element.siteName,
+              ));
+            }
 
-        if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
-          for (var element in peopleProfileInfoResponse.data!.response!) {
-            pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
-              empId: element.empId,
-              email: element.email,
-              fullName: element.fullName,
-              bloodGroup: element.personal == null
-                  ? null
-                  : element.personal!.bloodGroup,
-              countryCode: element.phone!.countryCode,
-              dob: element.personal == null ? null : element.personal!.dob,
-              gender:
-                  element.personal == null ? null : element.personal!.gender,
-              nationality: element.personal == null
-                  ? null
-                  : element.personal!.nationality,
-              phoneNumber: element.phone == null ? null : element.phone!.number,
-              siteName: element.siteName,
-            ));
+            ref
+                .read(peopleProfileNotifier)
+                .updatelistOfPendingEmployees(value: pendingEmployeeDetails);
+          } else {
+            _refreshController.loadNoData();
+            ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
+              value: [],
+            );
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
+                isTimerActivated: true,
+                isCancelButtonVisible: false,
+                afterSuccess: () {},
+                onPressedBttn1: () {
+                  Navigator.of(context).pop(false);
+                },
+                title: "Info",
+                message: "No Employees found",
+              ),
+            );
           }
-
-          ref
-              .read(peopleProfileNotifier)
-              .updatelistOfPendingEmployees(value: pendingEmployeeDetails);
         } else {
-          ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
-            value: [],
-          );
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Info",
-              message: "No Employees found",
-            ),
-          );
+          _refreshController.loadFailed();
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
-        Navigator.pop(context);
+        _refreshController.loadFailed();
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,

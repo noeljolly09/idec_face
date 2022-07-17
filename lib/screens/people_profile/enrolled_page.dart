@@ -24,6 +24,7 @@ import 'package:idec_face/screens/people_profile/widgets/people_profile/employee
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 
@@ -39,7 +40,9 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
   String currentTime = DateFormat.jm().format(DateTime.now());
   TextEditingController employeeNameController = TextEditingController();
   static const timestyle = TextStyle(fontSize: 10);
-
+  final _refreshController = RefreshController();
+  int _currentPage = 1;
+  List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
   @override
   void initState() {
     super.initState();
@@ -59,7 +62,6 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
     final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
 
     final tenantId = response.response!.first.tenants!.id;
-    print(tenantId);
     final allEmployeesListRequest = AllEmployeesListRequest(
       siteId: null,
       gamificationStatus: false,
@@ -74,21 +76,21 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           ? null
           : employeeNameController.text,
     );
-    print(jsonEncode(allEmployeesListRequest));
-    ref
-        .read(peopleProfileNotifierProvider.notifier)
-        .allEmployeesListAttributes(allEmployeesListRequest, tenantId!);
+    ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
+          allEmployeesListRequest,
+          tenantId!,
+          pageNumber: _currentPage,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    //
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initPeopleProfileListeners(networkStatus);
 
     List<EmployeeDetailsFetchedFromApi> _employeeList =
         ref.watch(peopleProfileNotifier).listOfAllEmployees;
-    //
+
     return SafeArea(
       child: DefaultTabController(
         length: 3,
@@ -159,55 +161,63 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                 child: Scrollbar(
                   thickness: 10,
                   interactive: true,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: _employeeList.length,
-                      itemBuilder: (context, index) {
-                        return SingleChildScrollView(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailedProfileScreen(
-                                        employeeStatus: "enrolled",
-                                        employeeIndex: index),
-                                  ));
-                            },
-                            child: Slidable(
-                              key: ValueKey(index),
-                              endActionPane: ActionPane(
-                                extentRatio: 0.35,
-                                motion: const ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    // An action can be bigger than the others.
-                                    flex: 2,
-                                    onPressed: (context) {
-                                      openMappingDialog(
-                                          context, "Generate User Credentials",
-                                          isAvailableNeeded: false);
-                                    },
-                                    backgroundColor: Colors.greenAccent,
-                                    foregroundColor: Colors.black,
-
-                                    label: 'Generate \n User\n Credentials',
-                                  ),
-                                ],
-                              ),
-                              child: EmployeeCard(
-                                employeeName: _employeeList[index].fullName!,
-                                employeeId: _employeeList[index].empId!,
-                                siteName: _employeeList[index].siteName != null
-                                    ? _employeeList[index].siteName!
-                                    : "Trivandrum",
-                                index: index,
+                  child: SmartRefresher(
+                    controller: _refreshController,
+                    enablePullDown: false,
+                    enablePullUp: true,
+                    onLoading: () {
+                      _getAllEmployeesDetails();
+                    },
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: _employeeList.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailedProfileScreen(
+                                              employeeStatus: "enrolled",
+                                              employeeIndex: index),
+                                    ));
+                              },
+                              child: Slidable(
+                                key: ValueKey(index),
+                                endActionPane: ActionPane(
+                                  extentRatio: 0.35,
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      flex: 2,
+                                      onPressed: (context) {
+                                        openMappingDialog(context,
+                                            "Generate User Credentials",
+                                            isAvailableNeeded: false);
+                                      },
+                                      backgroundColor: Colors.greenAccent,
+                                      foregroundColor: Colors.black,
+                                      label: 'Generate \n User\n Credentials',
+                                    ),
+                                  ],
+                                ),
+                                child: EmployeeCard(
+                                  employeeName: _employeeList[index].fullName!,
+                                  employeeId: _employeeList[index].empId!,
+                                  siteName:
+                                      _employeeList[index].siteName != null
+                                          ? _employeeList[index].siteName!
+                                          : "Trivandrum",
+                                  index: index,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
+                  ),
                 ),
               ),
             ],
@@ -224,74 +234,60 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           next as ServiceResponse<AllEmployeesListResponse?>;
 
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            builder: (context) => const Center(
-                  child: SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ),
-                ));
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
-        Navigator.pop(context);
-        List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
-
-        if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
-          for (var element in peopleProfileInfoResponse.data!.response!) {
-            employeeDetails.add(EmployeeDetailsFetchedFromApi(
-              empId: element.empId,
-              email: element.email,
-              fullName: element.fullName,
-              bloodGroup: element.personal == null
-                  ? null
-                  : element.personal!.bloodGroup,
-              countryCode: element.phone!.countryCode,
-              dob: element.personal == null ? null : element.personal!.dob,
-              gender:
-                  element.personal == null ? null : element.personal!.gender,
-              nationality: element.personal == null
-                  ? null
-                  : element.personal!.nationality,
-              phoneNumber: element.phone == null ? null : element.phone!.number,
-              siteName: element.siteName,
-            ));
+        _refreshController.refreshCompleted();
+        if (peopleProfileInfoResponse.data!.status) {
+          if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
+            _refreshController.loadComplete();
+            _currentPage += 1;
+            for (var element in peopleProfileInfoResponse.data!.response!) {
+              employeeDetails.add(EmployeeDetailsFetchedFromApi(
+                empId: element.empId,
+                email: element.email,
+                fullName: element.fullName,
+                bloodGroup: element.personal == null
+                    ? null
+                    : element.personal!.bloodGroup,
+                countryCode: element.phone!.countryCode,
+                dob: element.personal == null ? null : element.personal!.dob,
+                gender:
+                    element.personal == null ? null : element.personal!.gender,
+                nationality: element.personal == null
+                    ? null
+                    : element.personal!.nationality,
+                phoneNumber:
+                    element.phone == null ? null : element.phone!.number,
+                siteName: element.siteName,
+              ));
+            }
+            ref
+                .read(peopleProfileNotifier)
+                .updatelistOfAllEmployees(value: employeeDetails);
+          } else {
+            _refreshController.loadNoData();
+            ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
+              value: [],
+            );
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
+                isTimerActivated: true,
+                isCancelButtonVisible: false,
+                afterSuccess: () {},
+                onPressedBttn1: () {
+                  Navigator.of(context).pop(false);
+                },
+                title: "Info",
+                message: "No Employees found",
+              ),
+            );
           }
-          //
-          ref
-              .read(peopleProfileNotifier)
-              .updatelistOfAllEmployees(value: employeeDetails);
         } else {
-          ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
-            value: [],
-          );
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Info",
-              message: "No Employees found",
-            ),
-          );
+          _refreshController.loadFailed();
         }
-        //
-        final pageDetails = PageInfo(
-          currentPage: peopleProfileInfoResponse.data!.pageInfo!.currentPage,
-          endIndex: peopleProfileInfoResponse.data!.pageInfo!.endIndex,
-          pageCount: peopleProfileInfoResponse.data!.pageInfo!.pageCount,
-          pages: peopleProfileInfoResponse.data!.pageInfo!.pages,
-          startIndex: peopleProfileInfoResponse.data!.pageInfo!.pageCount,
-          totalItems: peopleProfileInfoResponse.data!.pageInfo!.totalItems,
-        );
-
-        ref.read(peopleProfileNotifier).updatePageDetials(value: pageDetails);
-        //
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
-        Navigator.pop(context);
+        _refreshController.loadFailed();
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,

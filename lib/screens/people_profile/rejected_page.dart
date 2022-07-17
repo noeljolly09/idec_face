@@ -19,6 +19,7 @@ import 'package:idec_face/screens/people_profile/widgets/people_profile/employee
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 
@@ -35,7 +36,9 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
 
   TextEditingController employeeNameController = TextEditingController();
   static const timestyle = TextStyle(fontSize: 10);
-
+  final _refreshController = RefreshController();
+  int _currentPage = 1;
+  List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
   @override
   void initState() {
     super.initState();
@@ -70,9 +73,11 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
           : employeeNameController.text,
     );
 
-    ref
-        .read(peopleProfileNotifierProvider.notifier)
-        .allEmployeesListAttributes(allEmployeesListRequest, tenantId!);
+    ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
+          allEmployeesListRequest,
+          tenantId!,
+          pageNumber: _currentPage,
+        );
   }
 
   @override

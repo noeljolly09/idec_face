@@ -201,6 +201,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           height: 50,
                           function: () {
                             if (formGlobalKey.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
                               _loginUserAttributes();
                             }
                           },

@@ -13,9 +13,6 @@ class PeopleProfileNotifier extends ChangeNotifier {
   List<EmployeeDetailsFetchedFromApi> get listOfPendingEmployees =>
       _listOfPendingEmployees;
 
-  PageInfo _pageDetails = PageInfo();
-  PageInfo get pageDetails => _pageDetails;
-
   List<EmployeeDetailsFetchedFromApi> _listOfRejcetedEmployees = [];
   List<EmployeeDetailsFetchedFromApi> get listOfRejectedEmployees =>
       _listOfRejcetedEmployees;
@@ -26,11 +23,6 @@ class PeopleProfileNotifier extends ChangeNotifier {
   void updatelistOfRejectedEmployees(
       {required List<EmployeeDetailsFetchedFromApi> value}) {
     _listOfRejcetedEmployees = value;
-    notifyListeners();
-  }
-
-  void updatePageDetials({required PageInfo value}) {
-    _pageDetails = value;
     notifyListeners();
   }
 
