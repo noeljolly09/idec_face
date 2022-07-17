@@ -35,6 +35,13 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
+    print(response);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final networkStatus = ref.read(connectivityNotifierProvider).status;
 

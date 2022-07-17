@@ -332,10 +332,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
         if (loginInfoResponse.data!.status == true) {
           _licenseAttributes();
-          ref
-              .read(loginNotifier)
-              .updateUsername(value: _usernameController.text);
-          ref.read(loginNotifier).updateDomain(value: _domainController.text);
         } else {
           showDialog(
             context: context,
@@ -397,19 +393,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (previlegeUserInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (previlegeUserInfoResponse.data!.status!) {
-          for (var element in previlegeUserInfoResponse.data!.response!) {
-            ref
-                .read(loginNotifier)
-                .updateImage(value: element.employees!.image.toString());
+          ref
+              .read(sharedPrefUtilityProvider)
+              .saveLoggedInUser(previlegeUserInfoResponse.data!);
 
-            ref
-                .read(loginNotifier)
-                .updateTenantId(value: element.tenants!.id.toString());
-
-            ref
-                .read(loginNotifier)
-                .updateFName(value: element.employees!.name!.first.toString());
-          }
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
           ref.read(sharedPrefUtilityProvider).setLoggedInUser();
           Navigator.pushNamedAndRemoveUntil(
