@@ -30,6 +30,9 @@ class ProfileIconText extends StatelessWidget {
         ),
         Text(
           textData,
+          overflow: TextOverflow.fade,
+          softWrap: true,
+          maxLines: 1,
           style: TextStyle(
               fontSize: isProfileName == true ? 21 : 16,
               fontWeight:

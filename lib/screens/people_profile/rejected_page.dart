@@ -38,12 +38,13 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
   static const timestyle = TextStyle(fontSize: 10);
   final _refreshController = RefreshController();
   int _currentPage = 1;
-  List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
+  List<EmployeeDetailsFetchedFromApi> rejectedEmployeeDetails = [];
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(peopleProfileNotifier).updateEmpFilterStatus(value: false);
+
       _getAllEmployeesDetails();
     });
   }
@@ -51,6 +52,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
   @override
   void dispose() {
     employeeNameController.dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
@@ -72,7 +74,6 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
           ? null
           : employeeNameController.text,
     );
-
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
           allEmployeesListRequest,
           tenantId!,
@@ -92,148 +93,162 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
     return SafeArea(
       child: DefaultTabController(
         length: 3,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            backgroundColor: AppConstants.primaryColor,
-            title: const Text('Rejected Employees'),
-            actions: [
-              Align(
-                  alignment: Alignment.bottomRight,
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Updated on: ",
-                        style: timestyle,
-                      ),
-                      Text(
-                        currentDate,
-                        style: TextStyle(
-                            fontFamily: AppConstants.forNumbersFont,
-                            fontSize: 10),
-                      ),
-                      const Text(
-                        ',',
-                        style: timestyle,
-                      ),
-                      Text(
-                        currentTime,
-                        style: TextStyle(
-                            fontFamily: AppConstants.forNumbersFont,
-                            fontSize: 10),
-                      ),
-                    ],
-                  ))
-            ],
-          ),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body:
-              // first tab bar view widget
-              Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(15),
-                color: Colors.white,
-                child: SearchInput(
-                  labelText: 'Employee',
-                  controller: employeeNameController,
-                  onTap: () {
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updateEmpFilterStatus(value: true);
-                    FocusScope.of(context).unfocus();
-                    _getAllEmployeesDetails();
-                  },
-                  onClear: () {
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updateEmpFilterStatus(value: false);
-                    employeeNameController.clear();
-                    FocusScope.of(context).unfocus();
-                    _getAllEmployeesDetails();
-                  },
+        child: WillPopScope(
+          onWillPop: () async {
+            _currentPage = 1;
+            rejectedEmployeeDetails = [];
+            ref
+                .read(peopleProfileNotifier)
+                .updatelistOfRejectedEmployees(value: []);
+            return true;
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: AppConstants.primaryColor,
+              title: const Text('Rejected Employees'),
+              actions: [
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Updated on: ",
+                          style: timestyle,
+                        ),
+                        Text(
+                          currentDate,
+                          style: TextStyle(
+                              fontFamily: AppConstants.forNumbersFont,
+                              fontSize: 10),
+                        ),
+                        const Text(
+                          ',',
+                          style: timestyle,
+                        ),
+                        Text(
+                          currentTime,
+                          style: TextStyle(
+                              fontFamily: AppConstants.forNumbersFont,
+                              fontSize: 10),
+                        ),
+                      ],
+                    ))
+              ],
+            ),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body:
+                // first tab bar view widget
+                Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(15),
+                  color: Colors.white,
+                  child: SearchInput(
+                    labelText: 'Employee',
+                    controller: employeeNameController,
+                    onTap: () {
+                      _currentPage = 1;
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updateEmpFilterStatus(value: true);
+                      rejectedEmployeeDetails = [];
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updatelistOfRejectedEmployees(value: []);
+                      FocusScope.of(context).unfocus();
+                      _getAllEmployeesDetails();
+                    },
+                    onClear: () {
+                      _currentPage = 1;
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updateEmpFilterStatus(value: false);
+                      employeeNameController.clear();
+                      FocusScope.of(context).unfocus();
+                      _getAllEmployeesDetails();
+                    },
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Scrollbar(
-                  thickness: 10,
-                  interactive: true,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: _employeeList.length,
-                      itemBuilder: (context, index) {
-                        return SingleChildScrollView(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailedProfileScreen(
-                                        employeeStatus: "rejected",
-                                        employeeIndex: index),
-                                  ));
-                            },
-                            child: Slidable(
-                              key: ValueKey(index),
-                              // startActionPane: ActionPane(
-                              //   // A motion is a widget used to control how the pane animates.
-                              //   motion: const ScrollMotion(),
+                Expanded(
+                  flex: 5,
+                  child: Scrollbar(
+                    thickness: 10,
+                    interactive: true,
+                    child: SmartRefresher(
+                      controller: _refreshController,
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      onRefresh: () {
+                        _currentPage = 1;
+                        _getAllEmployeesDetails();
+                        rejectedEmployeeDetails = [];
+                        ref
+                            .read(peopleProfileNotifier)
+                            .updatelistOfRejectedEmployees(value: []);
+                      },
+                      onLoading: () {
+                        _getAllEmployeesDetails();
+                      },
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: _employeeList.length,
+                          itemBuilder: (context, index) {
+                            return SingleChildScrollView(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailedProfileScreen(
+                                                employeeStatus: "rejected",
+                                                employeeIndex: index),
+                                      ));
+                                },
+                                child: Slidable(
+                                  key: ValueKey(index),
+                                  endActionPane: ActionPane(
+                                    extentRatio: 0.35,
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        // An action can be bigger than the others.
+                                        flex: 2,
+                                        onPressed: (context) {
+                                          showSnackBar(context,
+                                              "Reapproval Procedure on Progress");
+                                        },
+                                        backgroundColor: Colors.greenAccent,
+                                        foregroundColor: Colors.black,
 
-                              //   // A pane can dismiss the Slidable.
-                              //   dismissible:
-                              //       DismissiblePane(onDismissed: () {}),
-
-                              //   // All actions are defined in the children parameter.
-                              //   children: [
-                              //     // A SlidableAction can have an icon and/or a label.
-                              //     SlidableAction(
-                              //       onPressed: openMappingDialog(
-                              //           context, "Generate User Credentials"),
-                              //       backgroundColor: const Color(0xFFFE4A49),
-                              //       foregroundColor: Colors.white,
-                              //       icon: Icons.delete,
-                              //       label: 'Delete',
-                              //     ),
-                              //   ],
-                              // ),
-                              endActionPane: ActionPane(
-                                extentRatio: 0.35,
-                                motion: const ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    // An action can be bigger than the others.
-                                    flex: 2,
-                                    onPressed: (context) {
-                                      showSnackBar(context,
-                                          "Reapproval Procedure on Progress");
-                                    },
-                                    backgroundColor: Colors.greenAccent,
-                                    foregroundColor: Colors.black,
-
-                                    label: 'Reapprove \n Employee',
+                                        label: 'Reapprove \n Employee',
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                  child: EmployeeCard(
+                                    image: _employeeList[index].image,
+                                    employeeName:
+                                        _employeeList[index].fullName!,
+                                    employeeId: _employeeList[index].empId!,
+                                    siteName:
+                                        _employeeList[index].siteName != null
+                                            ? _employeeList[index].siteName!
+                                            : "Trivandrum",
+                                    index: index,
+                                  ),
+                                ),
                               ),
-                              child: EmployeeCard(
-                                image: _employeeList[index].image,
-                                employeeName: _employeeList[index].fullName!,
-                                employeeId: _employeeList[index].empId!,
-                                siteName: _employeeList[index].siteName != null
-                                    ? _employeeList[index].siteName!
-                                    : "Trivandrum",
-                                index: index,
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                            );
+                          }),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            // second tab bar viiew widget
           ),
-          // second tab bar viiew widget
         ),
       ),
     );
@@ -243,63 +258,46 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
     ref.listen(peopleProfileNotifierProvider, (previous, next) {
       final peopleProfileInfoResponse =
           next as ServiceResponse<AllEmployeesListResponse?>;
-      if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            builder: (context) => const Center(
-                  child: SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ),
-                ));
-      } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
-        Navigator.pop(context);
-        List<EmployeeDetailsFetchedFromApi> rejectedEmployeeDetails = [];
-        if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
-          for (var element in peopleProfileInfoResponse.data!.response!) {
-            rejectedEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
-              empId: element.empId,
-              email: element.email,
-              fullName: element.fullName,
-              image: element.image,
-              bloodGroup: element.personal == null
-                  ? null
-                  : element.personal!.bloodGroup,
-              countryCode: element.phone!.countryCode,
-              dob: element.personal == null ? null : element.personal!.dob,
-              gender:
-                  element.personal == null ? null : element.personal!.gender,
-              nationality: element.personal == null
-                  ? null
-                  : element.personal!.nationality,
-              phoneNumber: element.phone == null ? null : element.phone!.number,
-              siteName: element.siteName,
-            ));
+      if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
+        _refreshController.refreshCompleted();
+
+        if (peopleProfileInfoResponse.data!.status) {
+          if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
+            _refreshController.loadComplete();
+            _currentPage += 1;
+            for (var element in peopleProfileInfoResponse.data!.response!) {
+              rejectedEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
+                empId: element.empId,
+                email: element.email,
+                fullName: element.fullName,
+                image: element.image,
+                bloodGroup: element.personal == null
+                    ? null
+                    : element.personal!.bloodGroup,
+                countryCode: element.phone!.countryCode,
+                dob: element.personal == null ? null : element.personal!.dob,
+                gender:
+                    element.personal == null ? null : element.personal!.gender,
+                nationality: element.personal == null
+                    ? null
+                    : element.personal!.nationality,
+                phoneNumber:
+                    element.phone == null ? null : element.phone!.number,
+                siteName: element.siteName,
+              ));
+            }
+
+            ref
+                .read(peopleProfileNotifier)
+                .updatelistOfRejectedEmployees(value: rejectedEmployeeDetails);
+          } else {
+            _refreshController.loadNoData();
           }
-          //
-          ref
-              .read(peopleProfileNotifier)
-              .updatelistOfRejectedEmployees(value: rejectedEmployeeDetails);
         } else {
-          ref.read(peopleProfileNotifier).updatelistOfRejectedEmployees(
-            value: [],
-          );
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Info",
-              message: "No Employees found",
-            ),
-          );
+          _refreshController.loadFailed();
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
-        Navigator.pop(context);
+        _refreshController.loadFailed();
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,

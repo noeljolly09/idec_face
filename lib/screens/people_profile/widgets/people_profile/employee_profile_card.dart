@@ -31,53 +31,58 @@ class EmployeeCard extends StatelessWidget {
         color: Colors.white,
         child: Row(
           children: [
-            SizedBox(width: screenWidth(context, dividedBy: 10.28)),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                image == null
-                    ? SvgPicture.asset(
-                        'assets/svg/User_big.svg',
-                        height: 80,
-                      )
-                    : Image.network(
-                        image!,
-                        width: 80,
-                        height: 80,
-                      ),
-                ProfileIconText(
-                    icon: const Icon(Icons.abc),
-                    isIconNeeded: false,
-                    isProfileName: false,
-                    textData: employeeId!),
-              ],
+            Expanded(
+              flex: 3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  image == null
+                      ? SvgPicture.asset(
+                          'assets/svg/User_big.svg',
+                          height: 80,
+                        )
+                      : Image.network(
+                          image!,
+                          width: 80,
+                          height: 80,
+                        ),
+                  ProfileIconText(
+                      icon: const Icon(Icons.abc),
+                      isIconNeeded: false,
+                      isProfileName: false,
+                      textData: employeeId!),
+                ],
+              ),
             ),
-            SizedBox(width: screenWidth(context, dividedBy: 15.28)),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ProfileIconText(
-                    isIconNeeded: false,
-                    isProfileName: true,
-                    icon: const Icon(Icons.circle_notifications_rounded),
-                    textData: employeeName!),
-                const ProfileIconText(
-                    isIconNeeded: false,
-                    isProfileName: false,
-                    icon: Icon(Icons.circle_notifications_rounded),
-                    textData: 'Engineer'),
-                ProfileIconText(
-                    isIconNeeded: false,
-                    isProfileName: false,
-                    icon: const Icon(Icons.circle_notifications_rounded),
-                    textData: siteName!),
-              ],
+            Expanded(
+              flex: 7,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ProfileIconText(
+                      isIconNeeded: false,
+                      isProfileName: true,
+                      icon: const Icon(Icons.circle_notifications_rounded),
+                      textData: employeeName!),
+                  const ProfileIconText(
+                      isIconNeeded: false,
+                      isProfileName: false,
+                      icon: Icon(Icons.circle_notifications_rounded),
+                      textData: 'Engineer'),
+                  ProfileIconText(
+                      isIconNeeded: false,
+                      isProfileName: false,
+                      icon: const Icon(Icons.circle_notifications_rounded),
+                      textData: siteName!),
+                ],
+              ),
             ),
-            const Spacer(),
-            const Icon(
-              Icons.arrow_left,
+            const Expanded(
+              child: Icon(
+                Icons.arrow_left,
+              ),
             ),
           ],
         ),
