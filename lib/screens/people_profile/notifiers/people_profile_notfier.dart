@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 
 class PeopleProfileNotifier extends ChangeNotifier {
@@ -12,6 +13,9 @@ class PeopleProfileNotifier extends ChangeNotifier {
   List<EmployeeDetailsFetchedFromApi> get listOfPendingEmployees =>
       _listOfPendingEmployees;
 
+  PageInfo _pageDetails = PageInfo();
+  PageInfo get pageDetails => _pageDetails;
+
   List<EmployeeDetailsFetchedFromApi> _listOfRejcetedEmployees = [];
   List<EmployeeDetailsFetchedFromApi> get listOfRejectedEmployees =>
       _listOfRejcetedEmployees;
@@ -22,6 +26,11 @@ class PeopleProfileNotifier extends ChangeNotifier {
   void updatelistOfRejectedEmployees(
       {required List<EmployeeDetailsFetchedFromApi> value}) {
     _listOfRejcetedEmployees = value;
+    notifyListeners();
+  }
+
+  void updatePageDetials({required PageInfo value}) {
+    _pageDetails = value;
     notifyListeners();
   }
 

@@ -214,6 +214,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
     ref.listen(peopleProfileNotifierProvider, (previous, next) {
       final peopleProfileInfoResponse =
           next as ServiceResponse<AllEmployeesListResponse?>;
+
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
         showDialog(
             context: context,
@@ -225,6 +226,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         List<EmployeeDetailsFetchedFromApi> employeeDetails = [];
+
         if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
           for (var element in peopleProfileInfoResponse.data!.response!) {
             employeeDetails.add(EmployeeDetailsFetchedFromApi(
@@ -268,6 +270,18 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
             ),
           );
         }
+        //
+        final pageDetails = PageInfo(
+          currentPage: peopleProfileInfoResponse.data!.pageInfo.currentPage,
+          endIndex: peopleProfileInfoResponse.data!.pageInfo.endIndex,
+          pageCount: peopleProfileInfoResponse.data!.pageInfo.pageCount,
+          pages: peopleProfileInfoResponse.data!.pageInfo.pages,
+          startIndex: peopleProfileInfoResponse.data!.pageInfo.pageCount,
+          totalItems: peopleProfileInfoResponse.data!.pageInfo.totalItems,
+        );
+
+        ref.read(peopleProfileNotifier).updatePageDetials(value: pageDetails);
+        //
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         Navigator.pop(context);
         if (networkStatus == ConnectionStatus.offline) {
