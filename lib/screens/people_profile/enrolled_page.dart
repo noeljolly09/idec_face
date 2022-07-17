@@ -272,12 +272,12 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
         }
         //
         final pageDetails = PageInfo(
-          currentPage: peopleProfileInfoResponse.data!.pageInfo.currentPage,
-          endIndex: peopleProfileInfoResponse.data!.pageInfo.endIndex,
-          pageCount: peopleProfileInfoResponse.data!.pageInfo.pageCount,
-          pages: peopleProfileInfoResponse.data!.pageInfo.pages,
-          startIndex: peopleProfileInfoResponse.data!.pageInfo.pageCount,
-          totalItems: peopleProfileInfoResponse.data!.pageInfo.totalItems,
+          currentPage: peopleProfileInfoResponse.data!.pageInfo!.currentPage,
+          endIndex: peopleProfileInfoResponse.data!.pageInfo!.endIndex,
+          pageCount: peopleProfileInfoResponse.data!.pageInfo!.pageCount,
+          pages: peopleProfileInfoResponse.data!.pageInfo!.pages,
+          startIndex: peopleProfileInfoResponse.data!.pageInfo!.pageCount,
+          totalItems: peopleProfileInfoResponse.data!.pageInfo!.totalItems,
         );
 
         ref.read(peopleProfileNotifier).updatePageDetials(value: pageDetails);
