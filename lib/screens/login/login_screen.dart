@@ -42,19 +42,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   _loginUserAttributes();
-    // });
-    // checkIfAlreadyLoggedIn();
   }
-
-  // void _loginUserAttributes() {
-  //   final loginInfoRequest = LoginInfoRequest(
-  //       username: "support3", identifier: "3ffa01837a3a0c44611a715fb6cdf2f0");
-  //   ref
-  //       .read(loginInfoNotifierProvider.notifier)
-  //       .getloginattributes(loginInfoRequest);
-  // }
 
   void _loginUserAttributes() {
     final loginInfoRequest = LoginInfoRequest(
@@ -213,9 +201,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           height: 50,
                           function: () {
                             if (formGlobalKey.currentState!.validate()) {
-                              //api
                               _loginUserAttributes();
-                              _licenseAttributes();
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,
@@ -332,18 +318,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 
-  // void checkIfAlreadyLoggedIn() async {
-  //   logindata = await SharedPreferences.getInstance();
-
-  //   var newuser = (logindata.getBool('isLogin') ?? true);
-
-  //   if (newuser == false) {
-  //     ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
-  //     Navigator.pushNamedAndRemoveUntil(
-  //         context, "/navigation_bar", (route) => false);
-  //   }
-  // }
-
   initLoginListeners(ConnectionStatus networkStatus) {
     ref.listen(loginInfoNotifierProvider, (previous, next) {
       final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
@@ -356,23 +330,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ));
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
-        Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {
-          //
+          _licenseAttributes();
           ref
               .read(loginNotifier)
               .updateUsername(value: _usernameController.text);
           ref.read(loginNotifier).updateDomain(value: _domainController.text);
-          //
-
-          print("logged In : " + _usernameController.text);
-          print("logged In tenant ID : " +
-              ref.watch(loginNotifier).tenantId.toString());
-          //
-          ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
-          ref.read(sharedPrefUtilityProvider).setLoggedInUser();
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/navigation_bar", (route) => false);
         } else {
           showDialog(
             context: context,
@@ -390,6 +353,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           );
         }
       } else if (loginInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,
@@ -430,20 +394,59 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         (previous, next) {
       final previlegeUserInfoResponse =
           next as ServiceResponse<PrivilegesAndLicenseDetailsResponse?>;
-      if (previlegeUserInfoResponse.status == ServiceStatus.loading) {
-      } else if (previlegeUserInfoResponse.status == ServiceStatus.completed) {
-        for (var element in previlegeUserInfoResponse.data!.response!) {
-          ref
-              .read(loginNotifier)
-              .updateImage(value: element.employees!.image.toString());
+      if (previlegeUserInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
+        if (previlegeUserInfoResponse.data!.status!) {
+          for (var element in previlegeUserInfoResponse.data!.response!) {
+            ref
+                .read(loginNotifier)
+                .updateImage(value: element.employees!.image.toString());
 
-          ref
-              .read(loginNotifier)
-              .updateTenantId(value: element.tenants!.id.toString());
+            ref
+                .read(loginNotifier)
+                .updateTenantId(value: element.tenants!.id.toString());
 
-          ref
-              .read(loginNotifier)
-              .updateFName(value: element.employees!.name!.first.toString());
+            ref
+                .read(loginNotifier)
+                .updateFName(value: element.employees!.name!.first.toString());
+          }
+          ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+          ref.read(sharedPrefUtilityProvider).setLoggedInUser();
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/navigation_bar", (route) => false);
+        } else {}
+      } else if (previlegeUserInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
+            ),
+          );
         }
       }
     });
