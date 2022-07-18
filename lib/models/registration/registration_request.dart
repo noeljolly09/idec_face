@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final registrationInfoRequest = registrationInfoRequestFromJson(jsonString);
-
 import 'dart:convert';
 
 String registrationInfoRequestToJson(RegistrationInfoRequest data) =>
@@ -64,36 +60,73 @@ class EmployeeDetails {
   dynamic roleId;
   dynamic tradeId;
   String email;
-  dynamic employeeComments;
+  String? employeeComments;
   dynamic greenWorker;
 
   Map<String, dynamic> toJson() => {
         "organisation": organisation,
         "name": name.toJson(),
         "empId": empId,
-        "address": address == null ? null : address!.toJson(),
+        "address": address == null
+            ? Address(
+                country: null,
+                lineOne: null,
+                lineTwo: null,
+                postalCode: null,
+                state: null)
+            : address!.toJson(),
         "phone": phone.toJson(),
-        "personal": personal == null ? null : personal!.toJson(),
+        "personal": personal == null
+            ? Personal(
+                highestQualification: null,
+                maritalStatus: null,
+                dob: null,
+              )
+            : personal!.toJson(),
         "contractorId": contractorId,
         "image": image,
         "thumbnail": thumbnail,
         "allergies": allergies == null
-            ? null
+            ? Allergy(allergicTo: null, nature: null)
             : List<dynamic>.from(allergies!.map((x) => x.toJson())),
         "injuries": injuries == null
-            ? null
+            ? Injury(
+                description: null,
+                injuryDate: null,
+                injuryPart: null,
+                recoveryDate: null,
+                severity: null)
             : List<dynamic>.from(injuries!.map((x) => x.toJson())),
         "experience": experience == null
-            ? null
+            ? Experience(
+                company: null,
+                designation: null,
+                months: null,
+                startDate: null,
+                years: null)
             : List<dynamic>.from(experience!.map((x) => x.toJson())),
         "certificates": certificates == null
-            ? null
+            ? Certificate(
+                certificateNumber: null,
+                description: null,
+                expiryDate: null,
+                name: null,
+                type: null)
             : List<dynamic>.from(certificates!.map((x) => x.toJson())),
         "emergencyPoc": emergencyPoc == null
-            ? null
+            ? EmergencyPoc(
+                email: null,
+                name: null,
+                phoneCountryCode: null,
+                phoneNumber: null,
+                relation: null)
             : List<dynamic>.from(emergencyPoc!.map((x) => x.toJson())),
         "poi": poi == null
-            ? null
+            ? Poi(
+                description: null,
+                docNumber: null,
+                docType: null,
+              )
             : List<dynamic>.from(poi!.map((x) => x.toJson())),
         "roleId": roleId,
         "tradeId": tradeId,
@@ -258,18 +291,17 @@ class Name {
 
 class Personal {
   Personal({
-    required this.dob,
+    this.dob,
     this.maritalStatus,
     this.highestQualification,
   });
 
-  DateTime dob;
+  DateTime? dob;
   dynamic maritalStatus;
   dynamic highestQualification;
 
   Map<String, dynamic> toJson() => {
-        "dob":
-            "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+        "dob": dob,
         "maritalStatus": maritalStatus,
         "highestQualification": highestQualification,
       };

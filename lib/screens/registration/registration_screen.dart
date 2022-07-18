@@ -23,6 +23,7 @@ import 'package:idec_face/screens/registration/widgets/name_data.dart';
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
@@ -138,12 +139,17 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           registrationrequest.RegistrationInfoRequest(
         employeeDetails: registrationrequest.EmployeeDetails(
           organisation: _domainController.text,
+          //
+          personal: registrationrequest.Personal(
+              dob: DateTime.parse(_dateinput.text)),
+          //
           phone: registrationrequest.Phone(
             countryCode: code.toString(),
             number: _phoneController.text,
           ),
           email: _emailController.text,
           empId: _idController.text,
+          employeeComments: _commentsController.text,
           image: imageSasUrl,
           name: registrationrequest.Name(
               first: _fnameController.text,
@@ -711,7 +717,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               builder: (context) => InfoDialogWithTimer(
                 isTimerActivated: true,
                 isCancelButtonVisible: false,
-                afterSuccess: () {},
+                afterSuccess: () {
+                  Navigator.pop(context);
+                },
                 onPressedBttn1: () {
                   Navigator.of(context).pop(false);
                 },
@@ -726,7 +734,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               builder: (context) => InfoDialogWithTimer(
                 isTimerActivated: true,
                 isCancelButtonVisible: false,
-                afterSuccess: () {},
+                afterSuccess: () {
+                  Navigator.pop(context);
+                },
                 onPressedBttn1: () {
                   Navigator.of(context).pop(false);
                 },
