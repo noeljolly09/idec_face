@@ -23,7 +23,6 @@ import 'package:idec_face/screens/registration/widgets/name_data.dart';
 import 'package:idec_face/screens/registration/widgets/preview_dialog.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
@@ -140,8 +139,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         employeeDetails: registrationrequest.EmployeeDetails(
           organisation: _domainController.text,
           //
-          personal: registrationrequest.Personal(
-              dob: DateTime.parse(_dateinput.text)),
+          // personal: registrationrequest.Personal(
+          //     dob: DateTime.parse(_dateinput.text)),
           //
           phone: registrationrequest.Phone(
             countryCode: code.toString(),
