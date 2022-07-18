@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
@@ -137,7 +138,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                 Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(20),
                   color: Colors.white,
                   child: SearchInput(
                     labelText: 'Employee',
@@ -258,7 +259,13 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           next as ServiceResponse<AllEmployeesListResponse?>;
 
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const SpinKitCircle(
+                  color: AppConstants.primaryColor,
+                ));
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         _refreshController.refreshCompleted();
         if (peopleProfileInfoResponse.data!.status) {
           if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {

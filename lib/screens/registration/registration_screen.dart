@@ -288,7 +288,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     double height20 = MediaQuery.of(context).size.height / 42.02;
-    double height78 = MediaQuery.of(context).size.height / 10.25;
+    double height78 = MediaQuery.of(context).size.height / 9.97;
 
     final networkStatus = ref.read(connectivityNotifierProvider).status;
 
@@ -543,7 +543,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: screenHeight(context, dividedBy: 80)),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Row(

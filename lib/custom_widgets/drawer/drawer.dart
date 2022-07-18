@@ -182,7 +182,9 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                   isdiabled: true,
                   svg: "assets/svg/settings.svg",
                   text: "Settings",
-                  // onTap: () {},
+                  // onTap: () {
+                  //   Navigator.pushNamed(context, '/settings');
+                  // },
                 ),
                 drawerItem(
                   isdiabled: false,

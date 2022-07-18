@@ -64,7 +64,7 @@ class _GenderPageRegistrationState
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 2,
+                  height: MediaQuery.of(context).size.height / 1.95,
                   width: MediaQuery.of(context).size.width / 1.111971924,
                   child: Column(
                     children: [

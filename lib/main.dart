@@ -11,6 +11,7 @@ import 'package:idec_face/screens/registration/registration_screen.dart';
 import 'package:idec_face/screens/device_screen.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:idec_face/screens/settings/settings_page.dart';
 import 'package:idec_face/screens/splash/splash.dart';
 import 'package:idec_face/utility/shared_pref/provider/shared_pref_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,6 +98,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginPage(),
+        '/settings': (context) => const SettingsPage(),
         '/forgot_password': (context) => const ForgotPasswordPage(),
         '/register': (context) => const RegistrationPage(),
         '/dashboard': (context) => const DashboardPage(),
