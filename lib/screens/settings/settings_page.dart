@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:idec_face/constants.dart';
-import 'package:intl/intl.dart';
+import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,48 +11,12 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String currentDate = DateFormat.MMMMd().format(DateTime.now());
-  String currentTime = DateFormat.jm().format(DateTime.now());
-
-  static const timestyle = TextStyle(fontSize: 10);
-
   bool isSwitched = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppConstants.primaryColor,
-          title: const Text('Settings'),
-          actions: [
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Row(
-                  children: [
-                    const Text(
-                      "Updated on: ",
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentDate,
-                      style: TextStyle(
-                          fontFamily: AppConstants.forNumbersFont,
-                          fontSize: 10),
-                    ),
-                    const Text(
-                      ',',
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentTime,
-                      style: TextStyle(
-                          fontFamily: AppConstants.forNumbersFont,
-                          fontSize: 10),
-                    ),
-                  ],
-                ))
-          ],
-        ),
+        appBar: customAppBar("Settings"),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SettingsList(
           shrinkWrap: false,
@@ -94,7 +58,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             ),
             SettingsSection(
-            
               title: const Text('Personal',
                   style: TextStyle(
                       color: AppConstants.primaryColor, fontSize: 18)),
@@ -125,7 +88,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: AppConstants.primaryColor, fontSize: 18)),
               tiles: [
                 SettingsTile(
-
                   title: const Text('App Notificaitons'),
                   value: const Text(''),
                   leading: const Icon(Icons.notifications),

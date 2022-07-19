@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:intl/intl.dart';
+import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../constants.dart';
 import '../screens/dashboard/dashboard_screen.dart';
@@ -21,12 +20,7 @@ class CustomNavigationBar extends ConsumerStatefulWidget {
 
 class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
   int selectedIndex = 0;
-
-  String currentDate = DateFormat.MMMMd().format(DateTime.now());
-  String currentTime = DateFormat.jm().format(DateTime.now());
-
-  static const timestyle = TextStyle(fontSize: 10);
-
+  //
   final screens = [
     const DashboardPage(),
     const EventsPage(),
@@ -47,38 +41,7 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: const MyDrawer(),
-        appBar: AppBar(
-          backgroundColor: AppConstants.primaryColor,
-          title: Text(appbartitle[selectedIndex]),
-          actions: [
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Row(
-                  children: [
-                    const Text(
-                      "Updated on: ",
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentDate,
-                      style: TextStyle(
-                          fontFamily: AppConstants.forNumbersFont,
-                          fontSize: 10),
-                    ),
-                    const Text(
-                      ',',
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentTime,
-                      style: TextStyle(
-                          fontFamily: AppConstants.forNumbersFont,
-                          fontSize: 10),
-                    ),
-                  ],
-                ))
-          ],
-        ),
+        appBar: customAppBar(appbartitle[selectedIndex]),
         body: screens[selectedIndex],
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),

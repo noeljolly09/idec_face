@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
-import 'package:idec_face/constants.dart';
-import 'package:idec_face/screens/people_profile/detailed_profile_pages/detailed_employee_profile.dart';
+import 'package:idec_face/custom_widgets/custom_appbar.dart';
+import 'package:idec_face/screens/people_profile/detailed_employee_profile_pages/detailed_employee_profile.dart';
 
 class DetailedProfileScreen extends StatefulWidget {
   final int employeeIndex;
@@ -22,10 +21,7 @@ class _DetailedProfileScreenState extends State<DetailedProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppConstants.primaryColor,
-          title: const Text("Profile"),
-        ),
+        appBar: customAppBar("Profile"),
         body: DetailedEmployeeProfilePage(
           employeeStatus: widget.employeeStatus,
           employeeIndex: widget.employeeIndex,

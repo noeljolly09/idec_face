@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:idec_face/constants.dart';
+import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
@@ -17,7 +18,6 @@ import 'package:idec_face/screens/people_profile/widgets/people_profile/employee
 
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
-import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../utility/shared_pref/provider/shared_pref_provider.dart';
@@ -30,14 +30,15 @@ class PendingEmployeePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
-  String currentDate = DateFormat.MMMMd().format(DateTime.now());
-  String currentTime = DateFormat.jm().format(DateTime.now());
-
+  //
   TextEditingController employeeNameController = TextEditingController();
-  static const timestyle = TextStyle(fontSize: 10);
+//
   final _refreshController = RefreshController();
+  //
   int _currentPage = 1;
+  //
   List<EmployeeDetailsFetchedFromApi> pendingEmployeeDetails = [];
+  //
   @override
   void initState() {
     super.initState();
@@ -103,38 +104,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              backgroundColor: AppConstants.primaryColor,
-              title: const Text('Pending Employees'),
-              actions: [
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: Row(
-                      children: [
-                        const Text(
-                          "Updated on: ",
-                          style: timestyle,
-                        ),
-                        Text(
-                          currentDate,
-                          style: TextStyle(
-                              fontFamily: AppConstants.forNumbersFont,
-                              fontSize: 10),
-                        ),
-                        const Text(
-                          ',',
-                          style: timestyle,
-                        ),
-                        Text(
-                          currentTime,
-                          style: TextStyle(
-                              fontFamily: AppConstants.forNumbersFont,
-                              fontSize: 10),
-                        ),
-                      ],
-                    ))
-              ],
-            ),
+            appBar: customAppBar("Pending"),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body:
                 // first tab bar view widget
