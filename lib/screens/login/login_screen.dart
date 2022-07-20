@@ -3,16 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/custom_widgets/encryptor.dart';
+import 'package:idec_face/dialogs/change_password_dialog.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/login/login_request.dart';
 import 'package:idec_face/models/login/login_response.dart';
-import 'package:idec_face/models/login/user_details_request.dart';
-import 'package:idec_face/models/login/user_details_response.dart';
+import 'package:idec_face/models/password_change/change_password_request.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/login_info_repository/providers/login_info_notifier_provider.dart';
-import 'package:idec_face/repository/user_details_repository/providers/user_details_notifier_provider.dart';
+import 'package:idec_face/repository/password_change_repository/providers/password_change_notifier_provider.dart';
 import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
 import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
+
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +22,6 @@ import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
 import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../utility/app_info.dart';
-import '../../utility/shared_pref/provider/shared_pref_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -58,7 +58,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   // void _userAttributes() {
   //   var response = ref.watch(sharedPrefUtilityProvider).getLoggedInUser();
-  //   final userRequest = UserDetailsRequest(userId: response!.response!.userId);
+  //   final userRequest = UserDetailsRequest(userId: "62d1446094c4286ce63f3183");
+
+  //   print(response!.response!.tenantId!);
 
   //   ref.read(userDetailsNotifierProvider.notifier).getuserdetailsattributes(
   //         userRequest,
@@ -75,7 +77,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final networkStatus = ref.read(connectivityNotifierProvider).status;
 
     initLoginListeners(networkStatus);
-    initUserDetailsListeners(networkStatus);
+    // initUserDetailsListeners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -335,16 +337,35 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {
+          ref.read(loginNotifier).updateTenantId(
+              value: loginInfoResponse.data!.response!.tenantId);
+          var data = loginInfoResponse.data!.response!.defaultValue;
+          if (data != null) {
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => const ChangePasswordDialog(
+                      label: "Change Password",
+                    ));
+          } else {
+            // ref
+            //     .read(sharedPrefUtilityProvider)
+            //     .saveLoggedInUser(loginInfoResponse.data!);
+
+            ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/navigation_bar", (route) => false);
+          }
           //
 
-          ref
-              .read(sharedPrefUtilityProvider)
-              .saveLoggedInUser(loginInfoResponse.data!);
+          // ref
+          //     .read(sharedPrefUtilityProvider)
+          //     .saveLoggedInUser(loginInfoResponse.data!);
 
-          ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+          // ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
 
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/navigation_bar", (route) => false);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, "/navigation_bar", (route) => false);
         } else {
           showDialog(
             context: context,
@@ -398,56 +419,56 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
   }
 
-  initUserDetailsListeners(ConnectionStatus networkStatus) {
-    ref.listen(userDetailsNotifierProvider, (previous, next) {
-      final userDetailsResponse = next as ServiceResponse<UserDetailsResponse?>;
-      if (userDetailsResponse.status == ServiceStatus.completed) {
-        Navigator.pop(context);
-        if (userDetailsResponse.data!.status!) {
-          //
-          ref
-              .read(sharedPrefUtilityProvider)
-              .saveLoggedInUserDetails(userDetailsResponse.data!);
+  // initUserDetailsListeners(ConnectionStatus networkStatus) {
+  //   ref.listen(userDetailsNotifierProvider, (previous, next) {
+  //     final userDetailsResponse = next as ServiceResponse<UserDetailsResponse?>;
+  //     if (userDetailsResponse.status == ServiceStatus.completed) {
+  //       Navigator.pop(context);
+  //       if (userDetailsResponse.data!.status!) {
+  //         //
+  //         ref
+  //             .read(sharedPrefUtilityProvider)
+  //             .saveLoggedInUserDetails(userDetailsResponse.data!);
 
-          ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
-          ref.read(sharedPrefUtilityProvider).setLoggedInUser();
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/navigation_bar", (route) => false);
-        } else {}
-      } else if (userDetailsResponse.status == ServiceStatus.error) {
-        Navigator.pop(context);
-        if (networkStatus == ConnectionStatus.offline) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Error",
-              message: "No Internet Connectivity",
-            ),
-          );
-        } else {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.of(context).pop(false);
-              },
-              title: "Error",
-              message: "Something went wrong",
-            ),
-          );
-        }
-      }
-    });
-  }
+  //         ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+  //         // ref.read(sharedPrefUtilityProvider).setLoggedInUser();
+  //         Navigator.pushNamedAndRemoveUntil(
+  //             context, "/navigation_bar", (route) => false);
+  //       } else {}
+  //     } else if (userDetailsResponse.status == ServiceStatus.error) {
+  //       Navigator.pop(context);
+  //       if (networkStatus == ConnectionStatus.offline) {
+  //         showDialog(
+  //           context: context,
+  //           barrierDismissible: false,
+  //           builder: (context) => InfoDialogWithTimer(
+  //             isTimerActivated: true,
+  //             isCancelButtonVisible: false,
+  //             afterSuccess: () {},
+  //             onPressedBttn1: () {
+  //               Navigator.of(context).pop(false);
+  //             },
+  //             title: "Error",
+  //             message: "No Internet Connectivity",
+  //           ),
+  //         );
+  //       } else {
+  //         showDialog(
+  //           context: context,
+  //           barrierDismissible: false,
+  //           builder: (context) => InfoDialogWithTimer(
+  //             isTimerActivated: true,
+  //             isCancelButtonVisible: false,
+  //             afterSuccess: () {},
+  //             onPressedBttn1: () {
+  //               Navigator.of(context).pop(false);
+  //             },
+  //             title: "Error",
+  //             message: "Something went wrong",
+  //           ),
+  //         );
+  //       }
+  //     }
+  //   });
+  // }
 }

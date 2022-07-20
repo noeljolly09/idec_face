@@ -61,6 +61,8 @@ class AppConstants {
 
 typedef SDMap = Map<String, dynamic>;
 
+
+
 Size screenSize(BuildContext context) {
   // screen height 820.5714285714286
 // screen width 411.42857142857144

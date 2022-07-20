@@ -23,9 +23,27 @@ extension StringUtility on String {
       const pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
       final phone = this;
       final regex = RegExp(pattern);
-      final value = regex.hasMatch(phone.trim());
-      if (!value) {
+      final result = regex.hasMatch(phone.trim());
+      if (!result) {
         return "Enter valid number";
+      } else {
+        return "";
+      }
+    }
+  }
+
+  String get isValidChangePassword {
+    String value = this;
+    if (value.isEmpty) {
+      return "Mandatory field";
+    } else {
+      const pattern =
+          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$';
+      final password = this;
+      final regex = RegExp(pattern);
+      final result = regex.hasMatch(password.trim());
+      if (!result) {
+        return "Note : Password must be minimum 12 characters,\nat least one uppercase letter ,\nat least one lowercase letter,\nat least one number and\nat least one special character.";
       } else {
         return "";
       }

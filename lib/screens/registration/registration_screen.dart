@@ -68,8 +68,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
 
   final TextEditingController _dateinput = TextEditingController();
 
-  String? tenantId;
-
   CountryCode? code = CountryCode(
       dialCode: "+91", name: "India", code: "IN", flagUri: "flags/in.png");
   final TextEditingController _genderController = TextEditingController();
@@ -129,8 +127,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
-    String tenantId = "";
-
+    String tenantId;
     if (_domainList.keys
         .contains(_domainController.text.trim().toUpperCase())) {
       tenantId = _domainList[_domainController.text.trim().toUpperCase()]!;
@@ -188,8 +185,13 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _showImagePicker() {
-    final _imageFile = ref.watch(imageNotifier).getImageFile;
-    showModalBottomSheet(
+    String tenantId;
+    if (_domainList.keys
+        .contains(_domainController.text.trim().toUpperCase())) {
+      tenantId = _domainList[_domainController.text.trim().toUpperCase()]!;
+
+      final _imageFile = ref.watch(imageNotifier).getImageFile;
+      showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
           return SafeArea(
@@ -204,7 +206,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                 fontSize: 20,
                               )),
                           onTap: () {
-                            _imgFromGallery();
+                            _imgFromGallery(tenantId);
                             Navigator.of(context).pop();
                           }),
                       ListTile(
@@ -217,7 +219,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                             )),
                         onTap: () {
                           Navigator.of(context).pop();
-                          _imgFromCamera();
+                          _imgFromCamera(tenantId);
                         },
                       ),
                     ],
@@ -251,10 +253,12 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                     ],
                   ),
           );
-        });
+        },
+      );
+    }
   }
 
-  _imgFromCamera() async {
+  _imgFromCamera(String tenantId) async {
     _tempImgFile = await _picker.pickImage(
       source: ImageSource.camera,
       preferredCameraDevice: CameraDevice.rear,
@@ -264,21 +268,20 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       ref.read(imageNotifier).updateImage(image: _tempImageFile);
       ref
           .read(mediaNotifierProvider.notifier)
-          .uploadImageDetails(imageFile: _tempImageFile);
+          .uploadImageDetails(imageFile: _tempImageFile, tenantId: tenantId);
       isMediaDeleting = false;
     }
   }
 
-  _imgFromGallery() async {
+  _imgFromGallery(String tenantId) async {
     XFile? galleryPhoto =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
     if (galleryPhoto != null) {
       _tempImageFile = File(galleryPhoto.path);
       ref.read(imageNotifier).updateImage(image: _tempImageFile);
 
-      ref
-          .read(mediaNotifierProvider.notifier)
-          .uploadImageDetails(imageFile: File(_tempImageFile!.path));
+      ref.read(mediaNotifierProvider.notifier).uploadImageDetails(
+          imageFile: File(_tempImageFile!.path), tenantId: tenantId);
 
       isMediaDeleting = false;
     }
@@ -430,7 +433,24 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                             bool isCameraPermissionAllowed =
                                 await getCameraPermission();
                             if (isCameraPermissionAllowed) {
-                              _showImagePicker();
+                              if (_domainController.text.isNotEmpty) {
+                                _showImagePicker();
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => InfoDialogWithTimer(
+                                    isTimerActivated: true,
+                                    isCancelButtonVisible: false,
+                                    afterSuccess: () {},
+                                    onPressedBttn1: () {
+                                      Navigator.of(context).pop(false);
+                                    },
+                                    title: "Domain Required",
+                                    message: "Please Enter Domain",
+                                  ),
+                                );
+                              }
                             }
                           } else {
                             showDialog(
