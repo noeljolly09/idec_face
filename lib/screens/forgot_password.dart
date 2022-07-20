@@ -64,7 +64,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   }
 
   void _getConfigAttributes() {
-    final configInfoRequest = ConfigInfoRequest(configAttributes: ["FGTPSD"]);
+    final configInfoRequest =
+        ConfigInfoRequest(configAttributes: ["forgotPasswordAttributes"]);
     ref
         .read(configInfoNotifierProvider.notifier)
         .getConfigAttributes(configInfoRequest);
@@ -75,21 +76,21 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     if (domainList.keys.contains(_domainController.text.trim().toUpperCase())) {
       tenantId = domainList[_domainController.text.trim().toUpperCase()]!;
       var passwordResetRequest = PasswordResetRequest();
-      if (_optionsController.text.toLowerCase() == "username") {
+      if (_optionsController.text.toLowerCase() == "userName") {
         passwordResetRequest = PasswordResetRequest(
           userName: _valueController.text,
         );
-      } else if (_optionsController.text.toLowerCase() == "employee id") {
+      } else if (_optionsController.text.toLowerCase() == "employeeId") {
         passwordResetRequest = PasswordResetRequest(
           empId: _valueController.text,
         );
-      } else if (_optionsController.text.toLowerCase() == "email id") {
+      } else if (_optionsController.text.toLowerCase() == "email") {
         passwordResetRequest = PasswordResetRequest(
           email: _valueController.text,
         );
-      } else if (_optionsController.text.toLowerCase() == "phone number") {
+      } else if (_optionsController.text.toLowerCase() == "phone") {
         passwordResetRequest = PasswordResetRequest(
-          phoneNumber: _valueController.text,
+          phone: _valueController.text,
         );
       }
 
@@ -309,7 +310,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   ),
                   InkWell(
                     onTap: () async {
-                      await launchUrl(Uri.parse("https://thenavisafe.com/#/"));
+                      await launchUrl(Uri.parse(
+                          "https://idecobserverappdev.azurewebsites.net/#/policy"));
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -356,12 +358,16 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           builder: (context) => InfoDialogWithTimer(
             isTimerActivated: true,
             isCancelButtonVisible: false,
-            afterSuccess: () {},
+            afterSuccess: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
+            },
             onPressedBttn1: () {
-              Navigator.of(context).pop(false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
             },
             title: "Error",
-            message: "Client Data fetch error",
+            message: "Unable to fetch Data.",
           ),
         );
       }
@@ -435,7 +441,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             if (element.value!.selectionResponse != null) {
               for (var item in element.value!.selectionResponse!) {
                 _listOfSelectionOption
-                    .add(SelectedListItem(false, item.name!.capitalize));
+                    .add(SelectedListItem(false, item.value!.capitalize));
               }
             }
           }

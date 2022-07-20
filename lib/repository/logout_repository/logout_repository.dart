@@ -13,7 +13,7 @@ class LogoutInfoRepositary {
       LogoutRequest param, String tenantId) async {
     try {
       final response = await _serviceManager.post(
-        '/api/auth/logout',
+        '/auth/logout',
         param.toJson(),
         headers: {'tenantId': tenantId},
       );

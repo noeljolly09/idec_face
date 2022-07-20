@@ -8,8 +8,8 @@ class PeopleProfileRepository {
 
   PeopleProfileRepository(this._serviceManager);
 
-  Future<ServiceResponse<AllEmployeesListResponse?>> allEmployeesListAttributes(
-      AllEmployeesListRequest param, String tenantId,
+  Future<ServiceResponse<EmployeeResponse?>> allEmployeesListAttributes(
+      EmployeeRequest param, String tenantId,
       {required int pageNumber}) async {
     try {
       final response = await _serviceManager.post(
@@ -19,7 +19,7 @@ class PeopleProfileRepository {
       );
       print(response);
       final str = jsonEncode(response.data);
-      final allEmployeesListResponse = allEmployeesListResponseFromJson(str);
+      final allEmployeesListResponse = employeeResponseFromJson(str);
       return ServiceResponse.completed(allEmployeesListResponse);
     } catch (e) {
       print(e);

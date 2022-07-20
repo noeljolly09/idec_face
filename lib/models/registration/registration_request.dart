@@ -1,341 +1,137 @@
 import 'dart:convert';
 
-String registrationInfoRequestToJson(RegistrationInfoRequest data) =>
-    json.encode(data.toJson());
+RegistrationInfoRequest registrationInfoRequestFromJson(String str) => RegistrationInfoRequest.fromJson(json.decode(str));
+
+String registrationInfoRequestToJson(RegistrationInfoRequest data) => json.encode(data.toJson());
 
 class RegistrationInfoRequest {
-  RegistrationInfoRequest({
-    required this.employeeDetails,
-    this.sourceTime,
-  });
+    RegistrationInfoRequest({
+        this.userDetails,
+        this.sourceTime,
+    });
 
-  EmployeeDetails employeeDetails;
-  String? sourceTime;
+    UserDetails? userDetails;
+    String? sourceTime;
 
-  Map<String, dynamic> toJson() => {
-        "employeeDetails": employeeDetails.toJson(),
+    factory RegistrationInfoRequest.fromJson(Map<String, dynamic> json) => RegistrationInfoRequest(
+        userDetails: json["userDetails"] == null ? null : UserDetails.fromJson(json["userDetails"]),
+        sourceTime: json["sourceTime"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "userDetails": userDetails == null ? null : userDetails!.toJson(),
         "sourceTime": sourceTime,
-      };
+    };
 }
 
-class EmployeeDetails {
-  EmployeeDetails({
-    required this.organisation,
-    required this.name,
-    required this.empId,
-    this.address,
-    required this.phone,
-    this.personal,
-    this.contractorId,
-    this.image,
-    this.thumbnail,
-    this.allergies,
-    this.injuries,
-    this.experience,
-    this.certificates,
-    this.emergencyPoc,
-    this.poi,
-    this.roleId,
-    this.tradeId,
-    required this.email,
-    this.employeeComments,
-    this.greenWorker,
-  });
+class UserDetails {
+    UserDetails({
+        this.tenantId,
+        this.organisation,
+        this.name,
+        this.empId,
+        this.phone,
+        this.personal,
+        this.email,
+        this.image,
+        this.thumbnail,
+        this.remarks,
+    });
 
-  String organisation;
-  Name name;
-  String empId;
-  Address? address;
-  Phone phone;
-  Personal? personal;
-  dynamic contractorId;
-  dynamic image;
-  dynamic thumbnail;
-  List<Allergy>? allergies;
-  List<Injury>? injuries;
-  List<Experience>? experience;
-  List<Certificate>? certificates;
-  List<EmergencyPoc>? emergencyPoc;
-  List<Poi>? poi;
-  dynamic roleId;
-  dynamic tradeId;
-  String email;
-  String? employeeComments;
-  dynamic greenWorker;
+    String? tenantId;
+    String? organisation;
+    Name? name;
+    String? empId;
+    Phone? phone;
+    Personal? personal;
+    String? email;
+    String? image;
+    String? thumbnail;
+    String? remarks;
 
-  Map<String, dynamic> toJson() => {
+    factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
+        tenantId: json["tenantId"],
+        organisation: json["organisation"],
+        name: json["name"] == null ? null : Name.fromJson(json["name"]),
+        empId: json["empId"],
+        phone: json["phone"] == null ? null : Phone.fromJson(json["phone"]),
+        personal: json["personal"] == null ? null : Personal.fromJson(json["personal"]),
+        email: json["email"],
+        image: json["image"],
+        thumbnail: json["thumbnail"],
+        remarks: json["remarks"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "tenantId": tenantId,
         "organisation": organisation,
-        "name": name.toJson(),
+        "name": name == null ? null : name!.toJson(),
         "empId": empId,
-        "address": address == null
-            ? Address(
-                country: null,
-                lineOne: null,
-                lineTwo: null,
-                postalCode: null,
-                state: null)
-            : address!.toJson(),
-        "phone": phone.toJson(),
-        "personal": personal == null
-            ? Personal(
-                highestQualification: null,
-                maritalStatus: null,
-                dob: null,
-              )
-            : personal!.toJson(),
-        "contractorId": contractorId,
+        "phone": phone == null ? null : phone!.toJson(),
+        "personal": personal == null ? null : personal!.toJson(),
+        "email": email,
         "image": image,
         "thumbnail": thumbnail,
-        "allergies": allergies == null
-            ? Allergy(allergicTo: null, nature: null)
-            : List<dynamic>.from(allergies!.map((x) => x.toJson())),
-        "injuries": injuries == null
-            ? Injury(
-                description: null,
-                injuryDate: null,
-                injuryPart: null,
-                recoveryDate: null,
-                severity: null)
-            : List<dynamic>.from(injuries!.map((x) => x.toJson())),
-        "experience": experience == null
-            ? Experience(
-                company: null,
-                designation: null,
-                months: null,
-                startDate: null,
-                years: null)
-            : List<dynamic>.from(experience!.map((x) => x.toJson())),
-        "certificates": certificates == null
-            ? Certificate(
-                certificateNumber: null,
-                description: null,
-                expiryDate: null,
-                name: null,
-                type: null)
-            : List<dynamic>.from(certificates!.map((x) => x.toJson())),
-        "emergencyPoc": emergencyPoc == null
-            ? EmergencyPoc(
-                email: null,
-                name: null,
-                phoneCountryCode: null,
-                phoneNumber: null,
-                relation: null)
-            : List<dynamic>.from(emergencyPoc!.map((x) => x.toJson())),
-        "poi": poi == null
-            ? Poi(
-                description: null,
-                docNumber: null,
-                docType: null,
-              )
-            : List<dynamic>.from(poi!.map((x) => x.toJson())),
-        "roleId": roleId,
-        "tradeId": tradeId,
-        "email": email,
-        "employeeComments": employeeComments,
-        "greenWorker": greenWorker,
-      };
-}
-
-class Address {
-  Address({
-    this.lineOne,
-    this.lineTwo,
-    this.state,
-    this.country,
-    this.postalCode,
-  });
-
-  dynamic lineOne;
-  dynamic lineTwo;
-  dynamic state;
-  dynamic country;
-  dynamic postalCode;
-
-  Map<String, dynamic> toJson() => {
-        "lineOne": lineOne,
-        "lineTwo": lineTwo,
-        "state": state,
-        "country": country,
-        "postalCode": postalCode,
-      };
-}
-
-class Allergy {
-  Allergy({
-    this.nature,
-    this.allergicTo,
-  });
-
-  dynamic nature;
-  dynamic allergicTo;
-
-  Map<String, dynamic> toJson() => {
-        "nature": nature,
-        "allergicTo": allergicTo,
-      };
-}
-
-class Certificate {
-  Certificate({
-    this.expiryDate,
-    this.certificateNumber,
-    this.name,
-    this.type,
-    this.description,
-  });
-
-  dynamic expiryDate;
-  dynamic certificateNumber;
-  dynamic name;
-  dynamic type;
-  dynamic description;
-
-  Map<String, dynamic> toJson() => {
-        "expiryDate": expiryDate,
-        "certificateNumber": certificateNumber,
-        "name": name,
-        "type": type,
-        "description": description,
-      };
-}
-
-class EmergencyPoc {
-  EmergencyPoc({
-    this.name,
-    this.relation,
-    this.email,
-    this.phoneCountryCode,
-    this.phoneNumber,
-  });
-
-  dynamic name;
-  dynamic relation;
-  dynamic email;
-  dynamic phoneCountryCode;
-  dynamic phoneNumber;
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "relation": relation,
-        "email": email,
-        "phoneCountryCode": phoneCountryCode,
-        "phoneNumber": phoneNumber,
-      };
-}
-
-class Experience {
-  Experience({
-    this.company,
-    this.designation,
-    this.startDate,
-    this.months,
-    this.years,
-  });
-
-  dynamic company;
-  dynamic designation;
-  dynamic startDate;
-  dynamic months;
-  dynamic years;
-
-  Map<String, dynamic> toJson() => {
-        "company": company,
-        "designation": designation,
-        "startDate": startDate,
-        "months": months,
-        "years": years,
-      };
-}
-
-class Injury {
-  Injury({
-    this.injuryPart,
-    this.description,
-    this.severity,
-    this.injuryDate,
-    this.recoveryDate,
-  });
-
-  dynamic injuryPart;
-  dynamic description;
-  dynamic severity;
-  dynamic injuryDate;
-  dynamic recoveryDate;
-
-  Map<String, dynamic> toJson() => {
-        "part": injuryPart,
-        "description": description,
-        "severity": severity,
-        "injuryDate": injuryDate,
-        "recoveryDate": recoveryDate,
-      };
+        "remarks": remarks,
+    };
 }
 
 class Name {
-  Name({
-    required this.first,
-    this.middle,
-    required this.last,
-  });
+    Name({
+        this.first,
+        this.middle,
+        this.last,
+    });
 
-  String first;
-  dynamic middle;
-  String last;
+    String? first;
+    String? middle;
+    String? last;
 
-  Map<String, dynamic> toJson() => {
+    factory Name.fromJson(Map<String, dynamic> json) => Name(
+        first: json["first"],
+        middle: json["middle"],
+        last: json["last"],
+    );
+
+    Map<String, dynamic> toJson() => {
         "first": first,
         "middle": middle,
         "last": last,
-      };
+    };
 }
 
 class Personal {
-  Personal({
-    this.dob,
-    this.maritalStatus,
-    this.highestQualification,
-  });
+    Personal({
+        this.dob,
+    });
 
-  DateTime? dob;
-  dynamic maritalStatus;
-  dynamic highestQualification;
+    String? dob;
 
-  Map<String, dynamic> toJson() => {
+    factory Personal.fromJson(Map<String, dynamic> json) => Personal(
+        dob: json["dob"],
+    );
+
+    Map<String, dynamic> toJson() => {
         "dob": dob,
-        "maritalStatus": maritalStatus,
-        "highestQualification": highestQualification,
-      };
+    };
 }
 
 class Phone {
-  Phone({
-    required this.countryCode,
-    required this.number,
-  });
+    Phone({
+        this.countryCode,
+        this.number,
+    });
 
-  String countryCode;
-  String number;
+    String? countryCode;
+    String? number;
 
-  Map<String, dynamic> toJson() => {
+    factory Phone.fromJson(Map<String, dynamic> json) => Phone(
+        countryCode: json["countryCode"],
+        number: json["number"],
+    );
+
+    Map<String, dynamic> toJson() => {
         "countryCode": countryCode,
         "number": number,
-      };
-}
-
-class Poi {
-  Poi({
-    this.docType,
-    this.docNumber,
-    this.description,
-  });
-
-  dynamic docType;
-  dynamic docNumber;
-  dynamic description;
-
-  Map<String, dynamic> toJson() => {
-        "docType": docType,
-        "docNumber": docNumber,
-        "description": description,
-      };
+    };
 }

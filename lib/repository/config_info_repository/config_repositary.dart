@@ -13,7 +13,7 @@ class ConfigInfoRepositary {
       ConfigInfoRequest param) async {
     try {
       final response = await _serviceManager.post(
-        '/api/people/configurationsInfo',
+        '/settings/attributeDetails',
         param.toJson(),
       );
       print(response);

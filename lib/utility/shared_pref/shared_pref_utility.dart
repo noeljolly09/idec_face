@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:idec_face/models/login/login_response.dart';
+import 'package:idec_face/models/login/user_details_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
@@ -21,16 +23,25 @@ class SharedPreferenceUtility {
     return loggedInStatus ?? false;
   }
 
-  Future<void> saveLoggedInUser(
-      PrivilegesAndLicenseDetailsResponse response) async {
+  Future<void> saveLoggedInUser(LoginResponse response) async {
     final jsonResponse = jsonEncode(response);
     await sharedPref.setString(AppConstants().prefKeyUser, jsonResponse);
   }
 
-  PrivilegesAndLicenseDetailsResponse? getLoggedInUser() {
+  Future<void> saveLoggedInUserDetails(UserDetailsResponse response) async {
+    final jsonResponse = jsonEncode(response);
+    await sharedPref.setString(AppConstants().prefKeyUser, jsonResponse);
+  }
+
+  UserDetailsResponse? getLoggedInUserDetails() {
     final jsonResponse = sharedPref.getString(AppConstants().prefKeyUser);
-    return PrivilegesAndLicenseDetailsResponse.fromJson(
+    return UserDetailsResponse.fromJson(
         jsonDecode(jsonResponse ?? "") as SDMap);
+  }
+
+  LoginResponse? getLoggedInUser() {
+    final jsonResponse = sharedPref.getString(AppConstants().prefKeyUser);
+    return LoginResponse.fromJson(jsonDecode(jsonResponse ?? "") as SDMap);
   }
 
   Future<void> resetPreference() async {

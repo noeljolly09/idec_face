@@ -12,13 +12,13 @@ class MediaNotifier extends StateNotifier<ServiceResponse<MediaResponse?>> {
   MediaNotifier(this._mediaRepository) : super(ServiceResponse.none());
 
   Future<void> uploadImageDetails(
-      {File? imageFile, bool isDelete = false, String? imageurl}) async {
+      {File? imageFile,
+      bool isDelete = false,
+      String? imageurl,
+      String? tenantId}) async {
     state = ServiceResponse.loading('Loading...');
-    final response = await _mediaRepository.uploadImage(
-      imageFile,
-      isDelete: isDelete,
-      imageurl: imageurl,
-    );
+    final response = await _mediaRepository.uploadImage(imageFile,
+        isDelete: isDelete, imageurl: imageurl, tenantId: tenantId);
     state = response;
   }
 

@@ -10,7 +10,7 @@ class PasswordResetRequest {
     this.sourceTime,
     this.email,
     this.empId,
-    this.phoneNumber,
+    this.phone,
   });
 
   String? userName;
@@ -18,7 +18,7 @@ class PasswordResetRequest {
   dynamic sourceTime;
   dynamic email;
   dynamic empId;
-  dynamic phoneNumber;
+  dynamic phone;
 
   Map<String, dynamic> toJson() => {
         "userName": userName,
@@ -26,6 +26,6 @@ class PasswordResetRequest {
         "sourceTime": sourceTime,
         "email": email,
         "empId": empId,
-        "phoneNumber": phoneNumber,
+        "phone": phone,
       };
 }

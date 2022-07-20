@@ -13,7 +13,7 @@ class PasswordResetRepositary {
       PasswordResetRequest param, String? tenantId) async {
     try {
       final response = await _serviceManager.post(
-        '/api/people/resetPassword',
+        '/auth/resetPassword',
         param.toJson(),
         headers: {
           'tenantId': tenantId,

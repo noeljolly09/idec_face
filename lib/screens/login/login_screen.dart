@@ -6,11 +6,13 @@ import 'package:idec_face/custom_widgets/encryptor.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/login/login_request.dart';
 import 'package:idec_face/models/login/login_response.dart';
-import 'package:idec_face/models/login/privileges_and_license_details_request.dart';
-import 'package:idec_face/models/login/privileges_and_license_details_response.dart';
+import 'package:idec_face/models/login/user_details_request.dart';
+import 'package:idec_face/models/login/user_details_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/login_info_repository/providers/login_info_notifier_provider.dart';
+import 'package:idec_face/repository/user_details_repository/providers/user_details_notifier_provider.dart';
 import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
+import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,6 +47,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void _loginUserAttributes() {
     final loginInfoRequest = LoginInfoRequest(
+        domain: _domainController.text,
         username: _usernameController.text,
         identifier: encryptor(_passwordController.text));
     ref.read(loginInfoNotifierProvider.notifier).getloginattributes(
@@ -53,17 +56,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         );
   }
 
-  void _licenseAttributes() {
-    final licenseRequest =
-        PrivilegesAndLicenseDetailsRequest(userName: _usernameController.text);
+  // void _userAttributes() {
+  //   var response = ref.watch(sharedPrefUtilityProvider).getLoggedInUser();
+  //   final userRequest = UserDetailsRequest(userId: response!.response!.userId);
 
-    ref
-        .read(privilegesAndLicenseDetailsInfoNotifierProvider.notifier)
-        .getlicenseattributes(
-          licenseRequest,
-          _domainController.text,
-        );
-  }
+  //   ref.read(userDetailsNotifierProvider.notifier).getuserdetailsattributes(
+  //         userRequest,
+  //         response.response!.tenantId!,
+  //       );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final networkStatus = ref.read(connectivityNotifierProvider).status;
 
     initLoginListeners(networkStatus);
-    initPrivilegeListeners(networkStatus);
+    initUserDetailsListeners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -102,11 +103,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             style: TextStyle(color: Colors.black, fontSize: 35),
                             children: <TextSpan>[
                               TextSpan(
-                                  text: " Idec ",
+                                  text: " IDEC ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: AppConstants.primaryColor)),
-                              TextSpan(text: 'Face', style: TextStyle())
+                              TextSpan(text: 'FACE', style: TextStyle())
                             ],
                           ),
                         )
@@ -202,6 +203,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             if (formGlobalKey.currentState!.validate()) {
                               FocusScope.of(context).unfocus();
                               _loginUserAttributes();
+                              // _userAttributes();
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,
@@ -292,7 +294,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   InkWell(
                     onTap: () async {
-                      await launchUrl(Uri.parse("https://thenavisafe.com/#/"));
+                      await launchUrl(Uri.parse(
+                          "https://idecobserverappdev.azurewebsites.net/#/policy"));
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -332,7 +335,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {
-          _licenseAttributes();
+          //
+
+          ref
+              .read(sharedPrefUtilityProvider)
+              .saveLoggedInUser(loginInfoResponse.data!);
+
+          ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/navigation_bar", (route) => false);
         } else {
           showDialog(
             context: context,
@@ -340,9 +352,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-              afterSuccess: () {
-                Navigator.pop(context);
-              },
+              afterSuccess: () {},
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },
@@ -388,24 +398,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
   }
 
-  initPrivilegeListeners(ConnectionStatus networkStatus) {
-    ref.listen(privilegesAndLicenseDetailsInfoNotifierProvider,
-        (previous, next) {
-      final previlegeUserInfoResponse =
-          next as ServiceResponse<PrivilegesAndLicenseDetailsResponse?>;
-      if (previlegeUserInfoResponse.status == ServiceStatus.completed) {
+  initUserDetailsListeners(ConnectionStatus networkStatus) {
+    ref.listen(userDetailsNotifierProvider, (previous, next) {
+      final userDetailsResponse = next as ServiceResponse<UserDetailsResponse?>;
+      if (userDetailsResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
-        if (previlegeUserInfoResponse.data!.status!) {
+        if (userDetailsResponse.data!.status!) {
+          //
           ref
               .read(sharedPrefUtilityProvider)
-              .saveLoggedInUser(previlegeUserInfoResponse.data!);
+              .saveLoggedInUserDetails(userDetailsResponse.data!);
 
           ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
           ref.read(sharedPrefUtilityProvider).setLoggedInUser();
           Navigator.pushNamedAndRemoveUntil(
               context, "/navigation_bar", (route) => false);
         } else {}
-      } else if (previlegeUserInfoResponse.status == ServiceStatus.error) {
+      } else if (userDetailsResponse.status == ServiceStatus.error) {
         Navigator.pop(context);
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(

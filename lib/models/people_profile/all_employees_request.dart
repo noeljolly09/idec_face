@@ -1,43 +1,22 @@
+
 import 'dart:convert';
 
-String allEmployeesListRequestToJson(AllEmployeesListRequest data) =>
-    json.encode(data.toJson());
+EmployeeRequest employeeRequestFromJson(String str) => EmployeeRequest.fromJson(json.decode(str));
 
-class AllEmployeesListRequest {
-  AllEmployeesListRequest({
-    this.siteId,
-    this.gamificationStatus,
-    this.contractorId,
-    this.tradeId,
-    this.roleId,
-    this.unallocated,
-    this.direct,
-    this.tabType,
-    this.liveVideoStream,
-    this.empName,
-  });
+String employeeRequestToJson(EmployeeRequest data) => json.encode(data.toJson());
 
-  dynamic siteId;
-  bool? gamificationStatus;
-  dynamic contractorId;
-  dynamic tradeId;
-  dynamic roleId;
-  dynamic unallocated;
-  bool? direct;
-  String? tabType;
-  bool? liveVideoStream;
-  String? empName;
+class EmployeeRequest {
+    EmployeeRequest({
+        this.tabType,
+    });
 
-  Map<String, dynamic> toJson() => {
-        "siteId": siteId,
-        "gamificationStatus": gamificationStatus,
-        "contractorId": contractorId,
-        "tradeId": tradeId,
-        "roleId": roleId,
-        "unallocated": unallocated,
-        "direct": direct,
+    String? tabType;
+
+    factory EmployeeRequest.fromJson(Map<String, dynamic> json) => EmployeeRequest(
+        tabType: json["tabType"],
+    );
+
+    Map<String, dynamic> toJson() => {
         "tabType": tabType,
-        "liveVideoStream": liveVideoStream,
-        "empName": empName,
-      };
+    };
 }

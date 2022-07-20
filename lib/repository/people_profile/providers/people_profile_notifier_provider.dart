@@ -6,7 +6,7 @@ import 'package:idec_face/repository/people_profile/providers/people_profile_pro
 import '../../../network/service_umbrella.dart';
 
 final peopleProfileNotifierProvider = StateNotifierProvider<
-    PeopleProfileNotifier, ServiceResponse<AllEmployeesListResponse?>>(
+    PeopleProfileNotifier, ServiceResponse<EmployeeResponse?>>(
   (ref) => PeopleProfileNotifier(
     ref.watch(peopleProfileRepositoryProvider),
   ),

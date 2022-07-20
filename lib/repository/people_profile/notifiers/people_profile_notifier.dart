@@ -5,14 +5,14 @@ import 'package:idec_face/repository/people_profile/people_profile_repository.da
 import '../../../network/service_umbrella.dart';
 
 class PeopleProfileNotifier
-    extends StateNotifier<ServiceResponse<AllEmployeesListResponse?>> {
+    extends StateNotifier<ServiceResponse<EmployeeResponse?>> {
   final PeopleProfileRepository _peopleProfileRepository;
 
   PeopleProfileNotifier(this._peopleProfileRepository)
       : super(ServiceResponse.none());
 
   Future<void> allEmployeesListAttributes(
-      AllEmployeesListRequest allEmployeesListRequest, String tenantId,
+      EmployeeRequest allEmployeesListRequest, String tenantId,
       {required int pageNumber}) async {
     state = ServiceResponse.loading('Loading...');
     final response = await _peopleProfileRepository.allEmployeesListAttributes(

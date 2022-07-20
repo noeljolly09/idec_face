@@ -51,7 +51,7 @@ class Response {
         tenantId: json["tenantId"] as String?,
         siteId: json["siteId"] as String?,
         attribute: json["attribute"] as String?,
-        value: json["value"] == null ? null : Value.fromJson(json["value"]),
+        value: json["values"] == null ? null : Value.fromJson(json["values"]),
         type: json["type"] as String?,
         group: json["group"] as String?,
       );
@@ -60,7 +60,7 @@ class Response {
         "tenantId": tenantId,
         "siteId": siteId,
         "attribute": attribute,
-        "value": value,
+        "values": value,
         "type": type,
         "group": group,
       };
@@ -92,9 +92,9 @@ class Value {
             ? null
             : List<DropDownResponse>.from(
                 json["gender"].map((x) => DropDownResponse.fromJson(x))),
-        selectionResponse: json["forgotPassword"] == null
+        selectionResponse: json["forgotPasswordAttributes"] == null
             ? null
-            : List<DropDownResponse>.from(json["forgotPassword"]
+            : List<DropDownResponse>.from(json["forgotPasswordAttributes"]
                 .map((x) => DropDownResponse.fromJson(x))),
       );
 

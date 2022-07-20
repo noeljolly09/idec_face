@@ -31,15 +31,17 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
   @override
   void initState() {
     super.initState();
-    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    name = response.response!.first.employees!.name!.first!;
-    domain = response.response!.first.tenants!.domain!;
+    final response =
+        ref.read(sharedPrefUtilityProvider).getLoggedInUserDetails()!;
+    final userResponse = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
+    name = response.response!.data!.first.name!.first!;
+    domain = userResponse.response!.tenantId!;
   }
 
   void _getLogoutAttributes() {
     final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    final userName = response.response!.first.userName;
-    final tenantId = response.response!.first.tenants!.id;
+    final userName = response.response!.userName;
+    final tenantId = response.response!.tenantId;
     final logoutRequest = LogoutRequest(userName: userName);
 
     ref
@@ -217,7 +219,8 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                 ),
                 InkWell(
                   onTap: () async {
-                    await launchUrl(Uri.parse("https://thenavisafe.com/#/"));
+                    await launchUrl(Uri.parse(
+                        "https://idecobserverappdev.azurewebsites.net/#/policy"));
                   },
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,

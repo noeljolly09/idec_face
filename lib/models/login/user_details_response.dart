@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-EmployeeResponse employeeResponseFromJson(String str) =>
-    EmployeeResponse.fromJson(json.decode(str));
+UserDetailsResponse userDetailsResponseFromJson(String str) =>
+    UserDetailsResponse.fromJson(json.decode(str));
 
-String employeeResponseToJson(EmployeeResponse data) =>
+String userDetailsResponseToJson(UserDetailsResponse data) =>
     json.encode(data.toJson());
 
-class EmployeeResponse {
-  EmployeeResponse({
+class UserDetailsResponse {
+  UserDetailsResponse({
     this.status,
     this.response,
   });
@@ -15,8 +15,8 @@ class EmployeeResponse {
   bool? status;
   Response? response;
 
-  factory EmployeeResponse.fromJson(Map<String, dynamic> json) =>
-      EmployeeResponse(
+  factory UserDetailsResponse.fromJson(Map<String, dynamic> json) =>
+      UserDetailsResponse(
         status: json["status"],
         response: json["response"] == null
             ? null
@@ -32,30 +32,26 @@ class EmployeeResponse {
 class Response {
   Response({
     this.data,
-    this.message,
   });
 
-  List<UserData>? data;
-  String? message;
+  List<UserDetails>? data;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         data: json["data"] == null
             ? null
-            : List<UserData>.from(
-                json["data"].map((x) => UserData.fromJson(x))),
-        message: json["message"],
+            : List<UserDetails>.from(
+                json["data"].map((x) => UserDetails.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "data": data == null
             ? null
             : List<dynamic>.from(data!.map((x) => x.toJson())),
-        "message": message,
       };
 }
 
-class UserData {
-  UserData({
+class UserDetails {
+  UserDetails({
     this.id,
     this.name,
     this.roleId,
@@ -66,10 +62,12 @@ class UserData {
     this.thumbnail,
     this.empId,
     this.personal,
-    this.status,
+    this.restrictedAccess,
     this.registrationStatus,
+    this.remarks,
     this.phone,
-    this.fullName,
+    this.roles,
+    this.trades,
     this.credentials,
   });
 
@@ -79,17 +77,19 @@ class UserData {
   dynamic tradeId;
   dynamic contractorId;
   String? email;
-  String? image;
+  dynamic image;
   dynamic thumbnail;
-  String? empId;
+  dynamic empId;
   Personal? personal;
-  bool? status;
+  dynamic restrictedAccess;
   String? registrationStatus;
+  dynamic remarks;
   Phone? phone;
-  String? fullName;
-  List<Credential>? credentials;
+  List<dynamic>? roles;
+  List<dynamic>? trades;
+  List<dynamic>? credentials;
 
-  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+  factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         id: json["_id"],
         name: json["name"] == null ? null : Name.fromJson(json["name"]),
         roleId: json["roleId"],
@@ -102,14 +102,19 @@ class UserData {
         personal: json["personal"] == null
             ? null
             : Personal.fromJson(json["personal"]),
-        status: json["status"],
+        restrictedAccess: json["restrictedAccess"],
         registrationStatus: json["registrationStatus"],
+        remarks: json["remarks"],
         phone: json["phone"] == null ? null : Phone.fromJson(json["phone"]),
-        fullName: json["fullName"],
+        roles: json["roles"] == null
+            ? null
+            : List<dynamic>.from(json["roles"].map((x) => x)),
+        trades: json["trades"] == null
+            ? null
+            : List<dynamic>.from(json["trades"].map((x) => x)),
         credentials: json["credentials"] == null
             ? null
-            : List<Credential>.from(
-                json["credentials"].map((x) => Credential.fromJson(x))),
+            : List<dynamic>.from(json["credentials"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -123,33 +128,17 @@ class UserData {
         "thumbnail": thumbnail,
         "empId": empId,
         "personal": personal == null ? null : personal!.toJson(),
-        "status": status,
+        "restrictedAccess": restrictedAccess,
         "registrationStatus": registrationStatus,
+        "remarks": remarks,
         "phone": phone == null ? null : phone!.toJson(),
-        "fullName": fullName,
+        "roles":
+            roles == null ? null : List<dynamic>.from(roles!.map((x) => x)),
+        "trades":
+            trades == null ? null : List<dynamic>.from(trades!.map((x) => x)),
         "credentials": credentials == null
             ? null
-            : List<dynamic>.from(credentials!.map((x) => x.toJson())),
-      };
-}
-
-class Credential {
-  Credential({
-    this.userId,
-    this.userName,
-  });
-
-  String? userId;
-  String? userName;
-
-  factory Credential.fromJson(Map<String, dynamic> json) => Credential(
-        userId: json["userId"],
-        userName: json["userName"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "userName": userName,
+            : List<dynamic>.from(credentials!.map((x) => x)),
       };
 }
 
@@ -161,7 +150,7 @@ class Name {
   });
 
   String? first;
-  String? middle;
+  dynamic middle;
   String? last;
 
   factory Name.fromJson(Map<String, dynamic> json) => Name(
@@ -185,10 +174,10 @@ class Personal {
     this.bloodGroup,
   });
 
-  String? nationality;
-  String? dob;
-  String? gender;
-  String? bloodGroup;
+  dynamic nationality;
+  dynamic dob;
+  dynamic gender;
+  dynamic bloodGroup;
 
   factory Personal.fromJson(Map<String, dynamic> json) => Personal(
         nationality: json["nationality"],

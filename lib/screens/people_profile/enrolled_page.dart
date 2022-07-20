@@ -59,20 +59,9 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
 
   void _getAllEmployeesDetails() {
     final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    final tenantId = response.response!.first.tenants!.id;
-    final allEmployeesListRequest = AllEmployeesListRequest(
-      siteId: null,
-      gamificationStatus: false,
-      contractorId: null,
-      tradeId: null,
-      roleId: null,
-      unallocated: null,
-      direct: false,
+    final tenantId = response.response!.tenantId;
+    final allEmployeesListRequest = EmployeeRequest(
       tabType: "active",
-      liveVideoStream: false,
-      empName: employeeNameController.text.isEmpty
-          ? null
-          : employeeNameController.text,
     );
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
           allEmployeesListRequest,
@@ -226,7 +215,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
   initPeopleProfileListeners(ConnectionStatus networkStatus) {
     ref.listen(peopleProfileNotifierProvider, (previous, next) {
       final peopleProfileInfoResponse =
-          next as ServiceResponse<AllEmployeesListResponse?>;
+          next as ServiceResponse<EmployeeResponse?>;
 
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
         showDialog(
@@ -237,31 +226,26 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         _refreshController.refreshCompleted();
-        if (peopleProfileInfoResponse.data!.status) {
-          if (peopleProfileInfoResponse.data!.response!.isNotEmpty) {
+        if (peopleProfileInfoResponse.data!.status!) {
+          if (peopleProfileInfoResponse.data!.response!.data!.isNotEmpty) {
             _refreshController.loadComplete();
             _currentPage += 1;
-            for (var element in peopleProfileInfoResponse.data!.response!) {
-              employeeDetails.add(EmployeeDetailsFetchedFromApi(
-                empId: element.empId,
-                email: element.email,
-                image: element.image,
-                fullName: element.fullName,
-                bloodGroup: element.personal == null
-                    ? null
-                    : element.personal!.bloodGroup,
-                countryCode: element.phone!.countryCode,
-                dob: element.personal == null ? null : element.personal!.dob,
-                gender:
-                    element.personal == null ? null : element.personal!.gender,
-                nationality: element.personal == null
-                    ? null
-                    : element.personal!.nationality,
-                phoneNumber:
-                    element.phone == null ? null : element.phone!.number,
-                siteName: element.siteName,
-              ));
-            }
+            var data = peopleProfileInfoResponse.data!.response!.data!.first;
+            employeeDetails.add(EmployeeDetailsFetchedFromApi(
+              empId: data.empId,
+              email: data.email,
+              image: data.image,
+              fullName: data.fullName,
+              bloodGroup:
+                  data.personal == null ? null : data.personal!.bloodGroup,
+              countryCode: data.phone!.countryCode,
+              dob: data.personal == null ? null : data.personal!.dob,
+              gender: data.personal == null ? null : data.personal!.gender,
+              nationality:
+                  data.personal == null ? null : data.personal!.nationality,
+              phoneNumber: data.phone == null ? null : data.phone!.number,
+            ));
+
             ref
                 .read(peopleProfileNotifier)
                 .updatelistOfAllEmployees(value: employeeDetails);

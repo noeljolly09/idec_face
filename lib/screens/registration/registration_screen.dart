@@ -121,8 +121,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _getConfigAttributes() {
-    final configInfoRequest =
-        ConfigInfoRequest(configAttributes: ["GNDR", "BG", "NTY"]);
+    final configInfoRequest = ConfigInfoRequest(
+        configAttributes: ["gender", "nationality", "bloodGroup"]);
     ref
         .read(configInfoNotifierProvider.notifier)
         .getConfigAttributes(configInfoRequest);
@@ -136,11 +136,11 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       tenantId = _domainList[_domainController.text.trim().toUpperCase()]!;
       final registrationInfoRequest =
           registrationrequest.RegistrationInfoRequest(
-        employeeDetails: registrationrequest.EmployeeDetails(
+        userDetails: registrationrequest.UserDetails(
+          tenantId: tenantId,
           organisation: _domainController.text,
           //
-          // personal: registrationrequest.Personal(
-          //     dob: DateTime.parse(_dateinput.text)),
+          personal: registrationrequest.Personal(dob: _dateinput.text),
           //
           phone: registrationrequest.Phone(
             countryCode: code.toString(),
@@ -148,7 +148,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           ),
           email: _emailController.text,
           empId: _idController.text,
-          employeeComments: _commentsController.text,
           image: imageSasUrl,
           name: registrationrequest.Name(
               first: _fnameController.text,
@@ -331,11 +330,11 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                         style: TextStyle(color: Colors.black, fontSize: 35),
                         children: <TextSpan>[
                           TextSpan(
-                              text: " Idec ",
+                              text: " IDEC ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: AppConstants.primaryColor)),
-                          TextSpan(text: 'Face', style: TextStyle())
+                          TextSpan(text: 'FACE', style: TextStyle())
                         ],
                       ),
                     )
@@ -593,8 +592,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                       ),
                       InkWell(
                         onTap: () async {
-                          await launchUrl(
-                              Uri.parse("https://thenavisafe.com/#/"));
+                          await launchUrl(Uri.parse(
+                              "https://idecobserverappdev.azurewebsites.net/#/policy"));
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -642,12 +641,16 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           builder: (context) => InfoDialogWithTimer(
             isTimerActivated: true,
             isCancelButtonVisible: false,
-            afterSuccess: () {},
+            afterSuccess: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/login", (route) => false);
+            },
             onPressedBttn1: () {
-              Navigator.of(context).pop(false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/login", (route) => false);
             },
             title: "Error",
-            message: "Client Data fetch error",
+            message: "Unable to fetch Data.",
           ),
         );
       }
@@ -686,8 +689,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                         context, '/login', (route) => false);
                   },
                   title: "Registration",
-                  message: registrationInfoResponse
-                      .data!.payload!.emailInfo!.body!.value
+                  message: registrationInfoResponse.data!.response!.message
                       .toString()),
             );
           } else {
@@ -708,6 +710,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             );
           }
         } else if (registrationInfoResponse.status == ServiceStatus.error) {
+          Navigator.pop(context);
           ref.read(registrationNotifier).updateConfigState(value: false);
           if (networkStatus == ConnectionStatus.offline) {
             showDialog(
@@ -716,9 +719,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               builder: (context) => InfoDialogWithTimer(
                 isTimerActivated: true,
                 isCancelButtonVisible: false,
-                afterSuccess: () {
-                  Navigator.pop(context);
-                },
+                afterSuccess: () {},
                 onPressedBttn1: () {
                   Navigator.of(context).pop(false);
                 },
@@ -733,9 +734,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               builder: (context) => InfoDialogWithTimer(
                 isTimerActivated: true,
                 isCancelButtonVisible: false,
-                afterSuccess: () {
-                  Navigator.pop(context);
-                },
+                afterSuccess: () {},
                 onPressedBttn1: () {
                   Navigator.of(context).pop(false);
                 },
@@ -820,6 +819,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               .updatelistOfSelectOptionsState(value: _listOfSelectionOption);
         }
       } else if (configInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
         ref.read(registrationNotifier).updateConfigState(value: false);
         if (networkStatus == ConnectionStatus.offline) {
           showDialog(
@@ -843,7 +843,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             builder: (context) => InfoDialogWithTimer(
               isTimerActivated: true,
               isCancelButtonVisible: false,
-              afterSuccess: () {},
+              afterSuccess: () {
+                Navigator.pop(context);
+              },
               onPressedBttn1: () {
                 Navigator.of(context).pop(false);
               },

@@ -8,19 +8,37 @@ String logoutResponseToJson(LogoutResponse data) => json.encode(data.toJson());
 class LogoutResponse {
   LogoutResponse({
     this.status,
-    this.error,
+    this.response,
   });
 
   bool? status;
-  String? error;
+  Response? response;
 
   factory LogoutResponse.fromJson(Map<String, dynamic> json) => LogoutResponse(
         status: json["status"],
-        error: json["error"],
+        response: json["response"] == null
+            ? null
+            : Response.fromJson(json["response"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "error": error,
+        "response": response == null ? null : response!.toJson(),
+      };
+}
+
+class Response {
+  Response({
+    this.message,
+  });
+
+  String? message;
+
+  factory Response.fromJson(Map<String, dynamic> json) => Response(
+        message: json["message"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "message": message,
       };
 }

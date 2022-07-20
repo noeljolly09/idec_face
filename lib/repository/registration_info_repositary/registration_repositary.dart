@@ -25,7 +25,7 @@ class RegistrationInfoRepositary {
       });
 
       final response = await _serviceManager.post(
-        '/api/people/registerUser',
+        '/external/register',
         param.toJson(),
         headers: {
           'x-access-token': token,
@@ -38,6 +38,7 @@ class RegistrationInfoRepositary {
       final registrationResponse = registrationResponseFromJson(str);
       return ServiceResponse.completed(registrationResponse);
     } catch (e) {
+      print(e);
       final error = DioNetworkException.getDioException(e);
       return ServiceResponse.error(error.errorCode, error.message);
     }
@@ -61,7 +62,7 @@ class ClientInfoRepositary {
       });
 
       final response = await _serviceManager.get(
-        '/api/people/getclientDetails',
+        '/external/tenants',
       );
 
       print(response);

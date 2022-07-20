@@ -21,7 +21,7 @@ final dioProvider = Provider<Dio>((ref) {
       NoAuthHeaderTenantInterceptor(
         appId: config.appId,
         token: config.token,
-        tenantId: response!.response!.first.tenants!.id!,
+        tenantId: response!.response!.tenantId!,
       ),
     );
   } else {

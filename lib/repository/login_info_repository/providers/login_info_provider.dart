@@ -9,9 +9,9 @@ final loginInfoRepositoryProvider = Provider<LoginInfoRepositary>((ref) {
   return LoginInfoRepositary(serviceManager);
 });
 
-final privilegesAndLicenseDetailsInfoRepositoryProvider =
-    Provider<PrivilegesAndLicenseDetailsInfoRepositary>((ref) {
-  final _apiClient = ref.watch(dioProvider);
-  final serviceManager = ServiceManager(apiClient: _apiClient);
-  return PrivilegesAndLicenseDetailsInfoRepositary(serviceManager);
-});
+// final privilegesAndLicenseDetailsInfoRepositoryProvider =
+//     Provider<PrivilegesAndLicenseDetailsInfoRepositary>((ref) {
+//   final _apiClient = ref.watch(dioProvider);
+//   final serviceManager = ServiceManager(apiClient: _apiClient);
+//   return PrivilegesAndLicenseDetailsInfoRepositary(serviceManager);
+// });

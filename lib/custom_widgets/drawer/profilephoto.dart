@@ -13,8 +13,8 @@ class ProfilePhotoDrawer extends ConsumerStatefulWidget {
 class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
   @override
   Widget build(BuildContext context) {
-    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    String? image = response.response!.first.employees!.image;
+    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUserDetails()!;
+    String? image = response.response!.data!.first.image!;
     print(image);
     return SizedBox(
       height: 115,
