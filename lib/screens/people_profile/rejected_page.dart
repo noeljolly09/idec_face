@@ -7,6 +7,7 @@ import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
+import 'package:idec_face/dialogs/profile_dialog.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_constants/service_constants.dart';
@@ -176,8 +177,9 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                                         // An action can be bigger than the others.
                                         flex: 2,
                                         onPressed: (context) {
-                                          showSnackBar(context,
-                                              "Reapproval Procedure on Progress");
+                                          openMappingDialog(
+                                              context, "Reapprove Employee",
+                                              isAvailableNeeded: false);
                                         },
                                         backgroundColor: Colors.greenAccent,
                                         foregroundColor: Colors.black,
