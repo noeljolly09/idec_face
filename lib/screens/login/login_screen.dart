@@ -343,12 +343,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {
           //
+          ref.read(loginNotifier).updateTenantId(
+              value: loginInfoResponse.data!.response!.tenantId);
           ref
               .read(loginNotifier)
               .updateUserId(value: loginInfoResponse.data!.response!.userId);
           //
-          print("UserId After login : " +
-              loginInfoResponse.data!.response!.userId!);
 
           //
           var data = loginInfoResponse.data!.response!.defaultValue;

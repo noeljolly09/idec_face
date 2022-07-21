@@ -213,7 +213,8 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                     context, '/login', (route) => false);
               },
               onPressedBttn1: () {
-                Navigator.of(context).pop(false);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
               },
               title: "Password Change",
               message:
