@@ -261,7 +261,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         _refreshController.loadFailed();
-         Navigator.of(context).pop(false);
+        _refreshController.loadComplete();
+
+        Navigator.of(context).pop(false);
         if (peopleProfileInfoResponse.errorCode ==
             ServiceErrorCode.unauthorized) {
           //
