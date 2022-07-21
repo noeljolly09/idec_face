@@ -185,77 +185,71 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _showImagePicker() {
-    String tenantId;
-    if (_domainList.keys
-        .contains(_domainController.text.trim().toUpperCase())) {
-      tenantId = _domainList[_domainController.text.trim().toUpperCase()]!;
-
-      final _imageFile = ref.watch(imageNotifier).getImageFile;
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: _imageFile == null
-                ? Wrap(
-                    children: <Widget>[
-                      ListTile(
-                          contentPadding: const EdgeInsets.only(left: 130),
-                          leading: const Icon(Icons.photo_library),
-                          title: const Text('Photo Library',
-                              style: TextStyle(
-                                fontSize: 20,
-                              )),
-                          onTap: () {
-                            _imgFromGallery();
-                            Navigator.of(context).pop();
-                          }),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.only(left: 130, bottom: 20),
-                        leading: const Icon(Icons.photo_camera),
-                        title: const Text('Camera',
+    final _imageFile = ref.watch(imageNotifier).getImageFile;
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: _imageFile == null
+              ? Wrap(
+                  children: <Widget>[
+                    ListTile(
+                        contentPadding: const EdgeInsets.only(left: 130),
+                        leading: const Icon(Icons.photo_library),
+                        title: const Text('Photo Library',
                             style: TextStyle(
                               fontSize: 20,
                             )),
                         onTap: () {
+                          _imgFromGallery();
                           Navigator.of(context).pop();
-                          _imgFromCamera();
-                        },
-                      ),
-                    ],
-                  )
-                : Wrap(
-                    children: <Widget>[
-                      ListTile(
-                          leading: const Icon(Icons.photo),
-                          title: const Text('View Photo'),
-                          onTap: () async {
-                            Navigator.of(context).pop();
-                            await showDialog(
-                                context: context,
-                                builder: (_) => ImageDialog(
-                                      imageFile: File(_imageFile.path),
-                                    ));
-                          }),
-                      ListTile(
-                        leading: const Icon(Icons.remove_circle_outline),
-                        title: const Text('Remove Photo'),
+                        }),
+                    ListTile(
+                      contentPadding:
+                          const EdgeInsets.only(left: 130, bottom: 20),
+                      leading: const Icon(Icons.photo_camera),
+                      title: const Text('Camera',
+                          style: TextStyle(
+                            fontSize: 20,
+                          )),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _imgFromCamera();
+                      },
+                    ),
+                  ],
+                )
+              : Wrap(
+                  children: <Widget>[
+                    ListTile(
+                        leading: const Icon(Icons.photo),
+                        title: const Text('View Photo'),
                         onTap: () async {
                           Navigator.of(context).pop();
-                          isMediaDeleting = true;
-                          ref
-                              .read(mediaNotifierProvider.notifier)
-                              .uploadImageDetails(
-                                  isDelete: true, imageurl: imageSasUrl);
-                          ref.read(imageNotifier).updateImage(image: null);
-                        },
-                      ),
-                    ],
-                  ),
-          );
-        },
-      );
-    }
+                          await showDialog(
+                              context: context,
+                              builder: (_) => ImageDialog(
+                                    imageFile: File(_imageFile.path),
+                                  ));
+                        }),
+                    ListTile(
+                      leading: const Icon(Icons.remove_circle_outline),
+                      title: const Text('Remove Photo'),
+                      onTap: () async {
+                        Navigator.of(context).pop();
+                        isMediaDeleting = true;
+                        ref
+                            .read(mediaNotifierProvider.notifier)
+                            .uploadImageDetails(
+                                isDelete: true, imageurl: imageSasUrl);
+                        ref.read(imageNotifier).updateImage(image: null);
+                      },
+                    ),
+                  ],
+                ),
+        );
+      },
+    );
   }
 
   _imgFromCamera() async {
@@ -434,44 +428,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                             bool isCameraPermissionAllowed =
                                 await getCameraPermission();
                             if (isCameraPermissionAllowed) {
-                              if (_domainController.text.isNotEmpty) {
-                                if (_domainList.keys.contains(_domainController
-                                    .text
-                                    .trim()
-                                    .toUpperCase())) {
-                                  _showImagePicker();
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) => InfoDialogWithTimer(
-                                      isTimerActivated: true,
-                                      isCancelButtonVisible: false,
-                                      afterSuccess: () {},
-                                      onPressedBttn1: () {
-                                        Navigator.of(context).pop(false);
-                                      },
-                                      title: " Valid Domain Required",
-                                      message: "Please Enter Valid Domain",
-                                    ),
-                                  );
-                                }
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (context) => InfoDialogWithTimer(
-                                    isTimerActivated: true,
-                                    isCancelButtonVisible: false,
-                                    afterSuccess: () {},
-                                    onPressedBttn1: () {
-                                      Navigator.of(context).pop(false);
-                                    },
-                                    title: "Domain Required",
-                                    message: "Please Enter Domain",
-                                  ),
-                                );
-                              }
+                              _showImagePicker();
                             }
                           } else {
                             showDialog(
