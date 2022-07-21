@@ -221,6 +221,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
         showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) => const SpinKitCircle(
                   color: AppConstants.primaryColor,
                 ));
@@ -264,6 +265,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         _refreshController.loadFailed();
+        Navigator.of(context).pop(false);
         if (peopleProfileInfoResponse.errorCode ==
             ServiceErrorCode.unauthorized) {
           //

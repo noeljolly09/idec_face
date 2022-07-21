@@ -266,7 +266,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         _refreshController.loadFailed();
-
+        Navigator.of(context).pop(false);
         if (peopleProfileInfoResponse.errorCode ==
             ServiceErrorCode.unauthorized) {
           //
@@ -287,7 +287,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                     context, "/login", (route) => false);
               },
               title: "Error",
-              message: "Session Expired",
+              message: "Something went wrong",
             ),
           );
         } else if (networkStatus == ConnectionStatus.offline) {
