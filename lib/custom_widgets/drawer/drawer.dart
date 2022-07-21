@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:idec_face/custom_widgets/drawer/profilephoto.dart';
+import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/logout/logout_request.dart';
 import 'package:idec_face/models/logout/logout_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
@@ -263,6 +264,39 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
             context,
             MaterialPageRoute(builder: (context) => const LoginPage()),
             (Route<dynamic> route) => false,
+          );
+        }
+      } else if (logoutInfoResponse.status == ServiceStatus.error) {
+        Navigator.of(context).pop(false);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
+            ),
           );
         }
       }

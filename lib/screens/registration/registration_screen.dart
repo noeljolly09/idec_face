@@ -206,7 +206,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                 fontSize: 20,
                               )),
                           onTap: () {
-                            _imgFromGallery(tenantId);
+                            _imgFromGallery();
                             Navigator.of(context).pop();
                           }),
                       ListTile(
@@ -219,7 +219,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                             )),
                         onTap: () {
                           Navigator.of(context).pop();
-                          _imgFromCamera(tenantId);
+                          _imgFromCamera();
                         },
                       ),
                     ],
@@ -258,7 +258,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     }
   }
 
-  _imgFromCamera(String tenantId) async {
+  _imgFromCamera() async {
     _tempImgFile = await _picker.pickImage(
       source: ImageSource.camera,
       preferredCameraDevice: CameraDevice.rear,
@@ -273,15 +273,16 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     }
   }
 
-  _imgFromGallery(String tenantId) async {
+  _imgFromGallery() async {
     XFile? galleryPhoto =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
     if (galleryPhoto != null) {
       _tempImageFile = File(galleryPhoto.path);
       ref.read(imageNotifier).updateImage(image: _tempImageFile);
 
-      ref.read(mediaNotifierProvider.notifier).uploadImageDetails(
-          imageFile: File(_tempImageFile!.path), tenantId: tenantId);
+      ref
+          .read(mediaNotifierProvider.notifier)
+          .uploadImageDetails(imageFile: File(_tempImageFile!.path));
 
       isMediaDeleting = false;
     }
@@ -434,7 +435,27 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                                 await getCameraPermission();
                             if (isCameraPermissionAllowed) {
                               if (_domainController.text.isNotEmpty) {
-                                _showImagePicker();
+                                if (_domainList.keys.contains(_domainController
+                                    .text
+                                    .trim()
+                                    .toUpperCase())) {
+                                  _showImagePicker();
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => InfoDialogWithTimer(
+                                      isTimerActivated: true,
+                                      isCancelButtonVisible: false,
+                                      afterSuccess: () {},
+                                      onPressedBttn1: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                      title: " Valid Domain Required",
+                                      message: "Please Enter Valid Domain",
+                                    ),
+                                  );
+                                }
                               } else {
                                 showDialog(
                                   context: context,
@@ -645,7 +666,14 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const SpinKitCircle(
+                  color: AppConstants.primaryColor,
+                ));
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           List<ClientDetailsModel> _list = [];
           for (var item in clientsInfoResponse.data!.response!.response!) {
@@ -655,6 +683,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           ref.read(registrationNotifier).updatelistofClients(value: _list);
         }
       } else if (clientsInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -883,7 +912,15 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       try {
         final response = next as ServiceResponse<MediaResponse?>;
 
-        if (response.status == ServiceStatus.completed) {
+        if (response.status == ServiceStatus.loading) {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => const SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ));
+        } else if (response.status == ServiceStatus.completed) {
+          Navigator.pop(context);
           if (response.data?.status ?? false) {
             if (isMediaDeleting) {
               ref.read(imageNotifier).updateImage(image: null);

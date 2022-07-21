@@ -342,7 +342,14 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const SpinKitCircle(
+                  color: AppConstants.primaryColor,
+                ));
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           List<ClientDetailsModel> _list = [];
           for (var item in clientsInfoResponse.data!.response!.response!) {
