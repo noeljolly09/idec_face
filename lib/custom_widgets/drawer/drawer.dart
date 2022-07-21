@@ -32,16 +32,16 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
   void initState() {
     super.initState();
     final response =
-        ref.read(sharedPrefUtilityProvider).getLoggedInUserDetails()!;
-    final userResponse = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    name = response.response!.data!.first.name!.first!;
-    domain = userResponse.response!.tenantId!;
+        ref.read(sharedPrefUtilityProvider).getLoggedInPriviledgeUserDetails()!;
+    name = response.response!.data!.first.users!.name!.first!;
+    domain = response.response!.data!.first.tenants!.domain!;
   }
 
   void _getLogoutAttributes() {
-    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    final userName = response.response!.userName;
-    final tenantId = response.response!.tenantId;
+    final response =
+        ref.read(sharedPrefUtilityProvider).getLoggedInPriviledgeUserDetails()!;
+    final userName = response.response!.data!.first.userName;
+    final tenantId = response.response!.data!.first.tenants!.id;
     final logoutRequest = LogoutRequest(userName: userName);
 
     ref
@@ -181,12 +181,12 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                 ),
                 const Divider(color: AppConstants.customblack),
                 drawerItem(
-                  isdiabled: true,
+                  isdiabled: false,
                   svg: "assets/svg/settings.svg",
                   text: "Settings",
-                  // onTap: () {
-                  //   Navigator.pushNamed(context, '/settings');
-                  // },
+                  onTap: () {
+                    Navigator.pushNamed(context, '/settings');
+                  },
                 ),
                 drawerItem(
                   isdiabled: false,

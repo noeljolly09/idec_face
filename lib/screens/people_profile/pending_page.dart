@@ -8,9 +8,9 @@ import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
+import 'package:idec_face/network/core/service_constants/service_constants.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/people_profile/providers/people_profile_notifier_provider.dart';
-import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
@@ -57,8 +57,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
   }
 
   void _getAllEmployeesDetails() {
-    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser()!;
-    final tenantId = response.response!.tenantId;
+    final response =
+        ref.read(sharedPrefUtilityProvider).getLoggedInPriviledgeUserDetails()!;
+    final tenantId = response.response!.data!.first.tenants!.id;
     final allEmployeesListRequest = EmployeeRequest(
       tabType: "pending",
     );
@@ -187,7 +188,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                 child: EmployeeCard(
                                   image: _employeeList[index].image,
                                   employeeName: _employeeList[index].fullName!,
-                                  employeeId: _employeeList[index].empId!,
+                                  employeeId: _employeeList[index].empId,
                                   siteName:
                                       _employeeList[index].siteName != null
                                           ? _employeeList[index].siteName!
@@ -226,25 +227,31 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           if (peopleProfileInfoResponse.data!.response!.data!.isNotEmpty) {
             _refreshController.loadComplete();
             _currentPage += 1;
-            var data = peopleProfileInfoResponse.data!.response!.data!.first;
-            pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
-              empId: data.empId,
-              email: data.email,
-              image: data.image,
-              fullName: data.fullName,
-              bloodGroup:
-                  data.personal == null ? null : data.personal!.bloodGroup,
-              countryCode: data.phone!.countryCode,
-              dob: data.personal == null ? null : data.personal!.dob,
-              gender: data.personal == null ? null : data.personal!.gender,
-              nationality:
-                  data.personal == null ? null : data.personal!.nationality,
-              phoneNumber: data.phone == null ? null : data.phone!.number,
-            ));
-
+            var responseData = peopleProfileInfoResponse.data!.response!.data!;
+            for (var element in responseData) {
+              pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
+                empId: element.empId,
+                email: element.email,
+                image: element.image,
+                fullName: element.fullName,
+                bloodGroup: element.personal == null
+                    ? null
+                    : element.personal!.bloodGroup,
+                countryCode:
+                    element.phone == null ? null : element.phone!.countryCode,
+                dob: element.personal == null ? null : element.personal!.dob,
+                gender:
+                    element.personal == null ? null : element.personal!.gender,
+                nationality: element.personal == null
+                    ? null
+                    : element.personal!.nationality,
+                phoneNumber:
+                    element.phone == null ? null : element.phone!.number,
+              ));
+            }
             ref
                 .read(peopleProfileNotifier)
-                .updatelistOfAllEmployees(value: pendingEmployeeDetails);
+                .updatelistOfPendingEmployees(value: pendingEmployeeDetails);
           } else {
             _refreshController.loadNoData();
           }
@@ -253,7 +260,30 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
         }
       } else if (peopleProfileInfoResponse.status == ServiceStatus.error) {
         _refreshController.loadFailed();
-        if (networkStatus == ConnectionStatus.offline) {
+        if (peopleProfileInfoResponse.errorCode ==
+            ServiceErrorCode.unauthorized) {
+          //
+          ref.read(sharedPrefUtilityProvider).resetPreference();
+          //
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/login", (route) => false);
+              },
+              onPressedBttn1: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/login", (route) => false);
+              },
+              title: "Error",
+              message: "Session Expired",
+            ),
+          );
+        } else if (networkStatus == ConnectionStatus.offline) {
           showDialog(
             context: context,
             barrierDismissible: false,

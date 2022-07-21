@@ -76,11 +76,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     if (domainList.keys.contains(_domainController.text.trim().toUpperCase())) {
       tenantId = domainList[_domainController.text.trim().toUpperCase()]!;
       var passwordResetRequest = PasswordResetRequest();
-      if (_optionsController.text.toLowerCase() == "userName") {
+      if (_optionsController.text.toLowerCase() == "username") {
         passwordResetRequest = PasswordResetRequest(
           userName: _valueController.text,
         );
-      } else if (_optionsController.text.toLowerCase() == "employeeId") {
+      } else if (_optionsController.text.toLowerCase() == "employeeid") {
         passwordResetRequest = PasswordResetRequest(
           empId: _valueController.text,
         );

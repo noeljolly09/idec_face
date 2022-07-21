@@ -266,9 +266,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     if (_tempImgFile != null) {
       _tempImageFile = File(_tempImgFile!.path);
       ref.read(imageNotifier).updateImage(image: _tempImageFile);
-      ref
-          .read(mediaNotifierProvider.notifier)
-          .uploadImageDetails(imageFile: _tempImageFile, tenantId: tenantId);
+      ref.read(mediaNotifierProvider.notifier).uploadImageDetails(
+            imageFile: _tempImageFile,
+          );
       isMediaDeleting = false;
     }
   }

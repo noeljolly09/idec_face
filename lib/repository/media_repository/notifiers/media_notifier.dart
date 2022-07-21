@@ -17,8 +17,11 @@ class MediaNotifier extends StateNotifier<ServiceResponse<MediaResponse?>> {
       String? imageurl,
       String? tenantId}) async {
     state = ServiceResponse.loading('Loading...');
-    final response = await _mediaRepository.uploadImage(imageFile,
-        isDelete: isDelete, imageurl: imageurl, tenantId: tenantId);
+    final response = await _mediaRepository.uploadImage(
+      imageFile,
+      isDelete: isDelete,
+      imageurl: imageurl,
+    );
     state = response;
   }
 

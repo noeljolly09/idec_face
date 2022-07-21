@@ -24,7 +24,9 @@ class ProfileIconText extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        isIconNeeded == true ? icon : const Text(''),
+        isIconNeeded == true
+            ? SizedBox(height: 20, width: 20, child: icon)
+            : const Text(''),
         SizedBox(
           width: screenWidth(context, dividedBy: 82.28),
         ),
@@ -34,7 +36,7 @@ class ProfileIconText extends StatelessWidget {
           softWrap: true,
           maxLines: 1,
           style: TextStyle(
-              fontSize: isProfileName == true ? 21 : 16,
+              fontSize: isProfileName == true ? 21 : 19,
               fontWeight:
                   isProfileName == true ? FontWeight.bold : FontWeight.normal,
               color:
