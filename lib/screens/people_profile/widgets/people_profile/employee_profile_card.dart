@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
 
@@ -21,6 +21,31 @@ class EmployeeCard extends StatelessWidget {
     this.image,
   }) : super(key: key);
 
+  getImage(String? profileImage) async {
+    if (profileImage != null && profileImage != '') {
+      var client = http.Client();
+      try {
+        http.Response? uriResponse = await client.get(Uri.parse(profileImage));
+        if (uriResponse.statusCode == 200) {
+          if (uriResponse.bodyBytes != null) {
+            if (uriResponse.bodyBytes.isNotEmpty) {
+              return uriResponse.bodyBytes;
+            }
+          }
+        }
+        return null;
+      } catch (e) {
+        print(e);
+
+        return null;
+      } finally {
+        client.close();
+      }
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print(image);
@@ -38,27 +63,22 @@ class EmployeeCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    'assets/svg/User_big.svg',
-                    height: 80,
+                  FutureBuilder<dynamic>(
+                    future: getImage(image),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Image.network(
+                          image!,
+                          width: 80,
+                          height: 80,
+                        );
+                      }
+                      return SvgPicture.asset(
+                        'assets/svg/User_big.svg',
+                        height: 80,
+                      );
+                    },
                   ),
-                  // image == null
-                  //     ? SvgPicture.asset(
-                  //         'assets/svg/User_big.svg',
-                  //         height: 80,
-                  //       )
-                  //     : image!.isEmpty
-                  //         ? SvgPicture.asset(
-                  //             'assets/svg/User_big.svg',
-                  //             height: 80,
-                  //           )
-                  //         : Image.network(image!, width: 80, height: 80,
-                  //             errorBuilder: (context, object, value) {
-                  //             return SvgPicture.asset(
-                  //               'assets/svg/User_big.svg',
-                  //               height: 80,
-                  //             );
-                  //           }),
                   ProfileIconText(
                       icon: const Icon(Icons.abc),
                       isIconNeeded: false,
