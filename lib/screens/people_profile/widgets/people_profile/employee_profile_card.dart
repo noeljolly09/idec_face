@@ -23,6 +23,7 @@ class EmployeeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(image);
     return Card(
       margin: const EdgeInsets.all(1),
       child: Container(
@@ -37,21 +38,27 @@ class EmployeeCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  image == null
-                      ? SvgPicture.asset(
-                          'assets/svg/User_big.svg',
-                          height: 80,
-                        )
-                      : image!.isEmpty
-                          ? SvgPicture.asset(
-                              'assets/svg/User_big.svg',
-                              height: 80,
-                            )
-                          : Image.network(
-                              image!,
-                              width: 80,
-                              height: 80,
-                            ),
+                  SvgPicture.asset(
+                    'assets/svg/User_big.svg',
+                    height: 80,
+                  ),
+                  // image == null
+                  //     ? SvgPicture.asset(
+                  //         'assets/svg/User_big.svg',
+                  //         height: 80,
+                  //       )
+                  //     : image!.isEmpty
+                  //         ? SvgPicture.asset(
+                  //             'assets/svg/User_big.svg',
+                  //             height: 80,
+                  //           )
+                  //         : Image.network(image!, width: 80, height: 80,
+                  //             errorBuilder: (context, object, value) {
+                  //             return SvgPicture.asset(
+                  //               'assets/svg/User_big.svg',
+                  //               height: 80,
+                  //             );
+                  //           }),
                   ProfileIconText(
                       icon: const Icon(Icons.abc),
                       isIconNeeded: false,
@@ -84,10 +91,8 @@ class EmployeeCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Expanded(
-              child: Icon(
-                Icons.arrow_left,
-              ),
+            Expanded(
+              child: SvgPicture.asset("assets/svg/pending.svg"),
             ),
           ],
         ),

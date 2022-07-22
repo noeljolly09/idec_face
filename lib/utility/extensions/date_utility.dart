@@ -59,6 +59,18 @@ extension DateString on String {
   }
 }
 
+extension DateStringWithoutTime on String {
+  DateTime get date {
+    DateTime formattedString = DateTime.parse(this).toLocal();
+    return formattedString;
+  }
+
+  String get formatDateWithoutTime {
+    final val = DateFormat('dd/MM/yyyy').format(DateTime.parse(this).toLocal());
+    return val;
+  }
+}
+
 extension TimeDuration on num {
   String get duration {
     var hours = (this ~/ 60);

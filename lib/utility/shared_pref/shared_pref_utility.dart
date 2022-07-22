@@ -23,7 +23,15 @@ class SharedPreferenceUtility {
     return loggedInStatus ?? false;
   }
 
+  Future<void> saveLoggedInUser(LoginResponse response) async {
+    final jsonResponse = jsonEncode(response);
+    await sharedPref.setString(AppConstants().prefKeyUser, jsonResponse);
+  }
 
+  LoginResponse? getLoggedInUser() {
+    final jsonResponse = sharedPref.getString(AppConstants().prefKeyUser);
+    return LoginResponse.fromJson(jsonDecode(jsonResponse ?? "") as SDMap);
+  }
 
   Future<void> saveLoggedInPriviledgeUserDetails(
       PrivilegeUserResponse response) async {
@@ -36,7 +44,6 @@ class SharedPreferenceUtility {
     return PrivilegeUserResponse.fromJson(
         jsonDecode(jsonResponse ?? "") as SDMap);
   }
-
 
   Future<void> resetPreference() async {
     for (String key in sharedPref.getKeys()) {
