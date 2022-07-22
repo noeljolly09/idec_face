@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:idec_face/models/login/login_request.dart';
-import 'package:idec_face/models/login/login_response.dart';
 import 'package:idec_face/models/login/user_details_request.dart';
 import 'package:idec_face/models/login/user_details_response.dart';
 

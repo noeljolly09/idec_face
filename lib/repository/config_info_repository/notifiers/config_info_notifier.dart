@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/models/config/config_request.dart';
 import 'package:idec_face/models/config/config_response.dart';
+import 'package:idec_face/models/people_profile/trade_response.dart';
 import 'package:idec_face/repository/config_info_repository/config_repositary.dart';
 
 import '../../../network/service_umbrella.dart';
@@ -19,3 +20,4 @@ class ConfigInfoNotifier
     state = response;
   }
 }
+

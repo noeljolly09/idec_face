@@ -8,3 +8,6 @@ final configInfoRepositoryProvider = Provider<ConfigInfoRepositary>((ref) {
   final serviceManager = ServiceManager(apiClient: _apiClient);
   return ConfigInfoRepositary(serviceManager);
 });
+
+
+// api

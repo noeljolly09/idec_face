@@ -48,7 +48,6 @@ class EmployeeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(image);
     return Card(
       margin: const EdgeInsets.all(1),
       child: Container(

@@ -364,11 +364,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (context) => const ChangePasswordDialog(
-                isConfirmPasswordNeeded: false,
+              builder: (context) => ChangePasswordDialog(
+                oldPassword: _passwordController,
+                isOldPasswordFieldNeeded: false,
                 tooltipText: "PLease new credentials to login",
                 label:
-                    "You logged in with your\n default password, \nPlease Change Password",
+                    "You logged in with your default \npassword, Please Change \nPassword.",
               ),
             );
           } else {

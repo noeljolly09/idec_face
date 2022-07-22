@@ -73,7 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     showDialog(
                         context: context,
                         builder: (context) => const ChangePasswordDialog(
-                            isConfirmPasswordNeeded: true,
+                            isOldPasswordFieldNeeded: true,
                             tooltipText:
                                 "PLease enter your credentials here to change",
                             label: "Change Password"));

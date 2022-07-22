@@ -18,10 +18,8 @@ class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
       try {
         http.Response? uriResponse = await client.get(Uri.parse(profileImage));
         if (uriResponse.statusCode == 200) {
-          if (uriResponse.bodyBytes != null) {
-            if (uriResponse.bodyBytes.isNotEmpty) {
-              return uriResponse.bodyBytes;
-            }
+          if (uriResponse.bodyBytes.isNotEmpty) {
+            return uriResponse.bodyBytes;
           }
         }
         return null;

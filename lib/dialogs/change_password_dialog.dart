@@ -18,12 +18,14 @@ import '../repository/password_change_repository/providers/password_change_notif
 
 class ChangePasswordDialog extends ConsumerStatefulWidget {
   final String label;
-  final bool? isConfirmPasswordNeeded;
+  final bool? isOldPasswordFieldNeeded;
+  final TextEditingController? oldPassword;
   final String? tooltipText;
   const ChangePasswordDialog({
     Key? key,
-    this.isConfirmPasswordNeeded,
+    this.isOldPasswordFieldNeeded,
     this.tooltipText,
+    this.oldPassword,
     required this.label,
   }) : super(key: key);
 
@@ -33,17 +35,16 @@ class ChangePasswordDialog extends ConsumerStatefulWidget {
 
 class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
-  bool _isOldPasswordObscure = true;
+  bool _isConfirmNewPasswordObscure = true;
   bool _isNewPasswordObscure = true;
+  bool _isOldPasswordObscure = true;
   String validatorData = "";
 
   //
-  final TextEditingController _passwordChangeOldPasswordController =
-      TextEditingController();
-  final TextEditingController _passwordChangeNewPasswordController =
-      TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _oldPasswordController = TextEditingController();
 
-  final TextEditingController _passwordChangeNewPasswordConfirmController =
+  final TextEditingController _newPasswordConfirmController =
       TextEditingController();
   //
 
@@ -57,8 +58,10 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
 
     final changePasswordRequest = ChangePasswordRequest(
       userName: username,
-      oldPassword: encryptor(_passwordChangeOldPasswordController.text),
-      newPassword: encryptor(_passwordChangeNewPasswordController.text),
+      oldPassword: widget.isOldPasswordFieldNeeded == true
+          ? encryptor(_oldPasswordController.text)
+          : encryptor(widget.oldPassword!.text),
+      newPassword: encryptor(_newPasswordController.text),
     );
     ref
         .read(passwordChangeNotifierProvider.notifier)
@@ -96,52 +99,44 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                           color: AppConstants.primaryColor,
                           fontSize: AppConstants.authtitlesize),
                     )),
-                    Tooltip(
-                        message: widget.tooltipText,
-                        decoration: const BoxDecoration(color: Colors.black54),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.info,
-                            color: AppConstants.primaryColor,
-                          ),
-                        )),
                   ],
                 ),
+                widget.isOldPasswordFieldNeeded == true
+                    ? CustomTextField(
+                        isSvg: true,
+                        svgasset: "assets/svg/password.svg",
+                        isObscure: _isOldPasswordObscure,
+                        controller: _newPasswordController,
+                        suffixIcon: IconButton(
+                          color: const Color.fromRGBO(28, 36, 44, 1),
+                          icon: Icon(
+                            _isOldPasswordObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isOldPasswordObscure = !_isOldPasswordObscure;
+                            });
+                          },
+                        ),
+                        validator: (value) {
+                          if (value!.isValidChangePassword.isEmpty) {
+                            return null;
+                          } else {
+                            return value.isValidChangePassword;
+                          }
+                        },
+                        hint: "Old Password",
+                        input: TextInputType.name,
+                        textAction: TextInputAction.done,
+                      )
+                    : const SizedBox(),
                 CustomTextField(
                   isSvg: true,
                   svgasset: "assets/svg/password.svg",
                   isObscure: _isOldPasswordObscure,
-                  controller: _passwordChangeOldPasswordController,
-                  suffixIcon: IconButton(
-                    color: const Color.fromRGBO(28, 36, 44, 1),
-                    icon: Icon(
-                      _isOldPasswordObscure
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isOldPasswordObscure = !_isOldPasswordObscure;
-                      });
-                    },
-                  ),
-                  validator: (value) {
-                    if (value!.isNotEmpty) {
-                      return null;
-                    } else {
-                      return "Mandatory field";
-                    }
-                  },
-                  hint: "Old Password",
-                  input: TextInputType.name,
-                  textAction: TextInputAction.done,
-                ),
-                CustomTextField(
-                  isSvg: true,
-                  svgasset: "assets/svg/password.svg",
-                  isObscure: _isNewPasswordObscure,
-                  controller: _passwordChangeNewPasswordController,
+                  controller: _newPasswordController,
                   suffixIcon: IconButton(
                     color: const Color.fromRGBO(28, 36, 44, 1),
                     icon: Icon(
@@ -166,57 +161,39 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                   input: TextInputType.name,
                   textAction: TextInputAction.done,
                 ),
-                widget.isConfirmPasswordNeeded == true
-                    ? CustomTextField(
-                        isSvg: true,
-                        svgasset: "assets/svg/password.svg",
-                        isObscure: _isNewPasswordObscure,
-                        controller: _passwordChangeNewPasswordConfirmController,
-                        suffixIcon: IconButton(
-                          color: const Color.fromRGBO(28, 36, 44, 1),
-                          icon: Icon(
-                            _isNewPasswordObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isNewPasswordObscure = !_isNewPasswordObscure;
-                            });
-                          },
-                        ),
-                        validator: (value) {
-                          if (value!.isValidChangePassword.isEmpty) {
-                            return null;
-                          } else {
-                            return value.isValidChangePassword;
-                          }
-                        },
-                        hint: "Confirm New Password",
-                        input: TextInputType.name,
-                        textAction: TextInputAction.done,
-                      )
-                    : const Text(""),
-                Text(
-                  validatorData,
-                  style: const TextStyle(color: Colors.red),
+                CustomTextField(
+                  isSvg: true,
+                  svgasset: "assets/svg/password.svg",
+                  isObscure: _isConfirmNewPasswordObscure,
+                  controller: _newPasswordConfirmController,
+                  suffixIcon: IconButton(
+                    color: const Color.fromRGBO(28, 36, 44, 1),
+                    icon: Icon(
+                      _isConfirmNewPasswordObscure
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isConfirmNewPasswordObscure =
+                            !_isConfirmNewPasswordObscure;
+                      });
+                    },
+                  ),
+                  validator: (value) {
+                    if (_newPasswordController.text != value) {
+                      return "Password not same";
+                    }
+                    return null;
+                  },
+                  hint: "Confirm New Password",
+                  input: TextInputType.name,
+                  textAction: TextInputAction.done,
                 ),
                 ElevatedButton(
                   onPressed: () {
                     if (formGlobalKey.currentState!.validate()) {
-                      if (widget.isConfirmPasswordNeeded == true) {
-                        _changePasswordAttributes();
-                      } else if (_passwordChangeNewPasswordController.text ==
-                          _passwordChangeNewPasswordConfirmController.text) {
-                        _changePasswordAttributes();
-                        setState(() {
-                          validatorData = "";
-                        });
-                      } else {
-                        setState(() {
-                          validatorData = "Password Not Same";
-                        });
-                      }
+                      _changePasswordAttributes();
                     }
                   },
                   child: const Text('Confirm'),

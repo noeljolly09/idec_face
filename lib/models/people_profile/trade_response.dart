@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final tradeListResponse = tradeListResponseFromJson(jsonString);
-
 import 'dart:convert';
 
 TradeListResponse tradeListResponseFromJson(String str) =>
