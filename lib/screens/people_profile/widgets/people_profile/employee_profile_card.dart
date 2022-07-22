@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
 
@@ -20,6 +20,31 @@ class EmployeeCard extends StatelessWidget {
     required this.siteName,
     this.image,
   }) : super(key: key);
+
+  getImage(String? profileImage) async {
+    if (profileImage != null && profileImage != '') {
+      var client = http.Client();
+      try {
+        http.Response? uriResponse = await client.get(Uri.parse(profileImage));
+        if (uriResponse.statusCode == 200) {
+          if (uriResponse.bodyBytes != null) {
+            if (uriResponse.bodyBytes.isNotEmpty) {
+              return uriResponse.bodyBytes;
+            }
+          }
+        }
+        return null;
+      } catch (e) {
+        print(e);
+
+        return null;
+      } finally {
+        client.close();
+      }
+    } else {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
