@@ -15,6 +15,7 @@ import 'package:idec_face/repository/people_profile/providers/people_profile_not
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
+import 'package:idec_face/screens/people_profile/pending_approval_page.dart';
 
 import 'package:idec_face/screens/people_profile/widgets/people_profile/employee_profile_card.dart';
 
@@ -155,38 +156,44 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                           itemCount: _employeeList.length,
                           itemBuilder: (context, index) {
                             return SingleChildScrollView(
-                                child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailedProfileScreen(
-                                              employeeStatus: "pending",
-                                              employeeIndex: index),
-                                    ));
-                              },
-                              child: Slidable(
-                                key: ValueKey(index),
-                                endActionPane: ActionPane(
-                                  extentRatio: 0.35,
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      // An action can be bigger than the others.
-                                      flex: 2,
-                                      onPressed: (context) {
-                                        openMappingDialog(
-                                            context, "Approve Employee",
-                                            isAvailableNeeded: false);
-                                      },
-                                      backgroundColor: Colors.greenAccent,
-                                      foregroundColor: Colors.black,
+                              child: InkWell(
+                                onTap: () {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) =>
+                                  //           DetailedProfileScreen(
+                                  //               employeeStatus: "pending",
+                                  //               employeeIndex: index),
+                                  //     ));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PendingApprovalPage(
+                                                pendingList: _employeeList,
+                                                employeeIndex: index),
+                                      ));
+                                },
+                                // child: Slidable(
+                                //   key: ValueKey(index),
+                                //   endActionPane: ActionPane(
+                                //     extentRatio: 0.35,
+                                //     motion: const ScrollMotion(),
+                                //     children: [
+                                //       SlidableAction(
+                                //         // An action can be bigger than the others.
+                                //         flex: 2,
+                                //         onPressed: (context) {
 
-                                      label: 'Approve \nEmployee',
-                                    ),
-                                  ],
-                                ),
+                                //         },
+                                //         backgroundColor: Colors.greenAccent,
+                                //         foregroundColor: Colors.black,
+
+                                //         label: 'Approve \nEmployee',
+                                //       ),
+                                //     ],
+                                //   ),
                                 child: EmployeeCard(
                                   image: _employeeList[index].image,
                                   employeeName: _employeeList[index].fullName!,
@@ -198,7 +205,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                   index: index,
                                 ),
                               ),
-                            ));
+                            );
                           }),
                     ),
                   ),
@@ -234,6 +241,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
             for (var element in responseData) {
               pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
                 empId: element.empId,
+                firstName: element.name!.first,
+                lastName: element.name!.last,
+                middleName: element.name!.middle,
                 email: element.email,
                 image: element.image,
                 fullName: element.fullName,

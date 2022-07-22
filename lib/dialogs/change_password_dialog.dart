@@ -12,13 +12,18 @@ import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
 import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
+import 'package:idec_face/utility/shared_pref/provider/shared_pref_provider.dart';
 
 import '../repository/password_change_repository/providers/password_change_notifier_provider.dart';
 
 class ChangePasswordDialog extends ConsumerStatefulWidget {
   final String label;
+  final bool? isConfirmPasswordNeeded;
+  final String? tooltipText;
   const ChangePasswordDialog({
     Key? key,
+    this.isConfirmPasswordNeeded,
+    this.tooltipText,
     required this.label,
   }) : super(key: key);
 
@@ -30,21 +35,28 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   bool _isOldPasswordObscure = true;
   bool _isNewPasswordObscure = true;
+  String validatorData = "";
 
   //
-  final TextEditingController _passwordChangeUsernameController =
-      TextEditingController();
   final TextEditingController _passwordChangeOldPasswordController =
       TextEditingController();
   final TextEditingController _passwordChangeNewPasswordController =
       TextEditingController();
+
+  final TextEditingController _passwordChangeNewPasswordConfirmController =
+      TextEditingController();
   //
 
   void _changePasswordAttributes() {
-    String tenantId = ref.watch(loginNotifier).tenantId!;
+    String tenantId = ref
+        .watch(sharedPrefUtilityProvider)
+        .getLoggedInUser()!
+        .response!
+        .tenantId!;
+    String username = ref.watch(loginNotifier).username!;
 
     final changePasswordRequest = ChangePasswordRequest(
-      userName: _passwordChangeUsernameController.text,
+      userName: username,
       oldPassword: encryptor(_passwordChangeOldPasswordController.text),
       newPassword: encryptor(_passwordChangeNewPasswordController.text),
     );
@@ -84,10 +96,10 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                           color: AppConstants.primaryColor,
                           fontSize: AppConstants.authtitlesize),
                     )),
-                    const Tooltip(
-                        message: "Please enter new credentials to log in",
-                        decoration: BoxDecoration(color: Colors.black54),
-                        child: Padding(
+                    Tooltip(
+                        message: widget.tooltipText,
+                        decoration: const BoxDecoration(color: Colors.black54),
+                        child: const Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
                             Icons.info,
@@ -95,21 +107,6 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                           ),
                         )),
                   ],
-                ),
-                CustomTextField(
-                  isSvg: true,
-                  svgasset: "assets/svg/user.svg",
-                  hint: "Username",
-                  controller: _passwordChangeUsernameController,
-                  validator: (value) {
-                    if (value!.isNotEmpty) {
-                      return null;
-                    } else {
-                      return "Username is Mandatory";
-                    }
-                  },
-                  input: TextInputType.name,
-                  textAction: TextInputAction.next,
                 ),
                 CustomTextField(
                   isSvg: true,
@@ -169,10 +166,57 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                   input: TextInputType.name,
                   textAction: TextInputAction.done,
                 ),
+                widget.isConfirmPasswordNeeded == true
+                    ? CustomTextField(
+                        isSvg: true,
+                        svgasset: "assets/svg/password.svg",
+                        isObscure: _isNewPasswordObscure,
+                        controller: _passwordChangeNewPasswordConfirmController,
+                        suffixIcon: IconButton(
+                          color: const Color.fromRGBO(28, 36, 44, 1),
+                          icon: Icon(
+                            _isNewPasswordObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isNewPasswordObscure = !_isNewPasswordObscure;
+                            });
+                          },
+                        ),
+                        validator: (value) {
+                          if (value!.isValidChangePassword.isEmpty) {
+                            return null;
+                          } else {
+                            return value.isValidChangePassword;
+                          }
+                        },
+                        hint: "Confirm New Password",
+                        input: TextInputType.name,
+                        textAction: TextInputAction.done,
+                      )
+                    : const Text(""),
+                Text(
+                  validatorData,
+                  style: const TextStyle(color: Colors.red),
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (formGlobalKey.currentState!.validate()) {
-                      _changePasswordAttributes();
+                      if (widget.isConfirmPasswordNeeded == true) {
+                        _changePasswordAttributes();
+                      } else if (_passwordChangeNewPasswordController.text ==
+                          _passwordChangeNewPasswordConfirmController.text) {
+                        _changePasswordAttributes();
+                        setState(() {
+                          validatorData = "";
+                        });
+                      } else {
+                        setState(() {
+                          validatorData = "Password Not Same";
+                        });
+                      }
                     }
                   },
                   child: const Text('Confirm'),

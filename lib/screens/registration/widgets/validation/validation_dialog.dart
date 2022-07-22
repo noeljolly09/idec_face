@@ -124,15 +124,29 @@ openValidationDialogWindow(
                       titletext: "Blood Group",
                       controllertext: blood.text,
                     ),
-                    PreviewText(
-                      assetName: "assets/svg/phone.svg",
-                      titletext: "Country Code",
-                      controllertext: code!.dialCode.toString(),
-                    ),
-                    PreviewText(
-                      assetName: "assets/svg/phone.svg",
-                      titletext: "Phone Number",
-                      controllertext: phone.text,
+                    Row(
+                      children: [
+                        Expanded(
+                            child: IgnorePointer(
+                                ignoring: true,
+                                child: CountryListPick(
+                                  theme: CountryTheme(
+                                    isShowFlag: true,
+                                    isShowTitle: false,
+                                    isShowCode: false,
+                                    isDownIcon: false,
+                                    showEnglishName: false,
+                                  ),
+                                  initialSelection: code!.flagUri,
+                                ))),
+                        Expanded(
+                          flex: 3,
+                          child: PreviewText(
+                            titletext: "Phone Number",
+                            controllertext: phone.text,
+                          ),
+                        ),
+                      ],
                     ),
                     ValidationText(
                       assetName: "assets/svg/email.svg",

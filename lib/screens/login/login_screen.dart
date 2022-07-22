@@ -345,6 +345,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           //
           ref.read(loginNotifier).updateTenantId(
               value: loginInfoResponse.data!.response!.tenantId);
+
+          ref
+              .read(sharedPrefUtilityProvider)
+              .saveLoggedInUser(loginInfoResponse.data!);
+          ref
+              .read(loginNotifier)
+              .updateUsername(value: _usernameController.text);
+
           ref
               .read(loginNotifier)
               .updateUserId(value: loginInfoResponse.data!.response!.userId);
@@ -354,11 +362,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           var data = loginInfoResponse.data!.response!.defaultValue;
           if (data != null) {
             showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const ChangePasswordDialog(
-                      label: "Change Password",
-                    ));
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => const ChangePasswordDialog(
+                isConfirmPasswordNeeded: false,
+                tooltipText: "PLease new credentials to login",
+                label:
+                    "You logged in with your\n default password, \nPlease Change Password",
+              ),
+            );
           } else {
             // ref
             //     .read(sharedPrefUtilityProvider)

@@ -54,11 +54,13 @@ class PreviewText extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       )
-                    : Text(titletext,
+                    : Text(
+                        titletext,
                         style: TextStyle(
                           fontSize: AppConstants.modaltextsize,
                           color: Colors.grey.shade600,
-                        )),
+                        ),
+                      ),
               ],
             ),
           ),

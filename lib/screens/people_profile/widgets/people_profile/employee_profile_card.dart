@@ -48,6 +48,7 @@ class EmployeeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(image);
     return Card(
       margin: const EdgeInsets.all(1),
       child: Container(
@@ -110,10 +111,8 @@ class EmployeeCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Expanded(
-              child: Icon(
-                Icons.arrow_left,
-              ),
+            Expanded(
+              child: SvgPicture.asset("assets/svg/pending.svg"),
             ),
           ],
         ),
