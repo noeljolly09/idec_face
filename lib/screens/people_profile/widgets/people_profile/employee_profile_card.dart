@@ -62,21 +62,22 @@ class EmployeeCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  image == null
-                      ? SvgPicture.asset(
-                          'assets/svg/User_big.svg',
+                  FutureBuilder<dynamic>(
+                    future: getImage(image),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Image.network(
+                          image!,
+                          width: 80,
                           height: 80,
-                        )
-                      : image!.isEmpty
-                          ? SvgPicture.asset(
-                              'assets/svg/User_big.svg',
-                              height: 80,
-                            )
-                          : Image.network(
-                              image!,
-                              width: 80,
-                              height: 80,
-                            ),
+                        );
+                      }
+                      return SvgPicture.asset(
+                        'assets/svg/User_big.svg',
+                        height: 80,
+                      );
+                    },
+                  ),
                   ProfileIconText(
                       icon: const Icon(Icons.abc),
                       isIconNeeded: false,
