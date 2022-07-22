@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/utility/shared_pref/provider/shared_pref_provider.dart';
+import 'package:http/http.dart' as http;
 
 class ProfilePhotoDrawer extends ConsumerStatefulWidget {
   const ProfilePhotoDrawer({Key? key}) : super(key: key);
@@ -11,6 +12,31 @@ class ProfilePhotoDrawer extends ConsumerStatefulWidget {
 }
 
 class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
+  getImage(String? profileImage) async {
+    if (profileImage != null && profileImage != '') {
+      var client = http.Client();
+      try {
+        http.Response? uriResponse = await client.get(Uri.parse(profileImage));
+        if (uriResponse.statusCode == 200) {
+          if (uriResponse.bodyBytes != null) {
+            if (uriResponse.bodyBytes.isNotEmpty) {
+              return uriResponse.bodyBytes;
+            }
+          }
+        }
+        return null;
+      } catch (e) {
+        print(e);
+
+        return null;
+      } finally {
+        client.close();
+      }
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final response =
@@ -24,9 +50,22 @@ class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
         clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
-          image == null
-              ? SvgPicture.asset('assets/svg/User_big.svg')
-              : Image.network(image),
+          FutureBuilder<dynamic>(
+            future: getImage(image),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Image.network(
+                  image!,
+                  width: 80,
+                  height: 80,
+                );
+              }
+              return SvgPicture.asset(
+                'assets/svg/User_big.svg',
+                height: 80,
+              );
+            },
+          ),
           Positioned(
               top: -10,
               right: -5,
