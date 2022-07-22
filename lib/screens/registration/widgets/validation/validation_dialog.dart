@@ -1,5 +1,6 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
+import 'package:idec_face/custom_widgets/textfields/phone_number_textfield.dart';
 
 import 'package:idec_face/screens/registration/widgets/validation/validation_text.dart';
 import 'package:idec_face/utility/extensions/string_utility.dart';
@@ -78,8 +79,14 @@ openValidationDialogWindow(
                     ValidationText(
                         titletext: "Domain",
                         controllertext: domain.text,
-                        isValidated: domain.text.isEmptyValidate.isEmpty,
-                        validationErrorText: domain.text.isEmptyValidate,
+                        isValidated: domain.text
+                            .domainValidate(
+                                domainController: domain.text,
+                                domainList: domainList)
+                            .isEmpty,
+                        validationErrorText: domain.text.domainValidate(
+                            domainController: domain.text,
+                            domainList: domainList),
                         assetName: "assets/svg/domain.svg"),
                     ValidationText(
                         titletext: "First Name",
@@ -124,29 +131,10 @@ openValidationDialogWindow(
                       titletext: "Blood Group",
                       controllertext: blood.text,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: IgnorePointer(
-                                ignoring: true,
-                                child: CountryListPick(
-                                  theme: CountryTheme(
-                                    isShowFlag: true,
-                                    isShowTitle: false,
-                                    isShowCode: false,
-                                    isDownIcon: false,
-                                    showEnglishName: false,
-                                  ),
-                                  initialSelection: code!.flagUri,
-                                ))),
-                        Expanded(
-                          flex: 3,
-                          child: PreviewText(
-                            titletext: "Phone Number",
-                            controllertext: phone.text,
-                          ),
-                        ),
-                      ],
+                    PhoneNumberText(
+                      assetName: "assets/svg/phone.svg",
+                      flag: code!.code!,
+                      controllertext: phone.text,
                     ),
                     ValidationText(
                       assetName: "assets/svg/email.svg",

@@ -2,6 +2,7 @@ import 'package:country_list_pick/support/code_country.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
+import '../../../custom_widgets/textfields/phone_number_textfield.dart';
 import '../../../custom_widgets/textfields/previewtext.dart';
 
 openDialogWindow(
@@ -107,11 +108,10 @@ openDialogWindow(
                       titletext: "Blood Group",
                       controllertext: blood.text,
                     ),
-                    PreviewText(
+                    PhoneNumberText(
                       assetName: "assets/svg/phone.svg",
-                      titletext: "Phone Number",
-                      controllertext:
-                          code!.dialCode.toString() + " " + phone.text,
+                      flag: code!.code!,
+                      controllertext: phone.text,
                     ),
                     PreviewText(
                       assetName: "assets/svg/email.svg",
