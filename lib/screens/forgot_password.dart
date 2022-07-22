@@ -76,11 +76,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     if (domainList.keys.contains(_domainController.text.trim().toUpperCase())) {
       tenantId = domainList[_domainController.text.trim().toUpperCase()]!;
       var passwordResetRequest = PasswordResetRequest();
-      if (_optionsController.text.toLowerCase() == "userName") {
+      if (_optionsController.text.toLowerCase() == "username") {
         passwordResetRequest = PasswordResetRequest(
           userName: _valueController.text,
         );
-      } else if (_optionsController.text.toLowerCase() == "employeeId") {
+      } else if (_optionsController.text.toLowerCase() == "employeeid") {
         passwordResetRequest = PasswordResetRequest(
           empId: _valueController.text,
         );
@@ -342,7 +342,14 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const SpinKitCircle(
+                  color: AppConstants.primaryColor,
+                ));
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           List<ClientDetailsModel> _list = [];
           for (var item in clientsInfoResponse.data!.response!.response!) {

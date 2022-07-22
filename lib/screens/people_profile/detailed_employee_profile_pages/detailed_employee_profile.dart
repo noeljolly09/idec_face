@@ -59,7 +59,7 @@ class _DetailedEmployeeProfilePageState
             isExtraHeightNeeded: true,
             isIconNeeded: false,
             isProfileName: true,
-            icon: const Icon(Icons.abc),
+            icon: SvgPicture.asset("assets/svg/user.svg"),
             textData: employeeList[widget.employeeIndex].fullName!),
         Card(
           margin:
@@ -69,21 +69,22 @@ class _DetailedEmployeeProfilePageState
             children: [
               ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: const Icon(Icons.abc),
-                  textData: employeeList[widget.employeeIndex].empId!),
-              const ProfileIconText(
+                  icon: SvgPicture.asset("assets/svg/useriD.svg"),
+                  textData:
+                      employeeList[widget.employeeIndex].empId ?? "No Data"),
+              ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: Icon(Icons.abc),
+                  icon: SvgPicture.asset("assets/svg/user.svg"),
                   textData: 'Engineer'),
               ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: const Icon(Icons.abc),
+                  icon: SvgPicture.asset("assets/svg/user.svg"),
                   textData: employeeList[widget.employeeIndex].siteName != null
                       ? employeeList[widget.employeeIndex].siteName!
                       : "No Data"),
@@ -98,34 +99,34 @@ class _DetailedEmployeeProfilePageState
             children: [
               ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: const Icon(Icons.abc),
+                  icon: SvgPicture.asset("assets/svg/calendar.svg"),
                   textData: employeeList[widget.employeeIndex].dob != null
                       ? employeeList[widget.employeeIndex].dob!
                       : "No data"),
               ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: const Icon(Icons.abc),
+                  icon: SvgPicture.asset("assets/svg/gender.svg"),
                   textData: employeeList[widget.employeeIndex].gender != null
                       ? employeeList[widget.employeeIndex].gender!
                       : "No data"),
               ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: const Icon(Icons.abc),
+                  icon: SvgPicture.asset("assets/svg/blood.svg"),
                   textData:
                       employeeList[widget.employeeIndex].bloodGroup != null
                           ? employeeList[widget.employeeIndex].bloodGroup!
                           : "No data"),
               ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: const Icon(Icons.abc),
+                  icon: SvgPicture.asset("assets/svg/nationality.svg"),
                   textData:
                       employeeList[widget.employeeIndex].nationality != null
                           ? employeeList[widget.employeeIndex].nationality!
@@ -141,9 +142,9 @@ class _DetailedEmployeeProfilePageState
             children: [
               ProfileIconText(
                   isExtraHeightNeeded: true,
-                  isIconNeeded: false,
+                  isIconNeeded: true,
                   isProfileName: false,
-                  icon: const Icon(Icons.abc),
+                  icon: SvgPicture.asset("assets/svg/email.svg"),
                   textData: employeeList[widget.employeeIndex].email != null
                       ? employeeList[widget.employeeIndex].email!
                       : "No data"),

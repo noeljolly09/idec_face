@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:idec_face/models/login/login_response.dart';
 import 'package:idec_face/models/login/user_details_response.dart';
+import 'package:idec_face/models/priviledge/priviledge_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
-import '../../models/login/privileges_and_license_details_response.dart';
 
 class SharedPreferenceUtility {
   SharedPreferenceUtility({
@@ -23,26 +23,20 @@ class SharedPreferenceUtility {
     return loggedInStatus ?? false;
   }
 
-  Future<void> saveLoggedInUser(LoginResponse response) async {
+
+
+  Future<void> saveLoggedInPriviledgeUserDetails(
+      PrivilegeUserResponse response) async {
     final jsonResponse = jsonEncode(response);
     await sharedPref.setString(AppConstants().prefKeyUser, jsonResponse);
   }
 
-  Future<void> saveLoggedInUserDetails(UserDetailsResponse response) async {
-    final jsonResponse = jsonEncode(response);
-    await sharedPref.setString(AppConstants().prefKeyUser, jsonResponse);
-  }
-
-  UserDetailsResponse? getLoggedInUserDetails() {
+  PrivilegeUserResponse? getLoggedInPriviledgeUserDetails() {
     final jsonResponse = sharedPref.getString(AppConstants().prefKeyUser);
-    return UserDetailsResponse.fromJson(
+    return PrivilegeUserResponse.fromJson(
         jsonDecode(jsonResponse ?? "") as SDMap);
   }
 
-  LoginResponse? getLoggedInUser() {
-    final jsonResponse = sharedPref.getString(AppConstants().prefKeyUser);
-    return LoginResponse.fromJson(jsonDecode(jsonResponse ?? "") as SDMap);
-  }
 
   Future<void> resetPreference() async {
     for (String key in sharedPref.getKeys()) {

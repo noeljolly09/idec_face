@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
+import 'package:idec_face/dialogs/change_password_dialog.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -29,6 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: AppConstants.primaryColor, fontSize: 18)),
               tiles: [
                 SettingsTile(
+                  enabled: false,
                   title: const Text('Language'),
                   value: const Text('English'),
                   leading: const Icon(Icons.language),
@@ -36,6 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
 
                 SettingsTile.switchTile(
+                  enabled: false,
                   onToggle: (value) {
                     setState(() {
                       isSwitched = value;
@@ -63,21 +67,19 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: AppConstants.primaryColor, fontSize: 18)),
               tiles: [
                 SettingsTile(
-                  title: const Text('Change Email'),
-                  value: const Text('abc@gmail.com'),
-                  leading: const Icon(Icons.mail),
-                  onPressed: (context) {},
-                ),
-                SettingsTile(
                   title: const Text('Change Password'),
-                  value: const Text('****'),
-                  leading: const Icon(Icons.password),
-                  onPressed: (context) {},
+                  leading: SvgPicture.asset("assets/svg/password.svg"),
+                  onPressed: (context) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => const ChangePasswordDialog(
+                            label: "Update Password"));
+                  },
                 ),
                 SettingsTile(
-                  title: const Text('Change Name'),
-                  value: const Text('abc'),
-                  leading: const Icon(Icons.person),
+                  enabled: false,
+                  title: const Text('Update Profile'),
+                  leading: SvgPicture.asset("assets/svg/user.svg"),
                   onPressed: (context) {},
                 ),
               ],
@@ -88,20 +90,20 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: AppConstants.primaryColor, fontSize: 18)),
               tiles: [
                 SettingsTile(
+                  enabled: false,
                   title: const Text('App Notificaitons'),
-                  value: const Text(''),
                   leading: const Icon(Icons.notifications),
                   onPressed: (context) {},
                 ),
                 SettingsTile(
+                  enabled: false,
                   title: const Text('App Info'),
-                  value: const Text(''),
                   leading: const Icon(Icons.info),
                   onPressed: (context) {},
                 ),
                 SettingsTile(
+                  enabled: false,
                   title: const Text('App Feedback'),
-                  value: const Text(""),
                   leading: const Icon(Icons.feedback),
                   onPressed: (context) {},
                 ),

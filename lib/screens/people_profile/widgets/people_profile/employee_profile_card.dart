@@ -67,16 +67,21 @@ class EmployeeCard extends StatelessWidget {
                           'assets/svg/User_big.svg',
                           height: 80,
                         )
-                      : Image.network(
-                          image!,
-                          width: 80,
-                          height: 80,
-                        ),
+                      : image!.isEmpty
+                          ? SvgPicture.asset(
+                              'assets/svg/User_big.svg',
+                              height: 80,
+                            )
+                          : Image.network(
+                              image!,
+                              width: 80,
+                              height: 80,
+                            ),
                   ProfileIconText(
                       icon: const Icon(Icons.abc),
                       isIconNeeded: false,
                       isProfileName: false,
-                      textData: employeeId!),
+                      textData: employeeId == null ? "No Data" : employeeId!),
                 ],
               ),
             ),

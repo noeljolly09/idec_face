@@ -16,12 +16,13 @@ final dioProvider = Provider<Dio>((ref) {
   final Dio dio = Dio(options);
   final isLoggedIn = ref.watch(sharedPrefUtilityProvider).getLoggedInStatus();
   if (isLoggedIn) {
-    final response = ref.read(sharedPrefUtilityProvider).getLoggedInUser();
+    final response =
+        ref.read(sharedPrefUtilityProvider).getLoggedInPriviledgeUserDetails();
     dio.interceptors.add(
       NoAuthHeaderTenantInterceptor(
         appId: config.appId,
         token: config.token,
-        tenantId: response!.response!.tenantId!,
+        tenantId: response!.response!.data!.first.tenants!.id!,
       ),
     );
   } else {

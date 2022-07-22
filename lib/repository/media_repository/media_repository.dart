@@ -12,7 +12,7 @@ class MediaRepository {
   MediaRepository(this._serviceManager);
 
   Future<ServiceResponse<MediaResponse?>> uploadImage(File? mediaFile,
-      {bool isDelete = false, String? imageurl, String? tenantId}) async {
+      {bool isDelete = false, String? imageurl}) async {
     String? fileName;
 
     try {
@@ -28,22 +28,19 @@ class MediaRepository {
         }
       }
       final response = await _serviceManager.formPost(
-          '',
-          // '/utilities/updateImage',
-          isDelete
-              ? {
-                  "relativePath": imageurl,
-                }
-              : {
-                  "avatar": await MultipartFile.fromFile(
-                    mediaFile!.path,
-                    filename: fileName,
-                  ),
-                  "thumbnail": false
-                },
-          headers: {
-            "tenantId": tenantId,
-          });
+        '/utilities/updateImage',
+        isDelete
+            ? {
+                "relativePath": imageurl,
+              }
+            : {
+                "avatar": await MultipartFile.fromFile(
+                  mediaFile!.path,
+                  filename: fileName,
+                ),
+                "thumbnail": false
+              },
+      );
       print(response);
       final str = jsonEncode(response.data);
       final softnodeResponse = mediaResponseFromJson(str);

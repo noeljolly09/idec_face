@@ -68,8 +68,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
 
   final TextEditingController _dateinput = TextEditingController();
 
-  String? tenantId;
-
   CountryCode? code = CountryCode(
       dialCode: "+91", name: "India", code: "IN", flagUri: "flags/in.png");
   final TextEditingController _genderController = TextEditingController();
@@ -129,8 +127,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   }
 
   void _registerUserAttributes() {
-    String tenantId = "";
-
+    String tenantId;
     if (_domainList.keys
         .contains(_domainController.text.trim().toUpperCase())) {
       tenantId = _domainList[_domainController.text.trim().toUpperCase()]!;
@@ -190,68 +187,69 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   void _showImagePicker() {
     final _imageFile = ref.watch(imageNotifier).getImageFile;
     showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: _imageFile == null
-                ? Wrap(
-                    children: <Widget>[
-                      ListTile(
-                          contentPadding: const EdgeInsets.only(left: 130),
-                          leading: const Icon(Icons.photo_library),
-                          title: const Text('Photo Library',
-                              style: TextStyle(
-                                fontSize: 20,
-                              )),
-                          onTap: () {
-                            _imgFromGallery();
-                            Navigator.of(context).pop();
-                          }),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.only(left: 130, bottom: 20),
-                        leading: const Icon(Icons.photo_camera),
-                        title: const Text('Camera',
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: _imageFile == null
+              ? Wrap(
+                  children: <Widget>[
+                    ListTile(
+                        contentPadding: const EdgeInsets.only(left: 130),
+                        leading: const Icon(Icons.photo_library),
+                        title: const Text('Photo Library',
                             style: TextStyle(
                               fontSize: 20,
                             )),
                         onTap: () {
+                          _imgFromGallery();
                           Navigator.of(context).pop();
-                          _imgFromCamera();
-                        },
-                      ),
-                    ],
-                  )
-                : Wrap(
-                    children: <Widget>[
-                      ListTile(
-                          leading: const Icon(Icons.photo),
-                          title: const Text('View Photo'),
-                          onTap: () async {
-                            Navigator.of(context).pop();
-                            await showDialog(
-                                context: context,
-                                builder: (_) => ImageDialog(
-                                      imageFile: File(_imageFile.path),
-                                    ));
-                          }),
-                      ListTile(
-                        leading: const Icon(Icons.remove_circle_outline),
-                        title: const Text('Remove Photo'),
+                        }),
+                    ListTile(
+                      contentPadding:
+                          const EdgeInsets.only(left: 130, bottom: 20),
+                      leading: const Icon(Icons.photo_camera),
+                      title: const Text('Camera',
+                          style: TextStyle(
+                            fontSize: 20,
+                          )),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _imgFromCamera();
+                      },
+                    ),
+                  ],
+                )
+              : Wrap(
+                  children: <Widget>[
+                    ListTile(
+                        leading: const Icon(Icons.photo),
+                        title: const Text('View Photo'),
                         onTap: () async {
                           Navigator.of(context).pop();
-                          isMediaDeleting = true;
-                          ref
-                              .read(mediaNotifierProvider.notifier)
-                              .uploadImageDetails(
-                                  isDelete: true, imageurl: imageSasUrl);
-                          ref.read(imageNotifier).updateImage(image: null);
-                        },
-                      ),
-                    ],
-                  ),
-          );
-        });
+                          await showDialog(
+                              context: context,
+                              builder: (_) => ImageDialog(
+                                    imageFile: File(_imageFile.path),
+                                  ));
+                        }),
+                    ListTile(
+                      leading: const Icon(Icons.remove_circle_outline),
+                      title: const Text('Remove Photo'),
+                      onTap: () async {
+                        Navigator.of(context).pop();
+                        isMediaDeleting = true;
+                        ref
+                            .read(mediaNotifierProvider.notifier)
+                            .uploadImageDetails(
+                                isDelete: true, imageurl: imageSasUrl);
+                        ref.read(imageNotifier).updateImage(image: null);
+                      },
+                    ),
+                  ],
+                ),
+        );
+      },
+    );
   }
 
   _imgFromCamera() async {
@@ -262,9 +260,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
     if (_tempImgFile != null) {
       _tempImageFile = File(_tempImgFile!.path);
       ref.read(imageNotifier).updateImage(image: _tempImageFile);
-      ref
-          .read(mediaNotifierProvider.notifier)
-          .uploadImageDetails(imageFile: _tempImageFile);
+      ref.read(mediaNotifierProvider.notifier).uploadImageDetails(
+            imageFile: _tempImageFile,
+          );
       isMediaDeleting = false;
     }
   }
@@ -625,7 +623,14 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const SpinKitCircle(
+                  color: AppConstants.primaryColor,
+                ));
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
           List<ClientDetailsModel> _list = [];
           for (var item in clientsInfoResponse.data!.response!.response!) {
@@ -635,6 +640,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           ref.read(registrationNotifier).updatelistofClients(value: _list);
         }
       } else if (clientsInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -863,7 +869,15 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       try {
         final response = next as ServiceResponse<MediaResponse?>;
 
-        if (response.status == ServiceStatus.completed) {
+        if (response.status == ServiceStatus.loading) {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => const SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ));
+        } else if (response.status == ServiceStatus.completed) {
+          Navigator.pop(context);
           if (response.data?.status ?? false) {
             if (isMediaDeleting) {
               ref.read(imageNotifier).updateImage(image: null);
