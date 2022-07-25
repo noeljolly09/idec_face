@@ -49,8 +49,8 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (context, ref, child) => SizedBox(
-        width: widget.width,
+      builder: (context, ref, child) => Container(
+        margin: const EdgeInsets.only(top: 5),
         child: TextFormField(
           controller: widget.controller,
           validator: widget.validator,
@@ -73,9 +73,9 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
                 fontSize: AppConstants.formtextsize,
                 color: AppConstants.labeltextgrey),
             prefixIconConstraints:
-                const BoxConstraints(maxHeight: 25, maxWidth: 30),
+                const BoxConstraints(maxHeight: 50, maxWidth: 50),
             prefixIcon: Container(
-                margin: const EdgeInsets.only(left: 5, right: 5),
+                margin: const EdgeInsets.only(right: 20),
                 child: widget.isSvg == true
                     ? SvgPicture.asset(
                         widget.svgAsset,

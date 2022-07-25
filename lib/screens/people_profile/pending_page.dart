@@ -1,21 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
-import 'package:idec_face/dialogs/profile_dialog.dart';
+
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_constants/service_constants.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/people_profile/providers/people_profile_notifier_provider.dart';
-import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
-import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
-import 'package:idec_face/screens/people_profile/pending_approval_page.dart';
+import 'package:idec_face/screens/people_profile/approval_page.dart';
 
 import 'package:idec_face/screens/people_profile/widgets/people_profile/employee_profile_card.dart';
 
@@ -33,15 +31,10 @@ class PendingEmployeePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
-  //
   TextEditingController employeeNameController = TextEditingController();
-//
   final _refreshController = RefreshController();
-  //
   int _currentPage = 1;
-  //
-  List<EmployeeDetailsFetchedFromApi> pendingEmployeeDetails = [];
-  //
+  List<UserData> pendingEmployeeDetails = [];
   @override
   void initState() {
     super.initState();
@@ -74,13 +67,11 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
 
   @override
   Widget build(BuildContext context) {
-    //
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initPeopleProfileListeners(networkStatus);
 
-    List<EmployeeDetailsFetchedFromApi> _employeeList =
+    List<UserData> _employeeList =
         ref.watch(peopleProfileNotifier).listOfPendingEmployees;
-    //
     return SafeArea(
       child: DefaultTabController(
         length: 3,
@@ -158,42 +149,17 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                             return SingleChildScrollView(
                               child: InkWell(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           DetailedProfileScreen(
-                                  //               employeeStatus: "pending",
-                                  //               employeeIndex: index),
-                                  //     ));
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            PendingApprovalPage(
-                                                pendingList: _employeeList,
-                                                employeeIndex: index),
+                                            ProfileApprovalPage(
+                                          empList: _employeeList,
+                                          employeeIndex: index,
+                                          state: "pending",
+                                        ),
                                       ));
                                 },
-                                // child: Slidable(
-                                //   key: ValueKey(index),
-                                //   endActionPane: ActionPane(
-                                //     extentRatio: 0.35,
-                                //     motion: const ScrollMotion(),
-                                //     children: [
-                                //       SlidableAction(
-                                //         // An action can be bigger than the others.
-                                //         flex: 2,
-                                //         onPressed: (context) {
-
-                                //         },
-                                //         backgroundColor: Colors.greenAccent,
-                                //         foregroundColor: Colors.black,
-
-                                //         label: 'Approve \nEmployee',
-                                //       ),
-                                //     ],
-                                //   ),
                                 child: EmployeeCard(
                                   image: _employeeList[index].image,
                                   employeeName: _employeeList[index].fullName!,
@@ -203,6 +169,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                           ? _employeeList[index].siteName!
                                           : "Trivandrum",
                                   index: index,
+                                  state: "pending",
                                 ),
                               ),
                             );
@@ -239,28 +206,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
             _currentPage += 1;
             var responseData = peopleProfileInfoResponse.data!.response!.data!;
             for (var element in responseData) {
-              pendingEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
-                empId: element.empId,
-                firstName: element.name!.first,
-                lastName: element.name!.last,
-                middleName: element.name!.middle,
-                email: element.email,
-                image: element.image,
-                fullName: element.fullName,
-                bloodGroup: element.personal == null
-                    ? null
-                    : element.personal!.bloodGroup,
-                countryCode:
-                    element.phone == null ? null : element.phone!.countryCode,
-                dob: element.personal == null ? null : element.personal!.dob,
-                gender:
-                    element.personal == null ? null : element.personal!.gender,
-                nationality: element.personal == null
-                    ? null
-                    : element.personal!.nationality,
-                phoneNumber:
-                    element.phone == null ? null : element.phone!.number,
-              ));
+              pendingEmployeeDetails.add(element);
             }
             ref
                 .read(peopleProfileNotifier)

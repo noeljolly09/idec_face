@@ -2,20 +2,18 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
+
+import '../../../models/people_profile/all_employees_response.dart';
 
 class PeopleProfileNotifier extends ChangeNotifier {
-  List<EmployeeDetailsFetchedFromApi> _listOfAllEmployees = [];
-  List<EmployeeDetailsFetchedFromApi> get listOfAllEmployees =>
-      _listOfAllEmployees;
+  List<UserData> _listOfAllEmployees = [];
+  List<UserData> get listOfAllEmployees => _listOfAllEmployees;
 
-  List<EmployeeDetailsFetchedFromApi> _listOfPendingEmployees = [];
-  List<EmployeeDetailsFetchedFromApi> get listOfPendingEmployees =>
-      _listOfPendingEmployees;
+  List<UserData> _listOfPendingEmployees = [];
+  List<UserData> get listOfPendingEmployees => _listOfPendingEmployees;
 
-  List<EmployeeDetailsFetchedFromApi> _listOfRejcetedEmployees = [];
-  List<EmployeeDetailsFetchedFromApi> get listOfRejectedEmployees =>
-      _listOfRejcetedEmployees;
+  List<UserData> _listOfRejcetedEmployees = [];
+  List<UserData> get listOfRejectedEmployees => _listOfRejcetedEmployees;
 
   List<SelectedListItem> _listofTrade = [];
   List<SelectedListItem> get listofTrade => _listofTrade;
@@ -32,8 +30,7 @@ class PeopleProfileNotifier extends ChangeNotifier {
   bool _isEmployeeNameFiltered = false;
   bool get getEmpNameFilteredStatus => _isEmployeeNameFiltered;
 
-  void updatelistOfRejectedEmployees(
-      {required List<EmployeeDetailsFetchedFromApi> value}) {
+  void updatelistOfRejectedEmployees({required List<UserData> value}) {
     _listOfRejcetedEmployees = value;
     notifyListeners();
   }
@@ -48,8 +45,7 @@ class PeopleProfileNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updatelistOfAllEmployees(
-      {required List<EmployeeDetailsFetchedFromApi> value}) {
+  void updatelistOfAllEmployees({required List<UserData> value}) {
     _listOfAllEmployees = value;
     notifyListeners();
   }
@@ -64,8 +60,7 @@ class PeopleProfileNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updatelistOfPendingEmployees(
-      {required List<EmployeeDetailsFetchedFromApi> value}) {
+  void updatelistOfPendingEmployees({required List<UserData> value}) {
     _listOfPendingEmployees = value;
     notifyListeners();
   }

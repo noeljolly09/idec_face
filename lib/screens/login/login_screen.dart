@@ -373,22 +373,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
             );
           } else {
-            // ref
-            //     .read(sharedPrefUtilityProvider)
-            //     .saveLoggedInUser(loginInfoResponse.data!);
-
             _priviledgeUserAttributes();
           }
-          //
-
-          // ref
-          //     .read(sharedPrefUtilityProvider)
-          //     .saveLoggedInUser(loginInfoResponse.data!);
-
-          // ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
-
-          // Navigator.pushNamedAndRemoveUntil(
-          //     context, "/navigation_bar", (route) => false);
         } else {
           showDialog(
             context: context,

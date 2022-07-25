@@ -16,10 +16,12 @@ class MediaRepository {
     String? fileName;
 
     try {
+      print(imageurl);
       if (isDelete) {
-        final startIndex = imageurl?.indexOf("ns_");
+        final startIndex = imageurl?.lastIndexOf("/");
         final endIndex = imageurl?.indexOf("?", startIndex! + 3);
-        imageurl = imageurl?.substring(startIndex!, endIndex);
+        imageurl = imageurl?.substring(startIndex! + 1, endIndex);
+        print(imageurl);
       } else {
         if (mediaFile != null) {
           fileName = mediaFile.path;

@@ -7,8 +7,16 @@ class MediaUploadNotifier extends ChangeNotifier {
   File? _imageFile;
   File? get getImageFile => _imageFile;
 
+  String? _imageUrl;
+  String? get getImageUrl => _imageUrl;
+
   void updateImage({File? image}) {
     _imageFile = image;
+    notifyListeners();
+  }
+
+  void updateImageUrl({String? image}) {
+    _imageUrl = image;
     notifyListeners();
   }
 }

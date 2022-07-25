@@ -5,24 +5,27 @@ import 'package:idec_face/constants.dart';
 class CustomPendingApprovalTextField extends StatelessWidget {
   final String? initialValue;
   final String label;
-  final String assetName;
+  final String? assetName;
   final TextEditingController? controller;
   final bool? isreadOnly;
+  final String? Function(String?)? validator;
   const CustomPendingApprovalTextField({
     Key? key,
     this.initialValue,
     required this.label,
-    required this.assetName,
+    this.assetName,
     this.isreadOnly,
     this.controller,
+    this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 15),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 5),
       child: TextFormField(
         controller: controller,
+        validator: validator,
         readOnly: isreadOnly == true ? true : false,
         initialValue: initialValue,
         style: TextStyle(
@@ -41,11 +44,17 @@ class CustomPendingApprovalTextField extends StatelessWidget {
               const BoxConstraints(maxHeight: 50, maxWidth: 50),
           prefixIcon: Container(
             margin: const EdgeInsets.only(right: 20),
-            child: SvgPicture.asset(
-              assetName,
-              color: Colors.black,
-              height: 25,
-            ),
+            child: assetName == null
+                ? const SizedBox(
+                    height: 25,
+                    width: 25,
+                  )
+                : SvgPicture.asset(
+                    assetName!,
+                    height: 25,
+                    width: 25,
+                    color: Colors.grey.shade600,
+                  ),
           ),
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),

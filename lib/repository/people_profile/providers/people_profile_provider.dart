@@ -8,17 +8,3 @@ final peopleProfileRepositoryProvider =
   final serviceManager = ServiceManager(apiClient: _apiClient);
   return PeopleProfileRepository(serviceManager);
 });
-
-final tradeInfoRepositoryProvider = Provider<TradeInfoRepositary>((ref) {
-  final _apiClient = ref.watch(dioProvider);
-  final serviceManager = ServiceManager(apiClient: _apiClient);
-  return TradeInfoRepositary(serviceManager);
-});
-
-
-
-final roleInfoRepositoryProvider = Provider<RoleInfoRepositary>((ref) {
-  final _apiClient = ref.watch(dioProvider);
-  final serviceManager = ServiceManager(apiClient: _apiClient);
-  return RoleInfoRepositary(serviceManager);
-});

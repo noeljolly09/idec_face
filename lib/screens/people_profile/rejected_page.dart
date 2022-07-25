@@ -1,21 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
-import 'package:idec_face/dialogs/profile_dialog.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_constants/service_constants.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/people_profile/providers/people_profile_notifier_provider.dart';
-
-import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
-import 'package:idec_face/screens/people_profile/models/employee_data_model.dart';
+import 'package:idec_face/screens/people_profile/approval_page.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
 
 import 'package:idec_face/screens/people_profile/widgets/people_profile/employee_profile_card.dart';
@@ -40,7 +36,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
 
   final _refreshController = RefreshController();
   int _currentPage = 1;
-  List<EmployeeDetailsFetchedFromApi> rejectedEmployeeDetails = [];
+  List<UserData> rejectedEmployeeDetails = [];
   @override
   void initState() {
     super.initState();
@@ -78,7 +74,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initPeopleProfileListeners(networkStatus);
 
-    List<EmployeeDetailsFetchedFromApi> _employeeList =
+    List<UserData> _employeeList =
         ref.watch(peopleProfileNotifier).listOfRejectedEmployees;
     //
     return SafeArea(
@@ -162,43 +158,23 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            DetailedProfileScreen(
-                                                employeeStatus: "rejected",
-                                                employeeIndex: index),
+                                            ProfileApprovalPage(
+                                          empList: _employeeList,
+                                          employeeIndex: index,
+                                          state: "reject",
+                                        ),
                                       ));
                                 },
-                                child: Slidable(
-                                  key: ValueKey(index),
-                                  endActionPane: ActionPane(
-                                    extentRatio: 0.35,
-                                    motion: const ScrollMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        // An action can be bigger than the others.
-                                        flex: 2,
-                                        onPressed: (context) {
-                                          openMappingDialog(
-                                              context, "Reapprove Employee",
-                                              isAvailableNeeded: false);
-                                        },
-                                        backgroundColor: Colors.greenAccent,
-                                        foregroundColor: Colors.black,
-
-                                        label: 'Reapprove \n Employee',
-                                      ),
-                                    ],
-                                  ),
-                                  child: EmployeeCard(
-                                    image: _employeeList[index].image,
-                                    employeeName:
-                                        _employeeList[index].fullName!,
-                                    employeeId: _employeeList[index].empId,
-                                    siteName:
-                                        _employeeList[index].siteName != null
-                                            ? _employeeList[index].siteName!
-                                            : "Trivandrum",
-                                    index: index,
-                                  ),
+                                child: EmployeeCard(
+                                  image: _employeeList[index].image,
+                                  employeeName: _employeeList[index].fullName!,
+                                  employeeId: _employeeList[index].empId,
+                                  siteName:
+                                      _employeeList[index].siteName != null
+                                          ? _employeeList[index].siteName!
+                                          : "Trivandrum",
+                                  index: index,
+                                  state: "reject",
                                 ),
                               ),
                             );
@@ -236,24 +212,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
             _currentPage += 1;
             var responseData = peopleProfileInfoResponse.data!.response!.data!;
             for (var element in responseData) {
-              rejectedEmployeeDetails.add(EmployeeDetailsFetchedFromApi(
-                empId: element.empId,
-                email: element.email,
-                image: element.image,
-                fullName: element.fullName,
-                bloodGroup: element.personal == null
-                    ? null
-                    : element.personal!.bloodGroup,
-                countryCode: element.phone!.countryCode,
-                dob: element.personal == null ? null : element.personal!.dob,
-                gender:
-                    element.personal == null ? null : element.personal!.gender,
-                nationality: element.personal == null
-                    ? null
-                    : element.personal!.nationality,
-                phoneNumber:
-                    element.phone == null ? null : element.phone!.number,
-              ));
+              rejectedEmployeeDetails.add(element);
             }
 
             ref

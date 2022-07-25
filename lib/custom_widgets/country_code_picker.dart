@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class CustomCountryCodePicker extends StatefulWidget {
   final CountryCode? Function(CountryCode?)? changeCountryCode;
+  final String? countryCode;
 
   const CustomCountryCodePicker({
     Key? key,
     required this.changeCountryCode,
+    this.countryCode = '+91',
   }) : super(key: key);
 
   @override
@@ -46,7 +48,7 @@ class _CustomCountryCodePickerState extends State<CustomCountryCodePicker> {
             alphabetSelectedBackgroundColor: Theme.of(context).primaryColor,
             searchHintText: "Search the country code or country",
           ),
-          initialSelection: '+91',
+          initialSelection: widget.countryCode,
           onChanged: widget.changeCountryCode,
           useUiOverlay: true,
           useSafeArea: true),

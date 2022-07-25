@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-UserUpdateRequest userUpdateRequestFromJson(String str) =>
-    UserUpdateRequest.fromJson(json.decode(str));
+ProfileApprovalResponse profileApprovalResponseFromJson(String str) =>
+    ProfileApprovalResponse.fromJson(json.decode(str));
 
-String userUpdateRequestToJson(UserUpdateRequest data) =>
+String profileApprovalResponseToJson(ProfileApprovalResponse data) =>
     json.encode(data.toJson());
 
-class UserUpdateRequest {
-  UserUpdateRequest({
+class ProfileApprovalResponse {
+  ProfileApprovalResponse({
     this.status,
     this.response,
   });
@@ -15,8 +15,8 @@ class UserUpdateRequest {
   bool? status;
   Response? response;
 
-  factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
-      UserUpdateRequest(
+  factory ProfileApprovalResponse.fromJson(Map<String, dynamic> json) =>
+      ProfileApprovalResponse(
         status: json["status"],
         response: json["response"] == null
             ? null

@@ -63,6 +63,7 @@ class UserData {
     this.contractorId,
     this.email,
     this.image,
+    this.siteName,
     this.thumbnail,
     this.empId,
     this.personal,
@@ -82,6 +83,7 @@ class UserData {
   String? image;
   dynamic thumbnail;
   String? empId;
+  String? siteName;
   Personal? personal;
   bool? status;
   String? registrationStatus;
@@ -96,6 +98,7 @@ class UserData {
         tradeId: json["tradeId"],
         contractorId: json["contractorId"],
         email: json["email"],
+        siteName: json["siteName"] as String?,
         image: json["image"],
         thumbnail: json["thumbnail"],
         empId: json["empId"],
@@ -191,10 +194,10 @@ class Personal {
   String? bloodGroup;
 
   factory Personal.fromJson(Map<String, dynamic> json) => Personal(
-        nationality: json["nationality"],
-        dob: json["dob"],
-        gender: json["gender"],
-        bloodGroup: json["bloodGroup"],
+        nationality: json["nationality"] as String?,
+        dob: json["dob"] as String?,
+        gender: json["gender"] as String?,
+        bloodGroup: json["bloodGroup"] as String?,
       );
 
   Map<String, dynamic> toJson() => {

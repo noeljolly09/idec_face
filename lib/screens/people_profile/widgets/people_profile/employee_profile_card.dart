@@ -11,6 +11,7 @@ class EmployeeCard extends StatelessWidget {
   final String? employeeId;
   final String? siteName;
   final String? image;
+  final String state;
 
   const EmployeeCard({
     Key? key,
@@ -18,6 +19,7 @@ class EmployeeCard extends StatelessWidget {
     required this.employeeName,
     required this.employeeId,
     required this.siteName,
+    required this.state,
     this.image,
   }) : super(key: key);
 
@@ -66,10 +68,13 @@ class EmployeeCard extends StatelessWidget {
                     future: getImage(image),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Image.network(
-                          image!,
-                          width: 80,
-                          height: 80,
+                        return CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.grey,
+                          foregroundImage: Image.network(
+                            image!,
+                          ).image,
+                          onForegroundImageError: (exception, stackTrace) {},
                         );
                       }
                       return SvgPicture.asset(
@@ -111,8 +116,10 @@ class EmployeeCard extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: SvgPicture.asset("assets/svg/pending.svg"),
-            ),
+              child: state == "accept"
+                  ? const Icon(Icons.arrow_back_ios_new_rounded)
+                  : SvgPicture.asset("assets/svg/pending.svg"),
+            )
           ],
         ),
       ),
