@@ -6,6 +6,7 @@ import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
+import 'package:idec_face/dialogs/loader_dialog.dart';
 
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
@@ -212,12 +213,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           next as ServiceResponse<EmployeeResponse?>;
 
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const SpinKitCircle(
-                  color: AppConstants.primaryColor,
-                ));
+       customLoaderDialog(context);
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         _refreshController.refreshCompleted();

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/dialogs/loader_dialog.dart';
 import 'package:idec_face/models/client_details.dart';
 import 'package:idec_face/models/config/config_request.dart';
 import 'package:idec_face/models/config/config_response.dart';
@@ -623,12 +624,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const SpinKitCircle(
-                  color: AppConstants.primaryColor,
-                ));
+        customLoaderDialog(context);
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
@@ -669,13 +665,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         final registrationInfoResponse =
             next as ServiceResponse<RegistrationResponse?>;
         if (registrationInfoResponse.status == ServiceStatus.loading) {
-          showDialog(
-              context: context,
-              builder: (context) => const Center(
-                    child: SpinKitCircle(
-                      color: AppConstants.primaryColor,
-                    ),
-                  ));
+         customLoaderDialog(context);
         } else if (registrationInfoResponse.status == ServiceStatus.completed) {
           ref.read(imageNotifier).updateImage(image: null);
           Navigator.pop(context);
@@ -870,12 +860,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
         final response = next as ServiceResponse<MediaResponse?>;
 
         if (response.status == ServiceStatus.loading) {
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => const SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ));
+         customLoaderDialog(context);
         } else if (response.status == ServiceStatus.completed) {
           Navigator.pop(context);
           if (response.data?.status ?? false) {

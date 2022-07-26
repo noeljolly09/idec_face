@@ -124,12 +124,12 @@ class _DetailedProfileScreenState extends ConsumerState<DetailedProfileScreen> {
                       icon: SvgPicture.asset("assets/svg/useriD.svg"),
                       textData: employeeList[widget.employeeIndex].empId ??
                           "No Data"),
-                  ProfileIconText(
-                      isExtraHeightNeeded: true,
-                      isIconNeeded: true,
-                      isProfileName: false,
-                      icon: SvgPicture.asset("assets/svg/user.svg"),
-                      textData: 'Engineer'),
+                  // ProfileIconText(
+                  //     isExtraHeightNeeded: true,
+                  //     isIconNeeded: true,
+                  //     isProfileName: false,
+                  //     icon: SvgPicture.asset("assets/svg/user.svg"),
+                  //     textData: 'Engineer'),
                   ProfileIconText(
                       isExtraHeightNeeded: true,
                       isIconNeeded: true,

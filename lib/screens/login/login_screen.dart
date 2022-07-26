@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/custom_widgets/encryptor.dart';
 import 'package:idec_face/dialogs/change_password_dialog.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
+import 'package:idec_face/dialogs/loader_dialog.dart';
 import 'package:idec_face/models/login/login_request.dart';
 import 'package:idec_face/models/login/login_response.dart';
 import 'package:idec_face/models/priviledge/privildege_request.dart';
@@ -329,13 +330,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen(loginInfoNotifierProvider, (previous, next) {
       final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
       if (loginInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            builder: (context) => const Center(
-                  child: SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ),
-                ));
+        customLoaderDialog(context);
       } else if (loginInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (loginInfoResponse.data!.status == true) {

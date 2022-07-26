@@ -37,10 +37,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         Align(
           alignment: const AlignmentDirectional(0, 0),
           child: SizedBox(
-            width: 120,
-            height: 120,
+            width: 50,
+            height: 50,
             child: SvgPicture.asset(
-              'assets/svg/logo.svg',
+              'assets/svg/ust_logo.svg',
             ),
           ),
         ),

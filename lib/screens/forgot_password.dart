@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/custom_widgets/textfields/forgot_password_textfield.dart';
+import 'package:idec_face/dialogs/loader_dialog.dart';
 import 'package:idec_face/models/client_details.dart';
 import 'package:idec_face/models/password_reset/password_reset_request.dart';
 import 'package:idec_face/models/password_reset/password_reset_response.dart';
@@ -342,12 +343,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       final clientsInfoResponse =
           next as ServiceResponse<ClientDetailsResponse?>;
       if (clientsInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const SpinKitCircle(
-                  color: AppConstants.primaryColor,
-                ));
+        customLoaderDialog(context);
       } else if (clientsInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
@@ -386,13 +382,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       final passwordResetResponse =
           next as ServiceResponse<PasswordResetResponse?>;
       if (passwordResetResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            builder: (context) => const Center(
-                  child: SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ),
-                ));
+        customLoaderDialog(context);
       } else if (passwordResetResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (passwordResetResponse.data!.status == true) {

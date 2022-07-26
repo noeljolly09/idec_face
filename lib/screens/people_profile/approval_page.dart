@@ -12,6 +12,7 @@ import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/custom_selection.dart';
 import 'package:idec_face/custom_widgets/textfields/custom_pending_approval_textfield.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
+import 'package:idec_face/dialogs/loader_dialog.dart';
 import 'package:idec_face/models/config/config_request.dart';
 import 'package:idec_face/models/config/config_response.dart';
 import 'package:idec_face/models/people_profile/check_availabilty_request.dart';
@@ -182,7 +183,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
     usernameController.dispose();
     priviledgesController.dispose();
     remarksController.dispose();
-    
+
     image = null;
     _tempImageFile = null;
 
@@ -389,6 +390,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
       action: "validate",
       registrationStatus: approvalStatus,
     );
+
     ref.read(profileUpdateNotiferProvider.notifier).profileUpdateRequest(
         profileApprovalRequest,
         tenantId: response!.response!.data!.first.tenants!.id!);
@@ -406,7 +408,6 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
         ref.watch(peopleProfileNotifier).checkAvailability;
     bool availablityButton =
         ref.watch(peopleProfileNotifier).checkAvailabilityButton;
-
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     String? imageUrl = ref.watch(imageNotifier).getImageUrl;
     File? _imageFile = ref.watch(imageNotifier).getImageFile;
@@ -781,6 +782,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                             ),
                           ),
                           Flexible(
+                            flex: 1,
                             child: ElevatedButton(
                               onPressed: () {
                                 if (usernameController.text.isNotEmpty) {
@@ -975,12 +977,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
           next as ServiceResponse<ProfileApprovalResponse?>;
 
       if (profileUpdateResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const SpinKitCircle(
-                  color: AppConstants.primaryColor,
-                ));
+        customLoaderDialog(context);
       } else if (profileUpdateResponse.status == ServiceStatus.completed) {
         Navigator.of(context).pop(true);
         if (profileUpdateResponse.data!.status!) {
@@ -993,7 +990,9 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
               isTimerActivated: true,
               isCancelButtonVisible: false,
               afterSuccess: () {},
-              onPressedBttn1: () {},
+              onPressedBttn1: () {
+                Navigator.pop(context);
+              },
               title: "Error",
               message: "Unable to update profile",
             ),
@@ -1138,12 +1137,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
           next as ServiceResponse<CheckAvailabiltyResponse?>;
 
       if (availabiltiyInfoResponse.status == ServiceStatus.loading) {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const SpinKitCircle(
-                  color: AppConstants.primaryColor,
-                ));
+        customLoaderDialog(context);
       } else if (availabiltiyInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (availabiltiyInfoResponse.data!.status == false) {
@@ -1404,12 +1398,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
         final response = next as ServiceResponse<MediaResponse?>;
 
         if (response.status == ServiceStatus.loading) {
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => const SpinKitCircle(
-                    color: AppConstants.primaryColor,
-                  ));
+         customLoaderDialog(context);
         } else if (response.status == ServiceStatus.completed) {
           Navigator.pop(context);
           if (response.data?.status ?? false) {
