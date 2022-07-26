@@ -52,10 +52,11 @@ class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
             future: getImage(image),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Image.network(
-                  image!,
-                  width: 80,
-                  height: 80,
+                return CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.grey,
+                  foregroundImage: Image.network(image!).image,
+                  onForegroundImageError: (exception, stackTrace) {},
                 );
               }
               return SvgPicture.asset(
@@ -66,13 +67,13 @@ class _ProfilePhotoDrawerState extends ConsumerState<ProfilePhotoDrawer> {
           ),
           Positioned(
               top: -10,
-              right: -5,
+              left: -5,
               child: Container(
                 width: 14,
                 height: 14,
                 margin: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.green),
+                    shape: BoxShape.circle, color: Colors.greenAccent),
               )),
         ],
       ),

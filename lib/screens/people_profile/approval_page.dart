@@ -105,6 +105,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
   String? countryCode = "+91";
   String? image;
   bool? isRejected = false;
+  String? approvalStatus;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -168,6 +169,8 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
     usernameController.dispose();
     priviledgesController.dispose();
     remarksController.dispose();
+    image = null;
+    _tempImageFile = null;
 
     super.dispose();
   }

@@ -6,6 +6,7 @@ import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
 import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:idec_face/utility/extensions/date_utility.dart';
 import '../../constants.dart';
 import '../../models/people_profile/all_employees_response.dart';
 
@@ -152,12 +153,14 @@ class _DetailedProfileScreenState extends ConsumerState<DetailedProfileScreen> {
                       isIconNeeded: true,
                       isProfileName: false,
                       icon: SvgPicture.asset("assets/svg/calendar.svg"),
-                      textData: employeeList[widget.employeeIndex]
+                      textData:
+                          employeeList[widget.employeeIndex].personal!.dob !=
+                                  null
+                              ? employeeList[widget.employeeIndex]
                                   .personal!
-                                  .dob !=
-                              null
-                          ? employeeList[widget.employeeIndex].personal!.dob!
-                          : "No data"),
+                                  .dob!
+                                  .formatDateWithoutTime
+                              : "No data"),
                   ProfileIconText(
                       isExtraHeightNeeded: true,
                       isIconNeeded: true,

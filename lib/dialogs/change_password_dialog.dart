@@ -135,7 +135,7 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                 CustomTextField(
                   isSvg: true,
                   svgasset: "assets/svg/password.svg",
-                  isObscure: _isOldPasswordObscure,
+                  isObscure: _isNewPasswordObscure,
                   controller: _newPasswordController,
                   suffixIcon: IconButton(
                     color: const Color.fromRGBO(28, 36, 44, 1),
