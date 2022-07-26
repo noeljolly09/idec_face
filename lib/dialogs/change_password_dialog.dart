@@ -106,7 +106,7 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                         isSvg: true,
                         svgasset: "assets/svg/password.svg",
                         isObscure: _isOldPasswordObscure,
-                        controller: _newPasswordController,
+                        controller: _oldPasswordController,
                         suffixIcon: IconButton(
                           color: const Color.fromRGBO(28, 36, 44, 1),
                           icon: Icon(
