@@ -182,6 +182,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
     usernameController.dispose();
     priviledgesController.dispose();
     remarksController.dispose();
+    
     image = null;
     _tempImageFile = null;
 

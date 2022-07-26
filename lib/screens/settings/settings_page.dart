@@ -82,7 +82,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 SettingsTile(
                   enabled: false,
                   title: const Text('Update Profile'),
-                  leading: SvgPicture.asset("assets/svg/user.svg"),
+                  leading: SvgPicture.asset(
+                    "assets/svg/user.svg",
+                    color: Colors.grey,
+                  ),
                   onPressed: (context) {},
                 ),
               ],
