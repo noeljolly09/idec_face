@@ -185,12 +185,13 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
                                 }
                               },
                               child: EmployeeCard(
+                                emailId: _employeeList[index].email,
                                 image: _employeeList[index].image,
                                 employeeName: _employeeList[index].name!,
                                 employeeId: _employeeList[index].empId,
                                 siteName: _employeeList[index].siteName != null
                                     ? _employeeList[index].siteName!
-                                    : "Trivandrum",
+                                    : "",
                                 index: index,
                                 state: "pending",
                               ),
@@ -213,7 +214,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
           next as ServiceResponse<EmployeeResponse?>;
 
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
-       customLoaderDialog(context);
+        customLoaderDialog(context);
       } else if (peopleProfileInfoResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         _refreshController.refreshCompleted();

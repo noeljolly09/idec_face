@@ -12,6 +12,7 @@ class EmployeeCard extends StatelessWidget {
   final Name? employeeName;
   final String? employeeId;
   final String? siteName;
+  final String? emailId;
   final String? image;
   final String state;
   final bool isCredentialAvailable;
@@ -25,6 +26,7 @@ class EmployeeCard extends StatelessWidget {
     required this.state,
     this.image,
     this.isCredentialAvailable = false,
+    this.emailId,
   }) : super(key: key);
 
   getImage(String? profileImage) async {
@@ -123,11 +125,16 @@ class EmployeeCard extends StatelessWidget {
                         " " +
                         getName(employeeName!.last),
                   ),
+                  ProfileIconText(
+                      isIconNeeded: false,
+                      isProfileName: false,
+                      icon: const Icon(Icons.circle_notifications_rounded),
+                      textData: emailId!),
                   const ProfileIconText(
                       isIconNeeded: false,
                       isProfileName: false,
                       icon: Icon(Icons.circle_notifications_rounded),
-                      textData: 'Engineer'),
+                      textData: ''),
                   ProfileIconText(
                       isIconNeeded: false,
                       isProfileName: false,

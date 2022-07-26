@@ -82,7 +82,7 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         content: SizedBox(
-          height: screenHeight(context, dividedBy: 1.82),
+          height: screenHeight(context, dividedBy: 1.80),
           width: screenWidth(context, dividedBy: 1.32),
           child: Form(
             key: formGlobalKey,

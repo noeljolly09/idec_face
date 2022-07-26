@@ -185,6 +185,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
     remarksController.dispose();
 
     image = null;
+
     _tempImageFile = null;
 
     super.dispose();
@@ -737,28 +738,29 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                 }
               },
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                right: 20,
-              ),
-              child: CheckboxListTile(
-                title: const Text("Generate User Credentials"),
-                contentPadding: const EdgeInsets.only(left: 10),
-                value: isUserCredentialGenerated,
-                onChanged: (value) {
-                  if (value!) {
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updatecheckavailabilityState(value: "check");
-                    ref
-                        .read(peopleProfileNotifier)
-                        .updatecheckavailabilityButtonState(value: false);
-                  }
-                  setState(() {
-                    isUserCredentialGenerated = value;
-                  });
-                },
-                controlAffinity: ListTileControlAffinity.leading,
+            SizedBox(
+              child: Transform.scale(
+                scale: 1.1,
+                child: CheckboxListTile(
+                  title: const Text("Generate User Credentials"),
+                  dense: false,
+                  contentPadding: const EdgeInsets.only(left: 28),
+                  value: isUserCredentialGenerated,
+                  onChanged: (value) {
+                    if (value!) {
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updatecheckavailabilityState(value: "check");
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updatecheckavailabilityButtonState(value: false);
+                    }
+                    setState(() {
+                      isUserCredentialGenerated = value;
+                    });
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),
               ),
             ),
             isUserCredentialGenerated == true
@@ -772,6 +774,16 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                               label: "Username",
                               controller: usernameController,
                               assetName: "assets/svg/useriD.svg",
+                              onChanged: (value) {
+                                ref
+                                    .read(peopleProfileNotifier)
+                                    .updatecheckavailabilityState(
+                                        value: "check");
+                                ref
+                                    .read(peopleProfileNotifier)
+                                    .updatecheckavailabilityButtonState(
+                                        value: false);
+                              },
                               validator: (value) {
                                 if (value!.isEmptyValidate.isEmpty) {
                                   return null;
@@ -938,7 +950,24 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                   onPressed: () {
                     isRejected = false;
                     if (formGlobalKey.currentState!.validate()) {
-                      profileApprovalRequest("accept");
+                      if (isUserCredentialGenerated) {
+                        profileApprovalRequest("accept");
+                      } else {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => InfoDialogWithTimer(
+                            isTimerActivated: true,
+                            isCancelButtonVisible: false,
+                            afterSuccess: () {},
+                            onPressedBttn1: () {
+                              Navigator.of(context).pop(false);
+                            },
+                            title: "Info",
+                            message: "Please check for available username",
+                          ),
+                        );
+                      }
                     } else {
                       showDialog(
                         context: context,
@@ -1398,7 +1427,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
         final response = next as ServiceResponse<MediaResponse?>;
 
         if (response.status == ServiceStatus.loading) {
-         customLoaderDialog(context);
+          customLoaderDialog(context);
         } else if (response.status == ServiceStatus.completed) {
           Navigator.pop(context);
           if (response.data?.status ?? false) {

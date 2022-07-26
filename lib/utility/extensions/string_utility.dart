@@ -43,7 +43,7 @@ extension StringUtility on String {
       final regex = RegExp(pattern);
       final result = regex.hasMatch(password.trim());
       if (!result) {
-        return "Note : Password must be minimum 12 characters,\nat least one uppercase letter ,\nat least one lowercase letter,\nat least one number and\nat least one special character.";
+        return "Note : Password must be minimum \n12 characters,at least one \nuppercase letter ,at least one \nlowercase letter,at least one \nnumber and at least one \nspecial character.";
       } else {
         return "";
       }

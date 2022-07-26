@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
@@ -239,10 +237,11 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                       image: _employeeList[index].image,
                                       employeeName: _employeeList[index].name!,
                                       employeeId: _employeeList[index].empId,
+                                      emailId: _employeeList[index].email,
                                       siteName:
                                           _employeeList[index].siteName != null
                                               ? _employeeList[index].siteName!
-                                              : "Trivandrum",
+                                              : "",
                                       index: index,
                                       state: "accept",
                                       isCredentialAvailable:
@@ -270,7 +269,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
       final passwordResetResponse =
           next as ServiceResponse<PasswordResetResponse?>;
       if (passwordResetResponse.status == ServiceStatus.loading) {
-       customLoaderDialog(context);
+        customLoaderDialog(context);
       } else if (passwordResetResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (passwordResetResponse.data!.status == true) {
@@ -281,13 +280,9 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
               isTimerActivated: true,
               isCancelButtonVisible: false,
               title: "Password Reset",
-              afterSuccess: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/login', (route) => false);
-              },
+              afterSuccess: () {},
               onPressedBttn1: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/login', (route) => false);
+                Navigator.pop(context);
               },
               message: passwordResetResponse.data!.response!.message.toString(),
             ),

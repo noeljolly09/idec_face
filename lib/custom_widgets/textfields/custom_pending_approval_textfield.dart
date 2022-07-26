@@ -9,6 +9,7 @@ class CustomPendingApprovalTextField extends StatelessWidget {
   final TextEditingController? controller;
   final bool? isreadOnly;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
   const CustomPendingApprovalTextField({
     Key? key,
     this.initialValue,
@@ -17,6 +18,7 @@ class CustomPendingApprovalTextField extends StatelessWidget {
     this.isreadOnly,
     this.controller,
     this.validator,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class CustomPendingApprovalTextField extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 20, right: 20, top: 5),
       child: TextFormField(
+        onChanged: onChanged,
         controller: controller,
         validator: validator,
         readOnly: isreadOnly == true ? true : false,

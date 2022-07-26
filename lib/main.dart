@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
@@ -35,6 +36,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
@@ -95,7 +100,7 @@ class MyApp extends StatelessWidget {
 
 // Routes
       initialRoute: '/',
-      routes: { 
+      routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginPage(),
         '/settings': (context) => const SettingsPage(),
