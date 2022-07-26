@@ -24,6 +24,12 @@ class AppConstants {
 
   static const Color borderColor = Color(0xFFFFFFFF);
 
+  static Color get severityCritical => const Color(0xFFFF5E57);
+
+  static Color get severityMajor => const Color(0xFFFFC048);
+
+  static Color get severityMinor => const Color(0xFF56E6C1);
+
   //sizes
 
   //height
@@ -60,8 +66,6 @@ class AppConstants {
 }
 
 typedef SDMap = Map<String, dynamic>;
-
-
 
 Size screenSize(BuildContext context) {
   // screen height 820.5714285714286

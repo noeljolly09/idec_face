@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
+import 'package:idec_face/screens/devices/devices_screen.dart';
+import 'package:idec_face/screens/events_screens/events_screen.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../constants.dart';
 import '../screens/dashboard/dashboard_screen.dart';
 
 import '../screens/dashboard/notifier/dashboard_notifier.dart';
-import '../screens/device_screen.dart';
-import '../screens/events/events_screen.dart';
 import 'drawer/drawer.dart';
 
 class CustomNavigationBar extends ConsumerStatefulWidget {
@@ -23,11 +23,11 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
   //
   final screens = [
     const DashboardPage(),
-    const EventsPage(),
-    const DevicePage(),
+    const AlertsPage(),
+    const DevicesPage(),
   ];
 
-  final appbartitle = ["Home", "Events", "Device"];
+  final appbartitle = ["Home", "Events", "Devices"];
 
   void onTapBar(int index) {
     ref.read(navigationbarNotifier).updatedNavigtionIndex(value: index);
