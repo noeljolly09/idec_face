@@ -117,7 +117,7 @@ class EmployeeCard extends StatelessWidget {
             ),
             Expanded(
               child: state == "accept"
-                  ? const Icon(Icons.arrow_back_ios_new_rounded)
+                  ? const Icon(Icons.arrow_left)
                   : SvgPicture.asset("assets/svg/pending.svg"),
             )
           ],
