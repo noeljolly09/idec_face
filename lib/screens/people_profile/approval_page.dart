@@ -143,13 +143,17 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
       }
       emailController.text = data.email ?? data.email!;
       if (data.trades != null) {
-        if (data.trades!.tradeName != null) {
-          tradeController.text = data.trades!.tradeName!;
+        if (data.trades!.isNotEmpty) {
+          if (data.trades!.first.tradeName != null) {
+            tradeController.text = data.trades!.first.tradeName!;
+          }
         }
       }
       if (data.roles != null) {
-        if (data.roles!.roleName != null) {
-          tradeController.text = data.roles!.roleName!;
+        if (data.roles!.isNotEmpty) {
+          if (data.roles!.first.roleName != null) {
+            roleController.text = data.roles!.first.roleName!;
+          }
         }
       }
       if (data.image != null) {

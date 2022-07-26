@@ -91,8 +91,8 @@ class UserData {
   String? registrationStatus;
   Phone? phone;
   String? fullName;
-  Roles? roles;
-  Trades? trades;
+  List<Roles>? roles;
+  List<Trades>? trades;
   List<Credential>? credentials;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
@@ -113,8 +113,12 @@ class UserData {
         registrationStatus: json["registrationStatus"],
         phone: json["phone"] == null ? null : Phone.fromJson(json["phone"]),
         fullName: json["fullName"],
-        roles: json["roles"] == null ? null : Roles.fromJson(json["roles"]),
-        trades: json["trades"] == null ? null : Trades.fromJson(json["trades"]),
+        roles: json["roles"] == null
+            ? null
+            : List<Roles>.from(json["roles"].map((x) => Roles.fromJson(x))),
+        trades: json["trades"] == null
+            ? null
+            : List<Trades>.from(json["trades"].map((x) => Trades.fromJson(x))),
         credentials: json["credentials"] == null
             ? null
             : List<Credential>.from(
@@ -136,8 +140,12 @@ class UserData {
         "registrationStatus": registrationStatus,
         "phone": phone == null ? null : phone!.toJson(),
         "fullName": fullName,
-        "roles": roles == null ? null : roles!.toJson(),
-        "trades": trades == null ? null : trades!.toJson(),
+        "roles": roles == null
+            ? null
+            : List<dynamic>.from(roles!.map((x) => x.toJson())),
+        "trades": trades == null
+            ? null
+            : List<dynamic>.from(trades!.map((x) => x.toJson())),
         "credentials": credentials == null
             ? null
             : List<dynamic>.from(credentials!.map((x) => x.toJson())),
