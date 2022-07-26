@@ -60,6 +60,9 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
     final tenantId = response.response!.data!.first.tenants!.id;
     final allEmployeesListRequest = EmployeeRequest(
       tabType: "rejected",
+      searchKey: employeeNameController.text.isEmpty
+          ? null
+          : employeeNameController.text,
     );
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
           allEmployeesListRequest,

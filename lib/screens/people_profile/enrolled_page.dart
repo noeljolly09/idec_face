@@ -66,6 +66,10 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
       roleId: null,
       tabType: "accept",
       tradeId: null,
+      searchKey: employeeNameController.text.isEmpty
+          ? null
+          : employeeNameController.text,
+      status: true,
     );
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
           allEmployeesListRequest,
