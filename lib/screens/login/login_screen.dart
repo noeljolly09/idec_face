@@ -7,9 +7,6 @@ import 'package:idec_face/dialogs/change_password_dialog.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/login/login_request.dart';
 import 'package:idec_face/models/login/login_response.dart';
-import 'package:idec_face/models/login/user_details_request.dart';
-import 'package:idec_face/models/login/user_details_response.dart';
-import 'package:idec_face/models/password_change/change_password_request.dart';
 import 'package:idec_face/models/priviledge/privildege_request.dart';
 import 'package:idec_face/models/priviledge/priviledge_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
@@ -111,11 +108,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             style: TextStyle(color: Colors.black, fontSize: 35),
                             children: <TextSpan>[
                               TextSpan(
-                                  text: " IDEC ",
+                                  text: " COLD",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: AppConstants.primaryColor)),
-                              TextSpan(text: 'FACE', style: TextStyle())
+                              TextSpan(text: 'TRUTH', style: TextStyle())
                             ],
                           ),
                         )

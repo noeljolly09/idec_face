@@ -328,11 +328,11 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
                         style: TextStyle(color: Colors.black, fontSize: 35),
                         children: <TextSpan>[
                           TextSpan(
-                              text: " IDEC ",
+                              text: " COLD",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: AppConstants.primaryColor)),
-                          TextSpan(text: 'FACE', style: TextStyle())
+                          TextSpan(text: 'TRUTH', style: TextStyle())
                         ],
                       ),
                     )
