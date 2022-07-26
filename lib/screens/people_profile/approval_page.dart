@@ -965,7 +965,23 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                   color: AppConstants.primaryColor,
                 ));
       } else if (profileUpdateResponse.status == ServiceStatus.completed) {
-        Navigator.pop(context);
+        Navigator.of(context).pop(true);
+        if (profileUpdateResponse.data!.status!) {
+          Navigator.of(context).pop(true);
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {},
+              title: "Error",
+              message: "Unable to update profile",
+            ),
+          );
+        }
       } else if (profileUpdateResponse.status == ServiceStatus.error) {
         Navigator.of(context).pop(false);
         if (profileUpdateResponse.errorCode == ServiceErrorCode.unauthorized) {

@@ -168,9 +168,9 @@ class Name {
   String? last;
 
   factory Name.fromJson(Map<String, dynamic> json) => Name(
-        first: json["first"],
-        middle: json["middle"],
-        last: json["last"],
+        first: json["first"] as String?,
+        middle: json["middle"] as String?,
+        last: json["last"] as String?,
       );
 
   Map<String, dynamic> toJson() => {

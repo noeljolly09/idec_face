@@ -18,7 +18,7 @@ class PeopleProfileRepository {
       {required int pageNumber}) async {
     try {
       final response = await _serviceManager.post(
-        '/users/users',
+        '/users/users/$pageNumber',
         param.toJson(),
         headers: {'tenantId': tenantId},
       );

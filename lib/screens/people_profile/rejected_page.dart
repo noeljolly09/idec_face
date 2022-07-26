@@ -153,8 +153,8 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                           itemBuilder: (context, index) {
                             return SingleChildScrollView(
                               child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
+                                onTap: () async {
+                                  bool? status = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
@@ -164,10 +164,37 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                                           state: "reject",
                                         ),
                                       ));
+                                  if (status != null) {
+                                    if (status) {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) =>
+                                            InfoDialogWithTimer(
+                                          isTimerActivated: true,
+                                          isCancelButtonVisible: false,
+                                          afterSuccess: () {},
+                                          onPressedBttn1: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          title: "Success",
+                                          message:
+                                              "Profile updated successfully",
+                                        ),
+                                      );
+                                      _currentPage = 1;
+                                      _getAllEmployeesDetails();
+                                      rejectedEmployeeDetails = [];
+                                      ref
+                                          .read(peopleProfileNotifier)
+                                          .updatelistOfRejectedEmployees(
+                                              value: []);
+                                    }
+                                  }
                                 },
                                 child: EmployeeCard(
                                   image: _employeeList[index].image,
-                                  employeeName: _employeeList[index].fullName!,
+                                  employeeName: _employeeList[index].name!,
                                   employeeId: _employeeList[index].empId,
                                   siteName:
                                       _employeeList[index].siteName != null

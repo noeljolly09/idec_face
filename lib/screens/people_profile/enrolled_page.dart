@@ -64,7 +64,9 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
         ref.read(sharedPrefUtilityProvider).getLoggedInPriviledgeUserDetails()!;
     final tenantId = response.response!.data!.first.tenants!.id;
     final allEmployeesListRequest = EmployeeRequest(
+      roleId: null,
       tabType: "accept",
+      tradeId: null,
     );
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
           allEmployeesListRequest,
@@ -185,74 +187,64 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                 },
                                 child: Slidable(
                                   key: ValueKey(index),
+                                  closeOnScroll: true,
+                                  enabled: _employeeList[index]
+                                      .credentials!
+                                      .isNotEmpty,
                                   endActionPane: ActionPane(
                                     extentRatio: 0.35,
                                     motion: const ScrollMotion(),
                                     children: [
-                                      _employeeList[index].credentials!.isEmpty
-                                          ? SlidableAction(
-                                              flex: 2,
-                                              onPressed: (context) {
-                                                openMappingDialog(context,
-                                                    "Generate User Credentials",
-                                                    isAvailableNeeded: false);
+                                      SlidableAction(
+                                        flex: 2,
+                                        onPressed: (context) {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (context) =>
+                                                InfoDialogWithTimer(
+                                              isTimerActivated: true,
+                                              isCancelButtonVisible: true,
+                                              bttnText1: "Yes",
+                                              bttnText2: "No",
+                                              afterSuccess: () {},
+                                              onPressedBttn2: () {
+                                                Navigator.pop(context);
                                               },
-                                              backgroundColor:
-                                                  Colors.greenAccent,
-                                              foregroundColor: Colors.black,
-                                              label:
-                                                  'Generate \n User\n Credentials',
-                                            )
-                                          : SlidableAction(
-                                              flex: 2,
-                                              onPressed: (context) {
-                                                showDialog(
-                                                  context: context,
-                                                  barrierDismissible: false,
-                                                  builder: (context) =>
-                                                      InfoDialogWithTimer(
-                                                    isTimerActivated: true,
-                                                    isCancelButtonVisible: true,
-                                                    bttnText1: "Yes",
-                                                    bttnText2: "No",
-                                                    afterSuccess: () {},
-                                                    onPressedBttn2: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    onPressedBttn1: () {
-                                                      _getPasswordResetAttributes(
-                                                          username:
-                                                              _employeeList[
-                                                                      index]
-                                                                  .credentials!
-                                                                  .first
-                                                                  .userName);
-                                                    },
-                                                    title: "Reset password",
-                                                    message:
-                                                        "Do you want to reset password",
-                                                  ),
-                                                );
+                                              onPressedBttn1: () {
+                                                _getPasswordResetAttributes(
+                                                    username:
+                                                        _employeeList[index]
+                                                            .credentials!
+                                                            .first
+                                                            .userName);
                                               },
-                                              backgroundColor:
-                                                  Colors.greenAccent,
-                                              foregroundColor: Colors.black,
-                                              label: 'Reset password',
+                                              title: "Reset password",
+                                              message:
+                                                  "Do you want to reset password",
                                             ),
+                                          );
+                                        },
+                                        backgroundColor: Colors.greenAccent,
+                                        foregroundColor: Colors.black,
+                                        label: 'Reset password',
+                                      ),
                                     ],
                                   ),
                                   child: EmployeeCard(
-                                    image: _employeeList[index].image,
-                                    employeeName:
-                                        _employeeList[index].fullName!,
-                                    employeeId: _employeeList[index].empId,
-                                    siteName:
-                                        _employeeList[index].siteName != null
-                                            ? _employeeList[index].siteName!
-                                            : "Trivandrum",
-                                    index: index,
-                                    state: "accept",
-                                  ),
+                                      image: _employeeList[index].image,
+                                      employeeName: _employeeList[index].name!,
+                                      employeeId: _employeeList[index].empId,
+                                      siteName:
+                                          _employeeList[index].siteName != null
+                                              ? _employeeList[index].siteName!
+                                              : "Trivandrum",
+                                      index: index,
+                                      state: "accept",
+                                      isCredentialAvailable:
+                                          _employeeList[index]
+                                              .credentials!
+                                              .isNotEmpty),
                                 ),
                               ),
                             );

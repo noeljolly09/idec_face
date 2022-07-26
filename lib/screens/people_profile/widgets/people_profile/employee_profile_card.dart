@@ -5,13 +5,16 @@ import 'package:http/http.dart' as http;
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
 
+import '../../../../models/people_profile/all_employees_response.dart';
+
 class EmployeeCard extends StatelessWidget {
   final int? index;
-  final String? employeeName;
+  final Name? employeeName;
   final String? employeeId;
   final String? siteName;
   final String? image;
   final String state;
+  final bool isCredentialAvailable;
 
   const EmployeeCard({
     Key? key,
@@ -21,6 +24,7 @@ class EmployeeCard extends StatelessWidget {
     required this.siteName,
     required this.state,
     this.image,
+    this.isCredentialAvailable = false,
   }) : super(key: key);
 
   getImage(String? profileImage) async {
@@ -45,6 +49,18 @@ class EmployeeCard extends StatelessWidget {
       }
     } else {
       return null;
+    }
+  }
+
+  String getName(String? name) {
+    if (name == null) {
+      return '';
+    } else if (name == '') {
+      return '';
+    } else if (name.length == 1) {
+      return name[0].toUpperCase();
+    } else {
+      return name[0].toUpperCase() + name.substring(1);
     }
   }
 
@@ -98,10 +114,15 @@ class EmployeeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ProfileIconText(
-                      isIconNeeded: false,
-                      isProfileName: true,
-                      icon: const Icon(Icons.circle_notifications_rounded),
-                      textData: employeeName!),
+                    isIconNeeded: false,
+                    isProfileName: true,
+                    icon: const Icon(Icons.circle_notifications_rounded),
+                    textData: getName(employeeName!.first) +
+                        " " +
+                        getName(employeeName!.middle) +
+                        " " +
+                        getName(employeeName!.last),
+                  ),
                   const ProfileIconText(
                       isIconNeeded: false,
                       isProfileName: false,
@@ -117,7 +138,10 @@ class EmployeeCard extends StatelessWidget {
             ),
             Expanded(
               child: state == "accept"
-                  ? const Icon(Icons.arrow_back_ios_new_rounded)
+                  ? Visibility(
+                      visible: isCredentialAvailable,
+                      child: const Icon(Icons.arrow_back_ios_new_rounded),
+                    )
                   : SvgPicture.asset("assets/svg/pending.svg"),
             )
           ],

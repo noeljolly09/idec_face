@@ -50,6 +50,18 @@ class _DetailedProfileScreenState extends ConsumerState<DetailedProfileScreen> {
     }
   }
 
+  String getName(String? name) {
+    if (name == null) {
+      return '';
+    } else if (name == '') {
+      return '';
+    } else if (name.length == 1) {
+      return name[0].toUpperCase();
+    } else {
+      return name[0].toUpperCase() + name.substring(1);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.employeeStatus == "enrolled") {
@@ -87,11 +99,17 @@ class _DetailedProfileScreenState extends ConsumerState<DetailedProfileScreen> {
               },
             ),
             ProfileIconText(
-                isExtraHeightNeeded: true,
-                isIconNeeded: false,
-                isProfileName: true,
-                icon: SvgPicture.asset("assets/svg/user.svg"),
-                textData: employeeList[widget.employeeIndex].fullName!),
+              isExtraHeightNeeded: true,
+              isIconNeeded: false,
+              isProfileName: true,
+              icon: SvgPicture.asset("assets/svg/user.svg"),
+              textData:
+                  getName(employeeList[widget.employeeIndex].name!.first) +
+                      " " +
+                      getName(employeeList[widget.employeeIndex].name!.middle) +
+                      " " +
+                      getName(employeeList[widget.employeeIndex].name!.last),
+            ),
             Card(
               margin: const EdgeInsets.only(
                   top: 10, bottom: 10, right: 20, left: 20),

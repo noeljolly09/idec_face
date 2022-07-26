@@ -73,112 +73,130 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
     List<UserData> _employeeList =
         ref.watch(peopleProfileNotifier).listOfPendingEmployees;
     return SafeArea(
-      child: DefaultTabController(
-        length: 3,
-        child: WillPopScope(
-          onWillPop: () async {
-            _currentPage = 1;
-            pendingEmployeeDetails = [];
-            ref
-                .read(peopleProfileNotifier)
-                .updatelistOfPendingEmployees(value: []);
-            return true;
-          },
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: customAppBar("Pending"),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            body:
-                // first tab bar view widget
-                Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  color: Colors.white,
-                  child: SearchInput(
-                    labelText: 'Employee',
-                    controller: employeeNameController,
-                    onTap: () {
+      child: WillPopScope(
+        onWillPop: () async {
+          _currentPage = 1;
+          pendingEmployeeDetails = [];
+          ref
+              .read(peopleProfileNotifier)
+              .updatelistOfPendingEmployees(value: []);
+          return true;
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: customAppBar("Pending"),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(20),
+                color: Colors.white,
+                child: SearchInput(
+                  labelText: 'Employee',
+                  controller: employeeNameController,
+                  onTap: () {
+                    _currentPage = 1;
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updateEmpFilterStatus(value: true);
+                    pendingEmployeeDetails = [];
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updatelistOfPendingEmployees(value: []);
+                    FocusScope.of(context).unfocus();
+                    _getAllEmployeesDetails();
+                  },
+                  onClear: () {
+                    _currentPage = 1;
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updateEmpFilterStatus(value: false);
+                    employeeNameController.clear();
+                    FocusScope.of(context).unfocus();
+                    _getAllEmployeesDetails();
+                  },
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: Scrollbar(
+                  thickness: 10,
+                  interactive: true,
+                  child: SmartRefresher(
+                    controller: _refreshController,
+                    enablePullDown: true,
+                    enablePullUp: true,
+                    onRefresh: () {
                       _currentPage = 1;
-                      ref
-                          .read(peopleProfileNotifier)
-                          .updateEmpFilterStatus(value: true);
+                      _getAllEmployeesDetails();
                       pendingEmployeeDetails = [];
                       ref
                           .read(peopleProfileNotifier)
                           .updatelistOfPendingEmployees(value: []);
-                      FocusScope.of(context).unfocus();
+                    },
+                    onLoading: () {
                       _getAllEmployeesDetails();
                     },
-                    onClear: () {
-                      _currentPage = 1;
-                      ref
-                          .read(peopleProfileNotifier)
-                          .updateEmpFilterStatus(value: false);
-                      employeeNameController.clear();
-                      FocusScope.of(context).unfocus();
-                      _getAllEmployeesDetails();
-                    },
-                  ),
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Scrollbar(
-                    thickness: 10,
-                    interactive: true,
-                    child: SmartRefresher(
-                      controller: _refreshController,
-                      enablePullDown: true,
-                      enablePullUp: true,
-                      onRefresh: () {
-                        _currentPage = 1;
-                        _getAllEmployeesDetails();
-                        pendingEmployeeDetails = [];
-                        ref
-                            .read(peopleProfileNotifier)
-                            .updatelistOfPendingEmployees(value: []);
-                      },
-                      onLoading: () {
-                        _getAllEmployeesDetails();
-                      },
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: _employeeList.length,
-                          itemBuilder: (context, index) {
-                            return SingleChildScrollView(
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProfileApprovalPage(
-                                          empList: _employeeList,
-                                          employeeIndex: index,
-                                          state: "pending",
-                                        ),
-                                      ));
-                                },
-                                child: EmployeeCard(
-                                  image: _employeeList[index].image,
-                                  employeeName: _employeeList[index].fullName!,
-                                  employeeId: _employeeList[index].empId,
-                                  siteName:
-                                      _employeeList[index].siteName != null
-                                          ? _employeeList[index].siteName!
-                                          : "Trivandrum",
-                                  index: index,
-                                  state: "pending",
-                                ),
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: _employeeList.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                            child: InkWell(
+                              onTap: () async {
+                                bool? status = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProfileApprovalPage(
+                                        empList: _employeeList,
+                                        employeeIndex: index,
+                                        state: "pending",
+                                      ),
+                                    ));
+                                if (status != null) {
+                                  if (status) {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (context) => InfoDialogWithTimer(
+                                        isTimerActivated: true,
+                                        isCancelButtonVisible: false,
+                                        afterSuccess: () {},
+                                        onPressedBttn1: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        title: "Success",
+                                        message: "Profile updated successfully",
+                                      ),
+                                    );
+                                    _currentPage = 1;
+                                    _getAllEmployeesDetails();
+                                    pendingEmployeeDetails = [];
+                                    ref
+                                        .read(peopleProfileNotifier)
+                                        .updatelistOfPendingEmployees(
+                                            value: []);
+                                  }
+                                }
+                              },
+                              child: EmployeeCard(
+                                image: _employeeList[index].image,
+                                employeeName: _employeeList[index].name!,
+                                employeeId: _employeeList[index].empId,
+                                siteName: _employeeList[index].siteName != null
+                                    ? _employeeList[index].siteName!
+                                    : "Trivandrum",
+                                index: index,
+                                state: "pending",
                               ),
-                            );
-                          }),
-                    ),
+                            ),
+                          );
+                        }),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
