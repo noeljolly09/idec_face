@@ -71,6 +71,8 @@ class UserData {
     this.registrationStatus,
     this.phone,
     this.fullName,
+    this.roles,
+    this.trades,
     this.credentials,
   });
 
@@ -89,6 +91,8 @@ class UserData {
   String? registrationStatus;
   Phone? phone;
   String? fullName;
+  Roles? roles;
+  Trades? trades;
   List<Credential>? credentials;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
@@ -109,6 +113,8 @@ class UserData {
         registrationStatus: json["registrationStatus"],
         phone: json["phone"] == null ? null : Phone.fromJson(json["phone"]),
         fullName: json["fullName"],
+        roles: json["roles"] == null ? null : Roles.fromJson(json["roles"]),
+        trades: json["trades"] == null ? null : Trades.fromJson(json["trades"]),
         credentials: json["credentials"] == null
             ? null
             : List<Credential>.from(
@@ -130,6 +136,8 @@ class UserData {
         "registrationStatus": registrationStatus,
         "phone": phone == null ? null : phone!.toJson(),
         "fullName": fullName,
+        "roles": roles == null ? null : roles!.toJson(),
+        "trades": trades == null ? null : trades!.toJson(),
         "credentials": credentials == null
             ? null
             : List<dynamic>.from(credentials!.map((x) => x.toJson())),
@@ -153,6 +161,46 @@ class Credential {
   Map<String, dynamic> toJson() => {
         "userId": userId,
         "userName": userName,
+      };
+}
+
+class Trades {
+  Trades({
+    this.tradeName,
+    this.tradeId,
+  });
+
+  String? tradeName;
+  String? tradeId;
+
+  factory Trades.fromJson(Map<String, dynamic> json) => Trades(
+        tradeName: json["tradeName"],
+        tradeId: json["_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "tradeName": tradeName,
+        "_id": tradeId,
+      };
+}
+
+class Roles {
+  Roles({
+    this.roleName,
+    this.roleId,
+  });
+
+  String? roleName;
+  String? roleId;
+
+  factory Roles.fromJson(Map<String, dynamic> json) => Roles(
+        roleName: json["roleName"],
+        roleId: json["_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "roleName": roleName,
+        "_id": roleId,
       };
 }
 

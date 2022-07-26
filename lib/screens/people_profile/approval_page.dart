@@ -142,7 +142,16 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
         countryCode = countryCode ?? countryCode;
       }
       emailController.text = data.email ?? data.email!;
-
+      if (data.trades != null) {
+        if (data.trades!.tradeName != null) {
+          tradeController.text = data.trades!.tradeName!;
+        }
+      }
+      if (data.roles != null) {
+        if (data.roles!.roleName != null) {
+          tradeController.text = data.roles!.roleName!;
+        }
+      }
       if (data.image != null) {
         ref.read(imageNotifier).updateImageUrl(image: data.image);
         image = data.image;
