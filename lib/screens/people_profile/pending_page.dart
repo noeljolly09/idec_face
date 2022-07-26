@@ -57,6 +57,9 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
     final tenantId = response.response!.data!.first.tenants!.id;
     final allEmployeesListRequest = EmployeeRequest(
       tabType: "pending",
+      searchKey: employeeNameController.text.isEmpty
+          ? null
+          : employeeNameController.text,
     );
     ref.read(peopleProfileNotifierProvider.notifier).allEmployeesListAttributes(
           allEmployeesListRequest,
