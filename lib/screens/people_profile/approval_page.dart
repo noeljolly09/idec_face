@@ -960,7 +960,9 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                       );
                     }
                   },
-                  child: const Text('Approve'),
+                  child: widget.isRejectButtonNeeded == true
+                      ? const Text("Approve")
+                      : const Text('Update'),
                   style: ElevatedButton.styleFrom(
                     onPrimary: Colors.white,
                     primary: AppConstants.primaryColor,
