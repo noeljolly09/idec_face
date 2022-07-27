@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idec_face/custom_widgets/encryptor.dart';
 import 'package:idec_face/dialogs/change_password_dialog.dart';
@@ -12,9 +11,7 @@ import 'package:idec_face/models/priviledge/privildege_request.dart';
 import 'package:idec_face/models/priviledge/priviledge_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/login_info_repository/providers/login_info_notifier_provider.dart';
-import 'package:idec_face/repository/password_change_repository/providers/password_change_notifier_provider.dart';
 import 'package:idec_face/repository/priviledge_info_repository/providers/priviledge_notifier_provider.dart';
-import 'package:idec_face/repository/user_details_repository/providers/user_details_notifier_provider.dart';
 import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
 import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 

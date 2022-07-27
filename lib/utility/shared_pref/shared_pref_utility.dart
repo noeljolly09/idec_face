@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:idec_face/models/login/login_response.dart';
-import 'package:idec_face/models/login/user_details_response.dart';
 import 'package:idec_face/models/priviledge/priviledge_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

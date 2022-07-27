@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:idec_face/models/people_profile/trade_response.dart';
-
 import '../../models/config/config_request.dart';
 import '../../models/config/config_response.dart';
 import '../../network/service_umbrella.dart';
