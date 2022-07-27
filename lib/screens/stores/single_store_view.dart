@@ -1,12 +1,13 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:idec_face/custom_widgets/custom_selection.dart';
 import 'package:idec_face/screens/stores/single_area_view.dart';
 
 import '../../constants.dart';
 import '../../custom_widgets/chart/indicator.dart';
 import '../../custom_widgets/chart/pie_chart.dart';
-import '../../custom_widgets/custom_selection_old.dart';
+
 import '../../custom_widgets/drawer/drawer.dart';
 
 import '../../utility/app_info.dart';
@@ -66,10 +67,10 @@ class _SingleStoreViewState extends State<SingleStoreView> {
                         margin: const EdgeInsets.all(5),
                         child: CustomSelectionBar(
                           isConfigreceived: false,
-                          circleSuffixIcon: true,
+                          isCircleSuffixIcon: true,
                           isSvg: false,
                           svgAsset: "",
-                          width: MediaQuery.of(context).size.width,
+                          width: screenWidth(context),
                           list: _listOfStores,
                           hinttext: "Search Stores",
                           searchhinttext: "Search Store",
@@ -179,10 +180,10 @@ class _SingleStoreViewState extends State<SingleStoreView> {
                             margin: const EdgeInsets.all(10),
                             child: CustomSelectionBar(
                               isConfigreceived: false,
-                              circleSuffixIcon: true,
+                              isCircleSuffixIcon: true,
                               isSvg: false,
                               svgAsset: "",
-                              width: MediaQuery.of(context).size.width / 1.4,
+                              width: screenWidth(context, dividedBy: 1.4),
                               list: _listOfScores,
                               hinttext: "Sort by criticality score",
                               searchhinttext: "Sort by criticality score",

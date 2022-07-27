@@ -163,6 +163,15 @@ class _MyDrawerState extends ConsumerState<MyDrawer> {
                 ),
                 drawerItem(
                   isdiabled: false,
+                  svg: "assets/svg/event_icon.svg",
+                  text: "Assets",
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, "/assets");
+                  },
+                ),
+                drawerItem(
+                  isdiabled: false,
                   svg: "assets/svg/device.svg",
                   text: "Devices",
                   onTap: () {

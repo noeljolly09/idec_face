@@ -1,9 +1,9 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
+import 'package:idec_face/custom_widgets/custom_selection.dart';
 import 'package:idec_face/screens/stores/single_store_view.dart';
 
 import '../../constants.dart';
-import '../../custom_widgets/custom_selection_old.dart';
 import '../../custom_widgets/drawer/drawer.dart';
 import '../../utility/app_info.dart';
 
@@ -46,9 +46,9 @@ class _StoresPageState extends State<StoresPage> {
                         isConfigreceived: false,
                         controller: _storeController,
                         searchController: _storeSearchController,
-                        width: MediaQuery.of(context).size.width,
+                        width: screenWidth(context),
                         isSvg: false,
-                        circleSuffixIcon: true,
+                        isCircleSuffixIcon: true,
                         svgAsset: "",
                         hinttext: "Search Stores",
                         searchhinttext: "Search Store",

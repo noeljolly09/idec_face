@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
+import 'package:idec_face/screens/devices/device_screen.dart';
 import 'package:idec_face/screens/events_screens/events_screen.dart';
 import 'package:idec_face/screens/forgot_password.dart';
 import 'package:idec_face/screens/login/login_screen.dart';
@@ -9,7 +10,7 @@ import 'package:idec_face/screens/people_profile/enrolled_page.dart';
 import 'package:idec_face/screens/people_profile/pending_page.dart';
 import 'package:idec_face/screens/people_profile/rejected_page.dart';
 import 'package:idec_face/screens/registration/registration_screen.dart';
-import 'package:idec_face/screens/devices/devices_screen.dart';
+import 'package:idec_face/screens/assets_screen.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/screens/settings/settings_page.dart';
@@ -110,6 +111,7 @@ class MyApp extends StatelessWidget {
         '/navigation_bar': (context) => const CustomNavigationBar(),
         '/events': (context) => const AlertsPage(),
         '/devices': (context) => const DevicesPage(),
+        '/assets': (context) => const AssetsPage(),
         '/enrolled_employees': (context) => const EnrolledEmployeePage(),
         '/pending_employees': (context) => const PendingEmployeePage(),
         '/rejected_employees': (context) => const RejectedEmployeePage(),
