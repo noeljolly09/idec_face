@@ -46,12 +46,14 @@ import '../registration/notifiers/media_state_notifier/media_upload_notifier.dar
 class ProfileApprovalPage extends ConsumerStatefulWidget {
   final int employeeIndex;
   final List<UserData> empList;
+  final bool? isRejectButtonNeeded;
   final String state;
   const ProfileApprovalPage({
     Key? key,
     required this.empList,
     required this.employeeIndex,
     required this.state,
+    this.isRejectButtonNeeded = true,
   }) : super(key: key);
 
   @override
@@ -112,6 +114,10 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
       _getConfigAttributes();
       _getTradeAttributes();
       _getRoleAttributes();
+
+      ref.read(imageNotifier).updateImageUrl(image: null);
+      ref.read(imageNotifier).updateImage(image: null);
+
       var data = widget.empList[widget.employeeIndex];
       firstNameController.text = data.name!.first!;
       middleNameController.text =
@@ -918,32 +924,34 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                     },
                     child: const Text('Close')),
                 const SizedBox(width: 30),
-                Visibility(
-                  visible: widget.state == "pending",
-                  child: ElevatedButton(
-                      onPressed: () {
-                        isRejected = true;
-                        if (formGlobalKey.currentState!.validate()) {
-                          profileApprovalRequest("rejected");
-                        } else {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => InfoDialogWithTimer(
-                              isTimerActivated: true,
-                              isCancelButtonVisible: false,
-                              afterSuccess: () {},
-                              onPressedBttn1: () {
-                                Navigator.of(context).pop(false);
-                              },
-                              title: "Info",
-                              message: "Please enter mandatory fields",
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text('Reject')),
-                ),
+                widget.isRejectButtonNeeded == true
+                    ? Visibility(
+                        visible: widget.state == "pending",
+                        child: ElevatedButton(
+                            onPressed: () {
+                              isRejected = true;
+                              if (formGlobalKey.currentState!.validate()) {
+                                profileApprovalRequest("rejected");
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => InfoDialogWithTimer(
+                                    isTimerActivated: true,
+                                    isCancelButtonVisible: false,
+                                    afterSuccess: () {},
+                                    onPressedBttn1: () {
+                                      Navigator.of(context).pop(false);
+                                    },
+                                    title: "Info",
+                                    message: "Please enter mandatory fields",
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text('Reject')),
+                      )
+                    : const SizedBox(),
                 const SizedBox(width: 30),
                 ElevatedButton(
                   onPressed: () {

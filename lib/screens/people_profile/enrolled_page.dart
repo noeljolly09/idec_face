@@ -209,11 +209,14 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                               isCancelButtonVisible: true,
                                               bttnText1: "Yes",
                                               bttnText2: "No",
-                                              afterSuccess: () {},
+                                              afterSuccess: () {
+                                                Navigator.pop(context);
+                                              },
                                               onPressedBttn2: () {
                                                 Navigator.pop(context);
                                               },
                                               onPressedBttn1: () {
+                                                Navigator.pop(context);
                                                 _getPasswordResetAttributes(
                                                     username:
                                                         _employeeList[index]

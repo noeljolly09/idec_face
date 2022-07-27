@@ -50,6 +50,7 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) => Container(
+        width: widget.width,
         margin: const EdgeInsets.only(top: 5),
         child: TextFormField(
           controller: widget.controller,
@@ -120,8 +121,12 @@ class _CustomSelectionBarState extends ConsumerState<CustomSelectionBar> {
   }
 
   void _getConfigAttributes() {
-    final configInfoRequest =
-        ConfigInfoRequest(configAttributes: ["GNDR", "BG", "NTY", "FGTPSD"]);
+    final configInfoRequest = ConfigInfoRequest(configAttributes: [
+      "gender",
+      "nationality",
+      "bloodGroup",
+      "forgotPasswordAttributes"
+    ]);
     ref
         .read(configInfoNotifierProvider.notifier)
         .getConfigAttributes(configInfoRequest);

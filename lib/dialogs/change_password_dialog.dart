@@ -51,9 +51,12 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
   void _changePasswordAttributes() {
     String tenantId = ref
         .watch(sharedPrefUtilityProvider)
-        .getLoggedInUser()!
+        .getLoggedInPriviledgeUserDetails()!
         .response!
-        .tenantId!;
+        .data!
+        .first
+        .tenants!
+        .id!;
     String username = ref.watch(loginNotifier).username!;
 
     final changePasswordRequest = ChangePasswordRequest(

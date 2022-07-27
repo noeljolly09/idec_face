@@ -1,8 +1,8 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:idec_face/custom_widgets/custom_selection_old.dart';
-
+import 'package:idec_face/constants.dart';
+import 'package:idec_face/custom_widgets/custom_selection.dart';
 import '../../custom_widgets/liquid_progress_bar.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -52,31 +52,21 @@ class _DashboardPageState extends State<DashboardPage> {
                 Container(
                   margin: const EdgeInsets.all(10),
                   child: CustomSelectionBar(
-                    circleSuffixIcon: false,
-                    isSortIconNeeded: false,
-                    isSvg: false,
-                    svgAsset: "",
-                    width: MediaQuery.of(context).size.width,
-                    list: _listOfStores,
-                    hinttext: "All Store",
-                    searchhinttext: "Search Store",
-                    sheetTitle: "All Store",
-                    controller: _textController,
-                    searchController: _storeSearchController,
-                    isConfigreceived: false,
-                  ),
+                      controller: _textController,
+                      searchController: _storeSearchController,
+                      width: screenWidth(context),
+                      isSvg: false,
+                      hinttext: "Search Store",
+                      searchhinttext: "Search Store",
+                      sheetTitle: "All Stores",
+                      isCircleSuffixIcon: false,
+                      svgAsset: '',
+                      list: _listOfStores,
+                      isConfigreceived: false),
                 ),
                 const SizedBox(height: 10),
                 Column(
                   children: [
-                    CustomLiquidProgressIndicator(
-                      percent: 80,
-                      total: 100,
-                      color: Colors.lightBlueAccent,
-                      height: 70,
-                      width: MediaQuery.of(context).size.width,
-                      qualityText: "Normal",
-                    ),
                     CustomLiquidProgressIndicator(
                       percent: 60,
                       total: 100,
@@ -94,12 +84,20 @@ class _DashboardPageState extends State<DashboardPage> {
                       qualityText: "Warning",
                     ),
                     CustomLiquidProgressIndicator(
+                      percent: 80,
+                      total: 100,
+                      color: Colors.lightBlueAccent,
+                      height: 70,
+                      width: MediaQuery.of(context).size.width,
+                      qualityText: "Normal",
+                    ),
+                    CustomLiquidProgressIndicator(
                       percent: 10,
                       total: 100,
                       color: Colors.grey,
                       height: 70,
                       width: MediaQuery.of(context).size.width,
-                      qualityText: "Not Working",
+                      qualityText: "Not In Service",
                     ),
                   ],
                 ),
@@ -122,19 +120,17 @@ class _DashboardPageState extends State<DashboardPage> {
                     Container(
                       margin: const EdgeInsets.all(10),
                       child: CustomSelectionBar(
-                        isSortIconNeeded: false,
-                        circleSuffixIcon: false,
-                        isConfigreceived: false,
-                        isSvg: false,
-                        svgAsset: "",
-                        width: MediaQuery.of(context).size.width / 1.6,
-                        list: _listOfSort,
-                        hinttext: "Criticality score",
-                        searchhinttext: "Select one to Sort",
-                        sheetTitle: "Sort",
-                        controller: _scoreTextController,
-                        searchController: _scoreSearchController,
-                      ),
+                          controller: _scoreTextController,
+                          searchController: _scoreSearchController,
+                          width: screenWidth(context, dividedBy: 1.6),
+                          isSvg: false,
+                          hinttext: " Select Location",
+                          searchhinttext: "Select one to location",
+                          sheetTitle: "Sort",
+                          isCircleSuffixIcon: false,
+                          svgAsset: '',
+                          list: _listOfStores,
+                          isConfigreceived: false),
                     ),
                     IconButton(
                       onPressed: () {},

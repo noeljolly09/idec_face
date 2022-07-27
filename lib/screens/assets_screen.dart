@@ -1,18 +1,19 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
+import 'package:idec_face/custom_widgets/custom_appbar.dart';
 
-import '../../constants.dart';
-import '../../custom_widgets/custom_selection_old.dart';
-import '../../custom_widgets/ticket/ticket_text.dart';
+import '../constants.dart';
+import '../custom_widgets/custom_selection.dart';
+import '../custom_widgets/ticket/ticket_text.dart';
 
-class DevicesPage extends StatefulWidget {
-  const DevicesPage({Key? key}) : super(key: key);
+class AssetsPage extends StatefulWidget {
+  const AssetsPage({Key? key}) : super(key: key);
 
   @override
-  State<DevicesPage> createState() => _DevicesPageState();
+  State<AssetsPage> createState() => _AssetsPageState();
 }
 
-class _DevicesPageState extends State<DevicesPage> {
+class _AssetsPageState extends State<AssetsPage> {
   final List<SelectedListItem> _listOfStores = [
     SelectedListItem(true, "Abels"),
     SelectedListItem(false, "Ace cafe"),
@@ -37,6 +38,7 @@ class _DevicesPageState extends State<DevicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar("Assets"),
       backgroundColor: AppConstants.inColor,
       body: SafeArea(
         child: Stack(
@@ -46,14 +48,13 @@ class _DevicesPageState extends State<DevicesPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(10),
                   child: CustomSelectionBar(
-                    isConfigreceived: false
-                    ,
-                    circleSuffixIcon: true,
+                    isConfigreceived: false,
+                    isCircleSuffixIcon: true,
                     isSvg: false,
                     svgAsset: "",
-                    width: MediaQuery.of(context).size.width,
+                    width: screenWidth(context),
                     list: _listOfStores,
                     hinttext: "Search Store",
                     searchhinttext: "Search Store",
@@ -69,14 +70,14 @@ class _DevicesPageState extends State<DevicesPage> {
                       margin: const EdgeInsets.all(5),
                       child: CustomSelectionBar(
                         isConfigreceived: false,
-                        circleSuffixIcon: true,
+                        isCircleSuffixIcon: true,
                         isSvg: false,
                         svgAsset: "",
-                        width: MediaQuery.of(context).size.width / 1.5,
+                        width: screenWidth(context, dividedBy: 1.5),
                         list: _listOfAssets,
                         hinttext: "Assets/Devices",
                         searchhinttext: "Assets/Devices",
-                        sheetTitle: "Score",
+                        sheetTitle: "Assets",
                         controller: _assetTextController,
                         searchController: _assetSearchController,
                       ),

@@ -10,7 +10,7 @@ import 'package:idec_face/custom_widgets/ticket/ticket_card.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/screens/events_screens/incidents/incidents_screen.dart';
 
-import '../../custom_widgets/custom_selection_old.dart';
+import '../../custom_widgets/custom_selection.dart';
 import 'alerts/detailed_alert_screen.dart';
 
 class AlertsPage extends ConsumerStatefulWidget {
@@ -173,8 +173,7 @@ class _NotificationsPageState extends ConsumerState<AlertsPage> {
                               margin: const EdgeInsets.all(5),
                               child: CustomSelectionBar(
                                 isConfigreceived: false,
-                                isSortIconNeeded: false,
-                                circleSuffixIcon: false,
+                                isCircleSuffixIcon: false,
                                 isSvg: false,
                                 svgAsset: "",
                                 width: MediaQuery.of(context).size.width,
