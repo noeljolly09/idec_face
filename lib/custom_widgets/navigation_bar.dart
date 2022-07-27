@@ -1,102 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:idec_face/custom_widgets/custom_appbar.dart';
+import 'package:idec_face/screens/devices/devices_screen.dart';
+import 'package:idec_face/screens/events_screens/events_screen.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../constants.dart';
 import '../screens/dashboard/dashboard_screen.dart';
-import '../screens/notification_screens/notifications_screen.dart';
 
-import '../screens/settings_screen.dart';
+import '../screens/dashboard/notifier/dashboard_notifier.dart';
 import 'drawer/drawer.dart';
 
-class CustomNavigationBar extends StatefulWidget {
+class CustomNavigationBar extends ConsumerStatefulWidget {
   const CustomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  State<CustomNavigationBar> createState() => _CustomNavigationBarState();
+  _CustomNavigationBarState createState() => _CustomNavigationBarState();
 }
 
-class _CustomNavigationBarState extends State<CustomNavigationBar> {
+class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
   int selectedIndex = 0;
-
-  String currentDate = DateFormat.MMMMd().format(DateTime.now());
-  String currentTime = DateFormat.jm().format(DateTime.now());
-
-  static const timestyle = TextStyle(fontSize: 12);
-
+  //
   final screens = [
     const DashboardPage(),
-    const NotificationsPage(),
-    const SettingsPage(),
+    const AlertsPage(),
+    const DevicesPage(),
   ];
 
-  final appbartitle = ["Home", "Notifications", "Settings"];
+  final appbartitle = ["Home", "Events", "Devices"];
 
   void onTapBar(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    ref.read(navigationbarNotifier).updatedNavigtionIndex(value: index);
+    selectedIndex = index;
   }
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.watch(navigationbarNotifier).selectionIndex;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: const MyDrawer(),
-        appBar: AppBar(
-          backgroundColor: AppConstants.primaryColor,
-          title: Center(child: Text(appbartitle[selectedIndex])),
-          actions: [
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Row(
-                  children: [
-                    const Text(
-                      "Updated on: ",
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentDate,
-                      style: timestyle,
-                    ),
-                    const Text(
-                      ',',
-                      style: timestyle,
-                    ),
-                    Text(
-                      currentTime,
-                      style: timestyle,
-                    ),
-                  ],
-                ))
-          ],
-        ),
+        appBar: customAppBar(appbartitle[selectedIndex]),
         body: screens[selectedIndex],
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-          child: GNav(
-            gap: 2,
-            iconSize: 24,
-            activeColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: SalomonBottomBar(
+            currentIndex: selectedIndex,
+            itemPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             duration: const Duration(milliseconds: 400),
-            tabBackgroundColor: AppConstants.primaryColor,
-            color: Colors.black,
-            tabs: const [
-              GButton(
-                icon: Icons.home,
-                text: "Home",
+            selectedItemColor: AppConstants.primaryColor,
+            items: [
+              SalomonBottomBarItem(
+                icon: const Icon(
+                  Icons.home,
+                ),
+                title: const Text("Home"),
               ),
-              GButton(
-                icon: Icons.notifications,
-                text: "Notifications",
+              SalomonBottomBarItem(
+                icon: SvgPicture.asset('assets/svg/event_icon.svg'),
+                title: const Text("Events"),
               ),
-              GButton(
-                icon: Icons.settings,
-                text: "Settings",
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.phone_android),
+                title: const Text("Device"),
               ),
             ],
-            onTabChange: onTapBar,
+            onTap: onTapBar,
           ),
         ),
       ),
