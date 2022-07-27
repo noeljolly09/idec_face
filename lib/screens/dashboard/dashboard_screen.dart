@@ -68,14 +68,6 @@ class _DashboardPageState extends State<DashboardPage> {
                 Column(
                   children: [
                     CustomLiquidProgressIndicator(
-                      percent: 80,
-                      total: 100,
-                      color: Colors.lightBlueAccent,
-                      height: 70,
-                      width: MediaQuery.of(context).size.width,
-                      qualityText: "Normal",
-                    ),
-                    CustomLiquidProgressIndicator(
                       percent: 60,
                       total: 100,
                       color: Colors.pinkAccent,
@@ -92,12 +84,20 @@ class _DashboardPageState extends State<DashboardPage> {
                       qualityText: "Warning",
                     ),
                     CustomLiquidProgressIndicator(
+                      percent: 80,
+                      total: 100,
+                      color: Colors.lightBlueAccent,
+                      height: 70,
+                      width: MediaQuery.of(context).size.width,
+                      qualityText: "Normal",
+                    ),
+                    CustomLiquidProgressIndicator(
                       percent: 10,
                       total: 100,
                       color: Colors.grey,
                       height: 70,
                       width: MediaQuery.of(context).size.width,
-                      qualityText: "Not Working",
+                      qualityText: "Not In Service",
                     ),
                   ],
                 ),
@@ -124,12 +124,12 @@ class _DashboardPageState extends State<DashboardPage> {
                           searchController: _scoreSearchController,
                           width: screenWidth(context, dividedBy: 1.6),
                           isSvg: false,
-                          hinttext: "Criticality score",
-                          searchhinttext: "Select one to Sort",
+                          hinttext: " Select Location",
+                          searchhinttext: "Select one to location",
                           sheetTitle: "Sort",
                           isCircleSuffixIcon: false,
                           svgAsset: '',
-                          list: _listOfSort,
+                          list: _listOfStores,
                           isConfigreceived: false),
                     ),
                     IconButton(

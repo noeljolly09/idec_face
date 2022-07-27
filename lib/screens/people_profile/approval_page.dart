@@ -112,6 +112,9 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
       _getConfigAttributes();
       _getTradeAttributes();
       _getRoleAttributes();
+
+      ref.read(imageNotifier).updateImageUrl(image: null);
+      ref.read(imageNotifier).updateImage(image: null);
       var data = widget.empList[widget.employeeIndex];
       firstNameController.text = data.name!.first!;
       middleNameController.text =
