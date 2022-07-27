@@ -90,6 +90,7 @@ class _DetailedProfileScreenState extends ConsumerState<DetailedProfileScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ProfileApprovalPage(
+                              isRejectButtonNeeded: false,
                               empList: employeeList,
                               employeeIndex: widget.employeeIndex,
                               state: "pending",
