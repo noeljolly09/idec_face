@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
+import 'package:idec_face/screens/people_profile/approval_page.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
 import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
 import 'package:http/http.dart' as http;
@@ -79,6 +80,30 @@ class _DetailedProfileScreenState extends ConsumerState<DetailedProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                margin: const EdgeInsets.only(top: 20, right: 20),
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileApprovalPage(
+                              isRejectButtonNeeded: false,
+                              empList: employeeList,
+                              employeeIndex: widget.employeeIndex,
+                              state: "pending",
+                            ),
+                          ));
+                    },
+                    child: const Text("Edit Profile"),
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.white,
+                      primary: AppConstants.primaryColor,
+                    )),
+              ),
+            ),
             SizedBox(height: screenHeight(context, dividedBy: 27.52)),
             FutureBuilder<dynamic>(
               future: getImage(employeeList[widget.employeeIndex].image),
