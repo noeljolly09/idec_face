@@ -1,15 +1,12 @@
-
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-
-
 class CustomButton extends StatelessWidget {
   final double? height;
   final double? width;
-  final Border buttonBorder;
-  final BorderRadius buttonBorderRadius;
+  final Border? buttonBorder;
+  final BorderRadius? buttonBorderRadius;
   final IconData? buttonIcon;
   final Color? iconColor;
   final Color buttonColor;
@@ -20,8 +17,8 @@ class CustomButton extends StatelessWidget {
     Key? key,
     this.height,
     this.width,
-    required this.buttonBorder,
-    required this.buttonBorderRadius,
+    this.buttonBorder,
+    this.buttonBorderRadius,
     this.buttonIcon,
     this.iconColor,
     required this.buttonColor,

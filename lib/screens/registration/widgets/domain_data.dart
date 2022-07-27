@@ -17,7 +17,7 @@ class DomainPageRegistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height30 = MediaQuery.of(context).size.height / 27.352;
-    double height10 = MediaQuery.of(context).size.height / 82.051;
+    double height120 = MediaQuery.of(context).size.height / 6.83;
 
     return SizedBox(
       height: MediaQuery.of(context).size.height,
@@ -27,7 +27,6 @@ class DomainPageRegistration extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: height10),
             SizedBox(
               height: MediaQuery.of(context).size.height / 3.3,
               width: MediaQuery.of(context).size.width - 41.4285,
@@ -41,7 +40,7 @@ class DomainPageRegistration extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     letterspacing: 1,
                   ),
-                  Container(height: height30),
+                  SizedBox(height: height120),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.2,
                     child: Column(

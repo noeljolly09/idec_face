@@ -36,13 +36,13 @@ class SimpleTextField extends StatelessWidget {
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade800)),
-            focusedBorder: const OutlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: AppConstants.secondaryColor)),
             prefixIcon: Icon(
               icon,
               color: AppConstants.primaryColor,
             ),
-            hintText: hint,
+            // hintText: hint,
             contentPadding: const EdgeInsets.all(10)),
         keyboardType: input ?? TextInputType.text,
         textInputAction: textAction,
@@ -55,11 +55,13 @@ class SimpleTextField extends StatelessWidget {
           decoration: InputDecoration(
               enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
-              focusedBorder: const OutlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: AppConstants.secondaryColor)),
-              hintText: hint,
+              // hintText: hint,
               labelText: hint,
-              labelStyle: const TextStyle(color: AppConstants.customblack),
+              labelStyle: TextStyle(color: AppConstants.labeltextgrey),
+              floatingLabelStyle:
+                  const TextStyle(color: AppConstants.customblack),
               contentPadding: const EdgeInsets.all(10)),
           keyboardType: input ?? TextInputType.text,
           textInputAction: textAction,

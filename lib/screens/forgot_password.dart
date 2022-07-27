@@ -1,42 +1,119 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:idec_face/custom_widgets/textfields/forgot_password_textfield.dart';
+import 'package:idec_face/dialogs/loader_dialog.dart';
+import 'package:idec_face/models/client_details.dart';
+import 'package:idec_face/models/password_reset/password_reset_request.dart';
+import 'package:idec_face/models/password_reset/password_reset_response.dart';
+import 'package:idec_face/models/registration/client_details_response.dart';
+import 'package:idec_face/repository/config_info_repository/providers/config_info_notifier_provider.dart';
+import 'package:idec_face/repository/password_reset_repository/providers/password_reset_notifier_provider.dart';
+import 'package:idec_face/repository/registration_info_repositary/providers/registration_info_notifier_provider.dart';
+import 'package:idec_face/screens/registration/notifiers/registration_notifiers.dart';
+import 'package:idec_face/utility/extensions/string_utility.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
 import '../custom_widgets/button.dart';
-import '../custom_widgets/custom_selection.dart';
+
 import '../custom_widgets/text.dart';
 import '../custom_widgets/textfields/custom_textfield.dart';
-import '../utility/app_info.dart';
-import '../utility/privacy_policy.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
+import '../dialogs/info_dialog/dialog_with_timer.dart';
+import '../models/config/config_request.dart';
+import '../models/config/config_response.dart';
+import '../network/service_umbrella.dart';
+import '../utility/app_info.dart';
+import '../utility/connectivity/connectivity_constants.dart';
+import '../utility/connectivity/connectivity_notifier_provider.dart';
+
+class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   final TextEditingController _domainController = TextEditingController();
-  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
+  final TextEditingController _optionsController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
+
+  Map<String, String> domainList = {};
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getConfigAttributes();
+      _getClientDetails();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _getClientDetails() {
+    ref.read(clientInfoNotifierProvider.notifier).getClientInfo();
+  }
+
+  void _getConfigAttributes() {
+    final configInfoRequest =
+        ConfigInfoRequest(configAttributes: ["forgotPasswordAttributes"]);
+    ref
+        .read(configInfoNotifierProvider.notifier)
+        .getConfigAttributes(configInfoRequest);
+  }
+
+  void _getPasswordResetAttributes() {
+    String tenantId = "";
+    if (domainList.keys.contains(_domainController.text.trim().toUpperCase())) {
+      tenantId = domainList[_domainController.text.trim().toUpperCase()]!;
+      var passwordResetRequest = PasswordResetRequest();
+      if (_optionsController.text.toLowerCase() == "username") {
+        passwordResetRequest = PasswordResetRequest(
+          userName: _valueController.text,
+        );
+      } else if (_optionsController.text.toLowerCase() == "employeeid") {
+        passwordResetRequest = PasswordResetRequest(
+          empId: _valueController.text,
+        );
+      } else if (_optionsController.text.toLowerCase() == "email") {
+        passwordResetRequest = PasswordResetRequest(
+          email: _valueController.text,
+        );
+      } else if (_optionsController.text.toLowerCase() == "phone") {
+        passwordResetRequest = PasswordResetRequest(
+          phone: _valueController.text,
+        );
+      }
+
+      ref
+          .read(passwordResetNotifierProvider.notifier)
+          .getPasswordResetAttributes(
+            passwordResetRequest,
+            tenantId,
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double height10 = MediaQuery.of(context).size.height / 82.05;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.82;
-    double height40 = MediaQuery.of(context).size.height / 20.51;
     double height60 = MediaQuery.of(context).size.height / 13.67;
 
-    final List<SelectedListItem> _listOfgender = [
-      SelectedListItem(false, "Employee Id"),
-      SelectedListItem(false, "Username"),
-      SelectedListItem(false, "Email Id"),
-      SelectedListItem(false, "Phone Number"),
-    ];
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+    initConfigListeners(networkStatus);
+    initResetPasswordListeners(networkStatus);
+    initClientDetailsListeners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -52,15 +129,33 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: AppConstants.abovecoldtruthheight),
-                    SvgPicture.asset(
-                      "assets/svg/logo.svg",
-                      height: 60,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg/ust_logo.svg",
+                          height: 50,
+                        ),
+                        RichText(
+                          text: const TextSpan(
+                            style: TextStyle(color: Colors.black, fontSize: 35),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: " COLD",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppConstants.primaryColor)),
+                              TextSpan(text: 'TRUTH', style: TextStyle())
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                     SizedBox(height: height25),
                     CustomTextWidget(
                       color: AppConstants.customblack,
                       size: AppConstants.authtitlesize,
-                      text: 'Forgot Your Password?',
+                      text: 'FORGOT YOUR PASSWORD ?',
                       fontWeight: FontWeight.normal,
                     ),
                     SizedBox(height: height10),
@@ -79,6 +174,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Domain name required';
+                                  } else if (!domainList.keys
+                                      .contains(value.trim().toUpperCase())) {
+                                    return "Invalid domain";
                                   } else {
                                     return null;
                                   }
@@ -90,18 +188,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ),
                               SizedBox(height: height20),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: CustomSelectionBar(
-                                  circleSuffixIcon: false,
-                                  isSvg: true,
-                                  svgAsset: "assets/svg/useriD.svg",
-                                  width: MediaQuery.of(context).size.width,
-                                  list: _listOfgender,
-                                  hinttext: "Select Options",
-                                  searchhinttext: "Select Options",
-                                  sheetTitle: "Select Options",
-                                  controller: _userController,
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: ForgotPasswordTextField(
+                                  hint: _optionsController.text.isEmpty
+                                      ? "Enter Value"
+                                      : _optionsController.text,
+                                  controller: _valueController,
+                                  optionController: _optionsController,
                                   searchController: _searchController,
+                                  textAction: TextInputAction.done,
+                                  input: TextInputType.text,
+                                  textorflex: false,
+                                  validator: (value) {
+                                    if (value!.isEmpty ||
+                                        _optionsController.text.isEmpty) {
+                                      return 'Select any one option';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                 ),
                               ),
                             ],
@@ -123,14 +228,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       color: Colors.white30, width: 2),
                                   buttonBorderRadius: BorderRadius.circular(05),
                                   iconColor: Colors.white,
-                                  data: 'Cancel',
+                                  data: 'CANCEL',
                                 ),
                               ),
                               const SizedBox(width: 5),
                               Expanded(
                                 child: CustomButton(
                                   height: 50,
-                                  function: () {},
+                                  function: () {
+                                    if (formGlobalKey.currentState!
+                                        .validate()) {
+                                      _getPasswordResetAttributes();
+                                    }
+                                  },
                                   width:
                                       MediaQuery.of(context).size.width / 1.7,
                                   buttonColor: Theme.of(context).primaryColor,
@@ -138,7 +248,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       color: Colors.white30, width: 2),
                                   buttonBorderRadius: BorderRadius.circular(05),
                                   iconColor: Colors.white,
-                                  data: 'Submit',
+                                  data: 'SUBMIT',
                                 ),
                               )
                             ],
@@ -159,7 +269,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               const SizedBox(width: 5),
                               InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/');
+                                  Navigator.pop(context);
                                 },
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
@@ -191,7 +301,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     child: Row(
                       children: [
                         const Text(
-                          "v",
+                          "V",
                           style: TextStyle(color: Colors.grey),
                         ),
                         getVersionNumber(),
@@ -199,10 +309,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => const PrivacyPolicyPage());
+                    onTap: () async {
+                      await launchUrl(Uri.parse(
+                          "https://idecobserverappdev.azurewebsites.net/#/policy"));
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -214,7 +323,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         "Privacy Policy",
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: AppConstants.primaryColor),
+                            fontSize: 10,
+                            color: Colors.black),
                       ),
                     ),
                   )
@@ -225,5 +335,151 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
       ),
     );
+  }
+
+  initClientDetailsListeners(ConnectionStatus networkStatus) {
+    ref.listen(clientInfoNotifierProvider, (previous, next) {
+      final clientsInfoResponse =
+          next as ServiceResponse<ClientDetailsResponse?>;
+      if (clientsInfoResponse.status == ServiceStatus.loading) {
+        customLoaderDialog(context);
+      } else if (clientsInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
+        if (clientsInfoResponse.data!.response!.response!.isNotEmpty) {
+          List<ClientDetailsModel> _list = [];
+          for (var item in clientsInfoResponse.data!.response!.response!) {
+            domainList[item.domain!.trim().toUpperCase()] = item.id!;
+          }
+
+          ref.read(registrationNotifier).updatelistofClients(value: _list);
+        }
+      } else {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => InfoDialogWithTimer(
+            isTimerActivated: true,
+            isCancelButtonVisible: false,
+            afterSuccess: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
+            },
+            onPressedBttn1: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
+            },
+            title: "Error",
+            message: "Unable to fetch Data.",
+          ),
+        );
+      }
+    });
+  }
+
+  initResetPasswordListeners(ConnectionStatus networkStatus) {
+    ref.listen(passwordResetNotifierProvider, (previous, next) {
+      final passwordResetResponse =
+          next as ServiceResponse<PasswordResetResponse?>;
+      if (passwordResetResponse.status == ServiceStatus.loading) {
+        customLoaderDialog(context);
+      } else if (passwordResetResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
+        if (passwordResetResponse.data!.status == true) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              title: "Password Reset",
+              afterSuccess: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
+              },
+              onPressedBttn1: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
+              },
+              message: passwordResetResponse.data!.response!.message.toString(),
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              title: "Password Reset Error",
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.pop(context);
+              },
+              message: passwordResetResponse.data!.response!.message.toString(),
+            ),
+          );
+        }
+      }
+    });
+  }
+
+  initConfigListeners(ConnectionStatus networkStatus) {
+    ref.listen(configInfoNotifierProvider, ((previous, next) {
+      final configInfoResponse = next as ServiceResponse<ConfigResponse?>;
+
+      if (configInfoResponse.status == ServiceStatus.loading) {
+      } else if (configInfoResponse.status == ServiceStatus.completed) {
+        List<SelectedListItem> _listOfSelectionOption = [];
+
+        if (configInfoResponse.data!.response!.isNotEmpty) {
+          for (var element in configInfoResponse.data!.response!) {
+            //list of select options
+            if (element.value!.selectionResponse != null) {
+              for (var item in element.value!.selectionResponse!) {
+                _listOfSelectionOption
+                    .add(SelectedListItem(false, item.value!.capitalize));
+              }
+            }
+          }
+          ref.read(registrationNotifier).updateConfigState(value: true);
+          ref
+              .read(registrationNotifier)
+              .updatelistOfSelectOptionsState(value: _listOfSelectionOption);
+        }
+      } else if (configInfoResponse.status == ServiceStatus.error) {
+        ref.read(registrationNotifier).updateConfigState(value: false);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
+            ),
+          );
+        }
+      }
+    }));
   }
 }

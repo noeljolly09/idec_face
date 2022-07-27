@@ -18,9 +18,11 @@ getVersionNumber() {
       } else {
         return const Text(
           "",
-          style:  TextStyle(color: Colors.grey),
+          style: TextStyle(color: Colors.grey),
         );
       }
     },
   );
 }
+
+
