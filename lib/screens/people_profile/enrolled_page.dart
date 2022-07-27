@@ -216,6 +216,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                                 Navigator.pop(context);
                                               },
                                               onPressedBttn1: () {
+                                                Navigator.pop(context);
                                                 _getPasswordResetAttributes(
                                                     username:
                                                         _employeeList[index]
