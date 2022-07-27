@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:idec_face/custom_widgets/encryptor.dart';
+import 'package:idec_face/dialogs/change_password_dialog.dart';
+import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
+import 'package:idec_face/models/login/login_request.dart';
+import 'package:idec_face/models/login/login_response.dart';
+import 'package:idec_face/models/login/user_details_request.dart';
+import 'package:idec_face/models/login/user_details_response.dart';
+import 'package:idec_face/models/password_change/change_password_request.dart';
+import 'package:idec_face/models/priviledge/privildege_request.dart';
+import 'package:idec_face/models/priviledge/priviledge_response.dart';
+import 'package:idec_face/network/core/service_response.dart';
+import 'package:idec_face/repository/login_info_repository/providers/login_info_notifier_provider.dart';
+import 'package:idec_face/repository/password_change_repository/providers/password_change_notifier_provider.dart';
+import 'package:idec_face/repository/priviledge_info_repository/providers/priviledge_notifier_provider.dart';
+import 'package:idec_face/repository/user_details_repository/providers/user_details_notifier_provider.dart';
+import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
+import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
+
+import 'package:idec_face/utility/connectivity/connectivity_constants.dart';
+import 'package:idec_face/utility/connectivity/connectivity_notifier_provider.dart';
+import 'package:idec_face/utility/shared_pref/provider/shared_pref_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants.dart';
 import '../../custom_widgets/button.dart';
 import '../../custom_widgets/text.dart';
 import '../../custom_widgets/textfields/custom_textfield.dart';
 import '../../utility/app_info.dart';
-import '../../utility/privacy_policy.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,12 +45,45 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  //
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _loginUserAttributes() {
+    final loginInfoRequest = LoginInfoRequest(
+        domain: _domainController.text,
+        username: _usernameController.text,
+        identifier: encryptor(_passwordController.text));
+    ref.read(loginInfoNotifierProvider.notifier).getloginattributes(
+          loginInfoRequest,
+          _domainController.text,
+        );
+  }
+
+  void _priviledgeUserAttributes() {
+    final priviledgeUserRequest = PrivilegeUserRequest(
+      userId: ref.watch(loginNotifier).userId,
+      domain: _domainController.text,
+    );
+
+    ref.read(priviledgeNotifierProvider.notifier).getPriviledgeUserAttributes(
+          priviledgeUserRequest,
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
-    double height10 = MediaQuery.of(context).size.height / 82.051;
     double height20 = MediaQuery.of(context).size.height / 42.02;
     double height25 = MediaQuery.of(context).size.height / 32.822;
     double height40 = MediaQuery.of(context).size.height / 20.514;
+
+    final networkStatus = ref.read(connectivityNotifierProvider).status;
+
+    initLoginListeners(networkStatus);
+    initPrivildegeUserListeners(networkStatus);
 
     return SafeArea(
       child: Scaffold(
@@ -44,15 +99,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: AppConstants.abovecoldtruthheight),
-                    SvgPicture.asset(
-                      "assets/svg/logo.svg",
-                      height: 60,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg/ust_logo.svg",
+                          height: 50,
+                        ),
+                        RichText(
+                          text: const TextSpan(
+                            style: TextStyle(color: Colors.black, fontSize: 35),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: " IDEC ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppConstants.primaryColor)),
+                              TextSpan(text: 'FACE', style: TextStyle())
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                     SizedBox(height: height25),
                     CustomTextWidget(
                       color: AppConstants.customblack,
                       size: AppConstants.authtitlesize,
-                      text: 'Login',
+                      text: 'LOGIN',
                       fontWeight: FontWeight.normal,
                     ),
                     SizedBox(height: height25),
@@ -79,7 +152,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 input: TextInputType.name,
                                 textAction: TextInputAction.next,
                               ),
-                              SizedBox(height: height20),
+                              SizedBox(height: height40),
                               CustomTextField(
                                 isSvg: true,
                                 svgasset: "assets/svg/user.svg",
@@ -94,7 +167,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 input: TextInputType.name,
                                 textAction: TextInputAction.next,
                               ),
-                              SizedBox(height: height20),
+                              SizedBox(height: height40),
                               CustomTextField(
                                 isSvg: true,
                                 svgasset: "assets/svg/password.svg",
@@ -129,11 +202,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         SizedBox(height: height40),
+
+                        // login
+
                         CustomButton(
                           height: 50,
                           function: () {
                             if (formGlobalKey.currentState!.validate()) {
-                              Navigator.pushNamed(context, "/navigation_bar");
+                              FocusScope.of(context).unfocus();
+                              _loginUserAttributes();
                             }
                           },
                           width: MediaQuery.of(context).size.width / 1.7,
@@ -142,9 +219,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               Border.all(color: Colors.white30, width: 2),
                           buttonBorderRadius: BorderRadius.circular(05),
                           iconColor: Colors.white,
-                          data: 'Login',
+                          data: 'LOGIN',
                         ),
                         SizedBox(height: height20),
+
+                        // forgot password
+
                         InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, '/forgot_password');
@@ -163,6 +243,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         SizedBox(height: height20),
+
+                        // register
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
@@ -217,10 +300,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => const PrivacyPolicyPage());
+                    onTap: () async {
+                      await launchUrl(Uri.parse(
+                          "https://idecobserverappdev.azurewebsites.net/#/policy"));
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -232,7 +314,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         "Privacy Policy",
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: AppConstants.primaryColor),
+                            fontSize: 10,
+                            color: Colors.black),
                       ),
                     ),
                   )
@@ -243,5 +326,174 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ),
       ),
     );
+  }
+
+  initLoginListeners(ConnectionStatus networkStatus) {
+    ref.listen(loginInfoNotifierProvider, (previous, next) {
+      final loginInfoResponse = next as ServiceResponse<LoginResponse?>;
+      if (loginInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
+      } else if (loginInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
+        if (loginInfoResponse.data!.status == true) {
+          //
+          ref.read(loginNotifier).updateTenantId(
+              value: loginInfoResponse.data!.response!.tenantId);
+
+          ref
+              .read(sharedPrefUtilityProvider)
+              .saveLoggedInUser(loginInfoResponse.data!);
+          ref
+              .read(loginNotifier)
+              .updateUsername(value: _usernameController.text);
+
+          ref
+              .read(loginNotifier)
+              .updateUserId(value: loginInfoResponse.data!.response!.userId);
+          //
+
+          //
+          var data = loginInfoResponse.data!.response!.defaultValue;
+          if (data != null) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => ChangePasswordDialog(
+                oldPassword: _passwordController,
+                isOldPasswordFieldNeeded: false,
+                tooltipText: "PLease new credentials to login",
+                label:
+                    "You logged in with your default \npassword, Please Change \nPassword.",
+              ),
+            );
+          } else {
+            _priviledgeUserAttributes();
+          }
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Login Error",
+              message: "Unauthorized User",
+            ),
+          );
+        }
+      } else if (loginInfoResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
+            ),
+          );
+        }
+      }
+    });
+  }
+
+  initPrivildegeUserListeners(ConnectionStatus networkStatus) {
+    ref.listen(priviledgeNotifierProvider, (previous, next) {
+      final priviledgeUserResponse =
+          next as ServiceResponse<PrivilegeUserResponse?>;
+      if (priviledgeUserResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
+        if (priviledgeUserResponse.data!.status!) {
+          //
+          ref.read(sharedPrefUtilityProvider).setLoggedInUser();
+          ref
+              .read(sharedPrefUtilityProvider)
+              .saveLoggedInPriviledgeUserDetails(priviledgeUserResponse.data!);
+
+          ref.read(navigationbarNotifier).updatedNavigtionIndex(value: 0);
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/navigation_bar", (route) => false);
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: priviledgeUserResponse.data!.response!.message!,
+            ),
+          );
+        }
+      } else if (priviledgeUserResponse.status == ServiceStatus.error) {
+        Navigator.pop(context);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
+            ),
+          );
+        }
+      }
+    });
   }
 }

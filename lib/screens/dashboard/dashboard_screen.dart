@@ -13,7 +13,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: const Center(child: Text("Dashboard Page")),
+      body: const Center(child: Text('Dashboard Page')),
     );
   }
+
+  // void dataFetch() async {
+  //   SharedPreferences logindata = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     username = logindata.getString('username');
+  //   });
+  // }
 }

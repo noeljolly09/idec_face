@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final void Function()? iconFunction;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
   final bool? isObscure;
   final bool? isSvg;
   final TextCapitalization? capital;
@@ -38,15 +39,17 @@ class CustomTextField extends StatelessWidget {
     this.hint,
     required this.svgasset,
     this.svgheight,
+    this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.zero,
+      // padding: EdgeInsets.zero,
       color: Colors.transparent,
       width: width,
       child: TextFormField(
+        onChanged: onChanged,
         validator: validator,
         style: TextStyle(
           fontSize: AppConstants.formtextsize,
@@ -59,12 +62,14 @@ class CustomTextField extends StatelessWidget {
         obscureText: isObscure == true ? true : false,
         decoration: InputDecoration(
             labelText: hint,
-            labelStyle: const TextStyle(color: AppConstants.customblack),
-            contentPadding: const EdgeInsets.all(10),
+            labelStyle: TextStyle(color: AppConstants.labeltextgrey),
+            floatingLabelStyle:
+                const TextStyle(color: AppConstants.customblack),
+            contentPadding: const EdgeInsets.all(5),
             suffixIcon: suffixIcon,
-            hintText: hint,
+            // hintText: hint,
             prefixIconConstraints:
-                const BoxConstraints(maxHeight: 25, maxWidth: 25),
+                const BoxConstraints(maxHeight: 30, maxWidth: 30),
             prefixIcon: isSvg == true
                 ? Container(
                     margin: const EdgeInsets.only(right: 5),
@@ -82,7 +87,7 @@ class CustomTextField extends StatelessWidget {
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            focusedBorder: const OutlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: AppConstants.secondaryColor),
             )),
         keyboardType: input,

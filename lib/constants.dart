@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class AppConstants {
   // strings
   static String appName = "Idec Face";
-
+  String prefKeyLoggedIn = 'prefLoggedIn';
+  String prefKeyUser = 'prefUser';
   //app colors
   static const Color primaryColor = Color(0xFF006e74);
 
@@ -15,6 +16,7 @@ class AppConstants {
   static const Color customblack = Color.fromARGB(255, 28, 36, 44);
 
   static const Color customgrey = Color(0xfff2f7f8);
+  static Color labeltextgrey = Colors.grey[500]!;
 
   static const Color inColor = Color(0xFFEEEEEE);
 
@@ -32,7 +34,7 @@ class AppConstants {
   //width
 
   //font realted
-  static double authtitlesize = 25;
+  static double authtitlesize = 20;
 
   static double titlefontsize = 20;
 
@@ -41,6 +43,10 @@ class AppConstants {
   static double formbuttonsize = 14;
 
   static double formbuttontextsize = 19;
+
+  // for all the numbers in app font
+
+  static String forNumbersFont = "Roboto";
 
   // static double formtextbuttonsize = 14;
 
@@ -53,3 +59,20 @@ class AppConstants {
   static double listitemtextsize = 16;
 }
 
+typedef SDMap = Map<String, dynamic>;
+
+
+
+Size screenSize(BuildContext context) {
+  // screen height 820.5714285714286
+// screen width 411.42857142857144
+  return MediaQuery.of(context).size;
+}
+
+double screenHeight(BuildContext context, {double dividedBy = 1}) {
+  return screenSize(context).height / dividedBy;
+}
+
+double screenWidth(BuildContext context, {double dividedBy = 1}) {
+  return screenSize(context).width / dividedBy;
+}
