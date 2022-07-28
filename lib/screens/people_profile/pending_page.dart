@@ -85,7 +85,7 @@ class _ProfilePageState extends ConsumerState<PendingEmployeePage> {
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: customAppBar("Pending"),
+          appBar: customAppBar(context,"Pending"),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Column(
             children: [

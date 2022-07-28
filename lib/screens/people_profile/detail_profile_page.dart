@@ -75,7 +75,7 @@ class _DetailedProfileScreenState extends ConsumerState<DetailedProfileScreen> {
     }
     return SafeArea(
       child: Scaffold(
-        appBar: customAppBar("Profile"),
+        appBar: customAppBar(context,"Profile"),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
@@ -44,8 +45,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
+      darkTheme: ThemeData(
+          backgroundColor: Colors.black,
+          primaryColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: AppConstants.secondaryColor,
+          )),
+
       theme: ThemeData(
         fontFamily: "Fort",
+
 
         appBarTheme: const AppBarTheme(
           centerTitle: true,

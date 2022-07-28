@@ -38,7 +38,7 @@ class _AssetsPageState extends State<AssetsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar("Assets"),
+      appBar: customAppBar(context, "Assets"),
       backgroundColor: AppConstants.inColor,
       body: SafeArea(
         child: Stack(

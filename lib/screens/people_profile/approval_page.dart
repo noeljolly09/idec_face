@@ -429,7 +429,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
     profileUpdateInitListener(networkStatus);
     //
     return Scaffold(
-      appBar: customAppBar("Validate Profile"),
+      appBar: customAppBar(context,"Validate Profile"),
       body: Form(
         key: formGlobalKey,
         child: SingleChildScrollView(

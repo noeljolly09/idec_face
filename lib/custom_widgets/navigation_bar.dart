@@ -41,7 +41,7 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: const MyDrawer(),
-        appBar: customAppBar(appbartitle[selectedIndex]),
+        appBar: customAppBar(context, appbartitle[selectedIndex]),
         body: screens[selectedIndex],
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),

@@ -92,7 +92,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
           },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: customAppBar("Rejected"),
+            appBar: customAppBar(context,"Rejected"),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body:
                 // first tab bar view widget

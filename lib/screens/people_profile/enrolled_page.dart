@@ -111,7 +111,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: customAppBar("Enrolled"),
+            appBar: customAppBar(context,"Enrolled"),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body:
                 // first tab bar view widget

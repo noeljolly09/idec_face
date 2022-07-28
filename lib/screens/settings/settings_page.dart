@@ -18,7 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: customAppBar("Settings"),
+        appBar: customAppBar(context,"Settings"),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SettingsList(
           shrinkWrap: false,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idec_face/constants.dart';
 import 'package:intl/intl.dart';
 
-PreferredSizeWidget customAppBar(String title) {
+PreferredSizeWidget customAppBar(BuildContext context, String title) {
   String currentDate = DateFormat.MMMMd().format(DateTime.now());
   String currentTime = DateFormat.jm().format(DateTime.now());
 
