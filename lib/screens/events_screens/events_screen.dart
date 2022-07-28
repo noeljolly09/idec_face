@@ -130,6 +130,22 @@ class _NotificationsPageState extends ConsumerState<AlertsPage> {
                         Column(
                           children: [
                             Container(
+                              margin: const EdgeInsets.all(5),
+                              child: CustomSelectionBar(
+                                isConfigreceived: false,
+                                isCircleSuffixIcon: false,
+                                isSvg: false,
+                                svgAsset: "",
+                                width: MediaQuery.of(context).size.width,
+                                list: _listOfStores,
+                                hinttext: "All Store",
+                                searchhinttext: "Search Store",
+                                sheetTitle: "All Store",
+                                controller: _storetextController,
+                                searchController: _searchController,
+                              ),
+                            ),
+                            Container(
                               padding:
                                   const EdgeInsets.only(top: 20, bottom: 20),
                               color: Colors.grey.shade200,
@@ -167,22 +183,6 @@ class _NotificationsPageState extends ConsumerState<AlertsPage> {
                                     ),
                                   ),
                                 ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(5),
-                              child: CustomSelectionBar(
-                                isConfigreceived: false,
-                                isCircleSuffixIcon: false,
-                                isSvg: false,
-                                svgAsset: "",
-                                width: MediaQuery.of(context).size.width,
-                                list: _listOfStores,
-                                hinttext: "All Store",
-                                searchhinttext: "Search Store",
-                                sheetTitle: "All Store",
-                                controller: _storetextController,
-                                searchController: _searchController,
                               ),
                             ),
                             Expanded(
