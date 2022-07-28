@@ -9,7 +9,6 @@ import 'package:idec_face/screens/people_profile/pending_page.dart';
 import 'package:idec_face/screens/people_profile/rejected_page.dart';
 import 'package:idec_face/screens/registration/registration_screen.dart';
 import 'package:idec_face/screens/device_screen.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:idec_face/screens/settings/settings_page.dart';
 import 'package:idec_face/screens/splash/splash.dart';
