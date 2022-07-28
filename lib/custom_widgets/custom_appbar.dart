@@ -9,7 +9,7 @@ PreferredSizeWidget customAppBar(BuildContext context, String title) {
   const timestyle = TextStyle(fontSize: 10);
 
   return AppBar(
-    backgroundColor: AppConstants.primaryColor,
+    backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
     title: Text(title),
     actions: [
       Align(

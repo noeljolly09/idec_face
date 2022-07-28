@@ -22,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
+
   runApp(
     ProviderScope(
       overrides: [
@@ -42,21 +43,27 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      darkTheme: ThemeData(
-          backgroundColor: Colors.black,
-          primaryColor: Colors.white,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: AppConstants.secondaryColor,
-          )),
+      // darkTheme: ThemeData(
+      //   fontFamily: "Fort",
+      //   brightness: Brightness.dark,
+      //   backgroundColor: Colors.black,
+      //   primaryColor: Colors.white,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      //   appBarTheme: const AppBarTheme(
+      //     backgroundColor: AppConstants.secondaryColor,
+      //   ),
+      // ),
 
       theme: ThemeData(
         fontFamily: "Fort",
-
-
+        brightness: Brightness.light,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: const AppBarTheme(
+          backgroundColor: AppConstants.primaryColor,
           centerTitle: true,
           elevation: 3,
         ),
@@ -126,3 +133,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
+// final isDarkModeProvider = Provider<bool>((ref) {
+//   final themeMode = ref.watch(themeModeProvider);
+//   return themeMode == ThemeMode.dark;
+// });

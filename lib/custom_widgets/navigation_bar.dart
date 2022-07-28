@@ -44,7 +44,7 @@ class _CustomNavigationBarState extends ConsumerState<CustomNavigationBar> {
         appBar: customAppBar(context, appbartitle[selectedIndex]),
         body: screens[selectedIndex],
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
           child: SalomonBottomBar(
             currentIndex: selectedIndex,
             itemPadding:
