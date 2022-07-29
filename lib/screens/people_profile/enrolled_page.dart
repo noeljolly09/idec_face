@@ -1,15 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/dialogs/loader_dialog.dart';
+import 'package:idec_face/models/logout/logout_request.dart';
+import 'package:idec_face/models/logout/logout_response.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_constants/service_constants.dart';
 import 'package:idec_face/network/core/service_response.dart';
+import 'package:idec_face/repository/logout_repository/providers/logout_info_notifier_provider.dart';
 import 'package:idec_face/repository/people_profile/providers/people_profile_notifier_provider.dart';
+import 'package:idec_face/screens/login/login_screen.dart';
+import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 
 import 'package:idec_face/screens/people_profile/detail_profile_page.dart';
 import 'package:idec_face/screens/people_profile/notifiers/people_profile_notfier.dart';
@@ -91,11 +98,27 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
         );
   }
 
+  void _getLogoutAttributes() {
+    final response =
+        ref.read(sharedPrefUtilityProvider).getLoggedInPriviledgeUserDetails()!;
+    final userName = response.response!.data!.first.userName;
+    final tenantId = response.response!.data!.first.tenants!.id;
+    final logoutRequest = LogoutRequest(userName: userName);
+
+    ref
+        .read(logoutInfoNotifierProvider.notifier)
+        .getlogoutattributes(logoutRequest, tenantId!);
+  }
+
   @override
   Widget build(BuildContext context) {
     final networkStatus = ref.read(connectivityNotifierProvider).status;
     initPeopleProfileListeners(networkStatus);
     initResetPasswordListeners(networkStatus);
+
+    initLogoutListeners(networkStatus);
+
+    //
     List<UserData> _employeeList =
         ref.watch(peopleProfileNotifier).listOfAllEmployees;
 
@@ -111,7 +134,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
           },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: customAppBar(context,"Enrolled"),
+            appBar: customAppBar(context, "Enrolled"),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body:
                 // first tab bar view widget
@@ -223,6 +246,13 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                                                             .credentials!
                                                             .first
                                                             .userName);
+
+                                                ref
+                                                    .read(peopleProfileNotifier)
+                                                    .updateResetUserId(
+                                                        value:
+                                                            _employeeList[index]
+                                                                .id!);
                                               },
                                               title: "Reset password",
                                               message:
@@ -275,21 +305,52 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
         customLoaderDialog(context);
       } else if (passwordResetResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
+
         if (passwordResetResponse.data!.status == true) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => InfoDialogWithTimer(
-              isTimerActivated: true,
-              isCancelButtonVisible: false,
-              title: "Password Reset",
-              afterSuccess: () {},
-              onPressedBttn1: () {
-                Navigator.pop(context);
-              },
-              message: passwordResetResponse.data!.response!.message.toString(),
-            ),
-          );
+          if (ref.watch(peopleProfileNotifier).resetUserId ==
+              ref
+                  .watch(sharedPrefUtilityProvider)
+                  .getLoggedInPriviledgeUserDetails()!
+                  .response!
+                  .data!
+                  .first
+                  .userId) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
+                isTimerActivated: true,
+                isCancelButtonVisible: false,
+                title: "Password Reset",
+                afterSuccess: () {
+                  _getLogoutAttributes();
+                },
+                onPressedBttn1: () {
+                  _getLogoutAttributes();
+                },
+                message:
+                    passwordResetResponse.data!.response!.message.toString(),
+              ),
+            );
+          } else {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => InfoDialogWithTimer(
+                isTimerActivated: true,
+                isCancelButtonVisible: false,
+                title: "Password Reset",
+                afterSuccess: () {
+                  Navigator.pop(context);
+                },
+                onPressedBttn1: () {
+                  Navigator.pop(context);
+                },
+                message:
+                    passwordResetResponse.data!.response!.message.toString(),
+              ),
+            );
+          }
         } else {
           showDialog(
             context: context,
@@ -303,6 +364,64 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
                 Navigator.pop(context);
               },
               message: passwordResetResponse.data!.response!.message.toString(),
+            ),
+          );
+        }
+      }
+    });
+  }
+
+  void initLogoutListeners(ConnectionStatus networkStatus) {
+    ref.listen(logoutInfoNotifierProvider, (previous, next) {
+      final logoutInfoResponse = next as ServiceResponse<LogoutResponse?>;
+      if (logoutInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: SpinKitCircle(
+                    color: AppConstants.primaryColor,
+                  ),
+                ));
+      } else if (logoutInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
+        if (logoutInfoResponse.data!.status = true) {
+          ref.read(sharedPrefUtilityProvider).resetPreference();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (Route<dynamic> route) => false,
+          );
+        }
+      } else if (logoutInfoResponse.status == ServiceStatus.error) {
+        Navigator.of(context).pop(false);
+        if (networkStatus == ConnectionStatus.offline) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "No Internet Connectivity",
+            ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => InfoDialogWithTimer(
+              isTimerActivated: true,
+              isCancelButtonVisible: false,
+              afterSuccess: () {},
+              onPressedBttn1: () {
+                Navigator.of(context).pop(false);
+              },
+              title: "Error",
+              message: "Something went wrong",
             ),
           );
         }

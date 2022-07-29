@@ -429,7 +429,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
     profileUpdateInitListener(networkStatus);
     //
     return Scaffold(
-      appBar: customAppBar(context,"Validate Profile"),
+      appBar: customAppBar(context, "Validate Profile"),
       body: Form(
         key: formGlobalKey,
         child: SingleChildScrollView(
@@ -957,7 +957,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                   onPressed: () {
                     isRejected = false;
                     if (formGlobalKey.currentState!.validate()) {
-                      if (isUserCredentialGenerated) {
+                      if (isUserCredentialGenerated == false) {
                         profileApprovalRequest("accept");
                       } else {
                         showDialog(
