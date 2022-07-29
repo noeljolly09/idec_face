@@ -1257,7 +1257,9 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
       final tradeInfoResponse = next as ServiceResponse<TradeListResponse?>;
 
       if (tradeInfoResponse.status == ServiceStatus.loading) {
+        customLoaderDialog(context);
       } else if (tradeInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         List<SelectedListItem> _listOftrade = [];
         tradeMapList = {};
         if (tradeInfoResponse.data!.response!.data!.isNotEmpty) {
