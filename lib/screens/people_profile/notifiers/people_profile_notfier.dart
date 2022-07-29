@@ -24,6 +24,9 @@ class PeopleProfileNotifier extends ChangeNotifier {
   String _checkAvailability = "Check";
   String get checkAvailability => _checkAvailability;
 
+  String _resetUserId = '';
+  String get resetUserId => _resetUserId;
+
   bool _checkAvailabilityButton = false;
   bool get checkAvailabilityButton => _checkAvailabilityButton;
 
@@ -37,6 +40,11 @@ class PeopleProfileNotifier extends ChangeNotifier {
 
   void updatelistofTrade({required List<SelectedListItem> value}) {
     _listofTrade = value;
+    notifyListeners();
+  }
+
+  void updateResetUserId({required String value}) {
+    _resetUserId = value;
     notifyListeners();
   }
 

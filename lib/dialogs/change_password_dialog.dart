@@ -19,11 +19,13 @@ import '../repository/password_change_repository/providers/password_change_notif
 class ChangePasswordDialog extends ConsumerStatefulWidget {
   final String label;
   final bool? isOldPasswordFieldNeeded;
+  final bool? isNewPassword;
   final TextEditingController? oldPassword;
   final String? tooltipText;
   const ChangePasswordDialog({
     Key? key,
     this.isOldPasswordFieldNeeded,
+    this.isNewPassword,
     this.tooltipText,
     this.oldPassword,
     required this.label,
@@ -49,15 +51,37 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
   //
 
   void _changePasswordAttributes() {
-    String tenantId = ref
-        .watch(sharedPrefUtilityProvider)
-        .getLoggedInPriviledgeUserDetails()!
-        .response!
-        .data!
-        .first
-        .tenants!
-        .id!;
-    String username = ref.watch(loginNotifier).username!;
+    String tenantId;
+    String username;
+    ref
+                .read(sharedPrefUtilityProvider)
+                .getLoggedInUser()!
+                .response!
+                .defaultValue !=
+            null
+        ? tenantId = ref.read(loginNotifier).tenantId!
+        : tenantId = ref
+            .watch(sharedPrefUtilityProvider)
+            .getLoggedInPriviledgeUserDetails()!
+            .response!
+            .data!
+            .first
+            .tenants!
+            .id!;
+    ref
+                .read(sharedPrefUtilityProvider)
+                .getLoggedInUser()!
+                .response!
+                .defaultValue !=
+            null
+        ? username = ref.read(loginNotifier).username!
+        : username = ref
+            .watch(sharedPrefUtilityProvider)
+            .getLoggedInPriviledgeUserDetails()!
+            .response!
+            .data!
+            .first
+            .userName!;
 
     final changePasswordRequest = ChangePasswordRequest(
       userName: username,

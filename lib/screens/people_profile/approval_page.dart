@@ -942,7 +942,24 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                   onPressed: () {
                     isRejected = false;
                     if (formGlobalKey.currentState!.validate()) {
-                      profileApprovalRequest("accept");
+                      if (isUserCredentialGenerated == false) {
+                        profileApprovalRequest("accept");
+                      } else {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => InfoDialogWithTimer(
+                            isTimerActivated: true,
+                            isCancelButtonVisible: false,
+                            afterSuccess: () {},
+                            onPressedBttn1: () {
+                              Navigator.of(context).pop(false);
+                            },
+                            title: "Info",
+                            message: "Please check for available username",
+                          ),
+                        );
+                      }
                     } else {
                       showDialog(
                         context: context,

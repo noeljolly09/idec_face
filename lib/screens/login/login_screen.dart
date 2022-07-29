@@ -364,7 +364,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 isOldPasswordFieldNeeded: false,
                 tooltipText: "PLease new credentials to login",
                 label:
-                    "You logged in with your default \npassword, Please Change \nPassword.",
+                    "You logged in with your default \npassword, Please change \npassword.",
               ),
             );
           } else {
