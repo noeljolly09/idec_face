@@ -1250,7 +1250,14 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
       final tradeInfoResponse = next as ServiceResponse<TradeListResponse?>;
 
       if (tradeInfoResponse.status == ServiceStatus.loading) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const SpinKitCircle(
+                  color: AppConstants.primaryColor,
+                ));
       } else if (tradeInfoResponse.status == ServiceStatus.completed) {
+        Navigator.pop(context);
         List<SelectedListItem> _listOftrade = [];
         tradeMapList = {};
         if (tradeInfoResponse.data!.response!.data!.isNotEmpty) {
