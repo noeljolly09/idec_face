@@ -7,16 +7,11 @@ import 'package:idec_face/dialogs/change_password_dialog.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
 import 'package:idec_face/models/login/login_request.dart';
 import 'package:idec_face/models/login/login_response.dart';
-import 'package:idec_face/models/login/user_details_request.dart';
-import 'package:idec_face/models/login/user_details_response.dart';
-import 'package:idec_face/models/password_change/change_password_request.dart';
 import 'package:idec_face/models/priviledge/privildege_request.dart';
 import 'package:idec_face/models/priviledge/priviledge_response.dart';
 import 'package:idec_face/network/core/service_response.dart';
 import 'package:idec_face/repository/login_info_repository/providers/login_info_notifier_provider.dart';
-import 'package:idec_face/repository/password_change_repository/providers/password_change_notifier_provider.dart';
 import 'package:idec_face/repository/priviledge_info_repository/providers/priviledge_notifier_provider.dart';
-import 'package:idec_face/repository/user_details_repository/providers/user_details_notifier_provider.dart';
 import 'package:idec_face/screens/dashboard/notifier/dashboard_notifier.dart';
 import 'package:idec_face/screens/login/notifier/login_notifiers.dart';
 

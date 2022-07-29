@@ -45,22 +45,15 @@ class AppConstants {
   static double formbuttontextsize = 19;
 
   // for all the numbers in app font
-
   static String forNumbersFont = "Roboto";
-
   // static double formtextbuttonsize = 14;
-
   static double formtextsize = 16;
-
   static double formerrortextize = 12;
-
   static double modaltextsize = 16;
-
   static double listitemtextsize = 16;
 }
 
 typedef SDMap = Map<String, dynamic>;
-
 
 
 Size screenSize(BuildContext context) {

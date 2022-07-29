@@ -6,7 +6,6 @@ import 'package:idec_face/constants.dart';
 import 'package:idec_face/custom_widgets/custom_appbar.dart';
 import 'package:idec_face/custom_widgets/search_bar.dart';
 import 'package:idec_face/dialogs/info_dialog/dialog_with_timer.dart';
-import 'package:idec_face/dialogs/profile_dialog.dart';
 import 'package:idec_face/models/people_profile/all_employees_request.dart';
 import 'package:idec_face/models/people_profile/all_employees_response.dart';
 import 'package:idec_face/network/core/service_constants/service_constants.dart';
@@ -100,167 +99,169 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
     initResetPasswordListeners(networkStatus);
     List<UserData> _employeeList =
         ref.watch(peopleProfileNotifier).listOfAllEmployees;
-
     return SafeArea(
-      child: DefaultTabController(
-        length: 3,
-        child: WillPopScope(
-          onWillPop: () async {
-            _currentPage = 1;
-            employeeDetails = [];
-            ref.read(peopleProfileNotifier).updatelistOfAllEmployees(value: []);
-            return true;
-          },
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: customAppBar("Enrolled"),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            body:
-                // first tab bar view widget
-                Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  color: Colors.white,
-                  child: SearchInput(
-                    labelText: 'Employee',
-                    controller: employeeNameController,
-                    onTap: () {
-                      _currentPage = 1;
-                      employeeDetails = [];
-                      ref
-                          .read(peopleProfileNotifier)
-                          .updatelistOfAllEmployees(value: []);
-                      ref
-                          .read(peopleProfileNotifier)
-                          .updateEmpFilterStatus(value: true);
-                      FocusScope.of(context).unfocus();
-                      _getAllEmployeesDetails();
-                    },
-                    onClear: () {
-                      _currentPage = 1;
-                      employeeDetails = [];
-                      ref
-                          .read(peopleProfileNotifier)
-                          .updatelistOfAllEmployees(value: []);
-                      ref
-                          .read(peopleProfileNotifier)
-                          .updateEmpFilterStatus(value: false);
-                      employeeNameController.clear();
-                      FocusScope.of(context).unfocus();
-                      _getAllEmployeesDetails();
-                    },
-                  ),
+      child: WillPopScope(
+        onWillPop: () async {
+          _currentPage = 1;
+          employeeDetails = [];
+          ref.read(peopleProfileNotifier).updatelistOfAllEmployees(value: []);
+          return true;
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: customAppBar("Enrolled"),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body:
+              // first tab bar view widget
+              Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(20),
+                color: Colors.white,
+                child: SearchInput(
+                  labelText: 'Employee',
+                  controller: employeeNameController,
+                  onTap: () {
+                    _currentPage = 1;
+                    employeeDetails = [];
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updatelistOfAllEmployees(value: []);
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updateEmpFilterStatus(value: true);
+                    FocusScope.of(context).unfocus();
+                    _getAllEmployeesDetails();
+                  },
+                  onClear: () {
+                    _currentPage = 1;
+                    employeeDetails = [];
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updatelistOfAllEmployees(value: []);
+                    ref
+                        .read(peopleProfileNotifier)
+                        .updateEmpFilterStatus(value: false);
+                    employeeNameController.clear();
+                    FocusScope.of(context).unfocus();
+                    _getAllEmployeesDetails();
+                  },
                 ),
-                Expanded(
-                  flex: 5,
-                  child: Scrollbar(
-                    thickness: 10,
-                    interactive: true,
-                    child: SmartRefresher(
-                      controller: _refreshController,
-                      enablePullDown: true,
-                      enablePullUp: true,
-                      onRefresh: () {
-                        _currentPage = 1;
-                        employeeDetails = [];
-                        _getAllEmployeesDetails();
-                        ref
-                            .read(peopleProfileNotifier)
-                            .updatelistOfAllEmployees(value: []);
-                      },
-                      onLoading: () {
-                        _getAllEmployeesDetails();
-                      },
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: _employeeList.length,
-                          itemBuilder: (context, index) {
-                            return SingleChildScrollView(
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailedProfileScreen(
-                                                employeeStatus: "enrolled",
-                                                employeeIndex: index),
-                                      ));
-                                },
-                                child: Slidable(
-                                  key: ValueKey(index),
-                                  closeOnScroll: true,
-                                  enabled: _employeeList[index]
-                                      .credentials!
-                                      .isNotEmpty,
-                                  endActionPane: ActionPane(
-                                    extentRatio: 0.35,
-                                    motion: const ScrollMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        flex: 2,
-                                        onPressed: (context) {
-                                          showDialog(
-                                            context: context,
-                                            barrierDismissible: false,
-                                            builder: (context) =>
-                                                InfoDialogWithTimer(
-                                              isTimerActivated: true,
-                                              isCancelButtonVisible: true,
-                                              bttnText1: "Yes",
-                                              bttnText2: "No",
-                                              afterSuccess: () {},
-                                              onPressedBttn2: () {
-                                                Navigator.pop(context);
-                                              },
-                                              onPressedBttn1: () {
-                                                Navigator.pop(context);
-                                                _getPasswordResetAttributes(
-                                                    username:
-                                                        _employeeList[index]
-                                                            .credentials!
-                                                            .first
-                                                            .userName);
-                                              },
-                                              title: "Reset password",
-                                              message:
-                                                  "Do you want to reset password",
-                                            ),
-                                          );
-                                        },
-                                        backgroundColor: Colors.greenAccent,
-                                        foregroundColor: Colors.black,
-                                        label: 'Reset password',
-                                      ),
-                                    ],
+              ),
+              Expanded(
+                flex: 5,
+                child: Scrollbar(
+                  thickness: 5,
+                  interactive: true,
+                  child: SmartRefresher(
+                    controller: _refreshController,
+                    enablePullDown: true,
+                    enablePullUp: true,
+                    onRefresh: () {
+                      _currentPage = 1;
+                      employeeDetails = [];
+                      _getAllEmployeesDetails();
+                      ref
+                          .read(peopleProfileNotifier)
+                          .updatelistOfAllEmployees(value: []);
+                    },
+                    onLoading: () {
+                      _getAllEmployeesDetails();
+                    },
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: _employeeList.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                            child: Column(
+                            children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailedProfileScreen(
+                                                  employeeStatus: "enrolled",
+                                                  employeeIndex: index),
+                                        ));
+                                  },
+                                  child: Slidable(
+                                    key: ValueKey(index),
+                                    closeOnScroll: true,
+                                    enabled: _employeeList[index]
+                                        .credentials!
+                                        .isNotEmpty,
+                                    endActionPane: ActionPane(
+                                      extentRatio: 0.35,
+                                      motion: const ScrollMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          flex: 2,
+                                          onPressed: (context) {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (context) =>
+                                                  InfoDialogWithTimer(
+                                                isTimerActivated: true,
+                                                isCancelButtonVisible: true,
+                                                bttnText1: "Yes",
+                                                bttnText2: "No",
+                                                afterSuccess: () {},
+                                                onPressedBttn2: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                onPressedBttn1: () {
+                                                  Navigator.pop(context);
+                                                  _getPasswordResetAttributes(
+                                                      username:
+                                                          _employeeList[index]
+                                                              .credentials!
+                                                              .first
+                                                              .userName);
+                                                },
+                                                title: "Reset password",
+                                                message:
+                                                    "Do you want to reset password",
+                                              ),
+                                            );
+                                          },
+                                          backgroundColor: Colors.greenAccent,
+                                          foregroundColor: Colors.black,
+                                          label: 'Reset password',
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                      ],
+                                    ),
+                                    child: EmployeeCard(
+                                        image: _employeeList[index].image,
+                                        employeeName: _employeeList[index].name!,
+                                        employeeId: _employeeList[index].empId,
+                                        siteName:
+                                            _employeeList[index].siteName != null
+                                                ? _employeeList[index].siteName!
+                                                : "Trivandrum",
+                                        index: index,
+                                        state: "accept",
+                                        isCredentialAvailable:
+                                            _employeeList[index]
+                                                .credentials!
+                                                .isNotEmpty),
                                   ),
-                                  child: EmployeeCard(
-                                      image: _employeeList[index].image,
-                                      employeeName: _employeeList[index].name!,
-                                      employeeId: _employeeList[index].empId,
-                                      siteName:
-                                          _employeeList[index].siteName != null
-                                              ? _employeeList[index].siteName!
-                                              : "Trivandrum",
-                                      index: index,
-                                      state: "accept",
-                                      isCredentialAvailable:
-                                          _employeeList[index]
-                                              .credentials!
-                                              .isNotEmpty),
                                 ),
-                              ),
-                            );
-                          }),
-                    ),
+                                Divider()
+                              ],
+                            ),
+                          );
+                        }),
                   ),
                 ),
-              ],
-            ),
-            // second tab bar viiew widget
+              ),
+            ],
           ),
+          // second tab bar viiew widget
         ),
       ),
     );

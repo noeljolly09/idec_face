@@ -132,7 +132,7 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                 Expanded(
                   flex: 5,
                   child: Scrollbar(
-                    thickness: 10,
+                    thickness: 5,
                     interactive: true,
                     child: SmartRefresher(
                       controller: _refreshController,
@@ -155,57 +155,62 @@ class _ProfilePageState extends ConsumerState<RejectedEmployeePage> {
                           itemCount: _employeeList.length,
                           itemBuilder: (context, index) {
                             return SingleChildScrollView(
-                              child: InkWell(
-                                onTap: () async {
-                                  bool? status = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProfileApprovalPage(
-                                          empList: _employeeList,
-                                          employeeIndex: index,
-                                          state: "reject",
-                                        ),
-                                      ));
-                                  if (status != null) {
-                                    if (status) {
-                                      showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (context) =>
-                                            InfoDialogWithTimer(
-                                          isTimerActivated: true,
-                                          isCancelButtonVisible: false,
-                                          afterSuccess: () {},
-                                          onPressedBttn1: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          title: "Success",
-                                          message:
-                                              "Profile updated successfully",
-                                        ),
-                                      );
-                                      _currentPage = 1;
-                                      _getAllEmployeesDetails();
-                                      rejectedEmployeeDetails = [];
-                                      ref
-                                          .read(peopleProfileNotifier)
-                                          .updatelistOfRejectedEmployees(
-                                              value: []);
-                                    }
-                                  }
-                                },
-                                child: EmployeeCard(
-                                  image: _employeeList[index].image,
-                                  employeeName: _employeeList[index].name!,
-                                  employeeId: _employeeList[index].empId,
-                                  siteName:
-                                      _employeeList[index].siteName != null
-                                          ? _employeeList[index].siteName!
-                                          : "Trivandrum",
-                                  index: index,
-                                  state: "reject",
-                                ),
+                              child: Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      bool? status = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProfileApprovalPage(
+                                              empList: _employeeList,
+                                              employeeIndex: index,
+                                              state: "reject",
+                                            ),
+                                          ));
+                                      if (status != null) {
+                                        if (status) {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (context) =>
+                                                InfoDialogWithTimer(
+                                              isTimerActivated: true,
+                                              isCancelButtonVisible: false,
+                                              afterSuccess: () {},
+                                              onPressedBttn1: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              title: "Success",
+                                              message:
+                                                  "Profile updated successfully",
+                                            ),
+                                          );
+                                          _currentPage = 1;
+                                          _getAllEmployeesDetails();
+                                          rejectedEmployeeDetails = [];
+                                          ref
+                                              .read(peopleProfileNotifier)
+                                              .updatelistOfRejectedEmployees(
+                                                  value: []);
+                                        }
+                                      }
+                                    },
+                                    child: EmployeeCard(
+                                      image: _employeeList[index].image,
+                                      employeeName: _employeeList[index].name!,
+                                      employeeId: _employeeList[index].empId,
+                                      siteName:
+                                          _employeeList[index].siteName != null
+                                              ? _employeeList[index].siteName!
+                                              : "Trivandrum",
+                                      index: index,
+                                      state: "reject",
+                                    ),
+                                  ),
+                                  Divider()
+                                ],
                               ),
                             );
                           }),
