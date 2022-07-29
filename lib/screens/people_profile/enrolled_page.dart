@@ -302,6 +302,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
       if (passwordResetResponse.status == ServiceStatus.loading) {
         showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) => const Center(
                   child: SpinKitCircle(
                     color: AppConstants.primaryColor,
@@ -440,6 +441,7 @@ class _ProfilePageState extends ConsumerState<EnrolledEmployeePage> {
       if (peopleProfileInfoResponse.status == ServiceStatus.loading) {
         showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) => const SpinKitCircle(
                   color: AppConstants.primaryColor,
                 ));
