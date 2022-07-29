@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:idec_face/constants.dart';
 import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_card_text.dart';
+import 'package:idec_face/screens/people_profile/widgets/people_profile/profile_text.dart';
 
 import '../../../../models/people_profile/all_employees_response.dart';
 
@@ -66,86 +67,72 @@ class EmployeeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(1),
-      child: Container(
-        height: screenHeight(context, dividedBy: 5.5),
-        padding: const EdgeInsets.all(5),
-        color: Colors.white,
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  FutureBuilder<dynamic>(
-                    future: getImage(image),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.grey,
-                          foregroundImage: Image.network(
-                            image!,
-                          ).image,
-                          onForegroundImageError: (exception, stackTrace) {},
-                        );
-                      }
-                      return SvgPicture.asset(
-                        'assets/svg/User_big.svg',
-                        height: 80,
+    return Container(
+      height: screenHeight(context, dividedBy: 6),
+      padding: const EdgeInsets.all(5),
+      color: Colors.white,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                FutureBuilder<dynamic>(
+                  future: getImage(image),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.grey,
+                        foregroundImage: Image.network(
+                          image!,
+                        ).image,
+                        onForegroundImageError: (exception, stackTrace) {},
                       );
-                    },
-                  ),
-                  ProfileIconText(
-                      icon: const Icon(Icons.abc),
-                      isIconNeeded: false,
-                      isProfileName: false,
-                      textData: employeeId == null ? "No Data" : employeeId!),
-                ],
-              ),
+                    }
+                    return SvgPicture.asset(
+                      'assets/svg/User_big.svg',
+                      height: 80,
+                    );
+                  },
+                ),
+                ProfileText(
+                    isProfileName: false,
+                    textData: employeeId == null ? "No Data" : employeeId!),
+              ],
             ),
-            Expanded(
-              flex: 7,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ProfileIconText(
-                    isIconNeeded: false,
-                    isProfileName: true,
-                    icon: const Icon(Icons.circle_notifications_rounded),
-                    textData: getName(employeeName!.first) +
-                        " " +
-                        getName(employeeName!.middle) +
-                        " " +
-                        getName(employeeName!.last),
-                  ),
-                  const ProfileIconText(
-                      isIconNeeded: false,
-                      isProfileName: false,
-                      icon: Icon(Icons.circle_notifications_rounded),
-                      textData: 'Engineer'),
-                  ProfileIconText(
-                      isIconNeeded: false,
-                      isProfileName: false,
-                      icon: const Icon(Icons.circle_notifications_rounded),
-                      textData: siteName!),
-                ],
-              ),
+          ),
+          Expanded(
+           flex: 5,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ProfileText(
+                  isProfileName: true,
+                  textData: getName(employeeName!.first)+" "+getName(employeeName!.middle)+" "+getName(employeeName!.last),
+                ),
+                const ProfileText(
+                    isProfileName: false,
+                    textData: 'Engineer'),
+                ProfileText(
+                    isProfileName: false,
+                    textData: siteName!),
+              ],
             ),
-            Expanded(
-              child: state == "accept"
-                  ? Visibility(
-                      visible: isCredentialAvailable,
-                      child: const Icon(Icons.arrow_back_ios_new_rounded),
-                    )
-                  : SvgPicture.asset("assets/svg/pending.svg"),
-            )
-          ],
-        ),
+          ),
+          Expanded(
+            flex : 1,
+            child: state == "accept"
+                ? Visibility(
+                    visible: isCredentialAvailable,
+                    child:  Icon(Icons.arrow_back_ios_new_rounded,size:15,),
+                  )
+                : SvgPicture.asset("assets/svg/pending.svg"),
+          )
+        ],
       ),
     );
   }

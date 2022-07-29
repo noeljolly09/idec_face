@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:idec_face/custom_widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:idec_face/screens/dashboard/dashboard_screen.dart';
@@ -34,17 +35,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       theme: ThemeData(
         fontFamily: "Fort",
-
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           elevation: 3,
         ),
-
         cardTheme: const CardTheme(
           elevation: 1,
           clipBehavior: Clip.antiAlias,
