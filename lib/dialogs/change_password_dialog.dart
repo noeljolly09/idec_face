@@ -250,6 +250,8 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
       } else if (changePasswordResponse.status == ServiceStatus.completed) {
         Navigator.pop(context);
         if (changePasswordResponse.data!.status! == true) {
+          ref.read(sharedPrefUtilityProvider).resetPreference();
+
           showDialog(
             context: context,
             barrierDismissible: false,

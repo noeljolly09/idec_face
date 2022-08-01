@@ -97,6 +97,7 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
   XFile? _tempImgFile;
 
   bool isMediaDeleting = false;
+  bool isChecked = false;
 
   final ImagePicker _picker = ImagePicker();
   static const cameraPermissionChannel =
@@ -960,20 +961,24 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
                       if (isUserCredentialGenerated == false) {
                         profileApprovalRequest("accept");
                       } else {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) => InfoDialogWithTimer(
-                            isTimerActivated: true,
-                            isCancelButtonVisible: false,
-                            afterSuccess: () {},
-                            onPressedBttn1: () {
-                              Navigator.of(context).pop(false);
-                            },
-                            title: "Info",
-                            message: "Please check for available username",
-                          ),
-                        );
+                        if (isChecked) {
+                          profileApprovalRequest("accept");
+                        } else {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => InfoDialogWithTimer(
+                              isTimerActivated: true,
+                              isCancelButtonVisible: false,
+                              afterSuccess: () {},
+                              onPressedBttn1: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              title: "Info",
+                              message: "Please check for available username",
+                            ),
+                          );
+                        }
                       }
                     } else {
                       showDialog(
@@ -1192,6 +1197,9 @@ class _ProfileApprovalPageState extends ConsumerState<ProfileApprovalPage> {
           ref
               .read(peopleProfileNotifier)
               .updatecheckavailabilityButtonState(value: true);
+          setState(() {
+            isChecked = true;
+          });
         }
       } else if (availabiltiyInfoResponse.status == ServiceStatus.error) {
         Navigator.of(context).pop(false);
